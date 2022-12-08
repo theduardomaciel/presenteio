@@ -1,0 +1,379 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 112.5vh;
+    width: 100vw;
+
+    overflow-y: overlay;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+
+.container header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    padding: 3.5rem;
+
+    z-index: 3;
+}
+
+.container header a {
+    font-family: 'Arial', sans-serif;
+    font-weight: 700;
+    color: var(--primary-03);
+    font-size: 1.4rem;
+}
+
+/* MAIN */
+.container main {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    position: relative;
+    height: 100vh;
+    width: 100%;
+}
+
+.container main .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    width: 100%;
+
+    gap: 3rem;
+}
+
+.container main .content p {
+    font-family: 'Judson', serif;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0.1rem;
+    font-size: 1.8rem;
+
+    color: var(--primary-03);
+}
+
+.container main .content p:nth-child(3) {
+    font-size: 2.4rem;
+}
+
+.titleFrame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    height: 10rem;
+    width: 100%;
+    position: relative;
+
+    animation: resizeTitleFrame 25s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
+}
+
+.container .titleFrame h1 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 8.2rem;
+    line-height: 85%;
+    text-align: center;
+    color: var(--primary-01);
+
+    position: absolute;
+    transform: translateX(0%);
+}
+
+.container .titleFrame h1:nth-child(1) {
+    animation: move1 25s ease-in-out infinite;
+}
+
+.container .titleFrame h1:nth-child(2) {
+    opacity: 0;
+    animation: move2 25s ease-in-out infinite;
+}
+
+.titleFrame h1:nth-child(2)::after {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 9.8rem;
+    line-height: 85%;
+    text-align: center;
+    color: var(--primary-01);
+
+    content: "Sorteio";
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes move1 {
+    0% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(-100%);
+        opacity: 0.5;
+    }
+
+    90% {
+        transform: translateX(-100%);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes move2 {
+    0% {
+        transform: translateX(75%);
+        opacity: 0.5;
+    }
+
+    40% {
+        transform: translateX(75%);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    90% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(75%);
+        opacity: 0.5;
+    }
+}
+
+@keyframes resizeTitleFrame {
+    0% {
+        height: 10rem;
+    }
+
+    40% {
+        height: 10rem;
+    }
+
+    50% {
+        height: 3.5rem;
+    }
+
+    90% {
+        height: 3.5rem;
+    }
+
+    100% {
+        height: 10rem;
+    }
+}
+
+/* FOOTER */
+.container footer {
+    width: 100%;
+    height: 12.5vh;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0px 2.5rem;
+
+    background-color: var(--primary-03);
+}
+
+.container footer .footerLogo {
+    display: none;
+}
+
+.container footer .footerLogo path {
+    fill: var(--neutral);
+}
+
+.container footer p {
+    font-family: 'Judson', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.4rem;
+
+    margin: 0;
+
+    text-align: right;
+    color: var(--neutral);
+}
+
+/* BLOBS */
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    width: 100%;
+    height: 112.5vh;
+    overflow: hidden;
+}
+
+.blob1 {
+    position: absolute;
+    top: -100%;
+    right: -55%;
+
+    animation: rotateRight 30s linear infinite;
+}
+
+.blob2 {
+    position: absolute;
+    top: -25%;
+    left: -50%;
+    animation: rotateLeft 15s linear infinite;
+}
+
+.blob3 {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    animation: rotateRight 20s linear infinite;
+}
+
+@keyframes rotateRight {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotateLeft {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+@media (min-width: 1024px) {
+    .container header {
+        padding: 3.5rem 7.5rem;
+    }
+
+    .container .titleFrame {
+        height: 3.5rem;
+        animation: none;
+    }
+
+    .container .titleFrame h1 {
+        white-space: nowrap;
+        font-size: 9.8rem;
+    }
+
+    .container main {
+        padding-inline: 11.5rem;
+    }
+
+    .container .titleFrame h1:nth-child(2)::after {
+        content: "Sorteio em Grupo";
+    }
+
+    .container footer {
+        justify-content: space-between;
+        padding: 0px 7.5rem;
+    }
+
+    .container footer .footerLogo {
+        display: flex;
+    }
+
+    @keyframes move1 {
+        0% {
+            transform: translateX(0%);
+            opacity: 1;
+        }
+
+        40% {
+            transform: translateX(0%);
+            opacity: 1;
+        }
+
+        50% {
+            transform: translateX(-150%);
+            opacity: 0;
+        }
+
+        90% {
+            transform: translateX(-150%);
+            opacity: 0;
+        }
+
+        100% {
+            transform: translateX(0%);
+            opacity: 1;
+        }
+    }
+
+    @keyframes move2 {
+        0% {
+            transform: translateX(200%);
+            opacity: 0;
+        }
+
+        40% {
+            transform: translateX(200%);
+            opacity: 0;
+        }
+
+        50% {
+            transform: translateX(0%);
+            opacity: 1;
+        }
+
+        90% {
+            transform: translateX(0%);
+            opacity: 1;
+        }
+
+        100% {
+            transform: translateX(200%);
+            opacity: 0;
+        }
+    }
+}

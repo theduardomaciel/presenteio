@@ -1,0 +1,85 @@
+.holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: transparent;
+
+    transition: 0.5s;
+    overflow: hidden;
+
+    z-index: 9;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4.5rem;
+    gap: 2.5rem;
+
+    align-self: center;
+
+    width: fit-content;
+    max-width: 90vw;
+
+    text-align: left;
+
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.50) 100%);
+    backdrop-filter: blur(25px);
+    border-radius: 2rem;
+
+    z-index: 10;
+}
+
+.headerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    width: 100%;
+}
+
+.headerContainer h2 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.8rem;
+
+    width: 100%;
+    color: var(--primary-01);
+}
+
+.headerContainer p {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+
+    white-space: pre-line;
+    width: 100%;
+
+    color: var(--font-light);
+}
+
+.container .divisor {
+    width: 10rem;
+    height: 1px;
+    background: var(--primary-01);
+    opacity: 0.5;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        width: 57.5rem;
+    }
+}

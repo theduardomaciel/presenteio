@@ -1,0 +1,104 @@
+.background {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.75);
+
+    transition: 0.5s;
+    z-index: 10;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5.5rem 6rem;
+    gap: 2.5rem;
+
+    max-height: 90vh;
+    width: fit-content;
+    max-width: 90vw;
+
+    overflow-y: overlay;
+
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0.75) 100%);
+    backdrop-filter: blur(25px);
+    border-radius: 1.5rem;
+
+    z-index: 15;
+}
+
+.iconHolder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+
+    background-color: var(--primary-01);
+}
+
+.container h2 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.8rem;
+    line-height: 3.6rem;
+
+    color: var(--primary-01);
+}
+
+.container .description {
+    text-align: center;
+    color: var(--font-light);
+    width: 100%;
+
+    white-space: pre-line;
+}
+
+.buttonsHolder {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+
+    flex-wrap: wrap-reverse;
+
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 42.5%;
+        padding: 5rem;
+    }
+
+    .container::-webkit-scrollbar {
+        width: 1rem;
+    }
+
+    .container::-webkit-scrollbar-track {
+        background: var(--background-02);
+        opacity: 0;
+    }
+
+    /* Handle */
+    .container::-webkit-scrollbar-thumb {
+        background: var(--primary-04);
+        border-radius: 1rem;
+        opacity: 0.5;
+    }
+
+    .buttonsHolder {
+        flex-wrap: nowrap;
+    }
+}
