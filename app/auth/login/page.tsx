@@ -58,7 +58,7 @@ export default function Register() {
     return (
         <div className={styles.pageHolder}>
             <AuthModal sections={[Section0]} actualSection={actualSection} direction={direction} />
-            {isAuth && <Landing />}
+            {isAuth && <Landing hideBackground />}
         </div>
     )
 }

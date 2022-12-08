@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 2rem 5rem;
+    height: var(--header-height);
+
+    width: 100%;
+
+    background: transparent;
+    border-bottom: 1px solid var(--primary-03);
+}

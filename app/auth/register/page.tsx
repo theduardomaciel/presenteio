@@ -172,7 +172,7 @@ export default function Register() {
         console.log(accountData)
     }
 
-    const [[actualSection, direction], setActualSection] = useState([3, 1]);
+    const [[actualSection, direction], setActualSection] = useState([0, 1]);
     const [selected, setSelected] = useState<number | null>(null);
 
     const warningStyle = { textDecoration: "underline", cursor: "pointer" }
@@ -251,11 +251,11 @@ export default function Register() {
         description: "Insira o código que acabamos de enviar para seu e-mail.",
         children: <div id='emailCode' className={styles.section1}>
             <div className={styles.code}>
-                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} />
-                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} />
-                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} />
-                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} />
-                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} />
+                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
+                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
+                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
+                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
+                <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
             </div>
             <p style={{ fontFamily: "Arial", fontSize: "1.2rem" }}>Reenviar código (0:12)</p>
             <Hint size={"medium"} textColor={"var(--font-light)"} hint='Caso você não encontre nosso e-mail em sua caixa de entrada, procure no spam (às vezes acaba caindo lá!)' />
@@ -301,7 +301,7 @@ export default function Register() {
     return (
         <div className={styles.pageHolder}>
             <AuthModal sections={sections} actualSection={actualSection} direction={direction} />
-            {isAuth && <Landing />}
+            {isAuth && <Landing hideBackground />}
         </div>
     )
 }
