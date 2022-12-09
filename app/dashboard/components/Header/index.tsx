@@ -18,7 +18,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export default function DashboardHeader({ profileChildren, children }: Props) {
     return (
         <div className={styles.container}>
-            <Link href={`/dashboard`} style={{ width: "10%" }}>
+            <Link href={`/dashboard`} className={styles.logo}>
                 <Logo />
             </Link>
             {children}

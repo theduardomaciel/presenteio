@@ -9,6 +9,7 @@ import SecretFriend from '../../../../public/icons/secret_friend.svg';
 // Types
 import Event from '../../../../types/Event';
 import Image from 'next/image';
+import Overlay from '../Overlay';
 
 interface Props {
     event?: Event;
@@ -29,7 +30,7 @@ export default function EventCard({ event }: Props) {
                 <p>Amigo Secreto</p>
             </div>
         </div>
-        <div className={styles.overlay} />
+        <Overlay />
         <Image src={"/images/placeholder.webp"} className={styles.image} fill alt='' />
     </div>
 }

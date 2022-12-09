@@ -1,5 +1,5 @@
 .container {
-    display: flex;
+    display: none;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
@@ -22,4 +22,10 @@
 
 .profileHolder svg {
     cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+    .container {
+        display: flex;
+    }
 }

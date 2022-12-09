@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+
+    /* margin-bottom: 1rem; */
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    margin-bottom: 0.5rem;
+}
+
+.content h3 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 2.4rem;
+
+    color: var(--primary-01);
+}
+
+.line {
+    display: flex;
+    border: 1px dashed #FF2626;
+    height: 1px;
+    width: 100%;
+}

@@ -13,7 +13,7 @@ export default function EventEdit({ event }: Props) {
     return <div className={styles.container}>
         <p>Amigo Secreto</p>
         <p>/</p>
-        <h3>Novo Evento</h3>
+        <h2>Novo Evento</h2>
         <DownArrow />
     </div>
 }

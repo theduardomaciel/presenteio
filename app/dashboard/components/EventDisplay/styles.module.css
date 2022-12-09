@@ -1,0 +1,65 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    position: relative;
+
+    cursor: pointer;
+}
+
+.iconHolder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--neutral);
+
+    padding: 2.5rem;
+    border-radius: 50%;
+}
+
+.themeSelector {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 1rem;
+
+    position: absolute;
+    bottom: 1.5rem;
+    right: 2rem;
+
+    cursor: pointer;
+
+    z-index: 3;
+}
+
+.themeSelector .themePreview {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: var(--primary-01);
+}
+
+.themeSelector p {
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.6rem;
+
+    color: var(--neutral);
+}
+
+.image {
+    object-fit: cover;
+    filter: blur(0.15rem);
+
+    z-index: -1;
+}
