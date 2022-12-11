@@ -38,14 +38,15 @@ function ManualPicker({ type, value, setValue }: ManualPickerProps) {
 }
 
 function CustomSlider(props: Slider.SliderProps) {
+    const isDisabled = props.disabled ? sliderStyles.disabled : "";
     return (
-        !props.disabled ? <Slider.Root {...props} className={sliderStyles.sliderRoot} defaultValue={[DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE]} max={500} step={1} minStepsBetweenThumbs={10} aria-label="Price Range">
+        <Slider.Root {...props} className={sliderStyles.sliderRoot} defaultValue={[DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE]} max={500} step={1} minStepsBetweenThumbs={10} aria-label="Price Range">
             <Slider.Track className={sliderStyles.sliderTrack}>
-                <Slider.Range className={sliderStyles.sliderRange} />
+                <Slider.Range className={`${sliderStyles.sliderRange} ${isDisabled}`} />
             </Slider.Track>
-            <Slider.Thumb className={sliderStyles.sliderThumb} />
-            {props.value && props.value.length > 1 && <Slider.Thumb className={sliderStyles.sliderThumb} />}
-        </Slider.Root> : <></>
+            <Slider.Thumb className={`${sliderStyles.sliderThumb} ${isDisabled}`} />
+            {props.value && props.value.length > 1 && <Slider.Thumb className={`${sliderStyles.sliderThumb} ${isDisabled}`} />}
+        </Slider.Root>
     )
 }
 

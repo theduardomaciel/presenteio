@@ -57,15 +57,6 @@
     font-size: 1.2rem;
 }
 
-.footer {
-    font-family: 'Arial';
-    font-style: normal;
-    font-size: 1.2rem;
-    line-height: 1.5rem;
-
-    color: var(--primary-01);
-}
-
 .code {
     display: flex;
     flex-direction: row;
@@ -81,7 +72,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem 2.4rem;
+    padding: 2rem 0px;
 
     background-color: transparent;
 
@@ -90,6 +81,7 @@
     font-size: 5.5rem;
     color: var(--primary-01);
     text-align: center;
+    text-transform: uppercase;
 
     max-width: 9rem;
 
@@ -117,6 +109,29 @@
     background-color: var(--light-gray);
     border-radius: 50%;
     opacity: 0.55;
+}
+
+.resendEmail {
+    font-family: 'Arial';
+    font-size: 1.2rem;
+    cursor: pointer;
+
+    color: var(--font-light);
+    background: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+
+    transition: 150ms;
+}
+
+.resendEmail:not(.disabled):hover {
+    transform: scale(1.05);
+    font-weight: 700;
+}
+
+.resendEmail.disabled {
+    cursor: not-allowed;
 }
 
 @media (min-width: 1024px) {

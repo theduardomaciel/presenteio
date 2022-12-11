@@ -30,6 +30,10 @@
     height: 115%;
 }
 
+.sliderRange.disabled {
+    background-color: var(--font-light);
+}
+
 .sliderThumb {
     display: block;
     width: 1.65rem;
@@ -39,7 +43,11 @@
     border-radius: 1rem;
 }
 
-.sliderThumb:hover {
+.sliderThumb.disabled {
+    background-color: var(--font-light);
+}
+
+.sliderThumb:not(.disabled):hover {
     background-color: var(--primary-01);
 }
 

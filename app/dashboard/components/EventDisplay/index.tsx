@@ -27,8 +27,6 @@ export default function EventDisplay({ event, height }: Props) {
                             <div className={styles.themePreview} />
                             <p>Cor de destaque</p>
                         </div>
-                        <Overlay />
-                        <Image src={"/images/placeholder.webp"} className={styles.image} fill alt='' />
                     </>
             }
         </div>

@@ -19,8 +19,8 @@ export default function EventCard({ event }: Props) {
     return <div className={styles.eventCard}>
         <header>
             <div className={styles.iconAndLabel}>
-                <PersonIcon />
-                <p>12 participantes</p>
+                <PersonIcon width={`1.2rem`} heigth={`1.2rem`} />
+                <p style={{ whiteSpace: "nowrap" }}>12 participantes</p>
             </div>
         </header>
         <div className={styles.info}>

@@ -1,8 +1,11 @@
 'use client';
+import { KeyboardEventHandler, useEffect, useMemo, useRef, useState } from 'react';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+
+import axios from 'axios';
+import { signIn } from "next-auth/react";
 
 // Components
 import AuthModal, { Section } from '../../../components/AuthModal';
@@ -71,47 +74,7 @@ interface AccountFormData {
     email: string;
     password: string;
     passwordConfirm: string;
-}
-
-function onCodeInput(event: any) {
-    const target = event.srcElement || event.target;
-    const inputLength = target.value.length;
-    // no código de e-mail cada quadradinho tem tamanho máximo 1;
-
-    if (!parseInt(target.value)) {
-        target.value = '';
-    }
-
-    console.log(event.keyCode)
-
-    if (inputLength >= 1) {
-        const next = target.nextElementSibling;
-        if (next) {
-            next.focus();
-        }
-    } else if (inputLength === 0 && event.keyCode === 8) {
-        const previous = target.previousElementSibling;
-        if (previous) {
-            previous.focus();
-        }
-    }
-}
-
-function handlePaste(event: any) {
-    // Stop data actually being pasted into div
-    event.stopPropagation();
-    event.preventDefault();
-
-    // Get pasted data via clipboard API
-    const clipboardData = event.clipboardData;
-    const pastedData = clipboardData.getData('Text') as string;
-
-    const inputs = document.querySelectorAll('#emailCode input');
-    console.log(inputs, pastedData)
-    inputs.forEach((input, index) => {
-        const inputElement = input as HTMLInputElement;
-        inputElement.value = pastedData.slice(index, index + 1) || '';
-    });
+    code?: string;
 }
 
 export default function Register() {
@@ -127,30 +90,164 @@ export default function Register() {
                 }
                 setTimeout(() => {
                     if (root) {
-                        /* root.style.display = "none"; */
-                        root.remove();
+                        root.style.display = "none";
+                        // root.remove(); isso aqui MATA o Framer Motion, então não pode ser usado
                     }
                 }, 1000);
             }, 500);
 
-            const emailCodeContainer = document.getElementById("emailCode");
-            if (emailCodeContainer) {
-                emailCodeContainer.addEventListener('keyup', onCodeInput)
-                emailCodeContainer.addEventListener('paste', handlePaste);
-                return () => {
-                    emailCodeContainer.removeEventListener('keyup', onCodeInput)
-                    emailCodeContainer.removeEventListener('paste', handlePaste);
-                };
-            }
         }
     }, [])
 
-    async function submitForm(event: React.FormEvent<HTMLFormElement>) {
+    function checkCode() {
+        if (accountData?.code) {
+            // Check if all inputs correspond to the code character
+            const inputs = document.querySelectorAll('#emailCode input');
+            const codeArray = Array.from(accountData.code);
+
+            let isCodeCorrect = true;
+
+            inputs.forEach((input, index) => {
+                const inputElement = input as HTMLInputElement;
+                console.log(inputElement.value, codeArray[index])
+                if (inputElement.value !== codeArray[index]) {
+                    isCodeCorrect = false;
+                }
+            })
+
+            if (isCodeCorrect) {
+                setupAccount()
+            }
+        }
+    }
+
+    function onCodeInput(event: any) {
+        const target = event.target as any;
+
+        if (target) {
+            const inputLength = target.value.length;
+            // no código de e-mail cada quadradinho tem tamanho máximo 1;
+
+            console.log(inputLength)
+
+            if (inputLength >= 1) {
+                const next = target.nextElementSibling;
+                if (next) {
+                    next.focus();
+                }
+            } else if (inputLength === 0 && event.keyCode === 8) {
+                const previous = target.previousElementSibling;
+                if (previous) {
+                    previous.focus();
+                }
+            }
+
+            checkCode()
+        }
+    }
+
+    function handlePaste(event: any) {
+        // Stop data actually being pasted into div
+        event.stopPropagation();
+        event.preventDefault();
+
+        // Get pasted data via clipboard API
+        const clipboardData = event.clipboardData;
+        const pastedData = clipboardData.getData('Text') as string;
+
+        const inputs = document.querySelectorAll('#emailCode input');
+        console.log(inputs, pastedData)
+        inputs.forEach((input, index) => {
+            const inputElement = input as HTMLInputElement;
+            inputElement.value = pastedData.slice(index, index + 1) || '';
+        });
+
+        checkCode()
+    }
+
+    const [accountData, setAccountData] = useState<AccountFormData | null>(null);
+
+    async function setupAccount() {
+        if (accountData) {
+            changeSection(undefined, 4);
+
+            /* const { name, email, password } = accountData;
+
+            const response = await axios.post('/api/auth/register', { name: name, email: email, password: password });
+
+            if (response.status === 200) {
+                try {
+                    const response = await signIn('credentials', { email: email, password: password, redirect: false })
+                    console.log(response)
+                    if (response?.status === 200) {
+                        changeSection(undefined, 5);
+                    } else {
+                        setAccountData(null)
+                        changeSection(undefined, 0);
+                    }
+                } catch (error) {
+                    console.log(error)
+                }
+            } else {
+                setAccountData(null)
+                changeSection(undefined, 0);
+            } */
+        } else {
+            console.error("Não foi possível criar a conta, pois os dados não foram fornecidos.");
+        }
+    }
+
+    const EMAIL_RESEND_DELAY = 60;
+    const timer = useRef(EMAIL_RESEND_DELAY);
+    const emailsSent = useRef(0);
+
+    async function sendEmail(directData?: any) {
+        emailsSent.current += 1;
+        const data = accountData || directData;
+        if (!data || !data.code) {
+            console.log("Não foi possível enviar o e-mail, pois os dados não foram fornecidos.")
+        } else {
+            console.log("Recomeçando processo")
+            const resendEmailButton = document.getElementsByClassName(styles.resendEmail)[0] as HTMLButtonElement;
+            if (resendEmailButton) {
+                timer.current = Math.round(EMAIL_RESEND_DELAY * Math.pow(1.5, emailsSent.current));
+                console.log(timer.current)
+                resendEmailButton.disabled = true
+                resendEmailButton.classList.add(styles.disabled)
+            }
+
+            const interval = setInterval(() => {
+                timer.current -= 1;
+                const resendEmailButton = document.getElementsByClassName(styles.resendEmail)[0] as HTMLButtonElement;
+                if (resendEmailButton) {
+                    resendEmailButton.textContent = `Reenviar código (${timer.current >= 60 ? Math.floor(timer.current / 60) : 0}:${timer.current % 60 < 10 ? "0" + timer.current % 60 : timer.current % 60})`;
+                    console.log(resendEmailButton.textContent)
+                    if (timer.current <= 0) {
+                        resendEmailButton.disabled = false;
+                        resendEmailButton.textContent = `Reenviar código`;
+                        resendEmailButton.classList.remove(styles.disabled)
+                        clearInterval(interval)
+                    }
+                }
+            }, 1 * 1000);
+
+            try {
+                const response = await axios.post(`/api/sendEmail`, { emailProps: { code: data.code, name: data.name }, emailToSend: data.email });
+                if (response.status === 200) {
+                    console.log("E-mail enviado com sucesso.")
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
+
+    function submitForm(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const accountData = Object.fromEntries(formData.entries()) as unknown as AccountFormData;
+        const formAccountData = Object.fromEntries(formData.entries()) as unknown as AccountFormData;
 
-        const { name, email, password, passwordConfirm } = accountData;
+        const { password, passwordConfirm } = formAccountData;
 
         if (password.normalize() !== passwordConfirm.normalize()) {
             const passwordInput = document.getElementById("passwordInput") as HTMLInputElement;
@@ -167,9 +264,14 @@ export default function Register() {
             return;
         }
 
-        changeSection(undefined, 3);
+        const CONFIRMATION_CODE = Math.random().toString(36).substring(2, 7).toUpperCase();
+        console.log(CONFIRMATION_CODE)
 
-        console.log(accountData)
+        formAccountData.code = CONFIRMATION_CODE;
+        setAccountData(formAccountData)
+
+        changeSection(undefined, 3);
+        sendEmail(formAccountData)
     }
 
     const [[actualSection, direction], setActualSection] = useState([0, 1]);
@@ -213,7 +315,7 @@ export default function Register() {
                 selected === 0 ? changeSection(undefined, 1) : changeSection(undefined, 2);
             }} label='Prosseguir' isDisabled={selected === null} style={{ width: "100%", paddingBlock: "1rem" }} />
         </div>,
-        footer: <p className={styles.footer}>Já tem uma conta? <Link href={`/auth/login`} style={{ fontWeight: "bold" }}>Entrar</Link></p>
+        footer: <div className='modalFooter'><p className={styles.footer}>Já tem uma conta? <Link href={`/auth/login`} style={{ fontWeight: "bold" }}>Entrar</Link></p></div>
     } as Section;
 
     const Section1 = {
@@ -223,7 +325,7 @@ export default function Register() {
             <GoogleButton />
             {TermsWarning}
         </div>,
-        footer: <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", cursor: "pointer" }} onClick={() => changeSection(undefined, 0)}>
+        footer: <div className='modalFooter' onClick={() => changeSection(undefined, 0)}>
             <RightIcon style={{ transform: "rotate(180deg)", display: "inline" }} className={styles.optionIcon} width={"1.6rem"} height={"1.6rem"} />
             <p className={styles.footer} style={{ fontWeight: 700 }}> Voltar para o início </p>
         </div>
@@ -232,15 +334,15 @@ export default function Register() {
     const Section2 = {
         title: "Estamos quase lá",
         description: "Agora falta muito pouco para administrar seus próprios eventos, basta inserir as informações necessárias para cadastrar-se.",
-        children: <form className={styles.section1} onSubmit={submitForm}>
+        children: <form className={styles.section1} onSubmit={submitForm} encType="multipart/form-data">
             <Input label='Nome' name='name' type={"text"} minLength={2} maxLength={35} required />
             <Input label='E-mail' name='email' type={"email"} maxLength={35} required />
-            <Input label='Senha' name='password' id='passwordInput' type={"password"} minLength={10} maxLength={30} required />
-            <Input label='Confirmar senha' name='passwordConfirm' id='passwordConfirmInput' type={"password"} minLength={10} maxLength={30} required />
+            <Input label='Senha' name='password' id='passwordInput' type={"password"} minLength={8} maxLength={25} required />
+            <Input label='Confirmar senha' name='passwordConfirm' id='passwordConfirmInput' type={"password"} minLength={8} maxLength={25} required />
             <Button type="submit" label='Prosseguir' style={{ width: "100%", paddingBlock: "1rem" }} />
             {TermsWarning}
         </form>,
-        footer: <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", cursor: "pointer" }} onClick={() => changeSection(undefined, 0)}>
+        footer: <div className={"modalFooter"} onClick={() => changeSection(undefined, 0)}>
             <RightIcon style={{ transform: "rotate(180deg)", display: "inline" }} className={styles.optionIcon} width={"1.6rem"} height={"1.6rem"} />
             <p className={styles.footer} style={{ fontWeight: 700 }}> Voltar para o início </p>
         </div>
@@ -249,34 +351,38 @@ export default function Register() {
     const Section3 = {
         title: "Confirmar e-mail",
         description: "Insira o código que acabamos de enviar para seu e-mail.",
-        children: <div id='emailCode' className={styles.section1}>
-            <div className={styles.code}>
+        children: <div className={styles.section1}>
+            <div id='emailCode' onKeyUp={onCodeInput} onPaste={handlePaste} className={styles.code}>
                 <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
                 <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
                 <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
                 <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
                 <input className={styles.codeNumber} type="text" pattern="[0-9]+" maxLength={1} placeholder={"_"} />
             </div>
-            <p style={{ fontFamily: "Arial", fontSize: "1.2rem" }}>Reenviar código (0:12)</p>
+            <button onClick={sendEmail} className={`${styles.resendEmail} ${styles.disabled}`}>Reenviar código (1:00)</button>
             <Hint size={"medium"} textColor={"var(--font-light)"} hint='Caso você não encontre nosso e-mail em sua caixa de entrada, procure no spam (às vezes acaba caindo lá!)' />
         </div>,
-        footer: <div
-            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "1rem", cursor: "pointer" }}
-            onClick={() => changeSection(undefined, 0)}
-        >
+        footer: <div className='modalFooter' onClick={() => changeSection(undefined, 0)} >
             <RightIcon style={{ transform: "rotate(180deg)", display: "inline" }} className={styles.optionIcon} width={"1.6rem"} height={"1.6rem"} />
-            <p className={styles.footer} style={{ fontWeight: 700 }}> Voltar para o início </p>
+            <p style={{ fontWeight: 700 }}> Voltar para o início </p>
         </div>
+    } as Section;
+
+    const Loading = {
+        title: "Sua conta já está quase pronta!",
+        logoPosition: "top",
+        description: "Estamos realizando os últimos ajustes, então, espera só mais um pouquinho!",
+        children: <Button isLoading={true} style={{ width: "100%", paddingBlock: "1rem" }} />,
     } as Section;
 
     const FinalSection = {
         title: "Já estamos prontos.",
         logoPosition: "top",
         description: "Aproveite todas as funcionalidades da plataforma e crie eventos para amigos, trabalho e família com tranquilidade.",
-        children: <Button label='Entrar na plataforma' style={{ width: "100%", paddingBlock: "1rem" }} />,
+        children: <Link href={`/dashboard`}><Button label='Entrar na plataforma' style={{ width: "100%", paddingBlock: "1rem" }} /></Link>,
     } as Section;
 
-    const sections = [Section0, Section1, Section2, Section3, FinalSection];
+    const sections = [Section0, Section1, Section2, Section3, Loading, FinalSection];
 
     function changeSection(factor?: number, directNumber?: number) {
         setSelected(null)
@@ -300,7 +406,7 @@ export default function Register() {
 
     return (
         <div className={styles.pageHolder}>
-            <AuthModal sections={sections} actualSection={actualSection} direction={direction} />
+            <AuthModal initial={isAuth ? true : false} sections={sections} actualSection={actualSection} direction={direction} />
             {isAuth && <Landing hideBackground />}
         </div>
     )

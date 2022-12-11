@@ -6,10 +6,18 @@ import CreateEventButton from './components/CreateEventButton';
 // Stylesheets
 import styles from './dashboard.module.css';
 
-export default function Dashboard() {
-    return <div>
+// Auth
+import { unstable_getServerSession } from "next-auth/next"
+import { authOptions } from "../../pages/api/auth/[...nextauth]";
+
+export default async function Dashboard() {
+    const session = await unstable_getServerSession(authOptions)
+
+    console.log(session)
+
+    return <div className={styles.container}>
         <DashboardHeader profileChildren={<CreateEventButton />} />
-        <div className={styles.content}>
+        <div className={`${styles.content} ${styles.grid}`}>
             <h2>Meus Eventos</h2>
             <div className={styles.events}>
                 <EventCard />

@@ -1,28 +1,31 @@
 'use client';
+import React from 'react';
+import { AnimatePresence, MotionStyle, motion } from "framer-motion";
 
 import styles from './modal.module.css';
-import React from 'react';
-
-import { AnimatePresence, MotionStyle, motion } from "framer-motion";
 
 // Components
 import Button from '../Button';
+
+import CloseIcon from '../../public/icons/close.svg';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     isVisible: boolean;
     style?: MotionStyle;
     toggleVisibility: () => void;
 
-    color: string;
+    color?: string;
     title?: string;
     description?: React.ReactNode;
 
-    icon: React.ReactElement;
+    icon?: React.ReactElement;
     headerProps?: {
         size: string;
         position: "center" | "flex-start" | "flex-end";
         builtWithTitle?: boolean;
-    }
+    };
+
+    supressReturnButton?: boolean;
 
     actionProps?: {
         buttonText: string,
@@ -34,7 +37,9 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     isLoading?: boolean;
 }
 
-export default function Modal({ isVisible, toggleVisibility, style, color, isLoading, icon, title, description, headerProps, actionProps, children }: Props) {
+const DEFAULT_COLOR = "var(--primary-02)"
+
+export default function Modal({ isVisible, toggleVisibility, style, color, isLoading, icon, supressReturnButton, title, description, headerProps, actionProps, children }: Props) {
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.nativeEvent.target as HTMLDivElement;
@@ -66,22 +71,24 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
                             exit={{ y: 300, x: 0, opacity: 0 }}
                             transition={{ type: "spring", duration: 0.65 }}
                         >
-                            <div className={styles.headerContainer} style={{ justifyContent: headerProps?.position ? headerProps?.position : "center" }}>
-                                <div style={{ backgroundColor: color }} className={styles.iconHolder}>
-                                    {icon}
+                            {
+                                icon && <div className={styles.headerContainer} style={{ justifyContent: headerProps?.position ? headerProps?.position : "center" }}>
+                                    <div style={{ backgroundColor: color ? color : DEFAULT_COLOR }} className={styles.iconHolder}>
+                                        {icon}
+                                    </div>
+                                    {
+                                        headerProps?.builtWithTitle && <h2 style={{ textAlign: "left", lineHeight: "3.55rem" }}>{title}</h2>
+                                    }
                                 </div>
-                                {
-                                    headerProps?.builtWithTitle && <h2 style={{ textAlign: "left", lineHeight: "3.55rem" }}>{title}</h2>
-                                }
-                            </div>
+                            }
 
                             {
                                 title && !headerProps?.builtWithTitle &&
-                                <h2 style={{ color: color ? color : "var(--primary-02)" }}>{title}</h2>
+                                <h2 style={{ color: color ? color : DEFAULT_COLOR }}>{title}</h2>
                             }
                             {
                                 description &&
-                                <p className={styles.description} style={{ color: color ? color : "var(--primary-02)" }}>{description}</p>
+                                <p className={styles.description} style={{ color: color ? color : DEFAULT_COLOR }}>{description}</p>
                             }
 
                             {children}
@@ -102,6 +109,12 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
                                         }}
                                         accentColor={color ? color : undefined}
                                     />
+                                }
+                                {
+                                    !supressReturnButton && <div className={'modalFooter'} onClick={toggleVisibility}>
+                                        <CloseIcon width={"1.6rem"} height={"1.6rem"} />
+                                        <p style={{ fontWeight: 700 }}> Cancelar </p>
+                                    </div>
                                 }
                             </footer>
                         </motion.div>

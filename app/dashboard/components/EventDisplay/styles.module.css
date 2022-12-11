@@ -5,6 +5,7 @@
     align-items: center;
 
     width: 100%;
+    background-color: var(--primary-03);
 
     border-radius: 0.5rem;
     overflow: hidden;

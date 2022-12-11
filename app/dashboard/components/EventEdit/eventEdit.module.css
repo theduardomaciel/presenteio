@@ -12,18 +12,43 @@
     font-weight: 700;
     font-size: 1.8rem;
 
+    white-space: nowrap;
+
+    transition: 0.5s;
+    opacity: 1;
     color: var(--primary-03);
 }
 
-.container h2 {
+.container.rename p,
+.container.rename svg {
+    opacity: 0;
+    display: none;
+}
+
+.container input {
     font-family: 'Gelasio';
     font-style: normal;
     font-weight: 700;
     font-size: 2.8rem;
 
-    cursor: default;
+    background: none;
+    display: flex;
+    outline: none;
+    box-shadow: none;
+    border: none;
+
+    width: 100%;
+    text-align: center;
 
     color: var(--primary-02);
+}
+
+.container input::placeholder {
+    color: var(--primary-03);
+}
+
+.container:not(.rename) input {
+    cursor: default;
 }
 
 .container svg {

@@ -7,15 +7,15 @@ interface Event {
 
     createdAt: Date;
     name: string;
-    type: string;
+    type: "SORTEIO" | "AMIGOSECRETO";
     description?: string;
     color?: string;
-    image_url: string;
+    image_url?: string;
 
-    minPrice: number;
-    maxPrice: number;
+    minPrice?: number;
+    maxPrice?: number;
 
-    status: string;
+    status: "PENDING" | "DIVULGATED";
 
     acceptingGuests: boolean;
     guestsCanChangeProfileImage: boolean;

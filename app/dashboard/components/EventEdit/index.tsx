@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 
 import styles from './eventEdit.module.css';
 
@@ -10,10 +11,21 @@ interface Props {
 }
 
 export default function EventEdit({ event }: Props) {
-    return <div className={styles.container}>
+    const [state, setState] = useState<"default" | "rename">("default");
+
+    function onFocus(event: React.FocusEvent<HTMLInputElement>) {
+        setState("rename");
+        event.target.select();
+    }
+
+    function onBlur(event: React.FocusEvent<HTMLInputElement>) {
+        setState("default");
+    }
+
+    return <div className={`${styles.container} ${styles[state]}`}>
         <p>Amigo Secreto</p>
         <p>/</p>
-        <h2>Novo Evento</h2>
+        <input type="text" defaultValue={"Novo Evento"} width={"fit-content"} onFocus={onFocus} onBlur={onBlur} maxLength={30} minLength={1} placeholder={"Novo Evento"} />
         <DownArrow />
     </div>
 }

@@ -17,9 +17,11 @@
     height: 2rem;
 
     border: 0.25rem solid;
-    border-color: var(--primary-02);
+    border-color: var(--neutral);
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+
+    z-index: 3;
 }
 
 .loader div:nth-child(1) {

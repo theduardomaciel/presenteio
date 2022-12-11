@@ -3,7 +3,7 @@ import Button from '../../../components/Button';
 import EventEdit from '../components/EventEdit';
 import DashboardHeader from '../components/Header';
 import DashboardSectionHeader from '../components/SectionHeader';
-import EmptyGuests from '../components/EmptyGuests';
+import GuestsDisplay from '../components/GuestsDisplay';
 
 // Stylesheets
 import styles from '../dashboard.module.css';
@@ -16,19 +16,14 @@ import DashboardPricePicker from '../components/PricePicker';
 import EventDisplay from '../components/EventDisplay';
 
 export default function ComposeEvent() {
-    return <div>
+    return <div className={styles.container}>
         <DashboardHeader>
             <EventEdit />
         </DashboardHeader>
-        <div className={styles.content}>
+        <div className={`${styles.content} ${styles.row}`}>
             <div className={styles.column}>
-                <div className={styles.section}>
-                    <DashboardSectionHeader title="Participantes">
-                    </DashboardSectionHeader>
-                    <Button label='Adicionar participante' icon={< AddIcon />} style={{ width: "100%", paddingBlock: "0.5rem" }} />
-                    <div className={styles.guestsHolder}>
-                        <EmptyGuests label='Você não adicionou nenhum convidado previamente.' style={{ paddingBlock: "5rem" }} />
-                    </div>
+                <div className={styles.section} style={{ height: "100%", gap: "1.35rem" }}>
+                    <GuestsDisplay hasAddButton />
                 </div>
                 <div className={styles.section}>
                     <DashboardSectionHeader title="Configurações de Convite" />
@@ -39,7 +34,7 @@ export default function ComposeEvent() {
             <div className={styles.column}>
                 <div className={styles.section}>
                     <DashboardSectionHeader title="Regras do Evento" />
-                    <DashboardSubSectionHeader title='Margem de preço' description='Determine se os presentes possuirão preço mínimo e/ou máximo e use o controle deslizante ou insira os preços mínimo e máximo dos presentes do evento. ' />
+                    <DashboardSubSectionHeader title='Margem de preço' description='Determine se os presentes possuirão preço mínimo e/ou máximo.' />
                     <DashboardPricePicker />
                 </div>
                 <div className={styles.section}>

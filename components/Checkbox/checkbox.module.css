@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
 
-    border: none;
+    border: 1px solid var(--primary-03);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
     background-color: var(--neutral);

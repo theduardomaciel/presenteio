@@ -28,7 +28,7 @@ export default function Button({ label, additionalClasses, isLoading, isDisabled
         {
             isLoading ?
                 <Spinner
-                    color={accentColor ? accentColor : undefined}
+                    color={accentColor ? accentColor : "var(--neutral)"}
                 />
                 :
                 <>

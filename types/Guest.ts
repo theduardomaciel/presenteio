@@ -4,7 +4,7 @@ interface Guest {
     email: string;
     image_url: string;
 
-    status: string;
+    status: "PENDING" | "CONFIRMED" | "VISUALIZED";
 
     accountId: number;
 }

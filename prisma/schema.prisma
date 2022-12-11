@@ -1,0 +1,79 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider          = "mysql"
+    url               = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+    relationMode      = "prisma"
+}
+
+model Account {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    email     String   @unique
+    name      String
+    password  String
+
+    image_url        String?
+    image_deleteHash String?
+
+    event Event[]
+
+    @@map("accounts")
+}
+
+model Event {
+    id                          Int         @id @default(autoincrement())
+    createdAt                   DateTime    @default(now())
+    inviteCode                  String      @default(cuid())
+    type                        EventType   @default(AMIGOSECRETO)
+    status                      EventStatus @default(PENDING)
+    name                        String
+    description                 String?
+    color                       String?
+    image_url                   String?
+    minPrice                    Float?
+    maxPrice                    Float?
+    acceptingGuests             Boolean     @default(false)
+    guestsCanChangeProfileImage Boolean     @default(false)
+
+    host      Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
+    accountId String
+
+    guests Guest[]
+
+    @@index([accountId])
+    @@map("events")
+}
+
+model Guest {
+    id        String      @id @default(uuid())
+    name      String
+    email     String
+    image_url String
+    status    GuestStatus @default(PENDING)
+    accountId String
+    eventId   Int
+    event     Event       @relation(fields: [eventId], references: [id])
+
+    @@index([eventId])
+    @@map("guests")
+}
+
+enum GuestStatus {
+    PENDING
+    CONFIRMED
+    VISUALIZED
+}
+
+enum EventStatus {
+    PENDING
+    DIVULGATED
+}
+
+enum EventType {
+    SORTEIO
+    AMIGOSECRETO
+}

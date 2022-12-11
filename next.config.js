@@ -9,6 +9,7 @@ const nextConfig = {
             issuer: /\.[jt]sx?$/,
             use: ['@svgr/webpack'],
         })
+        config.resolve.fallback = { fs: false, path: false };
 
         return config
     },

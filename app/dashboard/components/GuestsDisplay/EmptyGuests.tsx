@@ -10,7 +10,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function EmptyGuests({ label, ...rest }: Props) {
-    return <div className={styles.container} {...rest}>
+    return <div className={styles.emptyContainer} {...rest}>
         <header>
             <GiftIcon />
             <h6>Parece que está vazio por aqui...</h6>

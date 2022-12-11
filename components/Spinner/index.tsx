@@ -6,7 +6,7 @@ interface Props {
 }
 
 export default function Spinner({ color, size }: Props) {
-    return <div className={`${styles.loader}`} style={{ borderColor: color ? color : "var(--primary-02)" }}>
+    return <div className={`${styles.loader}`} style={{ borderColor: color ? color : "var(--neutral)" }}>
         <div />
         <div />
     </div>

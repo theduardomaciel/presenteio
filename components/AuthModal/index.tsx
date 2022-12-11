@@ -25,7 +25,8 @@ interface Props {
     actualSection: number;
     direction?: number;
     setActualSection?: Dispatch<SetStateAction<[number, number]>>;
-    sections: Array<Section>
+    sections: Array<Section>;
+    initial?: boolean;
 }
 
 const variants = {
@@ -48,11 +49,11 @@ const variants = {
 };
 
 const transition = {
-    x: { type: "spring", stiffness: 100, damping: 30, mass: 2, duration: 0.8 },
+    x: { type: "spring", stiffness: 65, damping: 15, mass: 1, duration: 0.7 },
     opacity: { duration: 0.75 },
 }
 
-export default function AuthModal({ actualSection, direction, sections }: Props) {
+export default function AuthModal({ actualSection, direction, sections, initial }: Props) {
 
     const titleStyle = {
         justifyContent: "center",
@@ -61,7 +62,7 @@ export default function AuthModal({ actualSection, direction, sections }: Props)
     } as CSSProperties;
 
     const sectionsModals = sections.map((section, index) => {
-        return <motion.div className={styles.holder} /* key={`modalHolder_${index}`} */>
+        return <motion.div className={styles.holder} key={`modalHolder_${index}`}>
             <motion.div
                 className={styles.container}
                 key={`modalContent_${index}`}
@@ -86,7 +87,7 @@ export default function AuthModal({ actualSection, direction, sections }: Props)
     })
 
     return (
-        <AnimatePresence mode='sync'>
+        <AnimatePresence initial={initial} mode='sync'>
             {actualSection !== -1 && sectionsModals[actualSection]}
         </AnimatePresence>
     );

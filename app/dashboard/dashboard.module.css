@@ -1,12 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    height: 100vh;
+    width: 100vw;
+}
+
 .content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 3.5rem 5rem;
 
+    height: calc(100vh - var(--header-height));
+    width: 100%;
+    position: relative;
 
     gap: 2.5rem;
 }
+
+.content.grid {}
 
 .content h2 {
     font-family: 'Gelasio';
@@ -23,23 +38,8 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    gap: 2.5rem;
-}
-
-.guestsHolder {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-
-    width: 100%;
     height: 100%;
-
-    padding: 1.5rem;
-
-    border: 1px dashed var(--primary-01);
-    border-radius: 0.5rem;
+    gap: 2.5rem;
 }
 
 .section {
@@ -49,21 +49,13 @@
     align-items: center;
 
     width: 100%;
-
     gap: 2.5rem;
 }
 
 @media (min-width: 1024px) {
-    .content {
-        display: flex;
+    .content.row {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        padding: 2rem 5rem;
-        gap: 2.5rem;
-    }
-
-    .column {
-        height: 100%;
     }
 }
