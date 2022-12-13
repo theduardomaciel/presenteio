@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 import { signIn } from "next-auth/react";
 
@@ -27,6 +27,8 @@ export default function Login() {
     const search = useSearchParams().get('animate');
     const isAuth = search && search === "true";
 
+    const router = useRouter();
+
     useEffect(() => {
         if (isAuth) {
             setTimeout(() => {
@@ -43,8 +45,8 @@ export default function Login() {
         }
     }, [])
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [actualSection, direction] = [0, 1];
+    const [isLoading, setIsLoading] = useState<boolean | string>(false);
+    const [actualSection, direction] = ['login', 1];
 
     const Section0 = {
         title: "Log in",
@@ -56,11 +58,11 @@ export default function Login() {
                 <p>ou</p>
                 <div className={styles.divisor} />
             </div>
-            <Input label='E-mail' name='email' type={"email"} maxLength={35} required />
-            <Input label='Senha' name='password' id='passwordInput' type={"password"} minLength={10} maxLength={30} required />
-            <Button isLoading={isLoading} label='Logar' isDisabled={true} style={{ width: "100%", paddingBlock: "1rem" }} />
+            <Input label='E-mail' name='email' type={"email"} required />
+            <Input errorMessage={typeof isLoading === "string" ? isLoading : undefined} label='Senha' name='password' id='passwordInput' type={"password"} required />
+            <Button isLoading={isLoading === true} label='Logar' style={{ width: "100%", paddingBlock: "1rem" }} />
         </form>,
-        footer: <p className={styles.footer}>Não tem uma conta? <Link href={`/auth/register`} style={{ fontWeight: "bold" }}>Criar uma conta</Link></p>
+        footer: <div className='modalFooter'><p>Não tem uma conta? <Link href={`/auth/register`} style={{ fontWeight: "bold" }}>Criar uma conta</Link></p></div>
     } as Section;
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -72,14 +74,21 @@ export default function Login() {
         const { email, password } = accountData;
 
         const response = await signIn('credentials', { email: email, password: password, redirect: false })
-        setIsLoading(false)
-
-        console.log(response)
+        if (response) {
+            console.log(response.error)
+            if (response.error === null) {
+                router.push(`/dashboard`)
+            } else {
+                setIsLoading(response.error as string)
+            }
+        } else {
+            setIsLoading("Erro desconhecido")
+        }
     }
 
     return (
         <div className={styles.pageHolder}>
-            <AuthModal sections={[Section0]} actualSection={actualSection} direction={direction} />
+            <AuthModal initial={isAuth ? true : false} sections={{ 'login': Section0 }} actualSection={actualSection} direction={direction} />
             {isAuth && <Landing hideBackground />}
         </div>
     )

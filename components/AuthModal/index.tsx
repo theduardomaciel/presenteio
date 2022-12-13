@@ -14,6 +14,8 @@ export interface Section {
     title: string;
     description: React.ReactNode;
 
+    noBackground?: boolean;
+
     footer?: React.ReactNode;
     children?: React.ReactNode;
 
@@ -22,10 +24,10 @@ export interface Section {
 }
 
 interface Props {
-    actualSection: number;
+    actualSection: string;
     direction?: number;
     setActualSection?: Dispatch<SetStateAction<[number, number]>>;
-    sections: Array<Section>;
+    sections: { [key: string]: Section };
     initial?: boolean;
 }
 
@@ -61,8 +63,11 @@ export default function AuthModal({ actualSection, direction, sections, initial 
         textAlign: "center"
     } as CSSProperties;
 
-    const sectionsModals = sections.map((section, index) => {
-        return <motion.div className={styles.holder} key={`modalHolder_${index}`}>
+    let sectionsModals = {} as { [key: string]: React.ReactNode };
+
+    Object.keys(sections).map((key, index) => {
+        const section = sections[key];
+        sectionsModals[key] = <motion.div className={styles.holder} key={`modalHolder_${index}`}>
             <motion.div
                 className={styles.container}
                 key={`modalContent_${index}`}
@@ -72,7 +77,7 @@ export default function AuthModal({ actualSection, direction, sections, initial 
                 animate="center"
                 exit="exit"
                 transition={transition}
-                style={{ background: sections.length > 1 && actualSection + 1 === sections.length ? "transparent" : `linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.50) 100%)` }}
+                style={{ background: section.noBackground ? "transparent" : `linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.50) 100%)` }}
             >
                 <div className={styles.headerContainer} style={section.logoPosition === "top" ? titleStyle : undefined}>
                     {section.logoPosition === "top" && <Logo />}
@@ -88,7 +93,7 @@ export default function AuthModal({ actualSection, direction, sections, initial 
 
     return (
         <AnimatePresence initial={initial} mode='sync'>
-            {actualSection !== -1 && sectionsModals[actualSection]}
+            {sectionsModals[actualSection]}
         </AnimatePresence>
     );
 }

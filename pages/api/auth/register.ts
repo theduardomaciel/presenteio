@@ -30,11 +30,12 @@ router
                     name: name,
                     email: email,
                     password: password,
-                    image_url: image_url ? image_url : null,
+                    image_url: image_url,
                 }
             })
             res.status(200).json(account)
         } catch (error) {
+            console.log(error)
             res.status(501).json({ error: error })
         }
     })

@@ -20,14 +20,14 @@
     cursor: pointer;
 }
 
-.button.disabled {
-    background: var(--light-gray);
-    color: var(--font-light);
+.button.disabled,
+.button.loading {
+    background: var(--primary-03);
     border: none;
     cursor: not-allowed;
 }
 
-.button:not(.disabled):hover {
+.button:not(.disabled):not(.loading):not(.noEffects):hover {
     background-color: var(--primary-01);
     outline: 2px solid var(--primary-02);
 }

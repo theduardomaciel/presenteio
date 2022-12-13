@@ -8,9 +8,9 @@ import styles from "./styles.module.css"
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     label?: string;
     isLoading?: boolean;
-    isDisabled?: boolean;
     additionalClasses?: string;
     icon?: React.ReactElement;
+    noEffects?: boolean;
     accentColor?: string;
     iconProps?: {
         position?: 'left' | 'right',
@@ -18,10 +18,10 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     }
 }
 
-export default function Button({ label, additionalClasses, isLoading, isDisabled, icon, accentColor, iconProps, children, ...rest }: ButtonProps) {
+export default function Button({ label, additionalClasses, isLoading, disabled, noEffects, icon, accentColor, iconProps, children, ...rest }: ButtonProps) {
     return <button
-        className={`${styles.button} ${isDisabled ? styles.disabled : ""} ${isLoading ? styles.loading : ""} ${additionalClasses} ${iconProps?.animate === 'position' && iconProps?.position === "right" ? styles.iconRight : ""}`}
-        disabled={isLoading || isDisabled}
+        className={`${styles.button} ${disabled ? styles.disabled : ""} ${noEffects ? styles.noEffects : ""} ${isLoading ? styles.loading : ""} ${additionalClasses} ${iconProps?.animate === 'position' && iconProps?.position === "right" ? styles.iconRight : ""}`}
+        disabled={isLoading || disabled}
         style={{ flexDirection: iconProps?.position === "right" ? "row-reverse" : "row" }}
         {...rest}
     >

@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+
 // Components
 import DashboardHeader from './components/Header';
 import EventCard from './components/EventCard';
@@ -13,7 +15,9 @@ import { authOptions } from "../../pages/api/auth/[...nextauth]";
 export default async function Dashboard() {
     const session = await unstable_getServerSession(authOptions)
 
-    console.log(session)
+    if (!session) {
+        redirect("/");
+    }
 
     return <div className={styles.container}>
         <DashboardHeader profileChildren={<CreateEventButton />} />

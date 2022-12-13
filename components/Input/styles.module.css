@@ -11,6 +11,15 @@
     min-height: fit-content;
 }
 
+.flex header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
+}
+
 .input {
     display: inline-flex;
     flex-direction: row;
@@ -41,13 +50,23 @@
     vertical-align: top;
 }
 
-.fixedUnitFrame {
+.row {
     display: flex;
     flex-direction: row;
+    align-items: center;
     height: 100%;
     width: 100%;
 
     position: relative;
+}
+
+.errorText {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.2rem;
+
+    color: var(--primary-01);
 }
 
 .fixedUnit {

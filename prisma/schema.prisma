@@ -12,15 +12,17 @@ datasource db {
 model Account {
     id        String   @id @default(uuid())
     createdAt DateTime @default(now())
-    email     String   @unique
+    email     String
     name      String
     password  String
 
     image_url        String?
     image_deleteHash String?
 
-    event Event[]
+    events            Event[]
+    guestsFromAccount Guest[]
 
+    @@unique([email])
     @@map("accounts")
 }
 
@@ -54,11 +56,21 @@ model Guest {
     email     String
     image_url String
     status    GuestStatus @default(PENDING)
-    accountId String
-    eventId   Int
-    event     Event       @relation(fields: [eventId], references: [id])
+
+    drawGuest Guest?  @relation(fields: [guestId], references: [id], name: "drawGuest", onDelete: NoAction, onUpdate: NoAction)
+    guestId   String?
+
+    account   Account? @relation(fields: [accountId], references: [id])
+    accountId String?
+
+    event   Event @relation(fields: [eventId], references: [id])
+    eventId Int
+
+    guests Guest[] @relation(name: "drawGuest")
 
     @@index([eventId])
+    @@index([accountId])
+    @@index([guestId])
     @@map("guests")
 }
 
