@@ -1,0 +1,139 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background: none;
+
+    overflow: hidden;
+}
+
+.container header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: var(--header-height);
+    width: 100%;
+    padding-inline: 7.5rem;
+
+    z-index: 3;
+}
+
+.container header h6 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.8rem;
+
+    color: var(--primary-03);
+}
+
+.container header p {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.2rem;
+
+    cursor: pointer;
+
+    color: var(--primary-02);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 3.5rem;
+
+    max-width: 80vw;
+
+    text-align: center;
+}
+
+.content h1 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.8rem;
+    line-height: 3.6rem;
+
+    color: var(--primary-01);
+}
+
+.content p {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 2.1rem;
+
+    color: var(--font-light-02);
+}
+
+.content .button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    gap: 1rem;
+
+    cursor: default;
+
+    background: var(--primary-01);
+    border: 0.5px solid var(--primary-03);
+    border-radius: 0.5rem;
+}
+
+.buttonFont {
+    font-family: 'Judson', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.6rem;
+
+    color: var(--neutral);
+}
+
+.divisor {
+    width: 10rem;
+    border: 1px solid var(--primary-01);
+    border-radius: 1rem;
+}
+
+.content .footerButton {
+    background: none;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+.content .footerButtonFont {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.8rem;
+    color: var(--primary-03);
+}
+
+@media (min-width: 1024px) {
+    .content {
+        max-width: 45vw;
+        gap: 4.5rem;
+    }
+
+    .content h1 {
+        font-size: 3.2rem;
+        line-height: 4.1rem;
+    }
+}

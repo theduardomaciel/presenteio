@@ -1,0 +1,114 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 10rem;
+
+    padding-inline: 2.5rem;
+    overflow: hidden;
+
+    text-align: center;
+}
+
+.content .title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+}
+
+.content .title div {
+    gap: 0.5rem;
+}
+
+.content .title div h3 {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.8rem;
+
+    color: var(--primary-03);
+}
+
+.content .title div h1 {
+    font-family: 'Gelasio', serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 5.6rem;
+    line-height: 84.95%;
+    color: var(--primary-01);
+}
+
+.imageHolder {
+    width: 305px;
+    height: 374px;
+}
+
+.giftsImage {
+    overflow: hidden;
+
+    position: absolute;
+    bottom: -15rem;
+    left: -6.5rem;
+
+    object-fit: contain;
+
+    z-index: 2;
+    transform: scaleX(-1);
+}
+
+
+.giftImage {
+    overflow: hidden;
+
+    position: absolute;
+    top: -1rem;
+    right: 2.5rem;
+
+    z-index: 2;
+    transform: scaleX(-1);
+}
+
+@media (min-width: 1024px) {
+    .container header {
+        display: flex;
+    }
+
+    .content {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 10rem;
+        margin-bottom: 0px;
+        width: 85vw;
+    }
+
+    .container header p,
+    .content .title p {
+        font-size: 1.6rem;
+    }
+
+    .giftsImage {
+        display: flex;
+        position: initial;
+        transform: scaleX(1);
+    }
+
+    .giftImage {
+        top: 70%;
+        left: 5.5rem;
+        transform: scaleX(1);
+    }
+
+    .content .title div h3 {
+        font-size: 3.2rem;
+    }
+
+    .content .title div h1 {
+        font-size: 9.2rem;
+    }
+}

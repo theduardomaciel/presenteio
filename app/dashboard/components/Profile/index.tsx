@@ -12,21 +12,18 @@ import DownArrow from '../../../../public/icons/down_arrow.svg';
 import DashboardProfileMenu from './Menu';
 import Account from '../../../../types/Account';
 
-const fetcher = async (url: string) => {
-    const res = await fetch(url);
-    if (!res.ok) {
-        throw Error("There was not possible to get the image from the server.");
-    }
-    const data = await res.json();
-    return data;
-};
+interface Props {
+    children?: React.ReactNode;
+}
 
-export default function DashboardProfile({ account, children }: { account: Account | undefined, children?: React.ReactNode }) {
+export default function DashboardProfile({ children }: Props) {
     const [isOpen, setIsOpen] = useState(false);
 
     function toggleOpen() {
         setIsOpen(!isOpen);
     }
+
+    const account = null;
 
     if (!account) {
         return <div></div>;

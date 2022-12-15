@@ -66,7 +66,7 @@ function Landing({ hideBackground }: Props) {
 
             <section>
                 <Hint
-                    style={{ position: "absolute", bottom: "8vh", left: "50%", transform: "translateX(-50%)" }}
+                    style={{ position: "absolute", bottom: "20vh", left: "50%", transform: "translateX(-50%)" }}
                     hint={<p style={{ color: "var(--primary-02)" }}>Este projeto encontra-se em <strong>acesso antecipado</strong>, portanto, bugs e comportamentos inesperados devem ser esperados.</p>}
                 />
             </section>

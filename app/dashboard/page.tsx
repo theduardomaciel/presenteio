@@ -8,16 +8,31 @@ import CreateEventButton from './components/CreateEventButton';
 // Stylesheets
 import styles from './dashboard.module.css';
 
-// Auth
-import { unstable_getServerSession } from "next-auth/next"
-import { authOptions } from "../../pages/api/auth/[...nextauth]";
+import { cookies } from 'next/headers';
+import Event from '../../types/Event';
+
+async function getEvents() {
+    const nextCookies = cookies();
+    const token = nextCookies.get('presenteio.token');
+
+    const response = await fetch(`http://localhost/api/events`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        next: {
+            revalidate: 10
+        }
+    })
+
+    const data = await response.json();
+    return data?.events as Event[];
+
+}
 
 export default async function Dashboard() {
-    const session = await unstable_getServerSession(authOptions)
-
-    if (!session) {
-        redirect("/");
-    }
+    const events = await getEvents();
 
     return <div className={styles.container}>
         <DashboardHeader profileChildren={<CreateEventButton />} />

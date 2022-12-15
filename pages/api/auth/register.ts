@@ -1,28 +1,24 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { createRouter, expressWrapper } from "next-connect";
+import { createRouter } from "next-connect";
 
+import jwt from 'jsonwebtoken';
 import prisma from "../../../lib/prisma";
-import uploadImage, { getImageUrl } from '../uploadImage';
 
-// Middlewares
-import multer from 'multer';
+const router = createRouter<NextApiRequest, NextApiResponse>();
 
-export type NextApiRequestWithBodyData = NextApiRequest & { file: any };
-
-const router = createRouter<NextApiRequestWithBodyData, NextApiResponse>();
-
-// File upload
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-
-const uploadMiddleware = upload.single('blob');
+export function getAppAuthenticationToken(account_id: string) {
+    const jwtSecretKey = process.env.JWT_SECRET_KEY as string;
+    return jwt.sign({ data: account_id }, jwtSecretKey, { expiresIn: "60d" });
+}
 
 router
-    .use(expressWrapper(uploadMiddleware) as any) // express middleware are supported if you wrap it with expressWrapper
     .post(async (req, res) => {
-        const { name, email, password } = req.body;
+        const { name, email, password, image_url } = req.body;
 
-        const image_url = await getImageUrl(req);
+        if (!name || !email || !password) {
+            res.status(400).end("Name, email and password are required.");
+            return;
+        }
 
         try {
             const account = await prisma.account.create({
@@ -30,13 +26,16 @@ router
                     name: name,
                     email: email,
                     password: password,
-                    image_url: image_url,
-                }
-            })
-            res.status(200).json(account)
+                    image_url: image_url ? image_url : null,
+                },
+            });
+            console.log("Account created with success!")
+
+            const token = getAppAuthenticationToken(account.id);
+            res.status(200).json({ token: token, account: account });
         } catch (error) {
             console.log(error)
-            res.status(501).json({ error: error })
+            res.status(500).end("There was not possible to create the account.");
         }
     })
 

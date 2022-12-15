@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 
-import { signIn } from "next-auth/react";
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // Components
 import AuthModal, { Section } from '../../../components/AuthModal';
@@ -17,6 +17,8 @@ import Landing from '../../page';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import { GoogleButton } from '../register/page';
+
+import { setCookie } from "../../../utils/cookies";
 
 interface AccountData {
     email: string;
@@ -68,22 +70,34 @@ export default function Login() {
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault(); // evitar que a página seja recarregada
         setIsLoading(true)
+        console.log("Checando credenciais...")
 
         const formData = new FormData(event.currentTarget);
         const accountData = Object.fromEntries(formData.entries()) as unknown as AccountData;
         const { email, password } = accountData;
 
-        const response = await signIn('credentials', { email: email, password: password, redirect: false })
-        if (response) {
-            console.log(response.error)
-            if (response.error === null) {
+        try {
+            const response = await axios.post('/api/auth/login', { email: email, password: password });
+            console.log(response.data)
+            if (response.status === 200) {
+                await setCookie('presenteio.token', response.data.token, 90)
                 router.push(`/dashboard`)
-            } else {
-                setIsLoading(response.error as string)
             }
-        } else {
-            setIsLoading("Erro desconhecido")
+        } catch (error) {
+            const err = error as AxiosError & { response: AxiosResponse<{ error: string }> };
+            setIsLoading(err.response?.data.error as string)
         }
+
+        /* axios.post('/api/auth/login', { email: email, password: password })
+            .then((response) => {
+                if (response.status === 200) {
+                    router.push(`/dashboard`)
+                }
+            })
+            .catch((error) => {
+                const err = error as AxiosError & { response: AxiosResponse<{ error: string }> };
+                setIsLoading(err.response?.data.error as string)
+            }); */
     }
 
     return (

@@ -1,11 +1,9 @@
 'use client';
-import { KeyboardEventHandler, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-
 import axios from 'axios';
-import { signIn } from "next-auth/react";
 
 // Components
 import AuthModal, { Section } from '../../../components/AuthModal';
@@ -47,6 +45,7 @@ import Landing from '../../page';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Hint from '../../../components/Hint';
+import { setCookie } from '../../../utils/cookies';
 
 export function GoogleButton(props: any) {
     return <Button
@@ -181,7 +180,7 @@ export default function Register() {
 
             if (response.status === 200) {
                 try {
-                    const response = await signIn('credentials', { email: email, password: password, redirect: false })
+                    await setCookie("presenteio.token", response.data.token, 90)
                     console.log(response)
                     if (response?.status === 200) {
                         changeSection("final", 1);

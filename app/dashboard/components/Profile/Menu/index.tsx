@@ -8,13 +8,12 @@ import ConfigIcon from "../../../../../public/icons/settings.svg";
 import LogoutIcon from "../../../../../public/icons/logout.svg";
 
 import Link from 'next/link';
-import { signOut } from 'next-auth/react';
-import { Session } from 'next-auth';
 import { useRouter } from 'next/navigation';
 
 // Components
 import Button from '../../../../../components/Button';
 import Account from '../../../../../types/Account';
+import { eraseCookie } from '../../../../../utils/cookies';
 
 interface Props {
     isOpen: boolean;
@@ -37,7 +36,7 @@ export default function DashboardProfileMenu({ isOpen, toggleOpen, account }: Pr
     const popout = useRef<HTMLDivElement>(null);
 
     async function handleLogout() {
-        await signOut();
+        await eraseCookie("presenteio.token");
         router.push("/");
     }
 

@@ -40,7 +40,7 @@
     transform: translateX(0.5rem);
 }
 
-.button:active {
+.button:not(.noEffects)::active {
     outline: 1px solid var(--neutral);
 }
 
