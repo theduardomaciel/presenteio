@@ -9,8 +9,8 @@ import Intro from './screens/Intro';
 
 // Components
 import Button from '../../../components/Button';
-import GuestsView from './GuestsView';
-import EventTitle from './EventTitle';
+import GuestsView from './components/GuestsView';
+import EventTitle from './components/EventTitle';
 
 export default function Invite() {
 
@@ -24,7 +24,7 @@ export default function Invite() {
             <p>Todos os seus dados foram atualizados. <br />
                 Agora basta aguardar que todos os outros participantes entrem e o anfitrião realize o sorteio.</p>
             <Button additionalClasses={styles.button} textStyle={styles.buttonFont} label={`Os e-mails ainda não foram enviados pelo anfitrião.`} noEffects />
-            <div className={styles.divisor} />
+            <div className={"divisor"} />
         </div>,
         "visualized": <div className={styles.content}>
             <EventTitle />
@@ -34,7 +34,7 @@ export default function Invite() {
                 <Button additionalClasses={styles.button} textStyle={styles.buttonFont} label={`5/12 já visualizaram seus amigos secretos`} noEffects />
                 <GuestsView />
             </div>
-            <div className={styles.divisor} />
+            <div className={'divisor'} />
             <Button icon={<ViewIcon />} additionalClasses={styles.footerButton} textStyle={styles.footerButtonFont} label={`Ver meu amigo secreto novamente`} noEffects />
         </div>,
     }

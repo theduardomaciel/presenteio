@@ -10,7 +10,7 @@ export default async function InviteLayout({ params, children }: {
 }) {
     console.log(params)
     return (
-        <div style={{ overflow: "hidden" }}>
+        <div style={{ position: "relative" }}>
             {children}
             <Image src={background} alt="" fill style={{ zIndex: -1 }} draggable={false} />
             <Image src={placeholder} alt="" fill style={{ zIndex: -2, opacity: 0.2 }} className="imageContain" draggable={false} />

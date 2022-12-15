@@ -101,6 +101,12 @@ div.hide {
     color: var(--primary-01);
 }
 
+.divisor {
+    width: 10rem;
+    border: 1px solid var(--primary-01);
+    border-radius: 1rem;
+}
+
 @media (prefers-color-scheme: light) {
     body {
         color: var(--font-light);

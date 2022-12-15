@@ -1,0 +1,165 @@
+.tagList {
+    width: 100%;
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    gap: 1.5rem 0;
+    position: relative;
+    padding: 1.5rem 0;
+    overflow: hidden;
+}
+
+.inner {
+    display: flex;
+    width: fit-content;
+    animation-name: loop;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-duration: 15000ms;
+
+    transition: 1s;
+}
+
+.image {
+    /* box-shadow: 0px 1px 10px 3px rgba(0, 0, 0, 0.2); */
+    border-radius: 50%;
+
+    margin-right: 7.5rem;
+    /* Must used margin-right instead of gap for the loop to be smooth */
+    box-shadow:
+        0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+        0 0.1rem 0.5rem rgb(0 0 0 / 30%),
+        0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+
+    animation-name: glow;
+    animation-duration: 850ms;
+}
+
+/* .image.blink {
+    animation-name: glow;
+    animation-duration: 850ms;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+} */
+
+.chosenReveal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 2.5rem;
+    text-align: center;
+
+    max-width: 75%;
+
+    animation: fadeIn 5s ease forwards;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.chosenReveal h2 {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.8rem;
+    line-height: 3.3rem;
+
+    color: var(--primary-02);
+}
+
+.chosenReveal h1 {
+    font-family: 'Gelasio';
+    font-style: italic;
+    font-weight: 700;
+    font-size: 5.6rem;
+    line-height: 7.1rem;
+
+    color: var(--primary-01);
+}
+
+.chosenReveal p {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 2.1rem;
+
+    color: var(--font-light-02);
+}
+
+.chosenGuest {
+    border: 3px solid var(--primary-02);
+    box-shadow: 0px 1px 100px 45px #FFFFFF;
+    border-radius: 50%;
+
+    animation: growImage 3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes growImage {
+    0% {
+        height: 150px;
+        width: 150px;
+    }
+
+    100% {
+        height: 200px;
+        width: 200px;
+    }
+}
+
+@keyframes glow {
+    0% {
+        outline: none;
+        box-shadow:
+            0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+            0 0.1rem 0.5rem rgb(0 0 0 / 30%),
+            0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+    }
+
+    50% {
+        box-shadow: 0px 1px 25px 5px #FFFFFF;
+        outline: 5px solid #FFFFFF;
+    }
+
+    100% {
+        outline: none;
+        box-shadow:
+            0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+            0 0.1rem 0.5rem rgb(0 0 0 / 30%),
+            0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+    }
+}
+
+@keyframes loop {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@media (min-width: 1024px) {
+    .inner.middle {
+        margin-left: 0;
+    }
+
+    .tagList {
+        gap: 3.5rem 0;
+    }
+
+    .chosenReveal {
+        max-width: 45vw;
+    }
+}

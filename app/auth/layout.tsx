@@ -7,9 +7,9 @@ export default async function AuthLayout({ children }: {
     children: React.ReactNode
 }) {
     return (
-        <div>
+        <>
             {children}
             <Image src={background} alt="" fill style={{ zIndex: -1 }} draggable={false} />
-        </div>
+        </>
     )
 }

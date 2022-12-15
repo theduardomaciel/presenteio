@@ -104,12 +104,6 @@
     color: var(--neutral);
 }
 
-.divisor {
-    width: 10rem;
-    border: 1px solid var(--primary-01);
-    border-radius: 1rem;
-}
-
 .content .footerButton {
     background: none;
     padding: 0;
