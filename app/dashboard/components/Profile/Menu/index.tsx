@@ -1,9 +1,11 @@
 'use client';
-import { CSSProperties, SetStateAction, useEffect, useRef } from 'react';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 
 import styles from './menu.module.css';
 
+// Assets
+import DownArrow from '../../../../../public/icons/down_arrow.svg';
 import ConfigIcon from "../../../../../public/icons/settings.svg";
 import LogoutIcon from "../../../../../public/icons/logout.svg";
 
@@ -12,16 +14,18 @@ import { useRouter } from 'next/navigation';
 
 // Components
 import Button from '../../../../../components/Button';
-import Account from '../../../../../types/Account';
 import { eraseCookie } from '../../../../../utils/cookies';
 
-interface Props {
-    isOpen: boolean;
-    toggleOpen: () => SetStateAction<void>;
-    account: Account
-}
 
-export default function DashboardProfileMenu({ isOpen, toggleOpen, account }: Props) {
+// Types
+import Account from '../../../../../types/Account';
+
+export default function DashboardProfileMenu({ name }: { name?: string }) {
+    const [isOpen, setIsOpen] = useState(false);
+
+    function toggleOpen() {
+        setIsOpen(!isOpen);
+    }
 
     const onClick = (event: any) => {
         if (popout.current) {
@@ -47,10 +51,6 @@ export default function DashboardProfileMenu({ isOpen, toggleOpen, account }: Pr
         }, 500);
     }, [isOpen]);
 
-    if (!account) {
-        return <div></div>
-    }
-
     const buttonStyle = {
         width: "100%",
         background: "none",
@@ -63,6 +63,7 @@ export default function DashboardProfileMenu({ isOpen, toggleOpen, account }: Pr
 
     return (
         <AnimatePresence>
+            <DownArrow onClick={toggleOpen} />
             {
                 isOpen && (
                     <motion.div
@@ -89,21 +90,21 @@ export default function DashboardProfileMenu({ isOpen, toggleOpen, account }: Pr
                         }}
                     >
                         <header>
-                            <h3>{`${account.name}`}</h3>
+                            <h3>{`${name ? name : ""}`}</h3>
                         </header>
                         <div style={{ backgroundColor: "var(--primary-03)" }} className={styles.line}></div>
                         <ul className={styles.buttons}>
                             <Link href={`/dashboard/settings`}>
                                 <Button
                                     label='Configurações'
-                                    noEffects
+                                    /* noEffects */
                                     style={buttonStyle}
                                     icon={<ConfigIcon />}
                                 />
                             </Link>
                             <Button
                                 label='Log-out'
-                                noEffects
+                                /* noEffects */
                                 onClick={handleLogout}
                                 style={buttonStyle}
                                 icon={<LogoutIcon />}

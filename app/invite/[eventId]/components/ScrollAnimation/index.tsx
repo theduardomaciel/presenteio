@@ -1,7 +1,8 @@
 'use client';
+import { AnimatePresence, motion } from "framer-motion";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { InfiniteLoopSlider, Tag } from "./InfiniteScroll";
 
 import styles from './styles.module.css';
@@ -14,11 +15,14 @@ const TAGS_PER_ROW = 8;
 const random = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
 const shuffle = (arr: string[]) => [...arr].sort(() => .5 - Math.random());
 
+const makeRepeated = (arr: string[], repeats: number) =>
+    Array.from({ length: repeats }, () => arr).flat();
+
 export default function ScrollAnimation({ guests }: { guests: string[] }) {
-    const [status, setStatus] = useState<"animating" | "animated">("animating");
+    const [status, setStatus] = useState<"animating" | "finishing" | "animated">("animating");
 
     useEffect(() => {
-        /* const interval = setInterval(() => {
+        const interval = setInterval(() => {
             const RANDOM_INDEX = random(0, TAGS_PER_ROW * ROWS);
             const RANDOM_IMAGE = document.querySelectorAll(`.${styles.image}`)[RANDOM_INDEX];
             RANDOM_IMAGE.classList.toggle(styles.blink);
@@ -26,53 +30,99 @@ export default function ScrollAnimation({ guests }: { guests: string[] }) {
                 RANDOM_IMAGE.classList.toggle(styles.blink);
                 timeout && clearTimeout(timeout);
             }, 850);
-        }, 1000); */
+        }, 1000);
 
-        const fadeTimeout = setTimeout(() => {
+        const removeTimeout = setTimeout(() => {
             const elements = document.querySelectorAll(`.${styles.inner}`);
             elements.forEach(element => {
-                console.log("foi uma")
                 const div = element as HTMLDivElement;
+                if (div.classList.contains(styles.chosenGuest)) return;
                 div.style.opacity = "0";
             })
-            const removeTimeout = setTimeout(() => {
-                setStatus("animated");
+            const fadeTimeout = setTimeout(() => {
+                const elements = document.querySelectorAll(`.${styles.image}`);
+                elements.forEach(element => {
+                    const div = element as HTMLDivElement;
+                    if (div.classList.contains(styles.chosenGuest)) return;
+                    div.style.opacity = "0";
+                })
+                setStatus("animated")
                 fadeTimeout && clearTimeout(fadeTimeout);
                 removeTimeout && clearTimeout(removeTimeout);
-                /* interval && clearInterval(interval); */
-            }, 1 * 1000);
+                interval && clearInterval(interval);
+            }, 5 * 1000);
         }, DURATION);
     }, [])
 
+    const isGuestsArrayEven = guests.length % 2 === 0;
+    const SORTED_ARRAY = useMemo(() => isGuestsArrayEven ? makeRepeated(shuffle(guests), 3).concat([guests[guests.length - 1]]) : makeRepeated(shuffle(guests), 3), []);
+
+    const images = SORTED_ARRAY.map((guest, i) => (
+        <Tag additionalClass={i === 15 ? styles.chosenGuest : undefined} image_url={i === 15 ? "https://github.com/KermitTheSapo.png" : guest} size={150} removeMargin />
+    ));
+
     return (
-        status === "animating" ?
-            <div className={styles.tagList}>
+        <AnimatePresence>
+            <motion.div
+                key={'infiniteLoopSlidersHolder'}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className={styles.tagList}
+            >
                 {
-                    [...new Array(ROWS)].map((_, i) => (
-                        <InfiniteLoopSlider key={i} id={`row_${i}`} duration={random(DURATION - 5000, DURATION + 5000)} reverse={i % 2}>
-                            {shuffle(guests).slice(0, TAGS_PER_ROW).map(guest => (
-                                <Tag image_url={guest} size={i === 1 ? 150 : 125} />
-                            ))}
-                        </InfiniteLoopSlider>
-                    ))
+                    status === "animating" && (
+                        <motion.div
+                            key={'infiniteLoopSlider1'}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            <InfiniteLoopSlider duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
+                                {shuffle(guests).slice(0, TAGS_PER_ROW).map(guest => (
+                                    <Tag image_url={guest} size={125} />
+                                ))}
+                            </InfiniteLoopSlider>
+                        </motion.div>
+                    )
                 }
-            </div>
-            :
-            <div className={styles.chosenReveal}>
-                <Image
-                    className={styles.chosenGuest}
-                    src={"https://github.com/theduardomaciel.png"}
-                    alt={""}
-                    width={150}
-                    height={150}
-                />
-                <div className={styles.title}>
-                    <h2>Seu amigo secreto é</h2>
-                    <h1>Fulano da Silva!</h1>
-                </div>
-                <p>Não se preocupe, você poderá ver o nome de seu amigo secreto novamente a qualquer momento. <br />
-                    Agora é só preparar o presente e aguardar o tão aguardado dia do amigo secreto!</p>
-                <div className={'divisor'} />
-            </div>
-    )
+
+                <motion.div
+                    layout
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    transition={{ type: "spring" }}
+                    className={styles.center}
+                >
+                    {images}
+                </motion.div>
+
+                {
+                    status === "animated" &&
+                    <motion.div
+                        className={styles.chosenReveal}
+                        initial={{ transform: "translateY(50%)", opacity: 0 }}
+                        animate={{ transform: "translateY(0%)", opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                    >
+                        <div className={styles.title}>
+                            <h2>Seu amigo secreto é</h2>
+                            <h1>Fulano da Silva!</h1>
+                        </div>
+                        <p>Não se preocupe, você poderá ver o nome de seu amigo secreto novamente a qualquer momento. <br />
+                            Agora é só preparar o presente e aguardar o tão aguardado dia do amigo secreto!</p>
+                        <div className={'divisor'} />
+                    </motion.div>
+                }
+
+                {
+                    status === "animating" && <InfiniteLoopSlider duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
+                        {shuffle(guests).slice(0, TAGS_PER_ROW).map(guest => (
+                            <Tag image_url={guest} size={125} />
+                        ))}
+                    </InfiniteLoopSlider>
+                }
+            </motion.div>
+        </AnimatePresence>
+    );
 }

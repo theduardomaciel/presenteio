@@ -2,7 +2,7 @@
 import styles from './styles.module.css';
 
 // Assets
-import GiftIcon from '../../../../public/gift.svg'
+import GiftIcon from '../../../../../public/gift.svg'
 
 export default function EventTitle() {
     return (

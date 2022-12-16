@@ -1,0 +1,45 @@
+.emptyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1rem;
+
+    width: 100%;
+}
+
+.emptyContainer svg {
+    fill: var(--primary-02);
+}
+
+.emptyContainer header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5rem;
+}
+
+.emptyContainer header h6 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 2.4rem;
+    text-align: center;
+
+    color: var(--primary-02);
+}
+
+.emptyContainer p {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+    text-align: center;
+
+    white-space: pre-line;
+
+    color: var(--primary-02);
+}

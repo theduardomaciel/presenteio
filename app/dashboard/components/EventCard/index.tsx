@@ -12,7 +12,7 @@ import Image from 'next/image';
 import Overlay from '../Overlay';
 
 interface Props {
-    event?: Event;
+    event?: Event | any;
 }
 
 export default function EventCard({ event }: Props) {

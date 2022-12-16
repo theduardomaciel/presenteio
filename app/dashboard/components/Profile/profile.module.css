@@ -1,5 +1,5 @@
 .container {
-    display: none;
+    display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
@@ -24,8 +24,8 @@
     cursor: pointer;
 }
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
     .container {
         display: flex;
     }
-}
+} */

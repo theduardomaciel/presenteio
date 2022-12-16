@@ -46,6 +46,7 @@ import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Hint from '../../../components/Hint';
 import { setCookie } from '../../../utils/cookies';
+import Account from '../../../types/Account';
 
 export function GoogleButton(props: any) {
     return <Button
@@ -177,11 +178,11 @@ export default function Register() {
             const { name, email, password } = accountData;
 
             const response = await axios.post('/api/auth/register', { name: name, email: email, password: password });
+            const data = response.data as { token: string, account: Account };
 
             if (response.status === 200) {
                 try {
-                    await setCookie("presenteio.token", response.data.token, 90)
-                    console.log(response)
+                    await setCookie("presenteio.token", data.token, 90)
                     if (response?.status === 200) {
                         changeSection("final", 1);
                     } else {

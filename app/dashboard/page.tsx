@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation';
-
 // Components
 import DashboardHeader from './components/Header';
 import EventCard from './components/EventCard';
@@ -8,38 +6,26 @@ import CreateEventButton from './components/CreateEventButton';
 // Stylesheets
 import styles from './dashboard.module.css';
 
-import { cookies } from 'next/headers';
+import { getEvents } from '../../utils/getEvents';
 import Event from '../../types/Event';
-
-async function getEvents() {
-    const nextCookies = cookies();
-    const token = nextCookies.get('presenteio.token');
-
-    const response = await fetch(`http://localhost/api/events`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        next: {
-            revalidate: 10
-        }
-    })
-
-    const data = await response.json();
-    return data?.events as Event[];
-
-}
+import EmptyGuests from './components/GuestsDisplay/EmptyGuests.tsx';
 
 export default async function Dashboard() {
     const events = await getEvents();
 
     return <div className={styles.container}>
         <DashboardHeader profileChildren={<CreateEventButton />} />
-        <div className={`${styles.content} ${styles.grid}`}>
+        <div className={`${styles.content}`}>
             <h2>Meus Eventos</h2>
-            <div className={styles.events}>
-                <EventCard />
+            <div className={`${styles.events} ${events && events.length > 0 ? "" : styles.empty}`}>
+                {
+                    events && events?.length > 0 ?
+                        events?.map((event, index) => {
+                            return <EventCard key={index} event={event} />
+                        })
+                        :
+                        <EmptyGuests label={`Você ainda não criou nenhum evento.\nPara criar novos, clique no botão "Criar Evento" acima.`} />
+                }
             </div>
         </div>
     </div>

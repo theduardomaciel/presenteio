@@ -15,7 +15,7 @@ interface Props {
 
 export default function EventDisplay({ event, height }: Props) {
     return (
-        <div className={styles.container} style={{ height: height ? height : "23rem" }}>
+        <div className={styles.container} style={{ height: height ? height : "100%" }}>
             {
                 event ? <></>
                     :
@@ -23,10 +23,10 @@ export default function EventDisplay({ event, height }: Props) {
                         <div className={styles.iconHolder}>
                             <AddPhotoIcon />
                         </div>
-                        <div className={styles.themeSelector}>
+                        {/* <div className={styles.themeSelector}>
                             <div className={styles.themePreview} />
                             <p>Cor de destaque</p>
-                        </div>
+                        </div> */}
                     </>
             }
         </div>

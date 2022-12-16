@@ -19,6 +19,7 @@ import Input from '../../../components/Input';
 import { GoogleButton } from '../register/page';
 
 import { setCookie } from "../../../utils/cookies";
+import Account from '../../../types/Account';
 
 interface AccountData {
     email: string;
@@ -78,9 +79,10 @@ export default function Login() {
 
         try {
             const response = await axios.post('/api/auth/login', { email: email, password: password });
-            console.log(response.data)
+            const data = response.data as { token: string, account: Account };
+
             if (response.status === 200) {
-                await setCookie('presenteio.token', response.data.token, 90)
+                await setCookie("presenteio.token", data.token, 90)
                 router.push(`/dashboard`)
             }
         } catch (error) {

@@ -7,6 +7,8 @@
     width: 100%;
     background-color: var(--primary-03);
 
+    padding-block: 5rem;
+
     border-radius: 0.5rem;
     overflow: hidden;
 
@@ -50,7 +52,7 @@
 }
 
 .themeSelector p {
-    font-family: 'Raleway';
+    font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
     font-size: 1.6rem;

@@ -25,7 +25,26 @@ export default function EventEdit({ event }: Props) {
     return <div className={`${styles.container} ${styles[state]}`}>
         <p>Amigo Secreto</p>
         <p>/</p>
-        <input type="text" defaultValue={"Novo Evento"} width={"fit-content"} onFocus={onFocus} onBlur={onBlur} maxLength={30} minLength={1} placeholder={"Novo Evento"} />
+        <input
+            type="text"
+            defaultValue={"Novo Evento"}
+            width={"fit-content"}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            maxLength={30}
+            onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                    event.currentTarget.blur();
+                }
+                if (event.currentTarget.value.length === 0) {
+                    event.currentTarget.style.width = `20rem`;
+                } else {
+                    event.currentTarget.style.width = `${event.currentTarget.value.length + 0.5}ch`;
+                }
+            }}
+            minLength={1}
+            placeholder={"Novo Evento"}
+        />
         <DownArrow />
     </div>
 }

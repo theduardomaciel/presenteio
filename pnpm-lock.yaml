@@ -42,6 +42,7 @@ specifiers:
   react-dom: 18.2.0
   react-email: 1.2.0
   react-simple-typewriter: ^5.0.1
+  server-only: ^0.0.1
   swr: ^2.0.0
   typescript: 4.9.3
 
@@ -82,6 +83,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-email: 1.2.0
   react-simple-typewriter: 5.0.1_biqbaboplfbrettd7655fr4n2y
+  server-only: 0.0.1
   swr: 2.0.0_react@18.2.0
   typescript: 4.9.3
 
@@ -5807,6 +5809,10 @@ packages:
     hasBin: true
     dependencies:
       lru-cache: 6.0.0
+    dev: false
+
+  /server-only/0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
     dev: false
 
   /set-value/2.0.1:

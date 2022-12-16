@@ -122,7 +122,7 @@
 
 @media (min-width: 1024px) {
     .content {
-        max-width: 45vw;
+        max-width: 40vw;
         gap: 4.5rem;
     }
 

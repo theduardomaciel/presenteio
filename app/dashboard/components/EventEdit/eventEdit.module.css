@@ -10,7 +10,7 @@
     font-family: 'Gelasio';
     font-style: normal;
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 1.2rem;
 
     white-space: nowrap;
 
@@ -29,7 +29,7 @@
     font-family: 'Gelasio';
     font-style: normal;
     font-weight: 700;
-    font-size: 2.8rem;
+    font-size: 2.2rem;
 
     background: none;
     display: flex;
@@ -37,7 +37,9 @@
     box-shadow: none;
     border: none;
 
-    width: 100%;
+    white-space: nowrap;
+    width: 15rem;
+
     text-align: center;
 
     color: var(--primary-02);
@@ -53,4 +55,15 @@
 
 .container svg {
     cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+    .container p {
+        font-size: 1.8rem;
+    }
+
+    .container input {
+        font-size: 2.8rem;
+        width: 20rem;
+    }
 }

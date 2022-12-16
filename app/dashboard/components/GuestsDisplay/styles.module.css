@@ -1,59 +1,92 @@
 .guestsHolder {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 1rem;
 
     width: 100%;
     height: 100%;
+    min-height: 25rem;
 
     padding: 1.5rem;
+
+    overflow-y: scroll;
 
     border: 1px dashed var(--primary-01);
     border-radius: 0.5rem;
 }
 
-.emptyContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.guestsHolder::-webkit-scrollbar {
+    width: 0.75rem;
+}
 
-    gap: 1rem;
+/* Track */
+.guestsHolder::-webkit-scrollbar-track {
+    background: var(--primary-03);
+}
+
+/* Handle */
+.guestsHolder::-webkit-scrollbar-thumb {
+    background: var(--primary-01);
+}
+
+.guestsHolder.empty {
+    overflow-y: hidden;
+    justify-content: center;
+}
+
+.guestPreview {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    gap: 1.5rem;
 
     width: 100%;
+
+    background: linear-gradient(90deg, var(--primary-01) 0%, var(--primary-02) 100%);
+    border-radius: 0.5rem;
 }
 
-.emptyContainer svg {
-    fill: var(--primary-02);
-}
-
-.emptyContainer header {
+.guestPreview .guestInfo {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-
-    gap: 0.5rem;
+    justify-content: flex-start;
+    flex-direction: row;
+    gap: 1rem;
 }
 
-.emptyContainer header h6 {
+.guestPreview p {
     font-family: 'Gelasio';
     font-style: normal;
     font-weight: 700;
-    font-size: 2.4rem;
-    text-align: center;
+    font-size: 1.6rem;
+    line-height: 2rem;
 
-    color: var(--primary-02);
+    color: var(--neutral);
 }
 
-.emptyContainer p {
+.guestPreview .iconHolder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+
+    opacity: 0.7;
+}
+
+.guestPreview .iconHolder span {
     font-family: 'Judson';
     font-style: normal;
-    font-weight: 400;
-    font-size: 1.6rem;
-    text-align: center;
+    font-weight: 700;
+    font-size: 1.2rem;
 
-    color: var(--primary-02);
+    color: var(--neutral);
+}
+
+.guestPreview .actions svg {
+    cursor: pointer;
 }

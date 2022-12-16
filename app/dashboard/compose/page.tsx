@@ -22,7 +22,7 @@ export default function ComposeEvent() {
         </DashboardHeader>
         <div className={`${styles.content} ${styles.row}`}>
             <div className={styles.column}>
-                <div className={styles.section} style={{ height: "100%", gap: "1.35rem" }}>
+                <div className={`${styles.section} ${styles.middle}`} style={{ gap: "1.35rem" }}>
                     <GuestsDisplay hasAddButton />
                 </div>
                 <div className={styles.section}>

@@ -9,7 +9,7 @@ export default function GenerateImage(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const name = searchParams.get('name')
 
-    const RANDOM_COLORS = Array.from({ length: 5 }, () => {
+    const RANDOM_COLORS = Array.from({ length: 3 }, () => {
         return {
             r: Math.floor(Math.random() * 255),
             g: Math.floor(Math.random() * 255),
@@ -32,7 +32,7 @@ export default function GenerateImage(req: NextRequest) {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundImage: `linear-gradient(45deg, rgb(${RANDOM_COLORS[0].r}, ${RANDOM_COLORS[0].g}, ${RANDOM_COLORS[0].b}), rgb(${RANDOM_COLORS[1].r}, ${RANDOM_COLORS[1].g}, ${RANDOM_COLORS[0].b}), rgb(${RANDOM_COLORS[2].r}, ${RANDOM_COLORS[2].g}, ${RANDOM_COLORS[2].b}), rgb(${RANDOM_COLORS[3].r}, ${RANDOM_COLORS[3].g}, ${RANDOM_COLORS[3].b}), rgb(${RANDOM_COLORS[4].r}, ${RANDOM_COLORS[4].g}, ${RANDOM_COLORS[4].b}))`,
+                    backgroundImage: `linear-gradient(45deg, rgb(${RANDOM_COLORS[0].r}, ${RANDOM_COLORS[0].g}, ${RANDOM_COLORS[0].b}), rgb(${RANDOM_COLORS[1].r}, ${RANDOM_COLORS[1].g}, ${RANDOM_COLORS[0].b}), rgb(${RANDOM_COLORS[2].r}, ${RANDOM_COLORS[2].g}, ${RANDOM_COLORS[2].b}))`,
                     fontSize: 96,
                     color: "white",
                     fontFamily: '"Arial"',
