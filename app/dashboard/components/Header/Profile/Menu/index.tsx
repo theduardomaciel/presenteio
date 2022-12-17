@@ -2,23 +2,19 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { eraseCookie } from '@utils/cookies';
+
 import styles from './menu.module.css';
 
 // Assets
-import DownArrow from '../../../../../public/icons/down_arrow.svg';
-import ConfigIcon from "../../../../../public/icons/settings.svg";
-import LogoutIcon from "../../../../../public/icons/logout.svg";
-
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import DownArrow from '@public/icons/down_arrow.svg';
+import ConfigIcon from "@public/icons/settings.svg";
+import LogoutIcon from "@public/icons/logout.svg";
 
 // Components
-import Button from '../../../../../components/Button';
-import { eraseCookie } from '../../../../../utils/cookies';
-
-
-// Types
-import Account from '../../../../../types/Account';
+import Button from 'components/Button';
 
 export default function DashboardProfileMenu({ name }: { name?: string }) {
     const [isOpen, setIsOpen] = useState(false);

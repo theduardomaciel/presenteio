@@ -10,14 +10,14 @@ import prisma from '../lib/prisma';
     void getAccount();
 } */
 
-export const getAccount = cache(async () => {
+export const getAccount = cache(async (teste: string) => {
     const nextCookies = cookies();
     const token = nextCookies.get('presenteio.token');
-
     if (!token) return;
 
+    console.log('Atualizando conta...')
     try {
-        const response = verify(token?.value as string, process.env.JWT_SECRET_KEY as string) as { data: string }
+        const response = verify(token.value as string, process.env.JWT_SECRET_KEY as string) as { data: string }
         if (response) {
             const account = await prisma.account.findUnique({
                 where: {

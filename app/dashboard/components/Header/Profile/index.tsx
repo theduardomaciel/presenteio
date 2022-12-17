@@ -1,5 +1,4 @@
 
-import { cookies } from 'next/headers';
 import Image from 'next/image';
 
 // Stylesheets
@@ -9,7 +8,7 @@ import styles from './profile.module.css';
 import DashboardProfileMenu from './Menu';
 
 // Types
-import { getAccount } from '../../../../utils/getAccount';
+import { getAccount } from '@utils/getAccount';
 
 /* async function getAccount() {
     const nextCookies = cookies();
@@ -62,7 +61,7 @@ interface Props {
 }
 
 export default async function DashboardProfile({ children, additionalClasses }: Props) {
-    const account = await getAccount();
+    const account = await getAccount('teste');
 
     const PLACEHOLDER_IMAGE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/generateImage?name=${account?.name.replaceAll(' ', '%20')}`
         : `https://presenteio.vercel.app/api/generateImage?name=${account?.name.replaceAll(' ', '%20')}`;

@@ -7,6 +7,7 @@ import styles from './modal.module.css';
 // Components
 import Button from '../Button';
 
+import Logo from "@public/logo.svg";
 import CloseIcon from '../../public/icons/close.svg';
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
@@ -17,6 +18,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     color?: string;
     title?: string;
     description?: React.ReactNode;
+    insertLogo?: boolean;
 
     icon?: React.ReactElement;
     headerProps?: {
@@ -39,7 +41,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 
 const DEFAULT_COLOR = "var(--primary-02)"
 
-export default function Modal({ isVisible, toggleVisibility, style, color, isLoading, icon, supressReturnButton, title, description, headerProps, actionProps, children }: Props) {
+export default function Modal({ isVisible, toggleVisibility, style, color, isLoading, insertLogo, icon, supressReturnButton, title, description, headerProps, actionProps, children }: Props) {
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.nativeEvent.target as HTMLDivElement;
@@ -83,40 +85,50 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
                             }
 
                             {
+                                insertLogo &&
+                                <div className={styles.headerContainer} style={{ justifyContent: headerProps?.position ? headerProps?.position : "center" }}>
+                                    <Logo className={styles.logo} />
+                                </div>
+                            }
+
+                            {
                                 title && !headerProps?.builtWithTitle &&
-                                <h2 style={{ color: color ? color : DEFAULT_COLOR }}>{title}</h2>
+                                <h2 className={styles.title}>{title}</h2>
                             }
                             {
                                 description &&
-                                <p className={styles.description} style={{ color: color ? color : DEFAULT_COLOR }}>{description}</p>
+                                <p className={styles.description}>{description}</p>
                             }
 
-                            {children}
+                            {children as any}
 
-                            <footer>
-                                {
-                                    actionProps?.function &&
-                                    <Button
-                                        onClick={actionProps?.function}
-                                        title={actionProps?.buttonText}
-                                        disabled={actionProps?.disabled}
-                                        isLoading={isLoading}
-                                        icon={actionProps.buttonIcon ? actionProps.buttonIcon : undefined}
-                                        style={{
-                                            background: actionProps?.disabled ? "var(--light-gray)" : color,
-                                            padding: `1rem 2.5rem`,
-                                            cursor: actionProps.disabled || isLoading ? "not-allowed" : "pointer"
-                                        }}
-                                        accentColor={color ? color : undefined}
-                                    />
-                                }
-                                {
-                                    !supressReturnButton && <div className={'modalFooter'} onClick={toggleVisibility}>
-                                        <CloseIcon width={"1.6rem"} height={"1.6rem"} />
-                                        <p style={{ fontWeight: 700 }}> Cancelar </p>
-                                    </div>
-                                }
-                            </footer>
+                            {
+                                actionProps?.function || !supressReturnButton &&
+                                <footer>
+                                    {
+                                        actionProps?.function &&
+                                        <Button
+                                            onClick={actionProps?.function}
+                                            title={actionProps?.buttonText}
+                                            disabled={actionProps?.disabled}
+                                            isLoading={isLoading}
+                                            icon={actionProps.buttonIcon ? actionProps.buttonIcon : undefined}
+                                            style={{
+                                                background: actionProps?.disabled ? "var(--light-gray)" : color,
+                                                padding: `1rem 2.5rem`,
+                                                cursor: actionProps.disabled || isLoading ? "not-allowed" : "pointer"
+                                            }}
+                                            accentColor={color ? color : undefined}
+                                        />
+                                    }
+                                    {
+                                        !supressReturnButton && <div className={'modalFooter'} onClick={toggleVisibility}>
+                                            <CloseIcon width={"1.6rem"} height={"1.6rem"} />
+                                            <p style={{ fontWeight: 700 }}> Cancelar </p>
+                                        </div>
+                                    }
+                                </footer>
+                            }
                         </motion.div>
                     </motion.div>
                 )

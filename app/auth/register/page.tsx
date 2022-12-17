@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -48,10 +48,8 @@ import Hint from '../../../components/Hint';
 import { setCookie } from '../../../utils/cookies';
 import Account from '../../../types/Account';
 
-export function GoogleButton(props: any) {
+export function GoogleButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
     return <Button
-        icon={<GoogleLogo />}
-        label={"Entrar com Google"}
         style={{
             padding: "1.2rem",
             gap: "3rem",
@@ -66,7 +64,10 @@ export function GoogleButton(props: any) {
             borderRadius: "0.5rem",
         }}
         {...props}
-    />
+    >
+        Entrar com Google
+        <GoogleLogo />
+    </Button >
 }
 
 interface AccountFormData {
@@ -365,12 +366,12 @@ export default function Register() {
         children: <div className={styles.section1}>
             <Button
                 additionalClasses={`${styles.button} ${selected === 0 ? styles.selected : ""}`}
-                icon={<GoogleIcon className={styles.optionIcon} />}
                 style={selected === 0 ? selectedStyle : unselectedStyle}
                 onClick={() => {
                     setSelected(0)
                 }}
             >
+                <GoogleIcon className={styles.optionIcon} />
                 <div className={styles.buttonInfo}>
                     <h6>Entrar com o Google</h6>
                     <p>Fique despreocupado em ter que lembrar da senha de acesso à plataforma.</p>
@@ -378,21 +379,24 @@ export default function Register() {
             </Button>
             <Button
                 additionalClasses={`${styles.button} ${selected === 1 ? styles.selected : ""}`}
-                icon={<MailLockIcon className={styles.optionIcon} />}
                 style={selected === 1 ? selectedStyle : unselectedStyle}
                 onClick={() => {
                     setSelected(1)
                 }}
             >
+                <MailLockIcon className={styles.optionIcon} />
                 <div className={styles.buttonInfo}>
                     <h6>Entrar com e-mail e senha</h6>
                     <p>Utilize o método tradicional de autenticação. <br />
                         Você terá que lembrar de sua senha para entrar na plataforma.</p>
                 </div>
             </Button>
-            <Button onClick={() => {
-                selected === 0 ? changeSection("google_flow", 1) : changeSection("email_flow", 1);
-            }} label='Prosseguir' disabled={selected === null} style={{ width: "100%", paddingBlock: "1rem" }} />
+            <Button
+                onClick={() => { selected === 0 ? changeSection("google_flow", 1) : changeSection("email_flow", 1); }}
+                label='Prosseguir'
+                disabled={selected === null}
+                style={{ width: "100%", paddingBlock: "1rem" }}
+            />
         </div>,
         footer: <div className='modalFooter'><p className={styles.footer}>Já tem uma conta? <Link href={`/auth/login`} style={{ fontWeight: "bold" }}>Entrar</Link></p></div>
     } as Section;

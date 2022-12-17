@@ -23,7 +23,9 @@ export default function Invite() {
             <h1>Já estamos prontos.</h1>
             <p>Todos os seus dados foram atualizados. <br />
                 Agora basta aguardar que todos os outros participantes entrem e o anfitrião realize o sorteio.</p>
-            <Button additionalClasses={styles.button} textStyle={styles.buttonFont} label={`Os e-mails ainda não foram enviados pelo anfitrião.`} noEffects />
+            <Button additionalClasses={styles.button} noEffects >
+                <p className={styles.buttonFont}>Os e-mails ainda não foram enviados pelo anfitrião.</p>
+            </Button>
             <div className={"divisor"} />
         </div>,
         "visualized": <div className={styles.content}>
@@ -31,11 +33,20 @@ export default function Invite() {
             <h1>Você já visualizou seu amigo secreto.</h1>
             <p>Agora basta aguardar que todos os outros participantes entrem e visualizem seus amigos secretos.</p>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2.5rem", maxWidth: "95%" }}>
-                <Button additionalClasses={styles.button} textStyle={styles.buttonFont} label={`5/12 já visualizaram seus amigos secretos`} noEffects />
+                <Button additionalClasses={styles.button} noEffects >
+                    <p className={styles.buttonFont}>5/12 já visualizaram seus amigos secretos</p>
+                </Button>
                 <GuestsView />
             </div>
             <div className={'divisor'} />
-            <Button icon={<ViewIcon />} additionalClasses={styles.footerButton} textStyle={styles.footerButtonFont} label={`Ver meu amigo secreto novamente`} noEffects />
+            <Button
+                icon={<ViewIcon />}
+                additionalClasses={styles.footerButton}
+                label={`Ver meu amigo secreto novamente`}
+                noEffects
+            >
+                <p className={`${styles.footerButtonFont} modalFooter`}>`Ver meu amigo secreto novamente</p>
+            </Button>
         </div>,
     }
 

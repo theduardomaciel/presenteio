@@ -6,6 +6,18 @@
     gap: 3.5rem;
 }
 
+.container.withLabel {
+    width: 100%;
+}
+
+.container p {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 1.6rem;
+    color: var(--primary-02);
+}
+
 .checkboxRoot {
     width: 2.5rem;
     min-width: 2.5rem;

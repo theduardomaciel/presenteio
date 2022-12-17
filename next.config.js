@@ -27,16 +27,6 @@ const nextConfig = {
             },
         ]
     },
-    /* images: {
-        remotePatterns: [
-            {
-                protocol: 'https',
-                hostname: 'avatars.githubusercontent.com',
-                port: '',
-                pathname: '/my-bucket/**',
-            },
-        ],
-    }, */
     images: {
         domains: ['lh3.googleusercontent.com', 'localhost', 'avatars.githubusercontent.com', 'github.com'],
     },

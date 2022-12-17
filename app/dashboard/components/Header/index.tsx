@@ -1,15 +1,12 @@
 import Link from 'next/link';
 
-// Components
-import DashboardProfile from '../Profile';
-
-// Stylesheets
 import styles from './header.module.css';
 
-// Icons
-import Logo from '../../../../public/logo.svg';
+// Components
+import DashboardProfile from './Profile';
 
-// Auth
+// Icons
+import Logo from '@public/logo.svg';
 
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {

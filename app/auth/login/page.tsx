@@ -63,7 +63,9 @@ export default function Login() {
             </div>
             <Input label='E-mail' name='email' type={"email"} required />
             <Input errorMessage={typeof isLoading === "string" ? isLoading : undefined} label='Senha' name='password' id='passwordInput' type={"password"} required />
-            <Button isLoading={isLoading === true} label='Logar' style={{ width: "100%", paddingBlock: "1rem" }} />
+            <Button isLoading={isLoading === true} style={{ width: "100%", paddingBlock: "1rem" }}>
+                Logar
+            </Button>
         </form>,
         footer: <div className='modalFooter'><p>Não tem uma conta? <Link href={`/auth/register`} style={{ fontWeight: "bold" }}>Criar uma conta</Link></p></div>
     } as Section;

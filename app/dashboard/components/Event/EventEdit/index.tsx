@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styles from './eventEdit.module.css';
 
 // Icons
-import DownArrow from '../../../../public/icons/down_arrow.svg';
+import DownArrow from '@public/icons/down_arrow.svg';
 
 interface Props {
     event?: Event;
@@ -29,6 +29,7 @@ export default function EventEdit({ event }: Props) {
             type="text"
             defaultValue={"Novo Evento"}
             width={"fit-content"}
+            name="eventName"
             onFocus={onFocus}
             onBlur={onBlur}
             maxLength={30}

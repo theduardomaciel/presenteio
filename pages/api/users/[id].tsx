@@ -28,6 +28,8 @@ router
                     console.log(error)
                     return res.status(500).end(`Error: ${error}`);
                 }
+            } else {
+                return res.status(401).end("Unauthorized");
             }
         } catch (error) {
             console.log(error)

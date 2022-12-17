@@ -1,14 +1,12 @@
-// Components
-import DashboardHeader from './components/Header';
-import EventCard from './components/EventCard';
-import CreateEventButton from './components/CreateEventButton';
-
-// Stylesheets
 import styles from './dashboard.module.css';
 
-import { getEvents } from '../../utils/getEvents';
-import Event from '../../types/Event';
-import EmptyGuests from './components/GuestsDisplay/EmptyGuests.tsx';
+// Components
+import DashboardHeader from '@dashboard/components/Header';
+import EventCard from '@dashboard/components/Event/EventCard';
+import CreateEventButton from '@dashboard/components/CreateEventButton';
+import EmptyGuests from '@dashboard/components/GuestsDisplay/EmptyGuests';
+
+import { getEvents } from '@utils/getEvents';
 
 export default async function Dashboard() {
     const events = await getEvents();
@@ -16,7 +14,7 @@ export default async function Dashboard() {
     return <div className={styles.container}>
         <DashboardHeader profileChildren={<CreateEventButton />} />
         <div className={`${styles.content}`}>
-            <h2>Meus Eventos</h2>
+            <h2 className={styles.title}>Meus Eventos</h2>
             <div className={`${styles.events} ${events && events.length > 0 ? "" : styles.empty}`}>
                 {
                     events && events?.length > 0 ?

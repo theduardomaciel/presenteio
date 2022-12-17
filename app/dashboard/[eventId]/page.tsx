@@ -3,14 +3,11 @@ import styles from '../dashboard.module.css';
 // Components
 import EventEdit from '@dashboard/components/Event/EventEdit';
 import DashboardHeader from '@dashboard/components/Header';
-import ComposeEventForm from './Form';
 
-export default function ComposeEvent() {
+export default function EventPage() {
     return <div className={styles.container}>
-        <ComposeEventForm>
-            <DashboardHeader>
-                <EventEdit />
-            </DashboardHeader>
-        </ComposeEventForm>
+        <DashboardHeader>
+            <EventEdit />
+        </DashboardHeader>
     </div>
 }

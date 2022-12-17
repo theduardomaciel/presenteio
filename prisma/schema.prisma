@@ -16,30 +16,32 @@ model Account {
     name      String
     password  String
 
+    token String?
+
     image_url        String?
     image_deleteHash String?
 
-    events            Event[]
-    guestsFromAccount Guest[]
+    hostedEvents Event[]
 
     @@unique([email])
     @@map("accounts")
 }
 
 model Event {
-    id                          Int         @id @default(autoincrement())
-    createdAt                   DateTime    @default(now())
-    inviteCode                  String      @default(cuid())
-    type                        EventType   @default(AMIGOSECRETO)
-    status                      EventStatus @default(PENDING)
-    name                        String
-    description                 String?
-    color                       String?
-    image_url                   String?
-    minPrice                    Float?
-    maxPrice                    Float?
-    acceptingGuests             Boolean     @default(false)
-    guestsCanChangeProfileImage Boolean     @default(false)
+    id                 Int         @id @default(autoincrement())
+    createdAt          DateTime    @default(now())
+    inviteCode         String      @default(cuid())
+    type               EventType   @default(AMIGOSECRETO)
+    status             EventStatus @default(PENDING)
+    name               String
+    description        String?
+    color              String?
+    image_url          String?
+    image_deleteHash   String?
+    minPrice           Float?
+    maxPrice           Float?
+    allowInvite        Boolean     @default(false)
+    allowProfileChange Boolean     @default(false)
 
     host      Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
     accountId String
@@ -51,25 +53,22 @@ model Event {
 }
 
 model Guest {
-    id        String      @id @default(uuid())
-    name      String
-    email     String
-    image_url String
-    status    GuestStatus @default(PENDING)
+    id               String      @id @default(uuid())
+    name             String
+    email            String
+    image_url        String?
+    image_deleteHash String?
+    status           GuestStatus @default(PENDING)
 
-    drawGuest Guest?  @relation(fields: [guestId], references: [id], name: "drawGuest", onDelete: NoAction, onUpdate: NoAction)
-    guestId   String?
-
-    account   Account? @relation(fields: [accountId], references: [id])
-    accountId String?
+    chosenGuest Guest?  @relation(fields: [guestId], references: [id], name: "chosenGuest", onDelete: NoAction, onUpdate: NoAction)
+    guestId     String?
 
     event   Event @relation(fields: [eventId], references: [id])
     eventId Int
 
-    guests Guest[] @relation(name: "drawGuest")
+    guests Guest[] @relation(name: "chosenGuest")
 
     @@index([eventId])
-    @@index([accountId])
     @@index([guestId])
     @@map("guests")
 }

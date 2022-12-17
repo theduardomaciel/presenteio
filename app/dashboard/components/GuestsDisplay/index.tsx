@@ -1,23 +1,23 @@
 'use client';
-import { Dispatch, MutableRefObject, RefObject, SetStateAction, useRef, useState } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction, useRef, useState } from 'react';
+import Image from 'next/image';
 
 import styles from './styles.module.css';
 
 // Components
-import EmptyGuests from './EmptyGuests.tsx';
-import DashboardSectionHeader from '../SectionHeader';
-import Button from '../../../../components/Button';
-import GuestModal from '../GuestModal';
+import EmptyGuests from './EmptyGuests';
+import DashboardSectionHeader from '@dashboard/components/Section/SectionHeader';
+import Button from 'components/Button';
+import GuestModal from './GuestModal';
 
 // Icons
-import MailIcon from '../../../../public/icons/mail.svg';
-import AddIcon from '../../../../public/icons/add.svg';
-import EditFilledIcon from '../../../../public/icons/edit_filled.svg';
-
-import Guest from '../../../../types/Guest';
-import Image from 'next/image';
+import MailIcon from '@public/icons/mail.svg';
+import AddIcon from '@public/icons/add.svg';
+import EditFilledIcon from '@public/icons/edit_filled.svg';
 
 interface Props {
+    preGuests: PreGuest[];
+    setPreGuests: Dispatch<SetStateAction<PreGuest[]>>;
     hasAddButton?: boolean;
 }
 
@@ -28,11 +28,15 @@ export interface PreGuest {
     imagePreview?: string;
 }
 
-const PreGuestPreview = ({ guest, currentPreGuest, setIsGuestModalVisible }: { guest: PreGuest, currentPreGuest: MutableRefObject<PreGuest | null>, setIsGuestModalVisible: Dispatch<SetStateAction<boolean>> }) => {
+const PreGuestPreview = ({ guest, setCurrentPreGuest, toggleVisibility }: {
+    guest: PreGuest,
+    toggleVisibility: () => void,
+    setCurrentPreGuest: Dispatch<SetStateAction<PreGuest>>,
+}) => {
     return <div className={styles.guestPreview}>
         <div className={styles.guestInfo} >
             {
-                guest.imagePreview && <Image src={guest.imagePreview} style={{ borderRadius: "50%" }} width={28} height={28} alt={guest.name} />
+                guest.imagePreview && <Image src={guest.imagePreview} style={{ borderRadius: "50%", objectFit: "cover" }} width={28} height={28} alt={guest.name} />
             }
             <p>{guest.name}</p>
             <div className='divisor' style={{ borderColor: "var(--neutral)", width: 1, height: "1.5rem", opacity: 0.7 }} />
@@ -43,18 +47,24 @@ const PreGuestPreview = ({ guest, currentPreGuest, setIsGuestModalVisible }: { g
         </div>
         <div className={styles.actions}>
             <EditFilledIcon onClick={() => {
-                currentPreGuest.current = guest;
-                setIsGuestModalVisible(true);
+                setCurrentPreGuest(guest);
+                toggleVisibility()
             }} />
         </div>
     </div>
 }
 
-export default function GuestsDisplay({ hasAddButton }: Props) {
-    const [preGuests, setPreGuests] = useState<PreGuest[]>([]);
-
-    const currentPreGuest = useRef<PreGuest>(null) as MutableRefObject<PreGuest | null>;
+export default function GuestsDisplay({ preGuests, setPreGuests, hasAddButton }: Props) {
+    const [currentPreGuest, setCurrentPreGuest] = useState<PreGuest | undefined>(undefined);
     const [isGuestModalVisible, setIsGuestModalVisible] = useState(false);
+
+    const toggleVisibility = () => {
+        if (isGuestModalVisible) {
+            console.log("Limpando currentPreGuest")
+            setCurrentPreGuest(undefined);
+        }
+        setIsGuestModalVisible(!isGuestModalVisible)
+    }
 
     return <>
         <DashboardSectionHeader title="Participantes">
@@ -63,8 +73,7 @@ export default function GuestsDisplay({ hasAddButton }: Props) {
             label='Adicionar participante'
             icon={< AddIcon />}
             onClick={() => {
-                currentPreGuest.current = null;
-                setIsGuestModalVisible(true)
+                setIsGuestModalVisible(true);
             }}
             style={{ width: "100%", paddingBlock: "0.5rem" }}
         />}
@@ -76,11 +85,15 @@ export default function GuestsDisplay({ hasAddButton }: Props) {
                     preGuests.map((guest, index) => <PreGuestPreview
                         key={index.toString()}
                         guest={guest}
-                        currentPreGuest={currentPreGuest}
-                        setIsGuestModalVisible={setIsGuestModalVisible}
+                        toggleVisibility={toggleVisibility}
+                        setCurrentPreGuest={setCurrentPreGuest}
                     />)
             }
         </div>
-        <GuestModal setPreGuests={setPreGuests} isVisible={isGuestModalVisible} modalProps={{ preGuest: currentPreGuest.current }} toggleVisibility={() => setIsGuestModalVisible(!isGuestModalVisible)} />
+        <GuestModal
+            isVisible={isGuestModalVisible}
+            modalProps={{ preGuest: currentPreGuest, setPreGuests: setPreGuests }}
+            toggleVisibility={toggleVisibility}
+        />
     </>
 }

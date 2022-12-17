@@ -18,17 +18,15 @@ const upload = multer({ storage: storage })
 
 const uploadMiddleware = upload.single('blob');
 
-export async function getImageUrl(req: NextApiRequestWithBodyData) {
-    const file = req.file;
-
+export async function getImageUrl(file: File) {
     if (file) {
         try {
             const response = await client.upload({
-                image: file.buffer,
+                image: file.stream(),
                 type: 'stream',
             });
-            console.log(response.data);
-            return response.data.link;
+            console.log(response.data.link, response.data.deletehash);
+            return { image_url: response.data.link, image_deleteHash: response.data.deletehash };
         } catch (error) {
             console.log(error)
             return null;
@@ -42,7 +40,7 @@ export async function getImageUrl(req: NextApiRequestWithBodyData) {
 router
     .use(expressWrapper(uploadMiddleware) as any) // express middleware are supported if you wrap it with expressWrapper
     .post(async (req, res) => {
-        const image_url = getImageUrl(req);
+        const image_url = getImageUrl(req.file);
         res.status(200).json({ image_url: image_url })
     })
 

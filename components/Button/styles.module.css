@@ -20,6 +20,15 @@
     cursor: pointer;
 }
 
+.button p,
+.button span {
+    color: var(--neutral);
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.6rem;
+}
+
 .button.disabled,
 .button.loading {
     background: var(--primary-03);
@@ -32,18 +41,18 @@
     outline: 2px solid var(--primary-02);
 }
 
-.button svg {
-    transition: 250ms;
-}
-
-.button.iconRigth:hover svg {
-    transform: translateX(0.5rem);
-}
-
 .button:not(.noEffects)::active {
     outline: 1px solid var(--neutral);
 }
 
-.button.iconRigth:active svg {
+.button svg {
+    transition: 250ms;
+}
+
+.button.position-toRight:hover svg {
+    transform: translateX(0.5rem);
+}
+
+.button.position-toRight:active svg {
     transform: translateX(2rem);
 }

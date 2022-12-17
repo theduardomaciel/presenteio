@@ -13,7 +13,9 @@ export default function DashboardSectionHeader({ title, removeLine, children }: 
                 <h3>{title}</h3>
                 {children}
             </div>
-            <div className={styles.line} />
+            {
+                !removeLine && <div className={styles.line} />
+            }
         </div>
     )
 }

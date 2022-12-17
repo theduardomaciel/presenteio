@@ -14,7 +14,7 @@
 }
 
 .logo,
-.disappear {
+.container .disappear {
     display: none;
 }
 
@@ -23,7 +23,7 @@
         justify-content: space-between;
     }
 
-    .disappear {
+    .container .disappear {
         display: flex;
     }
 

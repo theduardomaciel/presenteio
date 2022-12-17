@@ -1,48 +1,15 @@
+import { CSSProperties } from 'react';
+
 import { Html } from '@react-email/html';
 import { Head } from '@react-email/head';
 import { Container } from '@react-email/container';
 import { Text } from '@react-email/text';
 import { Img } from '@react-email/img';
-import { CSSProperties } from 'react';
 
 interface EmailProps {
     code: string;
     name: string;
 }
-
-/* export default function CodeEmail({ code, name }: EmailProps) {
-    return (
-        <Html lang="pt-br">
-            <Head />
-            <Container className={styles.mainContainer}>
-                <Img
-                    src="../../../public/logo.png"
-                    width="230"
-                    height="35"
-                    className={styles.logo}
-                    alt="presenteio logo"
-                />
-                <h1 className={styles.title}>Olá, {name} 👋</h1>
-                <Text><strong>Pronto para concluir seu cadastro?</strong> <br />
-                    Insira o código seguinte no site para terminar a configuração de sua conta:</Text>
-                <Container className={styles.codeHolder}>
-                    <Text>{code}</Text>
-                </Container>
-                <Text>Esse código irá expirar em duas horas.</Text>
-                <Text>Se o código não funcionar, reinicie o processo de criação de sua conta e tente seguir estas instruções para solucionar o problema:</Text>
-                <ul>
-                    <li>Use uma aba anônima no navegador ou um navegador diferente </li>
-                    <li>Limpe o cache e os cookies do seu navegador, e desative todos os complementos ou extensões do navegador</li>
-                </ul>
-                <Text>Caso o problema persista, entre em contato conosco por meio do e-mail <strong>app.presenteio@gmail.com</strong> para resolver problemas diretamente.</Text>
-                <Text>
-                    Agradecemos, <br />
-                    Equipe Presenteio
-                </Text>
-            </Container>
-        </Html>
-    );
-} */
 
 export default function CodeEmail({ code, name }: EmailProps) {
     return (
@@ -99,11 +66,11 @@ const container = {
     borderRadius: '5px',
     margin: '40px auto',
     width: '660px',
-};
+} as CSSProperties;
 
 const logo = {
     margin: '0 auto',
-};
+} as CSSProperties;
 
 const h1 = {
     color: '#FF2626',
@@ -114,7 +81,7 @@ const h1 = {
     textAlign: 'center' as const,
     margin: '30px 0',
     padding: '0',
-};
+} as CSSProperties;
 
 const text = {
     color: '#797979',
@@ -122,7 +89,7 @@ const text = {
         "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
     fontSize: '16px',
     lineHeight: '24px',
-};
+} as CSSProperties;
 
 const codeHolder = {
     padding: "10px 0",
@@ -137,4 +104,4 @@ const codeText = {
     margin: "auto auto",
     textAlign: "center" as const,
     color: '#141414',
-}
+} as CSSProperties;

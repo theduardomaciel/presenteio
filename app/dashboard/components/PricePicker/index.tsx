@@ -6,7 +6,7 @@ import * as Slider from '@radix-ui/react-slider';
 // Stylesheets
 import sliderStyles from './slider.module.css';
 import styles from './styles.module.css';
-import DashboardCheckbox from '../../../../components/Checkbox';
+import DashboardCheckbox from 'components/Checkbox';
 
 const DEFAULT_MIN_VALUE = 25;
 const DEFAULT_MAX_VALUE = 75;
@@ -26,6 +26,7 @@ function ManualPicker({ type, value, setValue }: ManualPickerProps) {
                     <p>R$</p>
                     <input
                         type="number"
+                        name={type}
                         value={value}
                         placeholder={type === "min" ? DEFAULT_MIN_VALUE.toString() : DEFAULT_MAX_VALUE.toString()}
                         onChange={e => setValue?.(Math.min(500, parseInt(e.target.value)))}

@@ -3,13 +3,13 @@
 import styles from './eventCard.module.css';
 
 // Icons
-import PersonIcon from '../../../../public/icons/person.svg';
-import SecretFriend from '../../../../public/icons/secret_friend.svg';
+import PersonIcon from '@public/icons/person.svg';
+import SecretFriend from '@public/icons/secret_friend.svg';
 
 // Types
-import Event from '../../../../types/Event';
+import Event from 'types/Event';
 import Image from 'next/image';
-import Overlay from '../Overlay';
+import Overlay from '../EventDisplay/Overlay';
 
 interface Props {
     event?: Event | any;
@@ -19,7 +19,7 @@ export default function EventCard({ event }: Props) {
     return <div className={styles.eventCard}>
         <header>
             <div className={styles.iconAndLabel}>
-                <PersonIcon width={`1.2rem`} heigth={`1.2rem`} />
+                <PersonIcon width={`1.2rem`} height={`1.2rem`} />
                 <p style={{ whiteSpace: "nowrap" }}>12 participantes</p>
             </div>
         </header>

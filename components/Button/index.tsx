@@ -5,25 +5,22 @@ import Spinner from "../Spinner";
 
 import styles from "./styles.module.css"
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     label?: string;
+    icon?: React.ReactNode;
     isLoading?: boolean;
     additionalClasses?: string;
-    textStyle?: React.CSSProperties | string;
-    icon?: React.ReactElement;
     noEffects?: boolean;
     accentColor?: string;
     iconProps?: {
-        position?: 'left' | 'right',
-        animate?: 'size' | 'position'
+        animate?: 'position-toRight' | 'position-toLeft' | 'scale-increase' | 'scale-decrease';
     }
 }
 
-export default function Button({ label, additionalClasses, isLoading, disabled, textStyle, noEffects, icon, accentColor, iconProps, children, ...rest }: ButtonProps) {
+export default function Button({ label, icon, additionalClasses, isLoading, disabled, noEffects, accentColor, iconProps, children, ...rest }: ButtonProps) {
     return <button
-        className={`${styles.button} ${disabled ? styles.disabled : ""} ${noEffects ? styles.noEffects : ""} ${typeof textStyle === "string" ? textStyle : ""} ${isLoading ? styles.loading : ""} ${additionalClasses} ${iconProps?.animate === 'position' && iconProps?.position === "right" ? styles.iconRight : ""}`}
+        className={`${styles.button} ${disabled ? styles.disabled : ""} ${noEffects ? styles.noEffects : ""}  ${isLoading ? styles.loading : ""} ${additionalClasses} ${iconProps?.animate ? styles[iconProps.animate] : ""}`}
         disabled={isLoading || disabled}
-        style={{ flexDirection: iconProps?.position === "right" ? "row-reverse" : "row" }}
         {...rest}
     >
         {

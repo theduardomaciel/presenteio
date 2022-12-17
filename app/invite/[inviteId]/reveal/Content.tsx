@@ -35,11 +35,11 @@ export default function RevealContent({ guests }: { guests: string[] }) {
                         <Button
                             additionalClasses={styles.button}
                             style={{ cursor: "pointer" }}
-                            icon={<GiftIcon width={"1.8rem"} heigth={"1.8rem"} fill={`var(--neutral)`} />}
-                            textStyle={styles.buttonFont}
+                            icon={<GiftIcon width={"1.8rem"} height={"1.8rem"} fill={`var(--neutral)`} />}
                             onClick={() => setStatus("animating")}
-                            label={`Descobrir meu Amigo Secreto`}
-                        />
+                        >
+                            <p className={`${styles.buttonFont}`}>Descobrir meu Amigo Secreto</p>
+                        </Button>
                         <div className={"divisor"} />
                     </div>
                     :
