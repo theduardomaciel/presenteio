@@ -107,6 +107,14 @@ div.hide {
     border-radius: 1rem;
 }
 
+.divisor.vertical {
+    width: 1px;
+    height: 2rem;
+    min-height: 100%;
+    border: 1px solid var(--primary-01);
+    border-radius: 1rem;
+}
+
 @media (prefers-color-scheme: light) {
     body {
         color: var(--font-light);

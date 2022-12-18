@@ -8,17 +8,17 @@ interface Event {
     createdAt: Date;
     name: string;
     type: "SORTEIO" | "AMIGOSECRETO";
+    status: "PENDING" | "DIVULGATED";
     description?: string;
     color?: string;
     image_url?: string;
+    image_deleteHash?: string;
 
     minPrice?: number;
     maxPrice?: number;
 
-    status: "PENDING" | "DIVULGATED";
-
-    acceptingGuests: boolean;
-    guestsCanChangeProfileImage: boolean;
+    allowInvite: boolean;
+    allowProfileChange: boolean;
 
     guests: Guest[]
     host: Account;

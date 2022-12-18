@@ -4,7 +4,7 @@ import Image from 'next/image';
 // Stylesheets
 import styles from './styles.module.css';
 
-import Overlay from './Overlay';
+import Overlay from '../../Overlay';
 
 import AddPhotoIcon from '@public/icons/add_photo.svg';
 
@@ -36,7 +36,7 @@ export default function EventDisplay({ event, height }: Props) {
                         <label className={styles.iconHolder} htmlFor="eventImageUpload">
                             <AddPhotoIcon />
                         </label>
-                        <input type={"file"} onChange={onSelectFile} accept=".png,.jpg,.jpeg,.webp" style={{ display: "none" }} name="eventImage" id="eventImageUpload" />
+                        <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="eventImage" id="eventImageUpload" />
                         {/* <div className={styles.themeSelector}>
                             <div className={styles.themePreview} />
                             <p>Cor de destaque</p>

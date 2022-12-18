@@ -45,7 +45,8 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.nativeEvent.target as HTMLDivElement;
-        if (target.id === "background" && !isLoading) {
+        if (target.id === "background") {
+            if (isLoading === true) return;
             toggleVisibility()
         };
     }
@@ -108,7 +109,7 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
                                     {
                                         actionProps?.function &&
                                         <Button
-                                            onClick={actionProps?.function}
+                                            onClick={() => actionProps?.function()}
                                             title={actionProps?.buttonText}
                                             disabled={actionProps?.disabled}
                                             isLoading={isLoading}

@@ -24,14 +24,40 @@ export const getEvents = cache(async () => {
                     accountId: response.data as string
                 },
                 include: {
-                    guests: true,
-                    host: true
+                    guests: true
                 }
             });
 
             return events;
         }
     } catch (error) {
+        console.log(error)
+    }
+});
 
+export const getEvent = cache(async (id: number) => {
+    if (!id) return null;
+
+    const nextCookies = cookies();
+    const token = nextCookies.get('presenteio.token');
+
+    if (!token) return;
+
+    try {
+        const response = verify(token?.value as string, process.env.JWT_SECRET_KEY as string) as { data: string }
+        if (response) {
+            const event = await prisma.event.findUnique({
+                where: {
+                    id: id
+                },
+                include: {
+                    guests: true,
+                }
+            });
+
+            return event;
+        }
+    } catch (error) {
+        console.log(error)
     }
 });

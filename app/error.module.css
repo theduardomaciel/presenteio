@@ -1,0 +1,77 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100vw;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    max-width: 90vw;
+
+    gap: 4.5rem;
+}
+
+.content h1 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 3.2rem;
+    line-height: 4.1rem;
+
+    color: var(--primary-01);
+}
+
+.content p {
+    font-family: 'Judson';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 2.1rem;
+
+    text-align: center;
+
+    color: var(--font-light-02);
+}
+
+.content p a {
+    text-decoration: underline;
+    font-weight: 700;
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: fit-content;
+    max-width: 75vw;
+
+    background-color: var(--neutral);
+    border: 1px dashed var(--primary-01);
+    border-radius: 0.5rem;
+    padding: 2.5rem 5rem;
+    gap: 1.5rem;
+}
+
+.error p {
+    width: 100%;
+}
+
+.error .title {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+@media (min-width: 1024px) {
+    .content {
+        max-width: 45vw;
+    }
+}

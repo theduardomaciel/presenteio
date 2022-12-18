@@ -5,10 +5,10 @@ import Image from 'next/image';
 import styles from './styles.module.css';
 
 // Components
-import EmptyGuests from './EmptyGuests';
+import EmptyGuests from '../EmptyGuests';
 import DashboardSectionHeader from '@dashboard/components/Section/SectionHeader';
 import Button from 'components/Button';
-import GuestModal from './GuestModal';
+import GuestModal from '../GuestModal';
 
 // Icons
 import MailIcon from '@public/icons/mail.svg';
@@ -33,10 +33,11 @@ const PreGuestPreview = ({ guest, setCurrentPreGuest, toggleVisibility }: {
     toggleVisibility: () => void,
     setCurrentPreGuest: Dispatch<SetStateAction<PreGuest>>,
 }) => {
+    console.log(guest.imagePreview)
     return <div className={styles.guestPreview}>
         <div className={styles.guestInfo} >
             {
-                guest.imagePreview && <Image src={guest.imagePreview} style={{ borderRadius: "50%", objectFit: "cover" }} width={28} height={28} alt={guest.name} />
+                guest.imagePreview && guest.imagePreview.includes('http') && <Image src={guest.imagePreview} style={{ borderRadius: "50%", objectFit: "cover" }} width={28} height={28} alt={guest.name} />
             }
             <p>{guest.name}</p>
             <div className='divisor' style={{ borderColor: "var(--neutral)", width: 1, height: "1.5rem", opacity: 0.7 }} />

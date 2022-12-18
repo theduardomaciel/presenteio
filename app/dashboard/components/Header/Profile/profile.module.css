@@ -1,8 +1,9 @@
 .container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
+    width: 100%;
     gap: 2.5rem;
 }
 
@@ -24,8 +25,9 @@
     cursor: pointer;
 }
 
-/* @media (min-width: 1024px) {
+@media (min-width: 1024px) {
     .container {
-        display: flex;
+        width: fit-content;
+        justify-content: flex-end;
     }
-} */
+}

@@ -7,7 +7,7 @@ import prisma from "../../../lib/prisma";
 import extractToken from "../../../lib/extractToken";
 import { getImageUrl } from "../uploadImage";
 import Guest from "types/Guest";
-import { PreGuest } from "@dashboard/components/GuestsDisplay";
+import { PreGuest } from "@dashboard/components/Guest/PreGuestsDisplay";
 
 export type NextApiRequestWithBodyData = NextApiRequest & { file: any };
 const router = createRouter<NextApiRequestWithBodyData, NextApiResponse>();
@@ -17,25 +17,28 @@ router
         const token = extractToken(req) as string | null;
         if (!token) return res.status(401).end("Unauthorized");
 
+        console.log(token)
+
         try {
             const authenticated = verify(token, process.env.JWT_SECRET_KEY as string) as { data: string };
             if (authenticated) {
                 const userId = authenticated.data as string;
-                const { name, guests, eventImage, minPrice, maxPrice, allowInvite, allowProfileChange } = req.body;
+                const { name, guests, image_base64, minPrice, maxPrice, allowInvite, allowProfileChange } = req.body;
 
                 if (!name) return res.status(400).end("Name is required.");
 
-                const imageResponse = await getImageUrl(eventImage as File)
+                const imageResponse = await getImageUrl(image_base64, name)
+                console.log(imageResponse)
 
-                const guestsToConnect = guests.map(async (guest: PreGuest) => {
-                    const guestImageResponse = await getImageUrl(guest.image as File)
+                const guestsToConnect = await Promise.all(guests.map(async (guest: PreGuest) => {
+                    const guestImageResponse = guest.imagePreview ? await getImageUrl(guest.imagePreview as string) : undefined;
                     return {
                         name: guest.name,
                         email: guest.email,
-                        image_url: guestImageResponse && guestImageResponse.image_url ? guestImageResponse.image_url : null,
-                        image_deleteHash: guestImageResponse && guestImageResponse.image_deleteHash ? guestImageResponse.image_deleteHash : null,
+                        image_url: guestImageResponse ? guestImageResponse.image_url : null,
+                        image_deleteHash: guestImageResponse ? guestImageResponse.image_deleteHash : null,
                     }
-                })
+                }));
 
                 try {
                     const event = await prisma.event.create({
@@ -45,16 +48,17 @@ router
                                     id: userId,
                                 }
                             },
-                            guests: guests ? { connect: guestsToConnect } : undefined,
+                            guests: guestsToConnect ? { create: guestsToConnect } : {},
                             name: name,
-                            minPrice: minPrice ? minPrice : null,
-                            maxPrice: maxPrice ? maxPrice : null,
-                            allowInvite: allowInvite ? allowInvite : false,
-                            allowProfileChange: allowProfileChange ? allowProfileChange : false,
+                            minPrice: minPrice ? parseFloat(minPrice) : null,
+                            maxPrice: maxPrice ? parseFloat(maxPrice) : null,
+                            allowInvite: allowInvite ? true : false,
+                            allowProfileChange: allowProfileChange ? true : false,
                             image_url: imageResponse && imageResponse.image_url ? imageResponse.image_url : null,
                             image_deleteHash: imageResponse && imageResponse.image_deleteHash ? imageResponse.image_deleteHash : null,
                         },
                     })
+                    console.log("Evento criado com sucesso.")
                     res.status(200).json(event);
                 } catch (error) {
                     console.log(error)
@@ -67,6 +71,20 @@ router
             console.log(error)
         }
     })
+
+
+/* export const config = {
+    api: {
+        bodyParser: false, // Disallow body parsing, consume as stream
+    },
+}; */
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb' // Set desired value here
+        }
+    }
+}
 
 export default router.handler({
     onError: (err: any, req, res) => {

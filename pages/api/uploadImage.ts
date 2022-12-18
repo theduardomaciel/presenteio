@@ -18,17 +18,25 @@ const upload = multer({ storage: storage })
 
 const uploadMiddleware = upload.single('blob');
 
-export async function getImageUrl(file: File) {
-    if (file) {
+export async function getImageUrl(image_base64: string, name?: string) {
+    if (image_base64) {
         try {
             const response = await client.upload({
-                image: file.stream(),
-                type: 'stream',
+                image: image_base64,
+                title: `${name}_eventImage`,
+                type: "base64",
             });
-            console.log(response.data.link, response.data.deletehash);
-            return { image_url: response.data.link, image_deleteHash: response.data.deletehash };
+            if (response.status === 200) {
+                console.log("✅ Image uploaded with success!");
+                return { image_url: response.data.link, image_deleteHash: response.data.deletehash };
+            } else {
+                console.log(response.data)
+                console.log("❌ There was not possible to upload the image.",);
+                return null;
+            }
         } catch (error) {
             console.log(error)
+            console.log("❌ There was not possible to upload the image.",);
             return null;
         }
     } else {
@@ -42,6 +50,19 @@ router
     .post(async (req, res) => {
         const image_url = getImageUrl(req.file);
         res.status(200).json({ image_url: image_url })
+    })
+    .delete(async (req, res) => {
+        const { image_deleteHash } = req.query;
+
+        if (!image_deleteHash) return res.status(400).end("Image deleteHash is required.");
+
+        try {
+            const response = await client.deleteImage(image_deleteHash as string)
+            console.log("✅ DELETED image with success!");
+            return response.data;
+        } catch (error) {
+            console.log(error)
+        }
     })
 
 export default router.handler({

@@ -5,19 +5,15 @@ export const config = {
     runtime: 'experimental-edge',
 };
 
+const COLORS = ['#FF2626', "#FF3D3D", '#FD7979']
+
 export default function GenerateImage(req: NextRequest) {
     const { searchParams } = new URL(req.url)
     const name = searchParams.get('name')
 
     const RANDOM_COLORS = Array.from({ length: 3 }, () => {
-        return {
-            r: Math.floor(Math.random() * 255),
-            g: Math.floor(Math.random() * 255),
-            b: Math.floor(Math.random() * 255),
-        }
+        return COLORS[Math.random() * COLORS.length | 0]
     });
-
-    console.log(RANDOM_COLORS)
 
     const NAME = name as string;
     const INITIALS = NAME.split(' ').map((word) => word[0]).join('');
@@ -32,7 +28,7 @@ export default function GenerateImage(req: NextRequest) {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundImage: `linear-gradient(45deg, rgb(${RANDOM_COLORS[0].r}, ${RANDOM_COLORS[0].g}, ${RANDOM_COLORS[0].b}), rgb(${RANDOM_COLORS[1].r}, ${RANDOM_COLORS[1].g}, ${RANDOM_COLORS[0].b}), rgb(${RANDOM_COLORS[2].r}, ${RANDOM_COLORS[2].g}, ${RANDOM_COLORS[2].b}))`,
+                    backgroundImage: `linear-gradient(45deg, ${RANDOM_COLORS[0]}, ${RANDOM_COLORS[1]}, ${RANDOM_COLORS[2]}))`,
                     fontSize: 96,
                     color: "white",
                     fontFamily: '"Arial"',

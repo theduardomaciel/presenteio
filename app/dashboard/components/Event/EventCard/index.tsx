@@ -1,4 +1,6 @@
 'use client';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import styles from './eventCard.module.css';
 
@@ -6,31 +8,42 @@ import styles from './eventCard.module.css';
 import PersonIcon from '@public/icons/person.svg';
 import SecretFriend from '@public/icons/secret_friend.svg';
 
+import Overlay from '../../Overlay';
+
 // Types
 import Event from 'types/Event';
-import Image from 'next/image';
-import Overlay from '../EventDisplay/Overlay';
 
 interface Props {
-    event?: Event | any;
+    event: Event;
 }
 
 export default function EventCard({ event }: Props) {
-    return <div className={styles.eventCard}>
+    return <Link href={`/dashboard/${event.id}`} className={styles.eventCard}>
         <header>
             <div className={styles.iconAndLabel}>
                 <PersonIcon width={`1.2rem`} height={`1.2rem`} />
-                <p style={{ whiteSpace: "nowrap" }}>12 participantes</p>
+                <p style={{ whiteSpace: "nowrap" }}>{event.guests ? event.guests.length : 0} participante{!event.guests || event.guests.length !== 1 ? "s" : ""}</p>
             </div>
         </header>
         <div className={styles.info}>
-            <h3>Família Tal Tal da Silva Bem Grande Memo</h3>
+            <h3>{event.name}</h3>
             <div className={styles.iconAndLabel}>
                 <SecretFriend />
-                <p>Amigo Secreto</p>
+                <p>{event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"}</p>
             </div>
         </div>
         <Overlay />
-        <Image src={"/images/placeholder.webp"} className={styles.image} fill alt='' />
-    </div>
+        {
+            event.image_url ? <Image src={event.image_url} className={styles.image} fill alt='' /> :
+                <div style={{
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "var(--primary-03)",
+                    position: "absolute",
+                    top: "0",
+                    left: 0,
+                    zIndex: -1
+                }} />
+        }
+    </Link>
 }

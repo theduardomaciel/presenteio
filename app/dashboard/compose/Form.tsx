@@ -10,26 +10,54 @@ import CheckboxAndLabel from '../../../components/Checkbox/Label';
 import DashboardSubSectionHeader from '@dashboard/components/Section/SubSectionHeader';
 import DashboardPricePicker from '@dashboard/components/PricePicker';
 import EventDisplay from '@dashboard/components/Event/EventDisplay';
-import GuestsDisplay, { PreGuest } from '@dashboard/components/GuestsDisplay';
+import GuestsDisplay, { PreGuest } from '@dashboard/components/Guest/PreGuestsDisplay';
 import Modal from 'components/Modal';
 
 // Icons
 import AddIcon from '@public/icons/add.svg';
 import UploadIcon from '@public/icons/upload.svg';
+import axios from 'axios';
+import { getCookie } from '@utils/cookies';
+import { useRouter } from 'next/navigation';
 
 // be careffull with this: https://gomakethings.com/how-to-prevent-buttons-from-causing-a-form-to-submit-with-html/ !
 
+const toBase64 = (file: File) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+
+const extractBase64 = (image: string) => {
+    const base64 = image.replace(/^data:image\/[a-z]+;base64,/, "");
+    return base64;
+}
+
 export default function ComposeEventForm({ children }: { children: React.ReactNode }) {
-    const [confirmModalState, setConfirmModalState] = useState<false | true | { error: string } | "created">(false);
+    const [confirmModalState, setConfirmModalState] = useState<{ status: boolean | "error" | 'success', value?: any }>({ status: false });
     const [isLoading, setIsLoading] = useState(false);
     const [preGuests, setPreGuests] = useState<PreGuest[]>([]);
 
     async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         console.log(confirmModalState)
-        if (confirmModalState === true) {
+        if (confirmModalState.status === true) {
             setIsLoading(true)
             const form = new FormData(event.currentTarget);
+
+            const eventImage = form.get('eventImage') as File;
+            const image_base64 = eventImage.length ? await toBase64(eventImage) as string : undefined;
+            const correctedImage = image_base64 ? extractBase64(image_base64) : undefined;
+
+            const guestsWithImage = await Promise.all(Array.from(preGuests).map(async (guest) => {
+                if (guest.image) {
+                    const guestImage_base64 = await toBase64(guest.image) as string;
+                    guest.imagePreview = extractBase64(guestImage_base64);
+                }
+                return guest;
+            }));
+            console.log(guestsWithImage)
 
             const data = {
                 name: form.get('eventName') ? form.get('eventName') : "Evento sem nome",
@@ -37,17 +65,37 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 allowProfileChange: form.get('allowProfileChange'),
                 minPrice: form.get('min'),
                 maxPrice: form.get('max'),
-                eventImage: form.get('eventImage'),
-                guests: preGuests
+                image_base64: correctedImage,
+                guests: guestsWithImage,
             }
+            console.log(data)
 
-            console.log(data);
+            const config = {
+                headers: { Authorization: `Bearer ${getCookie('presenteio.token')}` }
+            };
 
-
-
+            try {
+                const response = await axios.post(`/api/events/compose`, data, config)
+                if (response) {
+                    console.log(response.data)
+                    setConfirmModalState({ status: "success", value: response.data.id })
+                } else {
+                    setConfirmModalState({ status: "error", value: `Não foi possível obter uma resposta de nossos servidores acerca de seu evento. Por favor, tente novamente.` })
+                }
+                setIsLoading(false)
+            } catch (error: any) {
+                console.log(error)
+                setConfirmModalState({ status: "error", value: "Um erro desconhecido occoreu. Por favor, tente novamente." })
+                setIsLoading(false)
+            }
         }
     }
 
+    function goToEvent() {
+        router.push(`/dashboard/${confirmModalState.value}`)
+    }
+
+    const router = useRouter();
     return (
         <form onSubmit={onSubmit} style={{ width: "100%" }}>
             {children}
@@ -72,30 +120,46 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                         <DashboardSectionHeader title="Personalização" />
                         <EventDisplay />
                     </div>
-                    <Button type="button" onClick={() => setConfirmModalState(true)} style={{ width: "100%" }}>
+                    <Button type="button" onClick={() => setConfirmModalState({ status: true })} style={{ width: "100%" }}>
                         <AddIcon />
                         Criar Evento
                     </Button>
                 </div>
             </div>
             <Modal
-                isVisible={confirmModalState !== false}
-                toggleVisibility={() => setConfirmModalState(false)}
+                isVisible={confirmModalState.status !== false}
+                toggleVisibility={() => setConfirmModalState({ status: false })}
                 insertLogo
-                title='Pronto para criar o evento?'
+                title={confirmModalState.status === true ? 'Pronto para criar o evento?' :
+                    confirmModalState.status === "success" ? "Tudo certo por aqui." :
+                        confirmModalState.status === "error" ? "Parece que tivemos um problema." : ""
+                }
                 supressReturnButton={isLoading}
-                description={`Confira todas as informações antes de criá-lo para que todos os convidados tenham a experiência desejada desde o início.\n
-                Não se preocupe pois nenhum convidado será notificado até que todos tenham confirmado presença.`}
+                actionProps={{
+                    buttonText: 'Ir para o Evento',
+                    function: confirmModalState.status === "success" ? goToEvent : undefined,
+                }}
+                description={confirmModalState.status === true ?
+                    `Confira todas as informações antes de criá-lo para que todos os convidados tenham a experiência desejada desde o início.\n
+                Não se preocupe pois nenhum convidado será notificado até que todos tenham confirmado presença.` :
+                    confirmModalState.status === "success" ?
+                        `Eba! Seu evento foi criado com sucesso!\n 
+                    Agora é só enviar o convite geral ou os convites personalizados para os convidados e aproveitar o momento!` :
+                        confirmModalState.status === "error" ?
+                            confirmModalState.value : "[erro desconhecido]"}
             >
-                <Button type='submit' isLoading={isLoading} style={{
-                    width: "100%",
-                    padding: "1rem 2.5rem",
-                    gap: "1.5rem",
-                    backgroundColor: "var(--primary-01)"
-                }}>
-                    Criar Evento
-                    <UploadIcon />
-                </Button>
+                {
+                    confirmModalState.status === true &&
+                    <Button type='submit' isLoading={isLoading} style={{
+                        width: "100%",
+                        padding: "1rem 2.5rem",
+                        gap: "1.5rem",
+                        backgroundColor: "var(--primary-01)"
+                    }}>
+                        Criar Evento
+                        <UploadIcon />
+                    </Button>
+                }
             </Modal>
         </form>
     )

@@ -10,7 +10,7 @@ import styles from './menu.module.css';
 
 // Assets
 import DownArrow from '@public/icons/down_arrow.svg';
-import ConfigIcon from "@public/icons/settings.svg";
+import ConfigIcon from "@public/icons/settings_menu.svg";
 import LogoutIcon from "@public/icons/logout.svg";
 
 // Components

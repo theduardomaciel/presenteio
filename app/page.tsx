@@ -55,11 +55,10 @@ function Landing({ hideBackground }: Props) {
                         pathname: `/auth/register`,
                         query: { animate: true }
                     }} >
-                        <Button
-                            label='Criar minha conta'
-                            icon={<Arrow_right_alt width={`2.4rem`} height={`2.4rem`} />}
-                            iconProps={{ position: "right", animate: "position" }}
-                        />
+                        <Button iconProps={{ animate: "position-toRight" }} >
+                            Criar minha conta
+                            <Arrow_right_alt width={`2.4rem`} height={`2.4rem`} />
+                        </Button>
                     </Link>
                 </div>
             </main>

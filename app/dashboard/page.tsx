@@ -4,9 +4,10 @@ import styles from './dashboard.module.css';
 import DashboardHeader from '@dashboard/components/Header';
 import EventCard from '@dashboard/components/Event/EventCard';
 import CreateEventButton from '@dashboard/components/CreateEventButton';
-import EmptyGuests from '@dashboard/components/GuestsDisplay/EmptyGuests';
+import EmptyGuests from '@dashboard/components/Guest/EmptyGuests';
 
 import { getEvents } from '@utils/getEvents';
+import Event from 'types/Event';
 
 export default async function Dashboard() {
     const events = await getEvents();
@@ -19,7 +20,7 @@ export default async function Dashboard() {
                 {
                     events && events?.length > 0 ?
                         events?.map((event, index) => {
-                            return <EventCard key={index} event={event} />
+                            return <EventCard key={index} event={event as unknown as Event} />
                         })
                         :
                         <EmptyGuests label={`Você ainda não criou nenhum evento.\nPara criar novos, clique no botão "Criar Evento" acima.`} />

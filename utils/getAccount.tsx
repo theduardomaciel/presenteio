@@ -15,13 +15,16 @@ export const getAccount = cache(async (teste: string) => {
     const token = nextCookies.get('presenteio.token');
     if (!token) return;
 
-    console.log('Atualizando conta...')
+    //console.log('Atualizando conta...')
     try {
         const response = verify(token.value as string, process.env.JWT_SECRET_KEY as string) as { data: string }
         if (response) {
             const account = await prisma.account.findUnique({
                 where: {
                     id: response.data as string
+                },
+                include: {
+                    hostedEvents: false
                 }
             });
             return account;

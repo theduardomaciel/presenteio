@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Button from "components/Button";
 import Modal from 'components/Modal';
 import Input from 'components/Input';
-import { PreGuest } from '../GuestsDisplay';
+import { PreGuest } from './PreGuestsDisplay';
 
 // Icons
 import UserIcon from '@public/icons/person.svg';
@@ -88,7 +88,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                         !preview && <UserIcon style={{ width: "5rem", height: "5rem" }} />
                     }
                 </label>
-                <input type={"file"} onChange={onSelectFile} accept=".png,.jpg,.jpeg,.webp" style={{ display: "none" }} name="guestImage" id="guestImageUpload" />
+                <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="guestImage" id="guestImageUpload" />
             </div>
             <Input
                 label='Nome*'
