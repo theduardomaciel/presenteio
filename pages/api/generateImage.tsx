@@ -9,13 +9,18 @@ const COLORS = ['#FF2626', "#FF3D3D", '#FD7979']
 
 export default function GenerateImage(req: NextRequest) {
     const { searchParams } = new URL(req.url)
-    const name = searchParams.get('name')
+    let name = searchParams.get('name')
+
+    if (!name) {
+        name = ""
+    }
+
+    const NAME = name as string;
 
     const RANDOM_COLORS = Array.from({ length: 3 }, () => {
         return COLORS[Math.random() * COLORS.length | 0]
     });
 
-    const NAME = name as string;
     const INITIALS = NAME.split(' ').map((word) => word[0]).join('');
 
     return new ImageResponse(
@@ -28,10 +33,9 @@ export default function GenerateImage(req: NextRequest) {
                     flexDirection: 'column',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundImage: `linear-gradient(45deg, ${RANDOM_COLORS[0]}, ${RANDOM_COLORS[1]}, ${RANDOM_COLORS[2]}))`,
+                    backgroundImage: `linear-gradient(45deg, ${RANDOM_COLORS[0]}, ${RANDOM_COLORS[1]}, ${RANDOM_COLORS[2]})`,
                     fontSize: 96,
                     color: "white",
-                    fontFamily: '"Arial"',
                     fontWeight: 900,
                 }}
             >

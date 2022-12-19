@@ -1,6 +1,8 @@
 import Guest from "./Guest";
 import Account from "./Account";
 
+export type EventStatus = "PENDING" | "DIVULGATED";
+
 interface Event {
     id: number;
     inviteCode: string;
@@ -8,7 +10,7 @@ interface Event {
     createdAt: Date;
     name: string;
     type: "SORTEIO" | "AMIGOSECRETO";
-    status: "PENDING" | "DIVULGATED";
+    status: EventStatus;
     description?: string;
     color?: string;
     image_url?: string;
@@ -21,7 +23,7 @@ interface Event {
     allowProfileChange: boolean;
 
     guests: Guest[]
-    host: Account;
+    host?: Account;
 }
 
 export default Event;

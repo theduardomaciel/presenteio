@@ -30,8 +30,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 5.5rem 6rem;
     gap: 3.5rem;
+    padding: 5.5rem 6rem;
 
     max-height: 90vh;
     width: fit-content;
@@ -46,6 +46,15 @@
     z-index: 15;
 }
 
+.container section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+}
+
 .logo svg {
     height: 3.5rem;
 }
@@ -55,10 +64,32 @@
     align-items: center;
     justify-content: center;
 
-    padding: 0.5rem;
+    padding: 2rem;
     border-radius: 0.5rem;
 
     background-color: var(--primary-01);
+}
+
+.iconHolder svg {
+    height: 3.6rem;
+    width: 3.6rem;
+}
+
+.iconHolder.withTitle {
+    padding: 0.75rem;
+}
+
+.iconHolder.withTitle svg {
+    height: 2.2rem;
+    width: 2.2rem;
+}
+
+.headerContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
 }
 
 .container .title {
@@ -92,6 +123,7 @@
     gap: 2rem;
 
     flex-wrap: wrap-reverse;
+    width: 100%;
 
     align-items: center;
     justify-content: center;

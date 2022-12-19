@@ -14,11 +14,12 @@ const DEFAULT_MAX_VALUE = 75;
 interface ManualPickerProps {
     type: "min" | 'max';
     value?: number | false;
+    fixedWidth?: boolean;
     setValue?: React.Dispatch<React.SetStateAction<number | false>>;
 }
 
-function ManualPicker({ type, value, setValue }: ManualPickerProps) {
-    return <div className={styles.priceManualPicker}>
+function ManualPicker({ type, value, setValue, fixedWidth }: ManualPickerProps) {
+    return <div className={`${styles.priceManualPicker} ${fixedWidth ? styles.fixed : ""}`}>
         <h6>Preço {type === "min" ? "mínimo" : "máximo"}</h6>
         <div>
             {
@@ -51,7 +52,7 @@ function CustomSlider(props: Slider.SliderProps) {
     )
 }
 
-export default function DashboardPricePicker() {
+export default function DashboardPricePicker({ fixedWidth = false }: { fixedWidth?: boolean }) {
     const [minValue, setMinValue] = React.useState<number | false>(false);
     const [maxValue, setMaxValue] = React.useState<number | false>(false);
 
@@ -63,8 +64,8 @@ export default function DashboardPricePicker() {
     return (
         <div className={styles.pricePicker}>
             <div className={styles.manualPickers}>
-                <ManualPicker type='min' value={minValue} setValue={setMinValue} />
-                <ManualPicker type='max' value={maxValue} setValue={setMaxValue} />
+                <ManualPicker fixedWidth={fixedWidth} type='min' value={minValue} setValue={setMinValue} />
+                <ManualPicker fixedWidth={fixedWidth} type='max' value={maxValue} setValue={setMaxValue} />
             </div>
             <CustomSlider
                 value={VALUE}

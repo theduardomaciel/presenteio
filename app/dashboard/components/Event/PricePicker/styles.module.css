@@ -102,7 +102,7 @@
 }
 
 @media (min-width: 1024px) {
-    .priceManualPicker {
+    .priceManualPicker.fixed {
         width: 49%;
     }
 }

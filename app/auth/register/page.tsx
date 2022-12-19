@@ -41,7 +41,7 @@ import RightIcon from '../../../public/icons/arrow_right_alt.svg';
 import GoogleLogo from '../../../public/icons/google.svg';
 
 // Pages
-import Landing from '../../page';
+import Landing from '../../landing';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Hint from '../../../components/Hint';

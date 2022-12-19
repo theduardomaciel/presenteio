@@ -35,7 +35,7 @@ export default async function EventPage({ params }: { params: any }) {
                         <LinkIcon />
                         <h6>Link de Convite</h6>
                     </div>
-                    <p>https://presenteio.vercel.app/{event.id}/invite/{event.inviteCode}</p>
+                    <p className='link'>https://presenteio.vercel.app/invite/{event.inviteCode}</p>
                 </div>
                 {
                     event.image_url && <Image src={event.image_url} className={'imageContain'} fill alt="" />
@@ -47,7 +47,7 @@ export default async function EventPage({ params }: { params: any }) {
                 {
                     event.guests && event.guests.length > 0 ?
                         event.guests.map((guest, index) => {
-                            return <GuestCard key={index} guest={guest} />
+                            return <GuestCard key={index} guest={guest} eventInfo={{ status: event.status, inviteCode: event.inviteCode }} />
                         })
                         :
                         <EmptyGuests label={`Nenhum convidado foi adicionado ao evento até o momento.\nEnvie o convite para que novos usuários possam entrar!`} />

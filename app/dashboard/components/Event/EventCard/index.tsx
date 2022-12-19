@@ -14,7 +14,7 @@ import Overlay from '../../Overlay';
 import Event from 'types/Event';
 
 interface Props {
-    event: Event;
+    event: Omit<Event, "createdAt">;
 }
 
 export default function EventCard({ event }: Props) {

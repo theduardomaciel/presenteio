@@ -8,7 +8,7 @@ import Button from '../../../components/Button';
 import DashboardSectionHeader from '@dashboard/components/Section/SectionHeader';
 import CheckboxAndLabel from '../../../components/Checkbox/Label';
 import DashboardSubSectionHeader from '@dashboard/components/Section/SubSectionHeader';
-import DashboardPricePicker from '@dashboard/components/PricePicker';
+import DashboardPricePicker from '@dashboard/components/Event/PricePicker';
 import EventDisplay from '@dashboard/components/Event/EventDisplay';
 import GuestsDisplay, { PreGuest } from '@dashboard/components/Guest/PreGuestsDisplay';
 import Modal from 'components/Modal';
@@ -32,6 +32,13 @@ const toBase64 = (file: File) => new Promise((resolve, reject) => {
 const extractBase64 = (image: string) => {
     const base64 = image.replace(/^data:image\/[a-z]+;base64,/, "");
     return base64;
+}
+
+export const InviteOptions = () => {
+    return <>
+        <CheckboxAndLabel name='allowInvite' label='Permitir que outros usuários participem do evento por meio de convite' />
+        <CheckboxAndLabel name='allowProfileChange' label='Permitir que convidados possam alterar sua foto de perfil' />
+    </>
 }
 
 export default function ComposeEventForm({ children }: { children: React.ReactNode }) {
@@ -91,10 +98,6 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
         }
     }
 
-    function goToEvent() {
-        router.push(`/dashboard/${confirmModalState.value}`)
-    }
-
     const router = useRouter();
     return (
         <form onSubmit={onSubmit} style={{ width: "100%" }}>
@@ -106,15 +109,14 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                     </div>
                     <div className={styles.section}>
                         <DashboardSectionHeader title="Configurações de Convite" />
-                        <CheckboxAndLabel name='allowInvite' label='Permitir que outros usuários participem do evento por meio de convite' />
-                        <CheckboxAndLabel name='allowProfileChange' label='Permitir que convidados possam alterar sua foto de perfil' />
+                        <InviteOptions />
                     </div>
                 </div>
                 <div className={styles.column}>
                     <div className={styles.section}>
                         <DashboardSectionHeader title="Regras do Evento" />
                         <DashboardSubSectionHeader title='Margem de preço' description='Determine se os presentes possuirão preço mínimo e/ou máximo.' />
-                        <DashboardPricePicker />
+                        <DashboardPricePicker fixedWidth />
                     </div>
                     <div className={styles.section}>
                         <DashboardSectionHeader title="Personalização" />
@@ -130,23 +132,26 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 isVisible={confirmModalState.status !== false}
                 toggleVisibility={() => setConfirmModalState({ status: false })}
                 insertLogo
-                title={confirmModalState.status === true ? 'Pronto para criar o evento?' :
-                    confirmModalState.status === "success" ? "Tudo certo por aqui." :
-                        confirmModalState.status === "error" ? "Parece que tivemos um problema." : ""
-                }
-                supressReturnButton={isLoading}
-                actionProps={{
-                    buttonText: 'Ir para o Evento',
-                    function: confirmModalState.status === "success" ? goToEvent : undefined,
-                }}
-                description={confirmModalState.status === true ?
-                    `Confira todas as informações antes de criá-lo para que todos os convidados tenham a experiência desejada desde o início.\n
+                headerProps={{
+                    title: confirmModalState.status === true ? 'Pronto para criar o evento?' :
+                        confirmModalState.status === "success" ? "Tudo certo por aqui." :
+                            confirmModalState.status === "error" ? "Parece que tivemos um problema." : "",
+                    description: confirmModalState.status === true ?
+                        `Confira todas as informações antes de criá-lo para que todos os convidados tenham a experiência desejada desde o início.\n
                 Não se preocupe pois nenhum convidado será notificado até que todos tenham confirmado presença.` :
-                    confirmModalState.status === "success" ?
-                        `Eba! Seu evento foi criado com sucesso!\n 
+                        confirmModalState.status === "success" ?
+                            `Eba! Seu evento foi criado com sucesso!\n 
                     Agora é só enviar o convite geral ou os convites personalizados para os convidados e aproveitar o momento!` :
-                        confirmModalState.status === "error" ?
-                            confirmModalState.value : "[erro desconhecido]"}
+                            confirmModalState.status === "error" ?
+                                confirmModalState.value : "[erro desconhecido]"
+                }}
+                returnButton={{ enabled: false }}
+                buttons={[
+                    {
+                        text: "Ir para o Evento",
+                        onClick: confirmModalState.status === "success" ? () => router.push(`/dashboard/${confirmModalState.value}`) : undefined,
+                    }
+                ]}
             >
                 {
                     confirmModalState.status === true &&

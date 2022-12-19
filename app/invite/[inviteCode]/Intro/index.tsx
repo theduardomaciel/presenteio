@@ -1,43 +1,58 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
 // Components
-import Button from '../../../../../components/Button'
+import ParticipateButton from './ParticipateButton'
 
 // Stylesheet
 import styles from './intro.module.css'
 
 // Assets
-//import Logo from "../../../public/logo.svg";
-import Gifts from "../../../../../public/images/gifts.png"
-import Gift from "../../../../../public/images/gift.png"
+import Gifts from "@public/images/gifts.png"
+import Gift from "@public/images/gift.png"
 
-export default function Intro() {
+import Guest from 'types/Guest'
+import Event from 'types/Event'
+
+interface Props {
+    guest?: Guest,
+    event: Event
+}
+
+function getGreetings() {
+    const date = new Date();
+    const hour = date.getHours();
+
+    if (hour >= 0 && hour < 12) {
+        return "Bom dia";
+    } else if (hour >= 12 && hour < 18) {
+        return "Boa tarde";
+    } else {
+        return "Boa noite";
+    }
+}
+
+export default function Intro({ guest, event }: Props) {
+
+    const eventNameLastLetterOfFirstWord = event.name.split(' ')[0].charAt(event.name.split(' ')[0].length - 1);
+
     return <>
-        <header>
-            <h6>Boa tarde, <strong>Fulano</strong>!</h6>
-            {/* <p>Não sou fulano, <strong>sair</strong></p> */}
-        </header>
+        {
+            guest &&
+            <header>
+                <h6>{getGreetings()}, <strong>{guest.name}</strong>!</h6>
+                {/* <p>Não sou fulano, <strong>sair</strong></p> */}
+            </header>
+        }
         <div className={styles.content}>
             <div className={styles.title}>
                 <div>
                     <h3>Chegou a hora do</h3>
-                    <h1>Amigo Secreto</h1>
-                    <h3>da Família Buscapé</h3>
+                    <h1>{event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"}</h1>
+                    <h3>d{eventNameLastLetterOfFirstWord === "a" ? "a" : "o"} {event.name}</h3>
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                    <Button
-                        label='PARTICIPAR'
-                        style={{
-                            textTransform: "uppercase",
-                            fontFamily: "'Gelasio'",
-                            fontStyle: "normal",
-                            fontWeight: 700,
-                            padding: "1rem 3.5rem",
-                            fontSize: "1.8rem"
-                        }}
-                    />
+                    <ParticipateButton />
                     {/* <p>Não sou Fulano, <strong>sair</strong></p> */}
                 </div>
             </div>

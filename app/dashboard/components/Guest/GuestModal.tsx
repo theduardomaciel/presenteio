@@ -19,7 +19,7 @@ import Guest from 'types/Guest';
 // Hooks
 import useImagePreview from 'hooks/useImagePreview';
 
-const PLACEHOLDER = {
+export const GUEST_IMAGE_PLACEHOLDER = {
     width: "13rem",
     height: "13rem",
     borderRadius: "50%",
@@ -80,7 +80,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
             title="Adicionar participante"
         >
             <div>
-                <label style={PLACEHOLDER} htmlFor="guestImageUpload">
+                <label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="guestImageUpload">
                     {
                         preview && <Image src={preview} fill alt='' style={{ borderRadius: "50%", objectFit: "cover" }} />
                     }

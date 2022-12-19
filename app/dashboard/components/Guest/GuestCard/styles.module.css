@@ -63,4 +63,9 @@
 
 .actions svg {
     cursor: pointer;
+    transition: 0.125s;
+}
+
+.actions svg:hover {
+    transform: scale(1.085);
 }

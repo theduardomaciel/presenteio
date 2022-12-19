@@ -30,7 +30,7 @@ model Account {
 model Event {
     id                 Int         @id @default(autoincrement())
     createdAt          DateTime    @default(now())
-    inviteCode         String      @default(cuid())
+    inviteCode         String      @unique @default(cuid())
     type               EventType   @default(AMIGOSECRETO)
     status             EventStatus @default(PENDING)
     name               String

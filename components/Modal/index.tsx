@@ -10,38 +10,46 @@ import Button from '../Button';
 import Logo from "@public/logo.svg";
 import CloseIcon from '../../public/icons/close.svg';
 
+interface ModalButton {
+    text?: string;
+    disabled?: boolean;
+    style?: React.CSSProperties;
+    onClick?: () => void;
+    icon?: React.ReactElement;
+}
+
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     isVisible: boolean;
     style?: MotionStyle;
     toggleVisibility: () => void;
 
-    color?: string;
-    title?: string;
-    description?: React.ReactNode;
     insertLogo?: boolean;
 
-    icon?: React.ReactElement;
+
     headerProps?: {
-        size: string;
-        position: "center" | "flex-start" | "flex-end";
-        builtWithTitle?: boolean;
+        title?: string;
+        description?: React.ReactNode;
+        icon?: React.ReactElement;
+        iconSize?: string;
+        position?: "center" | "flex-start" | "flex-end";
+        integratedTitle?: boolean;
     };
 
-    supressReturnButton?: boolean;
+    returnButton?: {
+        enabled: boolean;
+        text?: string;
+        icon?: React.ReactElement;
+        onClick?: () => void;
+    };
 
-    actionProps?: {
-        buttonText: string,
-        buttonIcon?: React.ReactElement,
-        disabled?: boolean,
-        function?: () => void,
-    },
+    buttons?: Array<ModalButton>;
 
     isLoading?: boolean;
 }
 
-const DEFAULT_COLOR = "var(--primary-02)"
+export type MODAL_STATE = { status: boolean | string, value?: string };
 
-export default function Modal({ isVisible, toggleVisibility, style, color, isLoading, insertLogo, icon, supressReturnButton, title, description, headerProps, actionProps, children }: Props) {
+export default function Modal({ isVisible, toggleVisibility, style, isLoading, insertLogo, returnButton = { enabled: true }, headerProps, buttons, children }: Props) {
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.nativeEvent.target as HTMLDivElement;
@@ -51,6 +59,7 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
         };
     }
 
+    console.log(buttons && buttons.length > 0)
     return (
         <AnimatePresence mode='wait'>
             {
@@ -75,12 +84,12 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
                             transition={{ type: "spring", duration: 0.65 }}
                         >
                             {
-                                icon && <div className={styles.headerContainer} style={{ justifyContent: headerProps?.position ? headerProps?.position : "center" }}>
-                                    <div style={{ backgroundColor: color ? color : DEFAULT_COLOR }} className={styles.iconHolder}>
-                                        {icon}
+                                headerProps?.icon && <div className={styles.headerContainer} style={{ justifyContent: headerProps?.position ? headerProps?.position : "center" }}>
+                                    <div className={`${styles.iconHolder} ${headerProps?.integratedTitle ? styles.withTitle : ""}`}>
+                                        {headerProps?.icon}
                                     </div>
                                     {
-                                        headerProps?.builtWithTitle && <h2 style={{ textAlign: "left", lineHeight: "3.55rem" }}>{title}</h2>
+                                        headerProps?.title && headerProps?.integratedTitle && <h2 className={styles.title} style={{ textAlign: "left", lineHeight: "3.55rem" }}>{headerProps?.title}</h2>
                                     }
                                 </div>
                             }
@@ -93,42 +102,57 @@ export default function Modal({ isVisible, toggleVisibility, style, color, isLoa
                             }
 
                             {
-                                title && !headerProps?.builtWithTitle &&
-                                <h2 className={styles.title}>{title}</h2>
-                            }
-                            {
-                                description &&
-                                <p className={styles.description}>{description}</p>
+                                (headerProps?.description || headerProps?.title && !headerProps.integratedTitle) &&
+                                <section>
+                                    {
+                                        headerProps?.title && !headerProps?.integratedTitle &&
+                                        <h2 className={styles.title}>{headerProps.title}</h2>
+                                    }
+                                    {
+                                        headerProps?.description &&
+                                        <p className={styles.description}>{headerProps.description}</p>
+                                    }
+                                </section>
                             }
 
                             {children as any}
 
+
                             {
-                                actionProps?.function || !supressReturnButton &&
-                                <footer>
+                                buttons && buttons.length > 0 &&
+                                <div className={styles.buttonsHolder}>
                                     {
-                                        actionProps?.function &&
-                                        <Button
-                                            onClick={() => actionProps?.function()}
-                                            title={actionProps?.buttonText}
-                                            disabled={actionProps?.disabled}
-                                            isLoading={isLoading}
-                                            icon={actionProps.buttonIcon ? actionProps.buttonIcon : undefined}
-                                            style={{
-                                                background: actionProps?.disabled ? "var(--light-gray)" : color,
-                                                padding: `1rem 2.5rem`,
-                                                cursor: actionProps.disabled || isLoading ? "not-allowed" : "pointer"
-                                            }}
-                                            accentColor={color ? color : undefined}
-                                        />
+                                        buttons && buttons.map(button => {
+                                            return (
+                                                <Button
+                                                    key={button.text}
+                                                    onClick={button.onClick}
+                                                    isLoading={isLoading}
+                                                    style={{
+                                                        ...button.style,
+                                                        background: button.disabled ? "var(--light-gray)" : "var(--primary-01)",
+                                                        padding: `1rem 2.5rem`,
+                                                        cursor: button.disabled || isLoading ? "not-allowed" : "pointer"
+                                                    }}
+                                                >
+                                                    {button.icon ? (button.icon) : headerProps?.icon ? (headerProps.icon) : null}
+                                                    {button.text}
+                                                </Button>
+                                            )
+                                        })
                                     }
-                                    {
-                                        !supressReturnButton && <div className={'modalFooter'} onClick={toggleVisibility}>
-                                            <CloseIcon width={"1.6rem"} height={"1.6rem"} />
-                                            <p style={{ fontWeight: 700 }}> Cancelar </p>
-                                        </div>
-                                    }
-                                </footer>
+                                </div>
+                            }
+                            {
+                                returnButton.enabled && <div className={'modalFooterHolder'}>
+                                    <div className='divisor' />
+                                    <div className={'modalFooter'} onClick={toggleVisibility}>
+                                        {
+                                            returnButton.icon ? returnButton.icon : <CloseIcon width={"1.6rem"} height={"1.6rem"} />
+                                        }
+                                        <p style={{ fontWeight: 700 }}> {returnButton.text ? returnButton.text : "Cancelar"} </p>
+                                    </div>
+                                </div>
                             }
                         </motion.div>
                     </motion.div>

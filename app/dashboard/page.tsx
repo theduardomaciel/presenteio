@@ -20,7 +20,8 @@ export default async function Dashboard() {
                 {
                     events && events?.length > 0 ?
                         events?.map((event, index) => {
-                            return <EventCard key={index} event={event as unknown as Event} />
+                            const { createdAt, ...rest } = event;
+                            return <EventCard key={index} event={rest as unknown as Event} />
                         })
                         :
                         <EmptyGuests label={`Você ainda não criou nenhum evento.\nPara criar novos, clique no botão "Criar Evento" acima.`} />

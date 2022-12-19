@@ -11,7 +11,7 @@ import AuthModal, { Section } from '../../../components/AuthModal';
 
 // Stylesheets
 import styles from '../auth.module.css';
-import Landing from '../../page';
+import Landing from '../../landing';
 
 // Components
 import Button from '../../../components/Button';

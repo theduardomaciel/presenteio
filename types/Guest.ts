@@ -1,11 +1,16 @@
+import Event from "./Event";
+
+export type GuestStatus = "PENDING" | "CONFIRMED" | "VISUALIZED";
+
 interface Guest {
     id: string;
     name: string;
     email: string;
     image_url: string;
 
-    status: "PENDING" | "CONFIRMED" | "VISUALIZED";
+    status: GuestStatus;
 
+    event?: Event;
     accountId: number;
 }
 
