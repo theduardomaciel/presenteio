@@ -45,10 +45,12 @@ export default async function Invite({ params, searchParams }: InviteProps) {
             guest?.status === "CONFIRMED" ? "waiting" : "visualized") :
             "intro")
 
+    const Title = <EventTitle type={event.type} name={event.name} />
+
     const SCREENS = {
         "intro": <Intro guest={guest} event={event} />,
         "divulgated": <div className={styles.content}>
-            <EventTitle />
+
             <h1>O sorteio já foi realizado.</h1>
             <p>Infelizmente, este link não está mais funcional visto que o sorteio já foi realizado entre os participantes que entraram no evento.
             </p>
@@ -58,7 +60,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
             <div className={"divisor"} />
         </div>,
         "waiting": <div className={styles.content}>
-            <EventTitle />
+            {Title}
             <h1>Já estamos prontos.</h1>
             {
                 event.status === "DIVULGATED" ?
@@ -76,7 +78,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
             <div className={"divisor"} />
         </div>,
         "visualized": <div className={styles.content}>
-            <EventTitle />
+            {Title}
             <h1>Você já visualizou seu amigo secreto.</h1>
             <p>Agora basta aguardar que todos os outros participantes entrem e visualizem seus amigos secretos.</p>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2.5rem", maxWidth: "95%" }}>

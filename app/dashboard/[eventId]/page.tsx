@@ -32,6 +32,7 @@ export default async function EventPage({ params }: { params: any }) {
     const { createdAt, ...rest } = event;
 
     return <div className={dashboardStyles.container}>
+        {/* @ts-expect-error */}
         <DashboardHeader>
             <EventEdit />
         </DashboardHeader>

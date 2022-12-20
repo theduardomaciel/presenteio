@@ -8,6 +8,7 @@ import ComposeEventForm from './Form';
 export default function ComposeEvent() {
     return <div className={styles.container}>
         <ComposeEventForm>
+            {/* @ts-expect-error */}
             <DashboardHeader>
                 <EventEdit />
             </DashboardHeader>

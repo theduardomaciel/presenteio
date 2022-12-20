@@ -10,7 +10,7 @@ import prisma from '../lib/prisma';
     void getAccount();
 } */
 
-export const getAccount = cache(async (teste: string) => {
+export const getAccount = cache(async () => {
     const nextCookies = cookies();
     const token = nextCookies.get('presenteio.token');
     if (!token) return;
