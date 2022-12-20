@@ -16,11 +16,7 @@ export const getGuest = cache(async (id: string) => {
                 id: id
             },
             include: {
-                event: {
-                    include: {
-                        guests: true,
-                    }
-                }
+                event: false
             }
         });
 

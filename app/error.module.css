@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
 
+    height: 100vh;
     width: 100vw;
 }
 
@@ -24,6 +25,7 @@
     font-weight: 700;
     font-size: 3.2rem;
     line-height: 4.1rem;
+    text-align: center;
 
     color: var(--primary-01);
 }

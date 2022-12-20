@@ -7,6 +7,7 @@ interface Guest {
     name: string;
     email: string;
     image_url: string;
+    image_deleteHash?: string;
 
     status: GuestStatus;
 

@@ -51,7 +51,8 @@
 
 .guestsHolder {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
 
     width: 100%;
     height: 40%;
@@ -62,6 +63,12 @@
     border: 1px dashed #FF2626;
     border-radius: 0.5rem;
     overflow: hidden;
+}
+
+.guestsHolder.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .buttonsHolder {
@@ -87,5 +94,11 @@
     align-items: center;
     gap: 1.5rem;
 
+    width: 100%;
+
+    text-align: left;
+}
+
+.form section p {
     text-align: left;
 }

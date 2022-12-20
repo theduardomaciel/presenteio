@@ -29,6 +29,7 @@ interface Props {
     setActualSection?: Dispatch<SetStateAction<[number, number]>>;
     sections: { [key: string]: Section };
     initial?: boolean;
+    hasBackground?: boolean;
 }
 
 const variants = {
@@ -55,7 +56,7 @@ const transition = {
     opacity: { duration: 0.75 },
 }
 
-export default function AuthModal({ actualSection, direction, sections, initial }: Props) {
+export default function AuthModal({ actualSection, direction, sections, initial, hasBackground }: Props) {
 
     const titleStyle = {
         justifyContent: "center",
@@ -67,7 +68,14 @@ export default function AuthModal({ actualSection, direction, sections, initial 
 
     Object.keys(sections).map((key, index) => {
         const section = sections[key];
-        sectionsModals[key] = <motion.div className={styles.holder} key={`modalHolder_${index}`}>
+        sectionsModals[key] = <motion.div
+            className={`${styles.holder} ${hasBackground ? styles.background : ""}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            key={`modalHolder_${index}`}
+        >
             <motion.div
                 className={styles.container}
                 key={`modalContent_${index}`}
@@ -77,7 +85,7 @@ export default function AuthModal({ actualSection, direction, sections, initial 
                 animate="center"
                 exit="exit"
                 transition={transition}
-                style={{ background: section.noBackground ? "transparent" : `linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.50) 100%)` }}
+                style={{ background: section.noBackground ? "transparent" : (hasBackground ? `linear-gradient(180deg, rgba(255, 255, 255, 0.75) 100%, rgba(255, 255, 255, 0.50) 100%)` : `linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.50) 100%)`) }}
             >
                 <div className={styles.headerContainer} style={section.logoPosition === "top" ? titleStyle : undefined}>
                     {section.logoPosition === "top" && <Logo />}

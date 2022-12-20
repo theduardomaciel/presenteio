@@ -28,6 +28,15 @@ export interface PreGuest {
     imagePreview?: string;
 }
 
+export const AddGuestButton = ({ setIsGuestModalVisible, fullWidth }: { setIsGuestModalVisible: Dispatch<SetStateAction<boolean>>, fullWidth?: boolean }) => <Button
+    label='Adicionar participante'
+    icon={< AddIcon />}
+    onClick={() => {
+        setIsGuestModalVisible(true);
+    }}
+    style={{ width: fullWidth ? "100%" : "fit-content", paddingBlock: "0.5rem" }}
+/>
+
 const PreGuestPreview = ({ guest, setCurrentPreGuest, toggleVisibility }: {
     guest: PreGuest,
     toggleVisibility: () => void,
@@ -70,14 +79,7 @@ export default function GuestsDisplay({ preGuests, setPreGuests, hasAddButton }:
     return <>
         <DashboardSectionHeader title="Participantes">
         </DashboardSectionHeader>
-        {hasAddButton && <Button
-            label='Adicionar participante'
-            icon={< AddIcon />}
-            onClick={() => {
-                setIsGuestModalVisible(true);
-            }}
-            style={{ width: "100%", paddingBlock: "0.5rem" }}
-        />}
+        {hasAddButton && <AddGuestButton setIsGuestModalVisible={setIsGuestModalVisible} fullWidth />}
         <div className={`${styles.guestsHolder} ${preGuests.length === 0 ? styles.empty : ""}`}>
             {
                 preGuests.length === 0 ?

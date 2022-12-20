@@ -45,6 +45,28 @@ export async function getImageUrl(image_base64: string, name?: string) {
     }
 }
 
+export async function deleteImage(image_deleteHash: string) {
+    if (image_deleteHash) {
+        try {
+            const response = await client.deleteImage(image_deleteHash);
+            if (response.status === 200) {
+                console.log("✅ Image deleted with success!");
+                return true;
+            } else {
+                console.log("❌ There was not possible to delete the image.",);
+                return null;
+            }
+        } catch (error) {
+            console.log(error)
+            console.log("❌ There was not possible to delete the image.",);
+            return null;
+        }
+    } else {
+        console.log("Nenhum delete hash informado.")
+        return null;
+    }
+}
+
 router
     .use(expressWrapper(uploadMiddleware) as any) // express middleware are supported if you wrap it with expressWrapper
     .post(async (req, res) => {

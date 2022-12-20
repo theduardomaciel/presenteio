@@ -16,28 +16,19 @@ import Modal from 'components/Modal';
 // Icons
 import AddIcon from '@public/icons/add.svg';
 import UploadIcon from '@public/icons/upload.svg';
+
+// Utils
 import axios from 'axios';
 import { getCookie } from '@utils/cookies';
 import { useRouter } from 'next/navigation';
+import { extractBase64, toBase64 } from '@utils/base64';
 
-// be careffull with this: https://gomakethings.com/how-to-prevent-buttons-from-causing-a-form-to-submit-with-html/ !
+// be carefull with this: https://gomakethings.com/how-to-prevent-buttons-from-causing-a-form-to-submit-with-html/ !
 
-const toBase64 = (file: File) => new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-});
-
-const extractBase64 = (image: string) => {
-    const base64 = image.replace(/^data:image\/[a-z]+;base64,/, "");
-    return base64;
-}
-
-export const InviteOptions = () => {
+export const InviteOptions = ({ defaultValues }: { defaultValues?: { allowInvite?: boolean, allowProfileChange?: boolean } }) => {
     return <>
-        <CheckboxAndLabel name='allowInvite' label='Permitir que outros usuários participem do evento por meio de convite' />
-        <CheckboxAndLabel name='allowProfileChange' label='Permitir que convidados possam alterar sua foto de perfil' />
+        <CheckboxAndLabel defaultChecked={defaultValues?.allowInvite} name='allowInvite' label='Permitir que outros usuários participem do evento por meio de convite' />
+        <CheckboxAndLabel defaultChecked={defaultValues?.allowProfileChange} name='allowProfileChange' label='Permitir que convidados possam alterar sua foto de perfil' />
     </>
 }
 

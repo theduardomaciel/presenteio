@@ -55,7 +55,7 @@ model Event {
 model Guest {
     id               String      @id @default(uuid())
     name             String
-    email            String
+    email            String?
     image_url        String?
     image_deleteHash String?
     status           GuestStatus @default(PENDING)

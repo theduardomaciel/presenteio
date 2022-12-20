@@ -32,7 +32,6 @@ function getGreetings() {
 }
 
 export default function Intro({ guest, event }: Props) {
-
     const eventNameLastLetterOfFirstWord = event.name.split(' ')[0].charAt(event.name.split(' ')[0].length - 1);
 
     return <>
@@ -40,21 +39,17 @@ export default function Intro({ guest, event }: Props) {
             guest &&
             <header>
                 <h6>{getGreetings()}, <strong>{guest.name}</strong>!</h6>
-                {/* <p>Não sou fulano, <strong>sair</strong></p> */}
             </header>
         }
         <div className={styles.content}>
             <div className={styles.title}>
-                <div>
+                <div className={styles.titleContent}>
                     <h3>Chegou a hora do</h3>
                     <h1>{event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"}</h1>
                     <h3>d{eventNameLastLetterOfFirstWord === "a" ? "a" : "o"} {event.name}</h3>
                 </div>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-                    <ParticipateButton />
-                    {/* <p>Não sou Fulano, <strong>sair</strong></p> */}
-                </div>
+                <ParticipateButton guest={guest} />
             </div>
 
             <Image

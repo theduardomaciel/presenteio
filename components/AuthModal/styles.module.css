@@ -18,6 +18,15 @@
     z-index: 9;
 }
 
+.holder.background {
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(5px);
+}
+
+.holder.background .container {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 100%, rgba(255, 255, 255, 0.50) 100%);
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -54,6 +63,8 @@
     font-style: normal;
     font-weight: 700;
     font-size: 2.8rem;
+
+    white-space: pre-line;
 
     width: 100%;
     color: var(--primary-01);

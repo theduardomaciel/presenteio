@@ -1,6 +1,8 @@
 'use client';
 import { CSSProperties, useEffect, useState } from 'react';
 import Image from 'next/image';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 // Components
 import Button from "components/Button";
@@ -19,6 +21,8 @@ import Guest from 'types/Guest';
 // Hooks
 import useImagePreview from 'hooks/useImagePreview';
 
+import { extractBase64, toBase64 } from '@utils/base64';
+
 export const GUEST_IMAGE_PLACEHOLDER = {
     width: "13rem",
     height: "13rem",
@@ -36,6 +40,7 @@ interface Props {
     modalProps?: {
         guest?: Guest,
         preGuest?: PreGuest,
+        eventId?: number,
         setPreGuests?: React.Dispatch<React.SetStateAction<PreGuest[]>>,
     };
     toggleVisibility: () => void;
@@ -55,10 +60,13 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
     useEffect(() => {
         setGuestName(modalProps ? modalProps.guest?.name || modalProps.preGuest?.name || "" : "")
         setGuestEmail(modalProps ? modalProps.guest?.email || modalProps.preGuest?.email || "" : "")
-        setPreview(modalProps && modalProps.preGuest ? modalProps.preGuest.imagePreview : undefined)
+        setPreview(modalProps && (modalProps?.preGuest?.imagePreview || modalProps?.guest?.image_url) ? modalProps.preGuest?.imagePreview || modalProps.guest?.image_url : undefined)
     }, [isVisible])
 
-    function onSubmit() {
+    const [isLoading, setLoading] = useState(false);
+    const router = useRouter();
+
+    async function onSubmit() {
         if (modalProps?.setPreGuests) {
             if (modalProps && modalProps.preGuest) {
                 modalProps.setPreGuests(prev => {
@@ -70,6 +78,49 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                 modalProps.setPreGuests(prev => prev.concat({ name: guestName, email: guestEmail, image: selectedFile, imagePreview: preview }));
             }
             toggleVisibility()
+        } else if (modalProps?.guest) {
+            setLoading(true)
+
+            const image_base64 = selectedFile ? await toBase64(selectedFile as File) as string : null;
+            const extractedImage = image_base64 ? extractBase64(image_base64) : null;
+
+            const guest = { name: guestName, email: guestEmail, image_deleteHash: modalProps.guest.image_deleteHash, image_base64: extractedImage }
+
+            try {
+                const response = await axios.patch(`/api/guests/${modalProps.guest.id}`, guest);
+                setLoading(false)
+                toggleVisibility()
+                if (response) {
+                    router.refresh();
+                }
+            } catch (error) {
+                console.log(error)
+                setLoading(false)
+            }
+        } else if (modalProps?.eventId) {
+            setLoading(true)
+
+            const image_base64 = selectedFile ? await toBase64(selectedFile as File) as string : null;
+            const extractedImage = image_base64 ? extractBase64(image_base64) : null;
+
+            const guest = {
+                eventId: modalProps.eventId,
+                name: guestName,
+                email: guestEmail,
+                image_base64: extractedImage
+            }
+
+            try {
+                const response = await axios.post(`/api/guests/create`, guest);
+                setLoading(false)
+                toggleVisibility()
+                if (response) {
+                    router.refresh();
+                }
+            } catch (error) {
+                console.log(error)
+                setLoading(false)
+            }
         }
     }
 
@@ -77,7 +128,9 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
         <Modal
             isVisible={isVisible}
             toggleVisibility={toggleVisibility}
-            title="Adicionar participante"
+            headerProps={{
+                title: "Adicionar participante"
+            }}
         >
             <div>
                 <label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="guestImageUpload">
@@ -88,7 +141,15 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                         !preview && <UserIcon style={{ width: "5rem", height: "5rem" }} />
                     }
                 </label>
-                <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="guestImage" id="guestImageUpload" />
+                <input
+                    type={"file"}
+                    onChange={onSelectFile}
+                    accept="image/png, image/jpeg"
+                    style={{ display: "none" }}
+                    required
+                    id='guestImageUpload'
+                    name="guestImage"
+                />
             </div>
             <Input
                 label='Nome*'
@@ -106,6 +167,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
             />
             <Button
                 onClick={onSubmit}
+                isLoading={isLoading}
                 style={{ width: "100%", padding: "0.8rem 3rem" }}
             >
                 {modalProps?.preGuest || modalProps?.guest ? <EditFilledIcon width={"1.8rem"} height={"1.8rem"} /> : <GroupAddIcon />}

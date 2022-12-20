@@ -1,3 +1,6 @@
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
 // Stylesheets
 import styles from './invite.module.css'
 
@@ -28,11 +31,16 @@ interface Props {
     }
 }
 
-export default function Invite({ params, searchParams }: Props) {
-    const event = getEventFromInviteCode(params?.inviteCode as string) as unknown as Event;
-    const guest = getGuest(searchParams?.guest as string) as unknown as Guest;
+export default async function Invite({ params, searchParams }: Props) {
+    const event = await getEventFromInviteCode(params?.inviteCode as string) as unknown as Event;
+    const guest = await getGuest(searchParams?.guest as string) as unknown as Guest;
 
-    const STATUS = event.status === "DIVULGATED" ?
+    if (!guest && !event.allowInvite) {
+        console.log("foi")
+        notFound();
+    }
+
+    const STATUS = event.status === "DIVULGATED" && (!guest || guest.status !== "CONFIRMED") ?
         "divulgated" :
         (guest ? (guest.status === "PENDING" ? "intro" :
             guest.status === "CONFIRMED" ? "waiting" : "visualized") :
@@ -79,14 +87,15 @@ export default function Invite({ params, searchParams }: Props) {
                 <GuestsView />
             </div>
             <div className={'divisor'} />
-            <Button
-                icon={<ViewIcon />}
-                additionalClasses={styles.footerButton}
-                label={`Ver meu amigo secreto novamente`}
-                noEffects
-            >
-                <p className={`${styles.footerButtonFont} modalFooter`}>`Ver meu amigo secreto novamente</p>
-            </Button>
+            <Link href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`} className='modalFooter'>
+                <Button
+                    icon={<ViewIcon />}
+                    additionalClasses={styles.footerButton}
+                    noEffects
+                >
+                    <p className={`${styles.footerButtonFont}`}>Ver meu amigo secreto novamente</p>
+                </Button>
+            </Link>
         </div>,
     }
 

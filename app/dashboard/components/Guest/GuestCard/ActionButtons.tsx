@@ -1,5 +1,7 @@
 'use client';
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 import styles from "./styles.module.css";
 
@@ -11,28 +13,58 @@ import GuestModal from "../GuestModal";
 import ShareIcon from "@public/icons/share.svg";
 import SendEmail from "@public/icons/send_email.svg";
 import EditIcon from "@public/icons/edit.svg";
+import DeleteIcon from "@public/icons/delete.svg";
 
 // Types
 import { EventStatus } from "types/Event";
-import { GuestStatus } from "types/Guest";
+import Guest from "types/Guest";
 
-export default function ActionButtons({ guestLink, eventStatus, guestStatus }: { guestLink: string, eventStatus: EventStatus, guestStatus: GuestStatus }) {
+interface Props {
+    guest: Guest
+    inviteLink: string;
+    eventStatus: EventStatus;
+}
+
+export default function ActionButtons({ guest, eventStatus, inviteLink }: Props) {
     const [isShareModalVisible, setShareModalVisible] = useState(false);
     const [resendEmailModalState, setResendEmailModalState] = useState<MODAL_STATE>({ status: false });
-    const [guestModalProps, setGuestModalProps] = useState<{ status: boolean, guestId?: string }>({ status: false, guestId: undefined });
+    const [isGuestModalVisible, setIsGuestModalVisible] = useState(false);
+    const [deleteModalState, setDeleteModalState] = useState<MODAL_STATE>({ status: false });
+
+    const [isLoading, setLoading] = useState(false)
+    const router = useRouter();
+
+    async function deleteGuest() {
+        setLoading(true)
+
+        try {
+            const response = await axios.delete(`/api/guests/${guest.id}`)
+            if (response) {
+                setLoading(false)
+                setDeleteModalState({ status: false })
+                router.refresh()
+            } else {
+                setDeleteModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
+            }
+        } catch (error) {
+            console.log(error)
+            setDeleteModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
+        }
+    }
 
     return (
         <>
             <div className={styles.actions}>
                 {
-                    eventStatus === "DIVULGATED" && guestStatus === "CONFIRMED" && <SendEmail width={22} height={22} onClick={() => setResendEmailModalState({ status: true })} />
-                }
-                {
-                    eventStatus === "PENDING" && <ShareIcon width={22} height={22} onClick={() => setShareModalVisible(true)} />
+                    eventStatus === "DIVULGATED" && guest.status === "CONFIRMED" && <SendEmail width={22} height={22} onClick={() => setResendEmailModalState({ status: true })} />
                 }
                 {
                     eventStatus === "PENDING" &&
-                    <EditIcon width={22} height={22} />
+                    <>
+                        <ShareIcon width={22} height={22} onClick={() => setShareModalVisible(true)} />
+                        <EditIcon width={22} height={22} onClick={() => setIsGuestModalVisible(true)} />
+                        <DeleteIcon width={22} height={22} onClick={() => setDeleteModalState({ status: true })} />
+                    </>
                 }
 
             </div>
@@ -51,15 +83,33 @@ export default function ActionButtons({ guestLink, eventStatus, guestStatus }: {
                     },
                 ]}
             />
-            {/* <GuestModal
-            
-            /> */}
+            <GuestModal
+                isVisible={isGuestModalVisible}
+                modalProps={{ guest: guest }}
+                toggleVisibility={() => setIsGuestModalVisible(!isGuestModalVisible)}
+            />
             <ShareModal
                 isVisible={isShareModalVisible}
                 toggleVisibility={() => setShareModalVisible(false)}
-                link={guestLink}
+                link={inviteLink}
                 description={<p>O link abaixo é único e exclusivo para <strong>Fulano da Silva</strong> e <strong>somente deve ser utilizado por esse convidado.</strong> <br />
                     Cuidado! Pois as informações do convidado podem ser visualizadas por qualquer um com acesso ao link.</p>}
+            />
+            <Modal
+                isVisible={deleteModalState.status !== false}
+                toggleVisibility={() => setDeleteModalState({ status: false })}
+                headerProps={{
+                    icon: <DeleteIcon width={"2.4rem"} height={"2.4rem"} />,
+                    title: deleteModalState.status === "error" ? "Eita! Algo deu errado..." : `Você tem certeza que deseja remover o convidado?`,
+                    description: deleteModalState.value ? deleteModalState.value : `Após remover o convidado, ele não será mais capaz de acessar o evento.`
+                }}
+                isLoading={isLoading}
+                buttons={[
+                    {
+                        text: "Remover Convidado",
+                        onClick: deleteGuest,
+                    },
+                ]}
             />
         </>
     )

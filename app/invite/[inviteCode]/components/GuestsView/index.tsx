@@ -6,9 +6,9 @@ import Image from 'next/image';
 import styles from './styles.module.css'
 
 // Assets
-import CheckIcon from '../../../../public/icons/check.svg';
-import ChevronLeft from "../../../../public/icons/chevron_left.svg";
-import useHorizontalScroll from '../../../../hooks/useHorizontalScroll';
+import CheckIcon from '@public/icons/check.svg';
+import ChevronLeft from "@public/icons/chevron_left.svg";
+import useHorizontalScroll from 'hooks/useHorizontalScroll';
 
 export default function GuestsView() {
     const GUESTS = [

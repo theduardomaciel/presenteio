@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 
 import dashboardStyles from "../dashboard.module.css";
 import styles from './styles.module.css';
@@ -18,9 +19,14 @@ import { getEvent } from '@utils/getEvents';
 import Event from 'types/Event';
 import GuestCard from '@dashboard/components/Guest/GuestCard';
 import EmptyGuests from '@dashboard/components/Guest/EmptyGuests';
+import AddGuest from './AddGuest';
 
 export default async function EventPage({ params }: { params: any }) {
     const event = await getEvent(parseInt(params.eventId)) as unknown as Event;
+
+    if (!event) {
+        notFound();
+    }
 
     const { createdAt, ...rest } = event;
 
@@ -42,8 +48,10 @@ export default async function EventPage({ params }: { params: any }) {
                 }
                 <Overlay />
             </div>
-            <DashboardSectionHeader title='Participantes' />
-            <div className={styles.guestsHolder}>
+            <DashboardSectionHeader title='Participantes'>
+                <AddGuest eventId={event.id} />
+            </DashboardSectionHeader>
+            <div className={`${styles.guestsHolder} ${event.guests && event.guests.length === 0 ? styles.empty : ""}`}>
                 {
                     event.guests && event.guests.length > 0 ?
                         event.guests.map((guest, index) => {

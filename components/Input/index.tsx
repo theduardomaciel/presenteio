@@ -65,10 +65,10 @@ const Input = ({ label, fixedUnit, height, numberControl, icon, errorMessage, ch
     return <div className={styles.flex} key={'inputContainer'}>
         {
             label &&
-            <header>
+            <div className={styles.labelContainer}>
                 <InputLabel label={label} />
                 {children}
-            </header>
+            </div>
         }
         {
             fixedUnit ?

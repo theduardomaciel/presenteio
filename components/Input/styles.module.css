@@ -11,7 +11,7 @@
     min-height: fit-content;
 }
 
-.flex header {
+.flex .labelContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

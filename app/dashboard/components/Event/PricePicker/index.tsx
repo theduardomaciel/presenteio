@@ -52,9 +52,9 @@ function CustomSlider(props: Slider.SliderProps) {
     )
 }
 
-export default function DashboardPricePicker({ fixedWidth = false }: { fixedWidth?: boolean }) {
-    const [minValue, setMinValue] = React.useState<number | false>(false);
-    const [maxValue, setMaxValue] = React.useState<number | false>(false);
+export default function DashboardPricePicker({ defaultValues, fixedWidth = false }: { defaultValues?: { min?: number, max?: number }, fixedWidth?: boolean }) {
+    const [minValue, setMinValue] = React.useState<number | false>(defaultValues?.min || false);
+    const [maxValue, setMaxValue] = React.useState<number | false>(defaultValues?.max || false);
 
     const VALUE = minValue && maxValue ? [
         minValue ? minValue : DEFAULT_MIN_VALUE,

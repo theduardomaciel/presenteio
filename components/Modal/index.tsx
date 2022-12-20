@@ -13,6 +13,7 @@ import CloseIcon from '../../public/icons/close.svg';
 interface ModalButton {
     text?: string;
     disabled?: boolean;
+    type?: "submit" | "button";
     style?: React.CSSProperties;
     onClick?: () => void;
     icon?: React.ReactElement;
@@ -50,7 +51,6 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 export type MODAL_STATE = { status: boolean | string, value?: string };
 
 export default function Modal({ isVisible, toggleVisibility, style, isLoading, insertLogo, returnButton = { enabled: true }, headerProps, buttons, children }: Props) {
-
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.nativeEvent.target as HTMLDivElement;
         if (target.id === "background") {
@@ -59,7 +59,6 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
         };
     }
 
-    console.log(buttons && buttons.length > 0)
     return (
         <AnimatePresence mode='wait'>
             {
@@ -128,6 +127,7 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
                                                     key={button.text}
                                                     onClick={button.onClick}
                                                     isLoading={isLoading}
+                                                    type={button.type ? button.type : "button"}
                                                     style={{
                                                         ...button.style,
                                                         background: button.disabled ? "var(--light-gray)" : "var(--primary-01)",
