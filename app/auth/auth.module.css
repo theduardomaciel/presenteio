@@ -45,6 +45,7 @@
 
 .buttonInfo h6 {
     font-family: 'Arial';
+    color: var(--primary-02);
     font-style: normal;
     font-weight: 700;
     font-size: 1.6rem;
@@ -52,6 +53,7 @@
 
 .buttonInfo p {
     font-family: 'Arial';
+    color: var(--primary-02);
     font-style: normal;
     font-weight: 500;
     font-size: 1.2rem;

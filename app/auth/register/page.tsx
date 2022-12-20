@@ -21,7 +21,6 @@ const unselectedStyle = {
     justifyContent: "flex-start",
     backgroundColor: "var(--light)",
     border: "2px solid var(--primary-03)",
-    color: "var(--primary-02)",
     width: "100%",
     borderRadius: "1rem",
 }
@@ -32,9 +31,16 @@ const selectedStyle = {
     justifyContent: "flex-start",
     backgroundColor: "var(--primary-02)",
     border: "2px solid var(--primary-03)",
-    color: "var(--light)",
     width: "100%",
     borderRadius: "1rem",
+}
+
+const textSelectedStyle = {
+    color: "var(--light)",
+}
+
+const textUnselectedStyle = {
+    color: "var(--primary-02)",
 }
 
 // Icons
@@ -349,7 +355,7 @@ export default function Register() {
                 }}
             >
                 <GoogleIcon className={styles.optionIcon} />
-                <div className={styles.buttonInfo}>
+                <div className={styles.buttonInfo} style={selected === 1 ? textSelectedStyle : textUnselectedStyle}>
                     <h6>Entrar com o Google</h6>
                     <p>Fique despreocupado em ter que lembrar da senha de acesso à plataforma.</p>
                 </div>
@@ -362,7 +368,7 @@ export default function Register() {
                 }}
             >
                 <MailLockIcon className={styles.optionIcon} />
-                <div className={styles.buttonInfo}>
+                <div className={styles.buttonInfo} style={selected === 1 ? textSelectedStyle : textUnselectedStyle}>
                     <h6>Entrar com e-mail e senha</h6>
                     <p>Utilize o método tradicional de autenticação. <br />
                         Você terá que lembrar de sua senha para entrar na plataforma.</p>
