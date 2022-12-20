@@ -1,6 +1,6 @@
 'use client';
 
-import GoogleLogo from '../../../public/icons/google.svg';
+import GoogleLogo from '@public/icons/google.svg';
 import Button from "components/Button";
 
 export default function GoogleButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
