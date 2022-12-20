@@ -165,7 +165,7 @@ export default function ActionButtons({ guest, event }: Props) {
             />
             <DashboardToast
                 isOpened={isToastVisible}
-                setOpened={setToastVisible}
+                setDynamicOpened={setToastVisible}
                 title="Eba! Deu tudo certo!"
                 icon={toastIcon}
                 description={toastMessage}
