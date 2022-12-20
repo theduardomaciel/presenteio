@@ -16,9 +16,10 @@ import Guest from "types/Guest";
 interface Props {
     guestsImages: string[];
     chosenGuest: Guest;
+    eventProps: { name: string, type: string }
 }
 
-export default function RevealContent({ guestsImages, chosenGuest }: Props) {
+export default function RevealContent({ guestsImages, chosenGuest, eventProps }: Props) {
     const [status, setStatus] = useState<"idle" | "animating">("idle");
 
     return (
@@ -29,7 +30,7 @@ export default function RevealContent({ guestsImages, chosenGuest }: Props) {
                 exit={{ scale: 0.8, opacity: 0 }}
                 transition={{ type: "spring" }}
             >
-                <EventTitle />
+                <EventTitle type={eventProps.type} name={eventProps.name} />
             </motion.div>
             {
                 status === "idle" ?

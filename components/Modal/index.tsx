@@ -48,7 +48,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     isLoading?: boolean;
 }
 
-export type MODAL_STATE = { status: boolean | string, value?: string };
+export type MODAL_STATE = { status: boolean | string, description?: string, title?: string, value?: string };
 
 export default function Modal({ isVisible, toggleVisibility, style, isLoading, insertLogo, returnButton = { enabled: true }, headerProps, buttons, children }: Props) {
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -74,7 +74,7 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
                         onClick={(event) => handleClick(event)}
                     >
                         <motion.div
-                            className={styles.container}
+                            className={`${styles.container} scroll`}
                             key="modalContent"
                             style={style}
                             initial={{ y: 300, x: 0, opacity: 0 }}
@@ -96,7 +96,7 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
                             {
                                 insertLogo &&
                                 <div className={styles.headerContainer} style={{ justifyContent: headerProps?.position ? headerProps?.position : "center" }}>
-                                    <Logo className={styles.logo} />
+                                    <Logo className={styles.logo} height={32} />
                                 </div>
                             }
 
@@ -144,7 +144,7 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
                                 </div>
                             }
                             {
-                                returnButton.enabled && <div className={'modalFooterHolder'}>
+                                returnButton.enabled && !isLoading ? <div className={'modalFooterHolder'}>
                                     <div className='divisor' />
                                     <div className={'modalFooter'} onClick={toggleVisibility}>
                                         {
@@ -152,7 +152,7 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
                                         }
                                         <p style={{ fontWeight: 700 }}> {returnButton.text ? returnButton.text : "Cancelar"} </p>
                                     </div>
-                                </div>
+                                </div> : <div className='divisor' />
                             }
                         </motion.div>
                     </motion.div>

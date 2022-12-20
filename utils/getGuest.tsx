@@ -16,7 +16,8 @@ export const getGuest = cache(async (id: string) => {
                 id: id
             },
             include: {
-                event: false
+                event: false,
+                chosenGuest: true
             }
         });
 

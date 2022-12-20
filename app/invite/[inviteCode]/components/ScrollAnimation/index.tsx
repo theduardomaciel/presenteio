@@ -9,7 +9,7 @@ import styles from './styles.module.css';
 // Properties
 const DURATION = 10000;
 const ROWS = 3;
-const TAGS_PER_ROW = 8;
+const TAGS_PER_ROW = 10;
 
 const random = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
 const shuffle = (arr: string[]) => [...arr].sort(() => .5 - Math.random());
@@ -28,16 +28,6 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
     const [status, setStatus] = useState<"animating" | "finishing" | "animated">("animating");
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            const RANDOM_INDEX = random(0, TAGS_PER_ROW * ROWS);
-            const RANDOM_IMAGE = document.querySelectorAll(`.${styles.image}`)[RANDOM_INDEX];
-            RANDOM_IMAGE.classList.toggle(styles.blink);
-            const timeout = setTimeout(() => {
-                RANDOM_IMAGE.classList.toggle(styles.blink);
-                timeout && clearTimeout(timeout);
-            }, 850);
-        }, 1000);
-
         const removeTimeout = setTimeout(() => {
             const elements = document.querySelectorAll(`.${styles.inner}`);
             elements.forEach(element => {
@@ -49,48 +39,49 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
                 const elements = document.querySelectorAll(`.${styles.image}`);
                 elements.forEach(element => {
                     const div = element as HTMLDivElement;
-                    if (div.classList.contains(styles.chosenGuest)) return;
-                    div.style.opacity = "0";
+                    if (div.classList.contains(styles.chosenGuest) === false) {
+                        div.style.opacity = "0";
+                    }
                 })
                 setStatus("animated")
                 fadeTimeout && clearTimeout(fadeTimeout);
                 removeTimeout && clearTimeout(removeTimeout);
-                interval && clearInterval(interval);
             }, 5 * 1000);
         }, DURATION);
     }, [])
 
-    const isGuestsArrayEven = guestsImages.length % 2 === 0;
-    const SORTED_ARRAY = useMemo(() => isGuestsArrayEven ? makeRepeated(shuffle(guestsImages), 3).concat([guestsImages[guestsImages.length - 1]]) : makeRepeated(shuffle(guestsImages), 3), []);
+    const MULTIPLY_BY = Math.floor(TAGS_PER_ROW / guestsImages.length) + 1;
+    const IS_ARRAY_EVEN = guestsImages.length % 2 === 0;
+    const SORTED_ARRAY = useMemo(() => IS_ARRAY_EVEN ? makeRepeated(shuffle(guestsImages), MULTIPLY_BY)
+        : makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([guestsImages[guestsImages.length - 1]]), []);
+
+    const MIDDLE_INDEX = Math.floor(SORTED_ARRAY.length / 2);
 
     const images = SORTED_ARRAY.map((guest, i) => (
-        <Tag additionalClass={i === 15 ? styles.chosenGuest : undefined} image_url={i === 15 ? chosenGuest.image_url : guest} size={150} removeMargin />
+        <Tag
+            key={i.toString()}
+            additionalClass={i === MIDDLE_INDEX ? styles.chosenGuest : undefined}
+            image_url={i === MIDDLE_INDEX ? chosenGuest.image_url : guest}
+            size={150}
+            removeMargin
+        />
     ));
 
     return (
         <AnimatePresence>
             <motion.div
-                key={'infiniteLoopSlidersHolder'}
+                key={'scrollAnimation'}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className={styles.tagList}
             >
                 {
-                    status === "animating" && (
-                        <motion.div
-                            key={'infiniteLoopSlider1'}
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                        >
-                            <InfiniteLoopSlider duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
-                                {shuffle(guestsImages).slice(0, TAGS_PER_ROW).map(guest => (
-                                    <Tag image_url={guest} size={125} />
-                                ))}
-                            </InfiniteLoopSlider>
-                        </motion.div>
-                    )
+                    status === "animating" && <InfiniteLoopSlider key={'firstAnimator'} duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
+                        {shuffle(guestsImages.length < TAGS_PER_ROW ? makeRepeated(guestsImages, 2) : guestsImages).slice(0, TAGS_PER_ROW).map((guest, i) => (
+                            <Tag key={i.toString()} image_url={guest} size={125} />
+                        ))}
+                    </InfiniteLoopSlider>
                 }
 
                 <motion.div
@@ -106,6 +97,7 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
                 {
                     status === "animated" &&
                     <motion.div
+                        key={'animatorDiv'}
                         className={styles.chosenReveal}
                         initial={{ transform: "translateY(50%)", opacity: 0 }}
                         animate={{ transform: "translateY(0%)", opacity: 1 }}
@@ -122,9 +114,9 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
                 }
 
                 {
-                    status === "animating" && <InfiniteLoopSlider duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
-                        {shuffle(guestsImages).slice(0, TAGS_PER_ROW).map(guest => (
-                            <Tag image_url={guest} size={125} />
+                    status === "animating" && <InfiniteLoopSlider key={"secondAnimator"} duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
+                        {shuffle(guestsImages.length < TAGS_PER_ROW ? makeRepeated(guestsImages, 2) : guestsImages).slice(0, TAGS_PER_ROW).map((guest, i) => (
+                            <Tag key={i.toString()} image_url={guest} size={125} />
                         ))}
                     </InfiniteLoopSlider>
                 }

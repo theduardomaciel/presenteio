@@ -4,7 +4,7 @@ import { createRouter } from "next-connect";
 import jwt from 'jsonwebtoken';
 
 import prisma from "../../../lib/prisma";
-import { getImageUrl } from '../uploadImage';
+import { getImageUrl } from '../images/uploadImage';
 import { GuestStatus } from '@prisma/client';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();

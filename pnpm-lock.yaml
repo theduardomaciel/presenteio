@@ -10,6 +10,7 @@ specifiers:
   '@radix-ui/react-slider': ^1.1.0
   '@radix-ui/react-switch': ^1.0.1
   '@radix-ui/react-toast': ^1.1.2
+  '@react-email/button': 0.0.4
   '@react-email/container': 0.0.4
   '@react-email/head': ^0.0.2
   '@react-email/html': 0.0.2
@@ -56,6 +57,7 @@ dependencies:
   '@radix-ui/react-slider': 1.1.0_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-switch': 1.0.1_biqbaboplfbrettd7655fr4n2y
   '@radix-ui/react-toast': 1.1.2_biqbaboplfbrettd7655fr4n2y
+  '@react-email/button': 0.0.4
   '@react-email/container': 0.0.4
   '@react-email/head': 0.0.2
   '@react-email/html': 0.0.2
@@ -2185,6 +2187,12 @@ packages:
     resolution: {integrity: sha512-d0O68AYy/9oeEy1DdC07bz1/ZXX+DqCskRd3i4JzLSTXwefzaepQrKjXC7aNM8lTHjFLDO0pDgaEiQ7jEk+HVg==}
     dependencies:
       '@babel/runtime': 7.20.6
+    dev: false
+
+  /@react-email/button/0.0.4:
+    resolution: {integrity: sha512-6leTjsbf37fBb54AKSTOp1lzDsEFgJ/RdoBAy9MhuiciOqnUhJ5BRHZd4LJkt46FsBrILs8Ob50Y4quzV4kP0Q==}
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /@react-email/container/0.0.4:

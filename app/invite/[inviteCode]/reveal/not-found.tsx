@@ -20,7 +20,7 @@ export default function NotFound() {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <Logo />
+                <Logo height={35} />
                 <h1>Eita! Parece que você está um pouco adiantado!</h1>
                 <p>Nem todos os participantes já foram confirmados, por isso, o sorteio ainda não foi realizado. <br /> <br />
                     <strong>Não se preocupe pois você receberá um e-mail assim que o sorteio for realizado.</strong>

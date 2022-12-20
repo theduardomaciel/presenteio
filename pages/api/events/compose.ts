@@ -5,7 +5,7 @@ import { verify } from "jsonwebtoken";
 
 import prisma from "../../../lib/prisma";
 import extractToken from "../../../lib/extractToken";
-import { getImageUrl } from "../uploadImage";
+import { getImageUrl } from "../images/uploadImage";
 import Guest from "types/Guest";
 import { PreGuest } from "@dashboard/components/Guest/PreGuestsDisplay";
 

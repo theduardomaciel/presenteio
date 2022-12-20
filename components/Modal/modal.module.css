@@ -135,22 +135,6 @@
         padding: 5rem;
     }
 
-    .container::-webkit-scrollbar {
-        width: 1rem;
-    }
-
-    .container::-webkit-scrollbar-track {
-        background: var(--primary-03);
-        opacity: 0;
-    }
-
-    /* Handle */
-    .container::-webkit-scrollbar-thumb {
-        background: var(--primary-01);
-        border-radius: 1rem;
-        opacity: 0.5;
-    }
-
     .buttonsHolder {
         flex-wrap: nowrap;
     }

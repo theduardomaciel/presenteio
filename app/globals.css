@@ -138,13 +138,13 @@ div.hide {
 }
 
 .scroll::-webkit-scrollbar-track {
-    background: var(--primary-03);
+    background: transparent;
     opacity: 0;
 }
 
 /* Handle */
 .scroll::-webkit-scrollbar-thumb {
-    background: var(--primary-01);
+    background: var(--primary-03);
     border-radius: 1rem;
     opacity: 0.5;
 }

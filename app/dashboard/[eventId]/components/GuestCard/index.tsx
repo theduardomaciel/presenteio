@@ -10,13 +10,14 @@ import EmailIcon from "@public/icons/email.svg";
 
 import DataIcon from "@public/icons/guestStatus/data.svg";
 import PendingIcon from "@public/icons/guestStatus/pending.svg";
+import VisualizedIcon from "@public/icons/view.svg";
 import ConfirmedIcon from "@public/icons/guestStatus/confirmed.svg";
 
 // Utils
 import Guest from 'types/Guest';
-import { EventStatus } from 'types/Event';
+import Event from 'types/Event';
 
-const GuestCard = ({ guest, eventInfo }: { guest: Omit<Guest, "event">, eventInfo: { status: EventStatus, inviteCode: string } }) => {
+const GuestCard = ({ guest, event }: { guest: Omit<Guest, "event">, event: Omit<Event, 'createdAt'> }) => {
     return (
         <div className={styles.guestCard}>
             <header>
@@ -26,12 +27,12 @@ const GuestCard = ({ guest, eventInfo }: { guest: Omit<Guest, "event">, eventInf
                     }
                     <h6>{guest.name}</h6>
                 </div>
-                <ActionButtons eventStatus={eventInfo.status} guest={guest} inviteLink={`https://presenteio.vercel.app/invite/${eventInfo.inviteCode}?guest=${guest.id}`} />
+                <ActionButtons guest={guest} event={event} />
             </header>
             <footer>
                 <div className={styles.iconAndLabel}>
                     {
-                        guest.status === "CONFIRMED" ? <>
+                        guest.status === "CONFIRMED" && event.status !== "DIVULGATED" ? <>
                             <DataIcon width={16} height={16} />
                             <p>Dados Confirmados</p>
                         </> : guest.status === "VISUALIZED" ?
@@ -39,10 +40,16 @@ const GuestCard = ({ guest, eventInfo }: { guest: Omit<Guest, "event">, eventInf
                                 <ConfirmedIcon width={16} height={16} />
                                 <p>Visualizado</p>
                             </> :
-                            <>
-                                <PendingIcon width={16} height={16} />
-                                <p>Aguardando convidado...</p>
-                            </>
+                            event.status === "DIVULGATED" ?
+                                <>
+                                    <VisualizedIcon width={16} height={16} />
+                                    <p>Visualização pendente...</p>
+                                </>
+                                :
+                                <>
+                                    <PendingIcon width={16} height={16} />
+                                    <p>Aguardando convidado...</p>
+                                </>
                     }
                 </div>
                 <div className='divisor vertical' />

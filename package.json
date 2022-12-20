@@ -19,6 +19,7 @@
         "@radix-ui/react-slider": "^1.1.0",
         "@radix-ui/react-switch": "^1.0.1",
         "@radix-ui/react-toast": "^1.1.2",
+        "@react-email/button": "0.0.4",
         "@react-email/container": "0.0.4",
         "@react-email/head": "^0.0.2",
         "@react-email/html": "0.0.2",

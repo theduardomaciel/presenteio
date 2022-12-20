@@ -38,7 +38,7 @@ export function Tag({ size = 125, image_url = "https://github.com/theduardomacie
     const DURATION = Math.random() * (MAX_DELAY / 2);
     return (
         <Image
-            className={`${styles.image} ${additionalClass ? additionalClass : ""}`}
+            className={`${styles.image} imageContain ${additionalClass ? additionalClass : ""}`}
             style={additionalClass ? { marginRight: removeMargin ? 0 : "7.5rem" } : { animationDelay: `${DELAY}ms`, animationDuration: `${DURATION}ms`, marginRight: removeMargin ? 0 : "7.5rem" }}
             src={image_url}
             alt={""}

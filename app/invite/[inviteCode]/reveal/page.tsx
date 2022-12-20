@@ -26,7 +26,7 @@ export default async function Reveal({ params, searchParams }: InviteProps) {
     return (
         <div className={styles.container}>
             <div className={styles.gradient} />
-            <RevealContent guestsImages={event.guests.map(guest => guest.image_url)} chosenGuest={guest.chosenGuest} />
+            <RevealContent guestsImages={event.guests.map(guest => guest.image_url)} chosenGuest={guest.chosenGuest} eventProps={{ type: event.type, name: event.name }} />
             <div className={`${styles.gradient} ${styles.fromRight}`} />
         </div>
     )

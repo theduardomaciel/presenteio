@@ -13,6 +13,8 @@ import Gift from "@public/images/gift.png"
 import Guest from 'types/Guest'
 import Event from 'types/Event'
 
+import getWordGenre from '@utils/wordGenre'
+
 interface Props {
     guest?: Guest,
     event: Event
@@ -32,8 +34,6 @@ function getGreetings() {
 }
 
 export default function Intro({ guest, event }: Props) {
-    const eventNameLastLetterOfFirstWord = event.name.split(' ')[0].charAt(event.name.split(' ')[0].length - 1);
-
     return <>
         {
             guest &&
@@ -46,7 +46,7 @@ export default function Intro({ guest, event }: Props) {
                 <div className={styles.titleContent}>
                     <h3>Chegou a hora do</h3>
                     <h1>{event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"}</h1>
-                    <h3>d{eventNameLastLetterOfFirstWord === "a" ? "a" : "o"} {event.name}</h3>
+                    <h3>d{getWordGenre(event.name)} {event.name}</h3>
                 </div>
 
                 <ParticipateButton guest={guest} eventId={event.id} inviteCode={event.inviteCode} />

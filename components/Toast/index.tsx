@@ -16,18 +16,20 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
 interface Props {
     isOpened: boolean;
-    setOpened: (value: boolean) => void;
+    setOpened: React.Dispatch<React.SetStateAction<[boolean, string, React.ReactElement<any, string | React.JSXElementConstructor<any>> | null]>>
     title: string;
     description: string;
-    icon: React.ReactElement;
+    icon?: any;
 }
 
 export default function DashboardToast({ isOpened, setOpened, title, description, icon }: Props) {
     return (
-        <Toast.Root className={styles.toastRoot} open={isOpened} onOpenChange={setOpened}>
-            <div className={styles.column}>
-                {icon}
-            </div>
+        <Toast.Root className={styles.toastRoot} open={isOpened} onOpenChange={(opened) => setOpened([opened, "", null])}>
+            {
+                icon && <div className={styles.column}>
+                    {icon}
+                </div>
+            }
             <div className={styles.column}>
                 <Toast.Title className={styles.toastTitle}>{title}</Toast.Title>
                 <Toast.Description className={styles.toastDescription} >

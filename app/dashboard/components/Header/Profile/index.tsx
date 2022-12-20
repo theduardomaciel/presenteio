@@ -63,8 +63,8 @@ interface Props {
 export default async function DashboardProfile({ children, additionalClasses }: Props) {
     const account = await getAccount('teste');
 
-    const PLACEHOLDER_IMAGE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/generateImage?name=${account?.name.replaceAll(' ', '%20')}`
-        : `https://presenteio.vercel.app/api/generateImage?name=${account?.name.replaceAll(' ', '%20')}`;
+    const PLACEHOLDER_IMAGE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/images/generateProfileImage?name=${account?.name.replaceAll(' ', '%20')}`
+        : `https://presenteio.vercel.app/api/images/generateProfileImage?name=${account?.name.replaceAll(' ', '%20')}`;
 
     return (
         <div className={`${styles.container} ${additionalClasses}`} style={children ? {} : { width: "15%" }}>

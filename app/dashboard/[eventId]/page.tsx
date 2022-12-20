@@ -17,7 +17,7 @@ import LinkIcon from "@public/icons/link.svg";
 // Utils
 import { getEvent } from '@utils/getEvents';
 import Event from 'types/Event';
-import GuestCard from '@dashboard/components/Guest/GuestCard';
+import GuestCard from 'app/dashboard/[eventId]/components/GuestCard';
 import EmptyGuests from '@dashboard/components/Guest/EmptyGuests';
 import AddGuest from './components/AddGuest';
 import InviteLink from './components/InviteLink';
@@ -58,7 +58,7 @@ export default async function EventPage({ params }: { params: any }) {
                 {
                     event.guests && event.guests.length > 0 ?
                         event.guests.map((guest, index) => {
-                            return <GuestCard key={index} guest={guest} eventInfo={{ status: event.status, inviteCode: event.inviteCode }} />
+                            return <GuestCard key={index} guest={guest} event={rest} />
                         })
                         :
                         <EmptyGuests label={`Nenhum convidado foi adicionado ao evento até o momento.\nEnvie o convite para que novos usuários possam entrar!`} />

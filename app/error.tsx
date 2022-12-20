@@ -22,7 +22,7 @@ export default function Error({ error, reset, }: { error: Error; reset: () => vo
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <Logo />
+                <Logo height={35} />
                 <h1>{`Eita! Parece que algo deu errado :(`}</h1>
                 <p>Caso o problema persista, envie uma captura de tela do erro descrito abaixo em <br />
                     <Link href={`mailto:app.presenteio@gmail.com`}>app.presenteio@gmail.com</Link></p>

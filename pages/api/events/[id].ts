@@ -8,7 +8,7 @@ import prisma from "../../../lib/prisma";
 import { verify } from "jsonwebtoken";
 import extractToken from "../../../lib/extractToken";
 
-import { deleteImage, getImageUrl } from "../uploadImage";
+import { deleteImage, getImageUrl } from "../images/uploadImage";
 import { PreGuest } from "@dashboard/components/Guest/PreGuestsDisplay";
 
 router

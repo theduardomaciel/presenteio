@@ -22,19 +22,29 @@ import DeleteIcon from "@public/icons/delete.svg";
 
 import Event from "types/Event";
 
+const ENABLED_BUTTON = {
+    width: "49%",
+    padding: "1rem 2.5rem",
+    borderRadius: "0.8rem",
+    backgroundColor: "var(--primary-02)",
+} as React.CSSProperties;
+
+const DISABLED_BUTTON = {
+    width: "49%",
+    padding: "1rem 2.5rem",
+    borderRadius: "0.8rem",
+    border: "none",
+    outline: "none",
+    backgroundColor: "var(--font-light)",
+} as React.CSSProperties;
+
 export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt'> }) {
     const [sendEmailModalState, setSendEmailModalState] = useState<MODAL_STATE>({ status: false });
     const [editEventModalState, setEditEventModalState] = useState<MODAL_STATE>({ status: false });
     const [deleteModalState, setDeleteModalState] = useState<MODAL_STATE>({ status: false });
 
     const [isLoading, setLoading] = useState(false);
-
-    const BUTTON_STYLE = {
-        width: "49%",
-        padding: "1rem 2.5rem",
-        borderRadius: "0.8rem",
-        backgroundColor: event.status === "PENDING" ? "var(--primary-02)" : "var(--light-gray)",
-    } as React.CSSProperties;
+    const router = useRouter();
 
     async function onSubmitEdit(formEvent: React.FormEvent<HTMLFormElement>) {
         formEvent.preventDefault();
@@ -66,10 +76,9 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
         }
     }
 
-    const router = useRouter();
-
     async function deleteEvent() {
         setLoading(true)
+        setDeleteModalState({ status: "pending", value: "Aguarde enquanto excluímos este evento e todas as suas informações." })
 
         try {
             const response = await axios.delete(`/api/events/${event.id}`)
@@ -84,33 +93,41 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
         }
     }
 
+    async function raffleGuests() {
+        setLoading(true)
+        setSendEmailModalState({ status: "pending", title: "Aguarde um momento...", description: "Estamos sorteando os convidados e enviando os e-mails com os resultados pessoais a todos." })
+
+        try {
+            const response = await axios.post(`/api/events/raffle`, { id: event.id })
+            if (response) {
+                setLoading(false)
+                setSendEmailModalState({
+                    status: "success", title: "Os e-mails foram enviados com sucesso!", description: `Todos os participantes já foram sorteados, agora, basta que cada um acesse seu e-mail para descobrir quem foi seu sorteado!\n\nA partir de agora, nenhum outro participante pode entrar no evento.`
+                })
+                router.refresh();
+            } else {
+                setLoading(false)
+                setSendEmailModalState({ status: "error", title: "Eita! Algo deu errado!", description: "Um erro interno nos impediu de sortear os convidados. Por favor, tente novamente mais tarde." })
+            }
+        } catch (error) {
+            console.log(error)
+            setLoading(false)
+            setSendEmailModalState({ status: "error", title: "Eita! Algo deu errado!", description: "Um erro interno nos impediu de sortear os convidados. Por favor, tente novamente mais tarde." })
+        }
+    }
+
     return (
         <>
             <div className={styles.buttonsHolder}>
-                <Button style={BUTTON_STYLE} onClick={() => setSendEmailModalState({ status: true })}>
-                    <SendEmail height={24} width={24} />
+                <Button disabled={event.status === "DIVULGATED"} style={event.status === "PENDING" ? ENABLED_BUTTON : DISABLED_BUTTON} onClick={() => setSendEmailModalState({ status: true })}>
+                    <SendEmail fill="var(--neutral)" height={24} width={24} />
                     Enviar e-mails
                 </Button>
-                <Button style={BUTTON_STYLE} onClick={() => setEditEventModalState({ status: true })}>
+                <Button style={ENABLED_BUTTON} onClick={() => setEditEventModalState({ status: true })}>
                     <SettingsIcon height={24} width={24} />
                     Configurações do Evento
                 </Button>
             </div>
-            <Modal
-                isVisible={sendEmailModalState.status !== false}
-                toggleVisibility={() => setSendEmailModalState({ status: false })}
-                headerProps={{
-                    icon: <SendEmail width={"2.4rem"} height={"2.4rem"} />,
-                    title: `Você tem certeza que deseja enviar os e-mails?`,
-                    description: `Após enviar os e-mails, novos usuários não poderão participar do evento e a edição das informações dos convidados será bloqueada.`
-                }}
-                buttons={[
-                    {
-                        text: "Enviar e-mails",
-                        onClick: () => { },
-                    },
-                ]}
-            />
             <Modal
                 isVisible={editEventModalState.status !== false}
                 toggleVisibility={() => setEditEventModalState({ status: false })}
@@ -141,8 +158,8 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                         </section>
                         <section>
                             <DashboardSubSectionHeader title='Zona de Perigo' description='As ações tomadas nessa seção sao permanentes e irreversíveis.' />
-                            <Button style={{ width: "100%", padding: "1rem", backgroundColor: "var(--primary-01)" }} onClick={() => setDeleteModalState({ status: true })}>
-                                <DeleteIcon width={18} height={18} />
+                            <Button type="button" style={{ width: "100%", padding: "1rem", backgroundColor: "var(--primary-01)" }} onClick={() => setDeleteModalState({ status: true })}>
+                                <DeleteIcon fill="var(--neutral)" width={18} height={18} />
                                 Excluir Evento
                             </Button>
                         </section>
@@ -157,17 +174,42 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                 isVisible={deleteModalState.status !== false}
                 toggleVisibility={() => setDeleteModalState({ status: false })}
                 headerProps={{
-                    icon: <DeleteIcon width={"2.4rem"} height={"2.4rem"} />,
-                    title: deleteModalState.status === "error" ? "Eita! Algo deu errado..." : `Você tem certeza que deseja excluir o evento?`,
+                    icon: <DeleteIcon fill="var(--neutral)" width={"2.4rem"} height={"2.4rem"} />,
+                    title: deleteModalState.status === "error" ? "Eita! Algo deu errado..." : deleteModalState.status === "pending" ? "Estamos trabalhando..." : `Você tem certeza que deseja excluir o evento?`,
                     description: deleteModalState.value ? deleteModalState.value : `Após excluir o evento, todos os dados relacionados a ele serão perdidos.`
                 }}
                 isLoading={isLoading}
                 buttons={[
                     {
                         text: "Excluir Evento",
+                        type: "button",
                         onClick: deleteEvent,
                     },
                 ]}
+            />
+            <Modal
+                isVisible={sendEmailModalState.status !== false}
+                toggleVisibility={() => setSendEmailModalState({ status: false })}
+                isLoading={isLoading}
+                style={{ gap: "3.5rem" }}
+                insertLogo={sendEmailModalState.status !== true}
+                headerProps={{
+                    icon: sendEmailModalState.status === true ? <SendEmail width={"2.4rem"} height={"2.4rem"} /> : undefined,
+                    title: sendEmailModalState.title ? sendEmailModalState.title : `Você tem certeza que deseja enviar os e-mails?`,
+                    description: sendEmailModalState.description ? sendEmailModalState.description : `Após enviar os e-mails, novos usuários não poderão participar do evento e a edição das informações dos convidados será bloqueada.`
+                }}
+                returnButton={{
+                    enabled: sendEmailModalState.status !== "pending" ? true : false,
+                    text: sendEmailModalState.status === true ? "Cancelar" : "Voltar",
+                    icon: sendEmailModalState.status === true ? <CloseIcon /> : <ArrowRightIcon fill="var(--primary-01)" width={18} height={18} style={{ transform: "rotate(180deg)" }} />,
+                    onClick: () => setSendEmailModalState({ status: false }),
+                }}
+                buttons={sendEmailModalState.status === (true || "pending") ? [
+                    {
+                        text: "Enviar e-mails",
+                        onClick: raffleGuests,
+                    },
+                ] : undefined}
             />
         </>
     )

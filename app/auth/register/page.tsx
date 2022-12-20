@@ -65,8 +65,8 @@ export function GoogleButton(props: React.ButtonHTMLAttributes<HTMLButtonElement
         }}
         {...props}
     >
-        Entrar com Google
         <GoogleLogo />
+        Entrar com Google
     </Button >
 }
 
@@ -236,7 +236,7 @@ export default function Register() {
             }, 1 * 1000);
 
             try {
-                const response = await axios.post(`/api/sendEmail`, { emailProps: { code: data.code, name: data.name }, emailToSend: data.email });
+                const response = await axios.post(`/api/emails/sendEmail`, { emailProps: { code: data.code, name: data.name }, sendTo: data.email });
                 if (response.status === 200) {
                     console.log("E-mail enviado com sucesso.")
                 }
@@ -319,7 +319,7 @@ export default function Register() {
             return;
         }
 
-        axios.get(`/api/checkEmail?email=${email}`)
+        axios.get(`/api/emails/checkEmail?email=${email}`)
             .then((isEmailCadastred) => {
                 if (isEmailCadastred.data) {
                     const emailInput = document.getElementById("emailInput") as HTMLInputElement;

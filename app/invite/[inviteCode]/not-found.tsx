@@ -14,7 +14,7 @@ export default function Error() {
     return (
         <div className={styles.container}>
             <div className={styles.content}>
-                <Logo />
+                <Logo height={35} />
                 <h1>Eita! Parece que esse convite não está funcionando mais!</h1>
                 <p>Por favor, contate o anfitrião caso isso seja um engano.</p>
                 <Link href={`/`}>
