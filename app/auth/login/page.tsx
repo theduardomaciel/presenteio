@@ -8,6 +8,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // Components
 import AuthModal, { Section } from '../../../components/AuthModal';
+import GoogleButton from '../GoogleButton';
 
 // Stylesheets
 import styles from '../auth.module.css';
@@ -16,7 +17,6 @@ import Landing from '../../landing';
 // Components
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
-import { GoogleButton } from '../register/page';
 
 import { setCookie } from "../../../utils/cookies";
 import Account from '../../../types/Account';
