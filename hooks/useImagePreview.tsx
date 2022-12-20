@@ -18,7 +18,6 @@ export default function useImagePreview(
         if (!preventCacheClear) {
             // free memory when ever this component is unmounted
             return () => {
-                console.log("unmounted")
                 URL.revokeObjectURL(objectUrl)
             }
         }

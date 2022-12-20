@@ -9,6 +9,7 @@ interface Guest {
     image_url: string;
     image_deleteHash?: string;
 
+    chosenGuest?: Guest;
     status: GuestStatus;
 
     event?: Event;

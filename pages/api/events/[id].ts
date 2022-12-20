@@ -1,4 +1,4 @@
-import { createRouter, expressWrapper } from "next-connect";
+import { createRouter } from "next-connect";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
@@ -9,6 +9,7 @@ import { verify } from "jsonwebtoken";
 import extractToken from "../../../lib/extractToken";
 
 import { deleteImage, getImageUrl } from "../uploadImage";
+import { PreGuest } from "@dashboard/components/Guest/PreGuestsDisplay";
 
 router
     .patch(async (req, res) => {
@@ -95,6 +96,14 @@ router
             return res.status(500).end("Something went wrong. Please try again later.");
         }
     })
+
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb' // Set desired value here
+        }
+    }
+}
 
 export default router.handler({
     onError: (err: any, req, res) => {

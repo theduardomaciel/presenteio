@@ -21,7 +21,9 @@ const GuestCard = ({ guest, eventInfo }: { guest: Omit<Guest, "event">, eventInf
         <div className={styles.guestCard}>
             <header>
                 <div className={styles.iconAndLabel}>
-                    <Image className={styles.image} src={guest.image_url} alt="Guest image." height={28} width={28} />
+                    {
+                        guest.image_url && <Image className={styles.image} src={guest.image_url} alt="Guest image." height={28} width={28} />
+                    }
                     <h6>{guest.name}</h6>
                 </div>
                 <ActionButtons eventStatus={eventInfo.status} guest={guest} inviteLink={`https://presenteio.vercel.app/invite/${eventInfo.inviteCode}?guest=${guest.id}`} />

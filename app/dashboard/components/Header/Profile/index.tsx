@@ -38,7 +38,7 @@ import { getAccount } from '@utils/getAccount';
         redirect(`/landing`)
     };
 
-    const URL = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/users/${tokenCookie.value}` : `https://presenteio.vercel.app/api/users/${tokenCookie.value}`;
+    const URL = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/accounts/${tokenCookie.value}` : `https://presenteio.vercel.app/api/accounts/${tokenCookie.value}`;
     const response = await fetch(URL, {
         method: 'GET',
         headers: {

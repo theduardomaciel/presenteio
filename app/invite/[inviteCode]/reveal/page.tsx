@@ -1,16 +1,32 @@
+import { notFound } from 'next/navigation';
+
 // Stylesheets
 import styles from './reveal.module.css'
 
 // Components
 import RevealContent from './Content'
 
-export default function Reveal() {
-    const GUESTS = ["https://github.com/megalovania.png", "https://github.com/teste.png", "https://github.com/juliano.png", "https://github.com/theduardomaciel.png", "https://github.com/theduardomaciel.png", "https://github.com/theduardomaciel.png", "https://github.com/theduardomaciel.png", "https://github.com/maxwell.png", "https://github.com/max.png", "https://github.com/robert.png"]
+
+import { getEventFromInviteCode } from '@utils/getEvents';
+import { getGuest } from '@utils/getGuest';
+
+// Types
+import { InviteProps } from '../page'
+import Guest from 'types/Guest';
+import Event from 'types/Event';
+
+export default async function Reveal({ params, searchParams }: InviteProps) {
+    const event = await getEventFromInviteCode(params?.inviteCode as string) as unknown as Event;
+    const guest = await getGuest(searchParams?.guest as string) as unknown as Guest;
+
+    if (!guest || event?.status !== "DIVULGATED" || !guest.chosenGuest) {
+        notFound();
+    }
 
     return (
         <div className={styles.container}>
             <div className={styles.gradient} />
-            <RevealContent guests={GUESTS} />
+            <RevealContent guestsImages={event.guests.map(guest => guest.image_url)} chosenGuest={guest.chosenGuest} />
             <div className={`${styles.gradient} ${styles.fromRight}`} />
         </div>
     )

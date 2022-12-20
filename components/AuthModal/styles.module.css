@@ -19,8 +19,8 @@
 }
 
 .holder.background {
-    background-color: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.85);
+    /* backdrop-filter: blur(5px); */
 }
 
 .holder.background .container {
@@ -92,5 +92,10 @@
 @media (min-width: 1024px) {
     .container {
         width: 57.5rem;
+    }
+
+    .holder.background {
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
     }
 }

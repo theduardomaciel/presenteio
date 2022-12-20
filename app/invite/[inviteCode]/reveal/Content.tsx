@@ -4,15 +4,21 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import styles from "../invite.module.css";
 
-// Components
-import Button from "../../../../components/Button";
+import GiftIcon from '@public/icons/gift.svg';
 
-import GiftIcon from '../../../../public/icons/gift.svg';
-import Guest from "../../../../types/Guest";
+// Components
+import Button from "components/Button";
 import ScrollAnimation from "../components/ScrollAnimation";
 import EventTitle from "../components/EventTitle";
 
-export default function RevealContent({ guests }: { guests: string[] }) {
+import Guest from "types/Guest";
+
+interface Props {
+    guestsImages: string[];
+    chosenGuest: Guest;
+}
+
+export default function RevealContent({ guestsImages, chosenGuest }: Props) {
     const [status, setStatus] = useState<"idle" | "animating">("idle");
 
     return (
@@ -43,7 +49,7 @@ export default function RevealContent({ guests }: { guests: string[] }) {
                         <div className={"divisor"} />
                     </div>
                     :
-                    <ScrollAnimation guests={guests} />
+                    <ScrollAnimation guestsImages={guestsImages} chosenGuest={chosenGuest} />
             }
         </AnimatePresence>
 

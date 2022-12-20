@@ -21,7 +21,7 @@ export default async function InviteLayout({ params, children }: Props) {
             {children}
             <Image src={background} alt="" fill style={{ zIndex: -1 }} draggable={false} />
             {
-                event.image_url && <Image src={event.image_url} alt="" fill style={{ zIndex: -2, opacity: 0.2 }} className="imageContain" draggable={false} />
+                event && event.image_url && <Image src={event.image_url} alt="" fill style={{ zIndex: -2, opacity: 0.2 }} className="imageContain" draggable={false} />
             }
         </div>
     )

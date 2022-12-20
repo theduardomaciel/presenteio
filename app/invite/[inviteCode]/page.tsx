@@ -22,7 +22,7 @@ import { getGuest } from '@utils/getGuest';
 import Event from 'types/Event';
 import Guest from 'types/Guest';
 
-interface Props {
+export interface InviteProps {
     params?: {
         inviteCode?: string
     },
@@ -31,19 +31,18 @@ interface Props {
     }
 }
 
-export default async function Invite({ params, searchParams }: Props) {
+export default async function Invite({ params, searchParams }: InviteProps) {
     const event = await getEventFromInviteCode(params?.inviteCode as string) as unknown as Event;
     const guest = await getGuest(searchParams?.guest as string) as unknown as Guest;
 
-    if (!guest && !event.allowInvite) {
-        console.log("foi")
+    if (!event || !guest && !event?.allowInvite) {
         notFound();
     }
 
-    const STATUS = event.status === "DIVULGATED" && (!guest || guest.status !== "CONFIRMED") ?
+    const STATUS = event && event?.status === "DIVULGATED" && (!guest || guest && guest?.status !== "CONFIRMED") ?
         "divulgated" :
-        (guest ? (guest.status === "PENDING" ? "intro" :
-            guest.status === "CONFIRMED" ? "waiting" : "visualized") :
+        (guest ? (guest?.status === "PENDING" ? "intro" :
+            guest?.status === "CONFIRMED" ? "waiting" : "visualized") :
             "intro")
 
     const SCREENS = {

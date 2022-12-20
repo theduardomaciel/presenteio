@@ -3,12 +3,12 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-import styles from "./styles.module.css";
+import styles from "../styles.module.css";
 
 import Button from "components/Button";
 import Modal, { MODAL_STATE } from "components/Modal";
 import DashboardSectionHeader from "@dashboard/components/Section/SectionHeader";
-import { InviteOptions } from "../compose/Form";
+import { InviteOptions } from "../../compose/Form";
 import DashboardSubSectionHeader from "@dashboard/components/Section/SubSectionHeader";
 import DashboardPricePicker from "@dashboard/components/Event/PricePicker";
 

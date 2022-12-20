@@ -5,12 +5,13 @@ import jwt from 'jsonwebtoken';
 
 import prisma from "../../../lib/prisma";
 import { getImageUrl } from '../uploadImage';
+import { GuestStatus } from '@prisma/client';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 router
     .post(async (req, res) => {
-        const { eventId, name, email, image_base64 } = req.body;
+        const { eventId, name, email, status, image_base64 } = req.body;
 
         if (!name) {
             res.status(400).end("Name is required.");
@@ -32,6 +33,7 @@ router
                         }
                     },
                     name: name,
+                    status: status || GuestStatus.PENDING,
                     email: email || undefined,
                     image_url: imageResponse ? imageResponse.image_url : undefined,
                     image_deleteHash: imageResponse ? imageResponse.image_deleteHash : undefined,
@@ -44,6 +46,14 @@ router
             res.status(500).end("There was not possible to create the guest.");
         }
     })
+
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb' // Set desired value here
+        }
+    }
+}
 
 export default router.handler({
     onError: (err: any, req, res) => {

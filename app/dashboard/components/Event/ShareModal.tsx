@@ -17,7 +17,6 @@ interface Props {
 }
 
 export default function ShareModal({ isVisible, toggleVisibility, link, description }: Props) {
-
     const linkTextRef = useRef<HTMLParagraphElement>(null);
     function onLinkClick() {
         navigator.clipboard.writeText(link)

@@ -39,6 +39,7 @@ interface Props {
     isVisible: boolean;
     modalProps?: {
         guest?: Guest,
+        postFunction?: () => void,
         preGuest?: PreGuest,
         eventId?: number,
         setPreGuests?: React.Dispatch<React.SetStateAction<PreGuest[]>>,
@@ -92,6 +93,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                 toggleVisibility()
                 if (response) {
                     router.refresh();
+                    modalProps.postFunction && modalProps.postFunction();
                 }
             } catch (error) {
                 console.log(error)
@@ -156,12 +158,14 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                 type={"text"}
                 value={guestName}
                 onChange={e => setGuestName(e.target.value)}
+                minLength={8}
                 maxLength={30}
                 required
             />
             <Input
                 label='E-mail'
                 value={guestEmail}
+                minLength={8}
                 onChange={e => setGuestEmail(e.target.value)}
                 type={'email'}
             />

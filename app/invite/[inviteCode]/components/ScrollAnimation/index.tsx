@@ -1,7 +1,7 @@
 'use client';
 import { AnimatePresence, motion } from "framer-motion";
-
 import { useEffect, useMemo, useState } from "react";
+
 import { InfiniteLoopSlider, Tag } from "./InfiniteScroll";
 
 import styles from './styles.module.css';
@@ -17,7 +17,14 @@ const shuffle = (arr: string[]) => [...arr].sort(() => .5 - Math.random());
 const makeRepeated = (arr: string[], repeats: number) =>
     Array.from({ length: repeats }, () => arr).flat();
 
-export default function ScrollAnimation({ guests }: { guests: string[] }) {
+import Guest from "types/Guest";
+
+interface Props {
+    guestsImages: string[];
+    chosenGuest: Guest;
+}
+
+export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
     const [status, setStatus] = useState<"animating" | "finishing" | "animated">("animating");
 
     useEffect(() => {
@@ -53,11 +60,11 @@ export default function ScrollAnimation({ guests }: { guests: string[] }) {
         }, DURATION);
     }, [])
 
-    const isGuestsArrayEven = guests.length % 2 === 0;
-    const SORTED_ARRAY = useMemo(() => isGuestsArrayEven ? makeRepeated(shuffle(guests), 3).concat([guests[guests.length - 1]]) : makeRepeated(shuffle(guests), 3), []);
+    const isGuestsArrayEven = guestsImages.length % 2 === 0;
+    const SORTED_ARRAY = useMemo(() => isGuestsArrayEven ? makeRepeated(shuffle(guestsImages), 3).concat([guestsImages[guestsImages.length - 1]]) : makeRepeated(shuffle(guestsImages), 3), []);
 
     const images = SORTED_ARRAY.map((guest, i) => (
-        <Tag additionalClass={i === 15 ? styles.chosenGuest : undefined} image_url={i === 15 ? "https://github.com/KermitTheSapo.png" : guest} size={150} removeMargin />
+        <Tag additionalClass={i === 15 ? styles.chosenGuest : undefined} image_url={i === 15 ? chosenGuest.image_url : guest} size={150} removeMargin />
     ));
 
     return (
@@ -78,7 +85,7 @@ export default function ScrollAnimation({ guests }: { guests: string[] }) {
                             exit={{ opacity: 0 }}
                         >
                             <InfiniteLoopSlider duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
-                                {shuffle(guests).slice(0, TAGS_PER_ROW).map(guest => (
+                                {shuffle(guestsImages).slice(0, TAGS_PER_ROW).map(guest => (
                                     <Tag image_url={guest} size={125} />
                                 ))}
                             </InfiniteLoopSlider>
@@ -106,7 +113,7 @@ export default function ScrollAnimation({ guests }: { guests: string[] }) {
                     >
                         <div className={styles.title}>
                             <h2>Seu amigo secreto é</h2>
-                            <h1>Fulano da Silva!</h1>
+                            <h1>{chosenGuest.name}!</h1>
                         </div>
                         <p>Não se preocupe, você poderá ver o nome de seu amigo secreto novamente a qualquer momento. <br />
                             Agora é só preparar o presente e aguardar o tão aguardado dia do amigo secreto!</p>
@@ -116,7 +123,7 @@ export default function ScrollAnimation({ guests }: { guests: string[] }) {
 
                 {
                     status === "animating" && <InfiniteLoopSlider duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
-                        {shuffle(guests).slice(0, TAGS_PER_ROW).map(guest => (
+                        {shuffle(guestsImages).slice(0, TAGS_PER_ROW).map(guest => (
                             <Tag image_url={guest} size={125} />
                         ))}
                     </InfiniteLoopSlider>

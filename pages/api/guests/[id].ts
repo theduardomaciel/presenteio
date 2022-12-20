@@ -13,7 +13,7 @@ import { deleteImage, getImageUrl } from "../uploadImage";
 router
     .patch(async (req, res) => {
         const id = req.query.id as string;
-        const { name, email, image_deleteHash, image_base64 } = req.body;
+        const { name, email, image_deleteHash, status, image_base64 } = req.body;
 
         if (!id) {
             return res.status(400).end("Bad request. The id was not provided.");
@@ -27,7 +27,7 @@ router
             console.log(error)
         }
 
-        const imageResponse = image_base64 ? await getImageUrl(image_base64) : null;
+        const imageResponse = image_base64 ? await getImageUrl(image_base64) as any : null;
 
         try {
             const defaultGuest = await prisma.guest.findUnique({
@@ -36,18 +36,19 @@ router
                 }
             })
 
-            const guest = await prisma.guest.update({
+            const responseGuest = await prisma.guest.update({
                 where: {
                     id: id,
                 },
                 data: {
                     name: name || defaultGuest?.name,
                     email: email || defaultGuest?.email,
+                    status: status || defaultGuest?.status,
                     image_url: imageResponse ? imageResponse.image_url : defaultGuest?.image_url,
                     image_deleteHash: imageResponse ? imageResponse.image_deleteHash : defaultGuest?.image_deleteHash,
                 }
             })
-            return res.status(200).json(guest);
+            return res.status(200).json(responseGuest);
         } catch (error) {
             console.log(error)
             return res.status(500).end("Something went wrong. Please try again later.");
@@ -86,6 +87,14 @@ router
             return res.status(500).end("Something went wrong. Please try again later.");
         }
     })
+
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '4mb' // Set desired value here
+        }
+    }
+}
 
 export default router.handler({
     onError: (err: any, req, res) => {

@@ -2,12 +2,15 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import styles from "./intro.module.css";
 
 import { GUEST_IMAGE_PLACEHOLDER } from "@dashboard/components/Guest/GuestModal";
 
 import CloseIcon from "@public/icons/close.svg";
+import RightArrowAltIcon from "@public/icons/arrow_right_alt.svg";
 import AddPhotoIcon from '@public/icons/add_photo.svg';
 
 import Button from "components/Button";
@@ -17,23 +20,63 @@ import Input from "components/Input";
 // Hooks
 import useImagePreview from "hooks/useImagePreview";
 import Guest from "types/Guest";
+import { toBase64, extractBase64 } from "@utils/base64";
 
 interface Props {
     guest?: Guest;
+    eventId: number;
+    inviteCode?: string;
 }
 
-export default function ParticipateButton({ guest }: Props) {
+export default function ParticipateButton({ guest, eventId, inviteCode }: Props) {
     const [[actualSection, direction], setActualSection] = useState<[string, number]>(["null", 1]);
 
-    const userData = useRef({ name: "", email: "", image: "" });
+    const router = useRouter();
+    const userData = useRef({ name: "", email: "", image: undefined as File | undefined });
 
-    async function UpdateGuest() {
-        console.log(userData.current)
+    async function updateOrCreateGuest(behaviour: "create" | "update") {
+        setActualSection(["updating_data", 1]);
+
+        const unformattedBase64 = userData.current.image ? await toBase64(userData.current.image as File) as string : null;
+        const base64 = unformattedBase64 ? extractBase64(unformattedBase64) : null;
+
+        try {
+            const response = behaviour === "create" ?
+                await axios.post("/api/guests/create", {
+                    eventId: eventId,
+                    name: userData.current.name,
+                    email: userData.current.email,
+                    status: "CONFIRMED",
+                    image_base64: base64
+                }) :
+                await axios.patch(`/api/guests/${guest?.id}`, {
+                    eventId: eventId,
+                    name: userData.current.name,
+                    email: userData.current.email,
+                    status: "CONFIRMED",
+                    image_base64: base64
+                });
+            if (response) {
+                setActualSection(["null", -1]);
+                router.push(`/invite/${inviteCode}/?guest=${response.data.id}`);
+                router.refresh();
+            } else {
+                setActualSection(["error", 1]);
+            }
+        } catch (error) {
+            console.log(error)
+            setActualSection(["error", 1]);
+        }
     }
 
     const CancelFooter = <div className='modalFooter' onClick={() => setActualSection(["null", -1])}>
         <CloseIcon />
         <p>Cancelar</p>
+    </div>
+
+    const ReturnFooter = ({ sectionToReturn }: { sectionToReturn: string }) => <div className='modalFooter' onClick={() => setActualSection([sectionToReturn, -1])}>
+        <RightArrowAltIcon style={{ transform: "rotate(180deg)" }} />
+        <p>Voltar</p>
     </div>
 
     const ContinueButton = <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
@@ -42,11 +85,10 @@ export default function ParticipateButton({ guest }: Props) {
 
     function nextSectionWithGuest() {
         if (guest?.email && guest?.image_url) {
-            setActualSection(["updating_data", 1])
-            UpdateGuest()
-        } else if (!guest?.email && guest?.image_url) {
+            updateOrCreateGuest("update")
+        } else if (!guest?.email) {
             setActualSection(["direct_invite_guest_email", 1])
-        } else if (guest?.email && !guest?.image_url) {
+        } else if (!guest?.image_url) {
             setActualSection(["direct_invite_guest_image", 1])
         } else {
             setActualSection(["error", -1])
@@ -95,7 +137,7 @@ export default function ParticipateButton({ guest }: Props) {
             userData.current.email = formData.get("email") as string;
             setActualSection(["direct_invite_guest_image", 1]);
         }}>
-            <Input name="email" label="E-mail" />
+            <Input required name="email" minLength={10} maxLength={50} label="E-mail" />
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
@@ -109,29 +151,29 @@ export default function ParticipateButton({ guest }: Props) {
 
     const DirectInviteGuest_image = {
         title: "Parece que o anfitrião não inseriu uma imagem para você",
-        description: "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para outros convidados.",
+        description: "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para os outros convidados.",
         children: <form className={styles.section} onSubmit={(event) => {
             event.preventDefault();
 
             const formData = new FormData(event.target as HTMLFormElement);
-            userData.current.email = formData.get("image") as string;
+            userData.current.image = formData.get("image") as File;
 
-            setActualSection(["direct_invite_guest_image", 1]);
+            updateOrCreateGuest("update");
         }}>
-            <label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="guestImageUpload">
+            <label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="image">
                 {
                     preview && <Image src={preview} fill alt='' style={{ borderRadius: "50%", objectFit: "cover" }} />
                 }
                 {
-                    !preview && <AddPhotoIcon style={{ width: "5rem", height: "5rem" }} />
+                    !preview && <AddPhotoIcon />
                 }
             </label>
-            <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="image" id="image" />
+            <input required type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="image" id="image" />
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
         </form>,
-        footer: CancelFooter
+        footer: <ReturnFooter sectionToReturn="direct_invite_guest_email" />
     } as Section;
 
     const InviteGuest_name = {
@@ -145,7 +187,7 @@ export default function ParticipateButton({ guest }: Props) {
 
             setActualSection(["invite_guest_email", 1])
         }}>
-            <Input name="name" label="Nome" placeholder="Fulano da Silva" style={{ width: "100%" }} />
+            <Input required name="name" minLength={10} maxLength={50} label="Nome" placeholder="Fulano da Silva" style={{ width: "100%" }} />
             {ContinueButton}
         </form>,
         footer: CancelFooter
@@ -160,35 +202,39 @@ export default function ParticipateButton({ guest }: Props) {
             const formData = new FormData(event.target as HTMLFormElement);
             userData.current.email = formData.get("email") as string;
 
-            setActualSection(["invite_guest_email", 1])
+            setActualSection(["invite_guest_image", 1])
         }}>
-            <Input name="email" label="E-mail" style={{ width: "100%" }} />
+            <Input required type={"email"} minLength={10} maxLength={50} name="email" label="E-mail" style={{ width: "100%" }} />
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
         </form>,
-        footer: CancelFooter
+        footer: <ReturnFooter sectionToReturn="invite_guest_name" />
     } as Section;
 
     const InviteGuest_image = {
-        title: "Parece que o anfitrião não inseriu uma imagem para você",
-        description: "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para outros convidados.",
+        title: "Mais uma coisinha!\nAdicione uma foto de perfil.",
+        description: "Insira uma imagem abaixo para que ela seja exibida para os outros participantes.",
         children: <form className={styles.section} onSubmit={(event) => {
+            event.preventDefault();
             const formData = new FormData(event.target as HTMLFormElement);
-            userData.current.email = formData.get("image") as string;
-            setActualSection(["invite_guest_image", 1]);
+            userData.current.image = formData.get("image") as File;
+            updateOrCreateGuest("create")
         }}>
-            <label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="guestImageUpload">
+            <label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="image">
                 {
                     preview && <Image src={preview} fill alt='' style={{ borderRadius: "50%", objectFit: "cover" }} />
                 }
                 {
-                    !preview && <AddPhotoIcon style={{ width: "5rem", height: "5rem" }} />
+                    !preview && <AddPhotoIcon />
                 }
             </label>
-            <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="image" id="image" />
+            <input required type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="image" id="image" />
+            <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
+                Continuar
+            </Button>
         </form>,
-        footer: CancelFooter
+        footer: <ReturnFooter sectionToReturn="invite_guest_email" />
     } as Section;
 
     const sections = {
@@ -207,14 +253,13 @@ export default function ParticipateButton({ guest }: Props) {
     return (
         <>
             <Button
-                label='PARTICIPAR'
+                label='Participar'
                 style={{
-                    textTransform: "uppercase",
                     fontFamily: "'Gelasio'",
                     fontStyle: "normal",
                     fontWeight: 700,
                     padding: "1rem 3.5rem",
-                    fontSize: "1.8rem"
+                    fontSize: "1.6rem"
                 }}
                 onClick={() => setActualSection([guest ? "confirm_identity" : "invite_guest_name", 1])}
             />

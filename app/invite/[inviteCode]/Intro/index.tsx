@@ -49,7 +49,7 @@ export default function Intro({ guest, event }: Props) {
                     <h3>d{eventNameLastLetterOfFirstWord === "a" ? "a" : "o"} {event.name}</h3>
                 </div>
 
-                <ParticipateButton guest={guest} />
+                <ParticipateButton guest={guest} eventId={event.id} inviteCode={event.inviteCode} />
             </div>
 
             <Image

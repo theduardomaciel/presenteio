@@ -18,6 +18,7 @@ import DeleteIcon from "@public/icons/delete.svg";
 // Types
 import { EventStatus } from "types/Event";
 import Guest from "types/Guest";
+import DashboardToast from "components/Toast";
 
 interface Props {
     guest: Guest
@@ -31,6 +32,9 @@ export default function ActionButtons({ guest, eventStatus, inviteLink }: Props)
     const [isGuestModalVisible, setIsGuestModalVisible] = useState(false);
     const [deleteModalState, setDeleteModalState] = useState<MODAL_STATE>({ status: false });
 
+    const [isDeleteToastVisible, setDeleteToastVisible] = useState(false);
+    const [isEditToastVisible, setEditToastVisible] = useState(false);
+
     const [isLoading, setLoading] = useState(false)
     const router = useRouter();
 
@@ -42,6 +46,7 @@ export default function ActionButtons({ guest, eventStatus, inviteLink }: Props)
             if (response) {
                 setLoading(false)
                 setDeleteModalState({ status: false })
+                setDeleteToastVisible(true)
                 router.refresh()
             } else {
                 setDeleteModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
@@ -63,7 +68,7 @@ export default function ActionButtons({ guest, eventStatus, inviteLink }: Props)
                     <>
                         <ShareIcon width={22} height={22} onClick={() => setShareModalVisible(true)} />
                         <EditIcon width={22} height={22} onClick={() => setIsGuestModalVisible(true)} />
-                        <DeleteIcon width={22} height={22} onClick={() => setDeleteModalState({ status: true })} />
+                        <DeleteIcon fill="white" width={22} height={22} onClick={() => setDeleteModalState({ status: true })} />
                     </>
                 }
 
@@ -85,7 +90,7 @@ export default function ActionButtons({ guest, eventStatus, inviteLink }: Props)
             />
             <GuestModal
                 isVisible={isGuestModalVisible}
-                modalProps={{ guest: guest }}
+                modalProps={{ guest: guest, postFunction: () => setEditToastVisible(true) }}
                 toggleVisibility={() => setIsGuestModalVisible(!isGuestModalVisible)}
             />
             <ShareModal
@@ -99,7 +104,7 @@ export default function ActionButtons({ guest, eventStatus, inviteLink }: Props)
                 isVisible={deleteModalState.status !== false}
                 toggleVisibility={() => setDeleteModalState({ status: false })}
                 headerProps={{
-                    icon: <DeleteIcon width={"2.4rem"} height={"2.4rem"} />,
+                    icon: <DeleteIcon fill="white" width={"2.4rem"} height={"2.4rem"} />,
                     title: deleteModalState.status === "error" ? "Eita! Algo deu errado..." : `Você tem certeza que deseja remover o convidado?`,
                     description: deleteModalState.value ? deleteModalState.value : `Após remover o convidado, ele não será mais capaz de acessar o evento.`
                 }}
@@ -110,6 +115,18 @@ export default function ActionButtons({ guest, eventStatus, inviteLink }: Props)
                         onClick: deleteGuest,
                     },
                 ]}
+            />
+            <DashboardToast
+                isOpened={isDeleteToastVisible}
+                setOpened={setDeleteToastVisible}
+                title="Eba! Deu tudo certo!"
+                icon={<DeleteIcon fill="var(--primary-01)" width={36} height={36} />} description="O convidado foi removido do evento com sucesso."
+            />
+            <DashboardToast
+                isOpened={isEditToastVisible}
+                setOpened={setEditToastVisible}
+                title="Eba! Deu tudo certo!"
+                icon={<EditIcon fill="var(--primary-01)" width={36} height={36} />} description="Os dados do convidado foram editados com sucesso."
             />
         </>
     )

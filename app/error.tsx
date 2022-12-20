@@ -28,7 +28,7 @@ export default function Error({ error, reset, }: { error: Error; reset: () => vo
                     <Link href={`mailto:app.presenteio@gmail.com`}>app.presenteio@gmail.com</Link></p>
                 <div className={styles.error}>
                     <p className={styles.title}><strong>{error.name}</strong></p>
-                    <p>{error.message.slice(500)[0]}</p>
+                    <p>{error.message}</p>
                 </div>
                 <Link href={`/`}>
                     <Button onClick={() => reset()}>
