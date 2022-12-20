@@ -13,13 +13,14 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
     profileChildren?: React.ReactNode;
 }
 
-export default function DashboardHeader({ profileChildren, children }: Props) {
+export default async function DashboardHeader({ profileChildren, children }: Props) {
     return (
         <div className={styles.container}>
             <Link href={`/dashboard`} className={styles.logo}>
                 <Logo />
             </Link>
             {children}
+            {/* @ts-expect-error */}
             <DashboardProfile additionalClasses={children ? styles.disappear : ""}>
                 {profileChildren}
             </DashboardProfile>

@@ -60,7 +60,7 @@ interface Props {
     additionalClasses?: string;
 }
 
-export default async function DashboardProfile({ children, additionalClasses }: Props) {
+async function DashboardProfile({ children, additionalClasses }: Props) {
     const account = await getAccount('teste');
 
     const PLACEHOLDER_IMAGE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/images/generateProfileImage?name=${account?.name.replaceAll(' ', '%20')}`
@@ -76,3 +76,5 @@ export default async function DashboardProfile({ children, additionalClasses }: 
         </div>
     )
 }
+
+export default DashboardProfile;

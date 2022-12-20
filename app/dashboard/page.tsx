@@ -13,6 +13,7 @@ export default async function Dashboard() {
     const events = await getEvents();
 
     return <div className={styles.container}>
+        {/* @ts-expect-error */}
         <DashboardHeader profileChildren={<CreateEventButton />} />
         <div className={`${styles.content}`}>
             <h2 className={styles.title}>Meus Eventos</h2>
