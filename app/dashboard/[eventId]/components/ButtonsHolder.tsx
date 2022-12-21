@@ -23,14 +23,12 @@ import DeleteIcon from "@public/icons/delete.svg";
 import Event from "types/Event";
 
 const ENABLED_BUTTON = {
-    width: "49%",
     padding: "1rem 2.5rem",
     borderRadius: "0.8rem",
     backgroundColor: "var(--primary-02)",
 } as React.CSSProperties;
 
 const DISABLED_BUTTON = {
-    width: "49%",
     padding: "1rem 2.5rem",
     borderRadius: "0.8rem",
     border: "none",
@@ -83,6 +81,7 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
         try {
             const response = await axios.delete(`/api/events/${event.id}`)
             if (response) {
+                router.refresh()
                 router.push(`/dashboard`)
             } else {
                 setDeleteModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
@@ -116,10 +115,16 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
         }
     }
 
+    const MIN_GUESTS = 3;
+
     return (
         <>
             <div className={styles.buttonsHolder}>
-                <Button disabled={event.status === "DIVULGATED"} style={event.status === "PENDING" ? ENABLED_BUTTON : DISABLED_BUTTON} onClick={() => setSendEmailModalState({ status: true })}>
+                <Button
+                    disabled={event.status === "DIVULGATED" || event.guests.length < MIN_GUESTS}
+                    style={event.status === "DIVULGATED" || event.guests.length < MIN_GUESTS ? DISABLED_BUTTON : ENABLED_BUTTON}
+                    onClick={() => setSendEmailModalState({ status: true })}
+                >
                     <SendEmail fill="var(--neutral)" height={24} width={24} />
                     Enviar e-mails
                 </Button>
@@ -164,7 +169,7 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                             </Button>
                         </section>
                         <Button isLoading={isLoading} type="submit" style={{ width: "100%" }}>
-                            <SaveIcon />
+                            <SaveIcon fill="var(--neutral)" />
                             Salvar
                         </Button>
                     </form>

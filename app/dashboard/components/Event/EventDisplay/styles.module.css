@@ -29,6 +29,10 @@
     border-radius: 50%;
 }
 
+.iconHolder svg path {
+    fill: var(--primary-02);
+}
+
 .themeSelector {
     display: flex;
     flex-direction: row;

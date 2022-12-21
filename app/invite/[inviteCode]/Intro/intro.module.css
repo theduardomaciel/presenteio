@@ -6,12 +6,49 @@
     gap: 3rem;
     height: 100%;
     width: 100%;
-    margin-bottom: 10rem;
 
     padding-inline: 2.5rem;
     overflow: hidden;
+    position: relative;
 
     text-align: center;
+}
+
+.header {
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    height: var(--header-height);
+    width: 100%;
+    padding-inline: 7.5rem;
+
+    z-index: 3;
+}
+
+.header h6 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.8rem;
+
+    color: var(--primary-03);
+}
+
+.header p {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.2rem;
+
+    cursor: pointer;
+
+    color: var(--primary-02);
 }
 
 .content .title {
@@ -20,6 +57,7 @@
     align-items: center;
     justify-content: center;
     gap: 3rem;
+    margin-bottom: 10rem;
 }
 
 .content .title .titleContent {
@@ -50,8 +88,6 @@
 }
 
 .giftsImage {
-    overflow: hidden;
-
     position: absolute;
     bottom: -15rem;
     left: -6.5rem;
@@ -95,6 +131,10 @@
 
 @media (min-width: 1024px) {
     .container header {
+        display: flex;
+    }
+
+    .header {
         display: flex;
     }
 

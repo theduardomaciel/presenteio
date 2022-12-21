@@ -17,8 +17,6 @@ router
         const token = extractToken(req) as string | null;
         if (!token) return res.status(401).end("Unauthorized");
 
-        console.log(token)
-
         try {
             const authenticated = verify(token, process.env.JWT_SECRET_KEY as string) as { data: string };
             if (authenticated) {

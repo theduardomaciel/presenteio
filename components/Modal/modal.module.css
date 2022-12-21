@@ -9,6 +9,7 @@
 
     align-items: center;
     justify-content: center;
+    padding-block: 2.5rem;
 
     /* -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;
@@ -85,7 +86,7 @@
 }
 
 .headerContainer {
-    display: flex;
+    display: none;
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -133,6 +134,10 @@
     .container {
         width: 57.6rem;
         padding: 5rem;
+    }
+
+    .headerContainer {
+        display: flex;
     }
 
     .buttonsHolder {

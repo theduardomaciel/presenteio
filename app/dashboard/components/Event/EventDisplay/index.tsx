@@ -34,9 +34,9 @@ export default function EventDisplay({ event, height }: Props) {
                         }
                         <Overlay />
                         <label className={styles.iconHolder} htmlFor="eventImageUpload">
-                            <AddPhotoIcon />
+                            <AddPhotoIcon fill='var(--primary-01)' />
                         </label>
-                        <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="eventImage" id="eventImageUpload" />
+                        <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="eventImageUpload" id="eventImageUpload" />
                         {/* <div className={styles.themeSelector}>
                             <div className={styles.themePreview} />
                             <p>Cor de destaque</p>

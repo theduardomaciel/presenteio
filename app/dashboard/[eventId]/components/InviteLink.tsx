@@ -27,7 +27,15 @@ export default function InviteLink({ inviteCode }: { inviteCode: string }) {
     return (
         <>
             <p ref={linkTextRef} onClick={onLinkClick} className='link'>{link}</p>
-            <DashboardToast isOpened={isToastVisible} setOpened={setToastVisible} icon={<CopyIcon fill="var(--primary-01)" width={24} height={24} />} title="Link copiado!" description="O link de convite geral agora está em sua área de transferência." />
+            <DashboardToast
+                isOpened={isToastVisible}
+                setOpened={setToastVisible}
+                toastProps={{
+                    icon: <CopyIcon fill="var(--primary-01)" width={24} height={24} />,
+                    title: "Link copiado!",
+                    description: "O link de convite geral agora está em sua área de transferência."
+                }}
+            />
         </>
     )
 }

@@ -23,7 +23,12 @@ const GuestCard = ({ guest, event }: { guest: Omit<Guest, "event">, event: Omit<
             <header>
                 <div className={styles.iconAndLabel}>
                     {
-                        guest.image_url && <Image className={styles.image} src={guest.image_url} alt="Guest image." height={28} width={28} />
+                        guest.image_url && <Image
+                            className={`${styles.image} imageContain`}
+                            src={guest.image_url}
+                            alt="Guest image."
+                            height={28}
+                            width={28} />
                     }
                     <h6>{guest.name}</h6>
                 </div>

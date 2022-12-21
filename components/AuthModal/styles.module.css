@@ -3,12 +3,14 @@
     align-items: center;
     justify-content: center;
 
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
 
     width: 100vw;
-    height: 100vh;
+    padding-block: 2.5rem;
+    min-height: 100vh;
+    height: fit-content;
 
     background: transparent;
 
@@ -90,6 +92,15 @@
 }
 
 @media (min-width: 1024px) {
+    .holder {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100vw;
+        height: 100vh;
+    }
+
     .container {
         width: 57.5rem;
     }

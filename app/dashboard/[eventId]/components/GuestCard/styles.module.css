@@ -18,7 +18,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 7.5rem;
+
+    gap: 1rem;
+    flex-wrap: wrap;
 
     width: 100%;
 }
@@ -30,12 +32,16 @@
     font-size: 1.6rem;
     line-height: 2rem;
 
+    width: 100%;
+    text-overflow: ellipsis;
+
     color: var(--neutral);
 }
 
 .guestCard header .image {
     border-radius: 50%;
     object-fit: cover;
+    min-width: 28px;
 }
 
 .iconAndLabel {
@@ -70,4 +76,10 @@
 
 .actions svg:hover {
     transform: scale(1.085);
+}
+
+@media (min-width: 1024px) {
+    .guestCard header {
+        gap: 7.5rem;
+    }
 }

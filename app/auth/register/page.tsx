@@ -355,9 +355,9 @@ export default function Register() {
                 }}
             >
                 <GoogleIcon className={styles.optionIcon} />
-                <div className={styles.buttonInfo} style={selected === 1 ? textSelectedStyle : textUnselectedStyle}>
+                <div className={styles.buttonInfo} >
                     <h6>Entrar com o Google</h6>
-                    <p>Fique despreocupado em ter que lembrar da senha de acesso à plataforma.</p>
+                    <p style={selected === 0 ? textSelectedStyle : textUnselectedStyle}>Fique despreocupado em ter que lembrar da senha de acesso à plataforma.</p>
                 </div>
             </Button>
             <Button
@@ -368,9 +368,9 @@ export default function Register() {
                 }}
             >
                 <MailLockIcon className={styles.optionIcon} />
-                <div className={styles.buttonInfo} style={selected === 1 ? textSelectedStyle : textUnselectedStyle}>
+                <div className={styles.buttonInfo} >
                     <h6>Entrar com e-mail e senha</h6>
-                    <p>Utilize o método tradicional de autenticação. <br />
+                    <p style={selected === 1 ? textSelectedStyle : textUnselectedStyle}>Utilize o método tradicional de autenticação. <br />
                         Você terá que lembrar de sua senha para entrar na plataforma.</p>
                 </div>
             </Button>

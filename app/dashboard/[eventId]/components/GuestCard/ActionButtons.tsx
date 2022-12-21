@@ -18,7 +18,7 @@ import DeleteIcon from "@public/icons/delete.svg";
 // Types
 import Event, { EventStatus } from "types/Event";
 import Guest from "types/Guest";
-import DashboardToast from "components/Toast";
+import DashboardToast, { ToastDynamicProps } from "components/Toast";
 
 interface Props {
     guest: Guest
@@ -31,20 +31,23 @@ export default function ActionButtons({ guest, event }: Props) {
     const [isGuestModalVisible, setIsGuestModalVisible] = useState(false);
     const [deleteModalState, setDeleteModalState] = useState<MODAL_STATE>({ status: false });
 
-    const [[isToastVisible, toastMessage, toastIcon], setToastVisible] = useState<[boolean, string, React.ReactElement | null]>([false, "", null]);
+    const [[isToastVisible, toastProps], setToastVisible] = useState<ToastDynamicProps>([false]);
     const [isLoading, setLoading] = useState(false)
     const router = useRouter();
 
     async function deleteGuest() {
         setLoading(true)
         setDeleteModalState({ status: "pending" })
-
         try {
             const response = await axios.delete(`/api/guests/${guest.id}`)
             if (response) {
                 setLoading(false)
                 setDeleteModalState({ status: false })
-                setToastVisible([true, "O convidado foi removido do evento com sucesso!", <DeleteIcon fill="var(--primary-01)" width={36} height={36} />])
+                setToastVisible([true, {
+                    icon: <DeleteIcon fill="var(--primary-01)" width={36} height={36} />,
+                    title: "Convidado removido!",
+                    description: "O convidado foi removido do evento com sucesso!"
+                }])
                 router.refresh()
             } else {
                 setDeleteModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
@@ -85,7 +88,11 @@ export default function ActionButtons({ guest, event }: Props) {
                 localStorage.setItem('resendEmailTimestamp', new Date().getTime().toString())
                 setLoading(false)
                 setResendEmailModalState({ status: false })
-                setToastVisible([true, "Enviamos o e-mail com o resultado para o convidado.", <SendEmail fill="var(--primary-01)" width={36} height={36} />])
+                setToastVisible([true, {
+                    icon: <SendEmail fill="var(--primary-01)" width={36} height={36} />,
+                    title: "E-mail enviado!",
+                    description: "Enviamos o e- mail com o resultado para o convidado."
+                }])
                 router.refresh()
             } else {
                 setResendEmailModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
@@ -134,7 +141,13 @@ export default function ActionButtons({ guest, event }: Props) {
             />
             <GuestModal
                 isVisible={isGuestModalVisible}
-                modalProps={{ guest: guest, postFunction: () => setToastVisible([true, "Os dados do convidado foram editados com sucesso.", <EditIcon fill="var(--primary-01)" width={36} height={36} />]) }}
+                modalProps={{
+                    guest: guest, postFunction: () => setToastVisible([true, {
+                        icon: <EditIcon fill="var(--primary-01)" width={36} height={36} />,
+                        title: "Tudo certo!",
+                        description: "Os dados do convidado foram editados com sucesso."
+                    }])
+                }}
                 toggleVisibility={() => setIsGuestModalVisible(!isGuestModalVisible)}
             />
             <ShareModal
@@ -166,9 +179,7 @@ export default function ActionButtons({ guest, event }: Props) {
             <DashboardToast
                 isOpened={isToastVisible}
                 setDynamicOpened={setToastVisible}
-                title="Eba! Deu tudo certo!"
-                icon={toastIcon}
-                description={toastMessage}
+                toastProps={toastProps}
             />
         </>
     )

@@ -5,7 +5,7 @@
     align-items: center;
 
     padding: 2rem 5rem;
-    height: var(--header-height);
+    height: fit-content;
 
     width: 100%;
 
@@ -21,6 +21,7 @@
 @media (min-width: 1024px) {
     .container {
         justify-content: space-between;
+        height: var(--header-height);
     }
 
     .container .disappear {

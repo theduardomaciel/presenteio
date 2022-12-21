@@ -27,6 +27,26 @@
     align-items: center;
 }
 
+.toastRoot.success {
+    border: 1px solid lawngreen;
+    color: lawngreen;
+}
+
+.toastRoot.error {
+    border: 1px solid red;
+    color: red;
+}
+
+.toastRoot.warning {
+    border: 1px solid orange;
+    color: orange;
+}
+
+.toastRoot.info {
+    border: 1px solid blue;
+    color: blue;
+}
+
 .column {
     display: flex;
     flex-direction: column;

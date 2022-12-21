@@ -29,6 +29,7 @@ export const GUEST_IMAGE_PLACEHOLDER = {
     borderRadius: "50%",
     backgroundColor: "var(--primary-02)",
     display: "flex",
+    objectFit: "cover",
     justifyContent: "center",
     position: "relative",
     alignItems: "center",

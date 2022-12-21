@@ -19,6 +19,8 @@ interface ModalButton {
     icon?: React.ReactElement;
 }
 
+type Status = boolean | 'success' | 'pending' | 'error';
+
 type Props = React.HTMLAttributes<HTMLDivElement> & {
     isVisible: boolean;
     style?: MotionStyle;
@@ -43,14 +45,15 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
         onClick?: () => void;
     };
 
+    status?: Status;
     buttons?: Array<ModalButton>;
 
     isLoading?: boolean;
 }
 
-export type MODAL_STATE = { status: boolean | string, description?: string, title?: string, value?: string };
+export type MODAL_STATE = { status: Status, title?: string, description?: string, value?: string };
 
-export default function Modal({ isVisible, toggleVisibility, style, isLoading, insertLogo, returnButton = { enabled: true }, headerProps, buttons, children }: Props) {
+export default function Modal({ isVisible, status, toggleVisibility, style, isLoading, insertLogo, returnButton = { enabled: true }, headerProps, buttons, children }: Props) {
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.nativeEvent.target as HTMLDivElement;
         if (target.id === "background") {
@@ -88,7 +91,12 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
                                         {headerProps?.icon}
                                     </div>
                                     {
-                                        headerProps?.title && headerProps?.integratedTitle && <h2 className={styles.title} style={{ textAlign: "left", lineHeight: "3.55rem" }}>{headerProps?.title}</h2>
+                                        headerProps?.title &&
+                                        headerProps?.integratedTitle && <h2
+                                            className={styles.title}
+                                            style={{ textAlign: "left", lineHeight: "3.55rem" }}>
+                                            {headerProps?.title}
+                                        </h2>
                                     }
                                 </div>
                             }
@@ -105,7 +113,8 @@ export default function Modal({ isVisible, toggleVisibility, style, isLoading, i
                                 <section>
                                     {
                                         headerProps?.title && !headerProps?.integratedTitle &&
-                                        <h2 className={styles.title}>{headerProps.title}</h2>
+                                        <h2 className={styles.title}>{headerProps.title}
+                                        </h2>
                                     }
                                     {
                                         headerProps?.description &&

@@ -11,7 +11,7 @@ import DashboardSubSectionHeader from '@dashboard/components/Section/SubSectionH
 import DashboardPricePicker from '@dashboard/components/Event/PricePicker';
 import EventDisplay from '@dashboard/components/Event/EventDisplay';
 import GuestsDisplay, { PreGuest } from '@dashboard/components/Guest/PreGuestsDisplay';
-import Modal from 'components/Modal';
+import Modal, { MODAL_STATE } from 'components/Modal';
 
 // Icons
 import AddIcon from '@public/icons/add.svg';
@@ -33,7 +33,7 @@ export const InviteOptions = ({ defaultValues }: { defaultValues?: { allowInvite
 }
 
 export default function ComposeEventForm({ children }: { children: React.ReactNode }) {
-    const [confirmModalState, setConfirmModalState] = useState<{ status: boolean | "error" | 'success', value?: any }>({ status: false });
+    const [confirmModalState, setConfirmModalState] = useState<MODAL_STATE>({ status: false });
     const [isLoading, setIsLoading] = useState(false);
     const [preGuests, setPreGuests] = useState<PreGuest[]>([]);
 
@@ -42,11 +42,12 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
         console.log(confirmModalState)
         if (confirmModalState.status === true) {
             setIsLoading(true)
+            setConfirmModalState({ status: "pending" })
             const form = new FormData(event.currentTarget);
 
-            const eventImage = form.get('eventImage') as File;
-            const image_base64 = eventImage.length ? await toBase64(eventImage) as string : undefined;
-            const correctedImage = image_base64 ? extractBase64(image_base64) : undefined;
+            const eventImage = form.get('eventImageUpload') as File;
+            const image_base64 = eventImage ? await toBase64(eventImage) as string : undefined;
+            const correctedImage = image_base64 && image_base64.length > 30 ? extractBase64(image_base64) : undefined;
 
             const guestsWithImage = await Promise.all(Array.from(preGuests).map(async (guest) => {
                 if (guest.image) {
@@ -55,7 +56,6 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 }
                 return guest;
             }));
-            console.log(guestsWithImage)
 
             const data = {
                 name: form.get('eventName') ? form.get('eventName') : "Evento sem nome",
@@ -126,23 +126,27 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 headerProps={{
                     title: confirmModalState.status === true ? 'Pronto para criar o evento?' :
                         confirmModalState.status === "success" ? "Tudo certo por aqui." :
-                            confirmModalState.status === "error" ? "Parece que tivemos um problema." : "",
+                            confirmModalState.status === "pending" ? "Aguarde um momento..." :
+                                confirmModalState.status === "error" ? "Parece que tivemos um problema." : "",
                     description: confirmModalState.status === true ?
                         `Confira todas as informações antes de criá-lo para que todos os convidados tenham a experiência desejada desde o início.\n
                 Não se preocupe pois nenhum convidado será notificado até que todos tenham confirmado presença.` :
                         confirmModalState.status === "success" ?
                             `Eba! Seu evento foi criado com sucesso!\n 
                     Agora é só enviar o convite geral ou os convites personalizados para os convidados e aproveitar o momento!` :
-                            confirmModalState.status === "error" ?
-                                confirmModalState.value : "[erro desconhecido]"
+                            confirmModalState.status === "pending" ? "Estamos criando seu evento..." :
+                                confirmModalState.status === "error" ?
+                                    confirmModalState.value : "[erro desconhecido]"
                 }}
-                returnButton={{ enabled: false }}
-                buttons={[
+                returnButton={{
+                    enabled: confirmModalState.status !== "success" && confirmModalState.status !== "pending" ? true : false,
+                }}
+                buttons={confirmModalState.status === "success" ? [
                     {
                         text: "Ir para o Evento",
                         onClick: confirmModalState.status === "success" ? () => router.push(`/dashboard/${confirmModalState.value}`) : undefined,
                     }
-                ]}
+                ] : undefined}
             >
                 {
                     confirmModalState.status === true &&

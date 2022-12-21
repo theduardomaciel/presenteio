@@ -14,33 +14,40 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     )
 }
 
-interface Props {
-    isOpened: boolean;
-    setDynamicOpened?: React.Dispatch<React.SetStateAction<[boolean, string, React.ReactElement<any, string | React.JSXElementConstructor<any>> | null]>>
-    setOpened?: React.Dispatch<React.SetStateAction<boolean>>;
-    title: string;
-    description: string;
-    icon?: any;
+interface ToastProps {
+    title: string,
+    description: string,
+    icon?: React.ReactElement;
+    status?: "success" | "error" | "warning" | "info";
 }
 
-export default function DashboardToast({ isOpened, setOpened, setDynamicOpened, title, description, icon }: Props) {
+export type ToastDynamicProps = [boolean, ToastProps?];
+
+interface Props {
+    isOpened: boolean;
+    toastProps?: ToastProps;
+    setDynamicOpened?: React.Dispatch<React.SetStateAction<ToastDynamicProps>>
+    setOpened?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function DashboardToast({ isOpened, setOpened, setDynamicOpened, toastProps }: Props) {
     return (
-        <Toast.Root className={styles.toastRoot} open={isOpened} onOpenChange={(opened) => {
+        <Toast.Root className={`${styles.toastRoot} ${styles[toastProps?.status as string]}`} open={isOpened} onOpenChange={(opened) => {
             if (setOpened) {
                 setOpened(opened);
             } else if (setDynamicOpened) {
-                setDynamicOpened([opened, "", null]);
+                setDynamicOpened([opened]);
             }
         }}>
             {
-                icon && <div className={styles.column}>
-                    {icon}
+                toastProps?.icon && <div className={styles.column}>
+                    {toastProps.icon}
                 </div>
             }
             <div className={styles.column}>
-                <Toast.Title className={styles.toastTitle}>{title}</Toast.Title>
+                <Toast.Title className={styles.toastTitle}>{toastProps?.title}</Toast.Title>
                 <Toast.Description className={styles.toastDescription} >
-                    {description}
+                    {toastProps?.description}
                 </Toast.Description>
             </div>
         </Toast.Root>

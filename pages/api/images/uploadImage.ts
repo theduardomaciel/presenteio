@@ -40,7 +40,7 @@ export async function getImageUrl(image_base64: string, name?: string) {
             return null;
         }
     } else {
-        console.log("Nenhum arquivo informado.")
+        console.log("Nenhuma string informada.")
         return null;
     }
 }

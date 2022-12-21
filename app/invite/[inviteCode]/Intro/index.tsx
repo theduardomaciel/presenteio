@@ -37,7 +37,7 @@ export default function Intro({ guest, event }: Props) {
     return <>
         {
             guest &&
-            <header>
+            <header className={styles.header}>
                 <h6>{getGreetings()}, <strong>{guest.name}</strong>!</h6>
             </header>
         }

@@ -34,7 +34,7 @@ export default async function EventPage({ params }: { params: any }) {
     return <div className={dashboardStyles.container}>
         {/* @ts-expect-error */}
         <DashboardHeader>
-            <EventEdit />
+            <EventEdit event={rest} />
         </DashboardHeader>
         <div className={dashboardStyles.content}>
             <div className={styles.section1}>
