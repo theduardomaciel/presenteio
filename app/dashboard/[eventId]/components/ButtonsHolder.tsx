@@ -116,9 +116,8 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
     }
 
     const MIN_GUESTS = 3;
-    const DISABLED = useMemo(() => event.status === "DIVULGATED" ||
-        event.guests.length < MIN_GUESTS ||
-        event.guests.filter(guest => !guest.email).length > 0, [event])
+    const DISABLED = useMemo(() => event.status === "DIVULGATED" || event.guests.length < MIN_GUESTS, [event])
+    const hasGuestsWithoutEmail = event.guests.filter(guest => !guest.email).length > 0
 
     return (
         <>
@@ -204,7 +203,8 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                 headerProps={{
                     icon: sendEmailModalState.status === true ? <SendEmail fill="var(--neutral)" width={"2.4rem"} height={"2.4rem"} /> : undefined,
                     title: sendEmailModalState.title ? sendEmailModalState.title : `Você tem certeza que deseja enviar os e-mails?`,
-                    description: sendEmailModalState.description ? sendEmailModalState.description : `Após enviar os e-mails, novos usuários não poderão participar do evento e a edição das informações dos convidados será bloqueada.`
+                    description: sendEmailModalState.description ? sendEmailModalState.description :
+                        `${hasGuestsWithoutEmail ? "Alguns convidados ainda não inseriram seus e-mails, portanto nem todos receberão o link em sua caixa de entrada!\n\n" : ""}Após enviar os e-mails, novos usuários não poderão participar do evento e a edição das informações dos convidados será bloqueada.`
                 }}
                 returnButton={{
                     enabled: sendEmailModalState.status !== "pending" ? true : false,

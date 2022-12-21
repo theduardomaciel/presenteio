@@ -20,6 +20,7 @@ import Input from '../../../components/Input';
 
 import { setCookie } from "../../../utils/cookies";
 import Account from '../../../types/Account';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 
 interface AccountData {
     email: string;
@@ -55,7 +56,7 @@ export default function Login() {
         title: "Log in",
         description: "Faça o login em sua conta para administrar os seus eventos.",
         children: <form onSubmit={handleSubmit} className={styles.section1}>
-            <GoogleButton />
+            <GoogleButton onClick={() => login()} isLoading={isLoading === true} />
             <div className={styles.outro}>
                 <div className={styles.divisor} />
                 <p>ou</p>
@@ -69,6 +70,29 @@ export default function Login() {
         </form>,
         footer: <div className='modalFooter'><p>Não tem uma conta? <Link href={`/auth/register`} style={{ fontWeight: "bold" }}>Criar uma conta</Link></p></div>
     } as Section;
+
+    const login = useGoogleLogin({
+        onSuccess: tokenResponse => {
+            setIsLoading(true)
+            getAccountFromGoogle(tokenResponse);
+        },
+        onError: errorResponse => console.log(errorResponse.error)
+    });
+
+    async function getAccountFromGoogle(tokenResponse: TokenResponse) {
+        try {
+            const response = await axios.post('/api/auth/login', { access_token: tokenResponse.access_token });
+            const data = response.data as { token: string, account: Account };
+
+            if (response.status === 200) {
+                await setCookie("presenteio.token", data.token, 90)
+                router.push(`/dashboard`)
+            }
+        } catch (error) {
+            const err = error as AxiosError & { response: AxiosResponse<{ error: string }> };
+            setIsLoading(err.response?.data.error as string)
+        }
+    }
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault(); // evitar que a página seja recarregada
@@ -91,17 +115,6 @@ export default function Login() {
             const err = error as AxiosError & { response: AxiosResponse<{ error: string }> };
             setIsLoading(err.response?.data.error as string)
         }
-
-        /* axios.post('/api/auth/login', { email: email, password: password })
-            .then((response) => {
-                if (response.status === 200) {
-                    router.push(`/dashboard`)
-                }
-            })
-            .catch((error) => {
-                const err = error as AxiosError & { response: AxiosResponse<{ error: string }> };
-                setIsLoading(err.response?.data.error as string)
-            }); */
     }
 
     return (

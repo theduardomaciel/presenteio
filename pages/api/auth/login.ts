@@ -5,7 +5,7 @@ import { verify } from 'jsonwebtoken';
 import prisma from "../../../lib/prisma";
 
 import Account from '../../../types/Account';
-import { getAppAuthenticationToken } from './register';
+import { getAppAuthenticationToken, getGoogleData } from './register';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
@@ -24,7 +24,7 @@ router
                         },
                     });
                     if (account) {
-                        console.log("Conta encontrada e atualizada com sucesso!")
+                        console.log("Conta encontrada com sucesso!")
                         res.status(200).json(account);
                     } else {
                         console.log("Conta não encontrada.")
@@ -44,24 +44,31 @@ router
         }
     })
     .post(async (req, res) => {
-        const { email, password } = req.body;
+        const { email, password, access_token } = req.body;
 
-        if (!email || !password) {
-            res.status(400).json({ error: "E-mail e senha são obrigatórios." })
+        if (!access_token && !email && !password) {
+            res.status(400).end("Email and password or access_token are required.");
             return;
         }
+
+        const googleUser = access_token ? await getGoogleData(access_token) as { email: string, given_name: string, family_name: string, picture: string } : null;
+
+        if (!googleUser && access_token) {
+            res.status(500).end("There was not possible to get the user information from Google.");
+        }
+
 
         try {
             const account = await prisma.account.findUnique({
                 where: {
-                    email: email,
+                    email: email || googleUser?.email,
                 },
             });
 
             if (account) {
                 console.log("Conta encontrada com sucesso!")
 
-                if (account.password !== password) {
+                if (!googleUser && account.password !== password) {
                     console.log("Senha incorreta.")
                     res.status(400).json({ error: "E-mail ou senha incorretos." });
                     return;

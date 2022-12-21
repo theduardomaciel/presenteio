@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 // Components
 import AuthModal, { Section } from '../../../components/AuthModal';
@@ -52,6 +52,7 @@ import Landing from '../../landing';
 
 import { setCookie } from '../../../utils/cookies';
 import Account from '../../../types/Account';
+import { TokenResponse, useGoogleLogin } from '@react-oauth/google';
 
 interface AccountFormData {
     name: string;
@@ -171,18 +172,18 @@ export default function Register() {
                         changeSection("final", 1);
                     } else {
                         setAccountData(null)
-                        changeSection("flow_choose", -1);
+                        changeSection("error", -1);
                     }
                 } catch (error) {
                     console.log(error)
                 }
             } else {
                 setAccountData(null)
-                changeSection("flow_choose", -1);
+                changeSection("error", -1);
             }
         } else {
             console.error("Não foi possível criar a conta, pois os dados não foram fornecidos.");
-            changeSection("flow_choose", -1);
+            changeSection("error", -1);
         }
     }
 
@@ -337,6 +338,35 @@ export default function Register() {
 
     }
 
+    async function createAccountFromGoogle(tokenResponse: TokenResponse) {
+        try {
+            const response = await axios.post(`/api/auth/register`, { access_token: tokenResponse.access_token })
+            setIsLoading(false)
+            console.log(response.status)
+            if (response?.status === 200) {
+                await setCookie("presenteio.token", response.data.token, 90)
+                changeSection("final", 1);
+            } else {
+                changeSection("error", -1);
+            }
+        } catch (error: any) {
+            setIsLoading(false)
+            if (error.response.status === 400) {
+                changeSection("account_exists", -1);
+            } else {
+                changeSection("error", -1);
+            }
+        }
+    }
+
+    const login = useGoogleLogin({
+        onSuccess: tokenResponse => {
+            setIsLoading(true)
+            createAccountFromGoogle(tokenResponse);
+        },
+        onError: errorResponse => console.log(errorResponse.error)
+    });
+
     const [[actualSection, direction], setActualSection] = useState<[string, number]>(["flow_choose", 1]);
     const [selected, setSelected] = useState<number | null>(null);
 
@@ -388,10 +418,10 @@ export default function Register() {
         title: "Estamos quase lá",
         description: "Agora falta muito pouco para administrar seus próprios eventos, basta entrar com sua conta Google para cadastrar-se.",
         children: <div className={styles.section1}>
-            <GoogleButton />
-            {TermsWarning}
+            <GoogleButton isLoading={isLoading} onClick={() => login()} />
+            {!isLoading && TermsWarning}
         </div>,
-        footer: <div className='modalFooter' onClick={() => changeSection("flow_choose", -1)}>
+        footer: isLoading ? undefined : <div className='modalFooter' onClick={() => changeSection("flow_choose", -1)}>
             <RightIcon style={{ transform: "rotate(180deg)", display: "inline" }} className={styles.optionIcon} width={"1.6rem"} height={"1.6rem"} />
             <p className={styles.footer} style={{ fontWeight: 700 }}> Voltar para o início </p>
         </div>
@@ -444,6 +474,16 @@ export default function Register() {
         children: <Button isLoading={true} style={{ width: "100%", paddingBlock: "1rem" }} />,
     } as Section;
 
+    const Error = {
+        title: "Eita! Algo deu errado.",
+        logoPosition: "top",
+        description: "Por favor, tente novamente mais tarde. Caso o problema persista, entre em contato conosco.",
+        footer: <div className='modalFooter' onClick={() => changeSection("flow_choose", -1)} >
+            <RightIcon style={{ transform: "rotate(180deg)", display: "inline" }} className={styles.optionIcon} width={"1.6rem"} height={"1.6rem"} />
+            <p style={{ fontWeight: 700 }}> Voltar para o início </p>
+        </div>
+    } as Section;
+
     const AccountExists = {
         title: "Parece que você já tem uma conta!",
         logoPosition: "top",
@@ -458,13 +498,14 @@ export default function Register() {
         children: <Link href={`/dashboard`}><Button label='Entrar na plataforma' style={{ width: "100%", paddingBlock: "1rem" }} /></Link>,
     } as Section;
 
-    type Sections = "flow_choose" | "google_flow" | "email_flow" | "email_confirm" | "loading" | "account_exists" | "final";
+    type Sections = "flow_choose" | "google_flow" | "email_flow" | "email_confirm" | "loading" | "account_exists" | "final" | 'error';
     const sections = {
         "flow_choose": FlowChoose,
         "google_flow": GoogleFlow,
         "email_flow": EmailFlow,
         "email_confirm": ConfirmEmail,
         "loading": Loading,
+        "error": Error,
         "account_exists": AccountExists,
         "final": FinalSection
     } as { [key: string]: Section };

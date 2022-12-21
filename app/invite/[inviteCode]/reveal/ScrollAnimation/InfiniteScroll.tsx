@@ -41,20 +41,22 @@ export function Tag({ size = 125, image_url, additionalClass, style }: TagProps)
     const BLINK_ANIMATION = additionalClass?.includes(styles.chosenGuest) ? {} : { animationDelay: `${DELAY}ms`, animationDuration: `${DURATION}ms` }
 
     return (
-        image_url ?
-            <Image
-                className={`${styles.image} imageContain ${additionalClass ? additionalClass : ""}`}
-                style={{ ...style, ...BLINK_ANIMATION }}
-                src={image_url}
-                alt={""}
-                width={size}
-                height={size}
-            />
-            :
-            <div
-                className={`${styles.image} imageContain ${additionalClass ? additionalClass : ""}`}
-                style={{ ...GUEST_IMAGE_PLACEHOLDER, ...style, width: size, height: size, cursor: "default", ...BLINK_ANIMATION }} >
-                <PersonIcon width={64} height={64} opacity={0.5} />
-            </div>
+        <div
+            className={`${styles.image} imageContain ${additionalClass ? additionalClass : ""}`}
+            style={{ ...GUEST_IMAGE_PLACEHOLDER, ...style, width: size, height: size, cursor: "default", ...BLINK_ANIMATION }}
+        >
+            {
+                image_url &&
+                <Image
+                    src={image_url}
+                    fill
+                    priority={true}
+                    className={`imageContain`}
+                    style={{ zIndex: 2, borderRadius: "50%" }}
+                    alt={""}
+                />
+            }
+            <PersonIcon width={64} height={64} opacity={0.5} />
+        </div>
     );
 }

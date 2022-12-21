@@ -3,6 +3,7 @@ import { createRouter } from "next-connect";
 
 import jwt from 'jsonwebtoken';
 import prisma from "../../../lib/prisma";
+import axios from 'axios';
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
@@ -11,22 +12,55 @@ export function getAppAuthenticationToken(account_id: string) {
     return jwt.sign({ data: account_id }, jwtSecretKey, { expiresIn: "60d" });
 }
 
+export async function getGoogleData(access_token: string) {
+    try {
+        const googleResponse = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", { headers: { Authorization: `Bearer ${access_token}` } })
+        if (googleResponse.data) {
+            return googleResponse.data;
+        }
+    } catch (error) {
+        console.log(error)
+        return null;
+    }
+}
+
 router
     .post(async (req, res) => {
-        const { name, email, password, image_url } = req.body;
+        const { name, email, password, access_token } = req.body;
 
-        if (!name || !email || !password) {
-            res.status(400).end("Name, email and password are required.");
+        if (!access_token && !name && !password) {
+            res.status(400).end("Name and email or access_token are required.");
             return;
         }
 
+        const googleUser = access_token ? await getGoogleData(access_token) as { email: string, given_name: string, family_name: string, picture: string } : null;
+
+        if (!googleUser && access_token) {
+            res.status(500).end("There was not possible to get the user information from Google.");
+        } else {
+            const account = await prisma.account.findUnique({
+                where: {
+                    email: email || googleUser?.email,
+                },
+            });
+
+            if (account) {
+                res.status(400).end("Account already exists.");
+                return;
+            }
+        };
+        // Unique constraint failed on the (not available) -> erro acontece quando o email já existe
+
+        console.log(name || googleUser?.given_name + " " + googleUser?.family_name, email || googleUser?.email)
+
         try {
+            const googleName = googleUser?.given_name + " " + googleUser?.family_name ? googleUser?.family_name : "";
             const account = await prisma.account.create({
                 data: {
-                    name: name,
-                    email: email,
-                    password: password,
-                    image_url: image_url ? image_url : null,
+                    name: name || googleName,
+                    email: email || googleUser?.email,
+                    password: password || null,
+                    image_url: googleUser?.picture || null,
                 },
             });
             console.log("Account created with success!")

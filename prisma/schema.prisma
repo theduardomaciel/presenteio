@@ -14,7 +14,7 @@ model Account {
     createdAt DateTime @default(now())
     email     String
     name      String
-    password  String
+    password  String?
 
     token String?
 
