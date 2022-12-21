@@ -58,7 +58,7 @@
     border-radius: 0.5rem;
 }
 
-.buttonFont {
+.content .button .buttonFont {
     font-family: 'Judson', serif;
     font-style: normal;
     font-weight: 700;

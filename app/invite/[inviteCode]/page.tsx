@@ -39,7 +39,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
         notFound();
     }
 
-    const STATUS = event && event?.status === "DIVULGATED" && (!guest || guest && guest?.status !== "CONFIRMED") ?
+    const STATUS = event?.status === "DIVULGATED" && !guest ?
         "divulgated" :
         (guest ? (guest?.status === "PENDING" ? "intro" :
             guest?.status === "CONFIRMED" ? "waiting" : "visualized") :
@@ -50,7 +50,6 @@ export default async function Invite({ params, searchParams }: InviteProps) {
     const SCREENS = {
         "intro": <Intro guest={guest} event={event} />,
         "divulgated": <div className={styles.content}>
-
             <h1>O sorteio já foi realizado.</h1>
             <p>Infelizmente, este link não está mais funcional visto que o sorteio já foi realizado entre os participantes que entraram no evento.
             </p>
@@ -64,10 +63,22 @@ export default async function Invite({ params, searchParams }: InviteProps) {
             <h1>Já estamos prontos.</h1>
             {
                 event.status === "DIVULGATED" ?
-                    <p>Verifique sua caixa de entrada! <br />
-                        Os e-mails já foram enviados e estão disponíveis para visualização. Pronto para descobrir quem é seu amigo secreto? <br />
-                        Caso não tenha recebido o e-mail, verifique sua caixa de spam ou entre em contato com o anfitrião do evento.
-                    </p>
+                    <>
+                        <p><strong>Verifique sua caixa de entrada!</strong> <br />
+                            Os e-mails já foram enviados e estão disponíveis para visualização. Pronto para descobrir quem é seu amigo secreto?
+                        </p>
+                        <div className={'divisor'} />
+                        <p>                        Caso não tenha recebido o e-mail, visualize seu amigo secreto por meio do link abaixo.</p>
+                        <Link href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`} className='modalFooter'>
+                            <Button
+                                icon={<ViewIcon fill='var(--primary-03)' opacity={0.5} />}
+                                additionalClasses={styles.footerButton}
+                                noEffects
+                            >
+                                <p className={`${styles.footerButtonFont}`}>Ver meu amigo secreto novamente</p>
+                            </Button>
+                        </Link>
+                    </>
                     :
                     <p>Todos os seus dados foram atualizados. <br />
                         Agora basta aguardar que todos os outros participantes entrem e o anfitrião realize o sorteio.</p>
@@ -83,14 +94,14 @@ export default async function Invite({ params, searchParams }: InviteProps) {
             <p>Agora basta aguardar que todos os outros participantes entrem e visualizem seus amigos secretos.</p>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2.5rem", maxWidth: "95%" }}>
                 <Button additionalClasses={styles.button} noEffects >
-                    <p className={styles.buttonFont}>5/12 já visualizaram seus amigos secretos</p>
+                    <p className={styles.buttonFont}>{event?.guests.filter(guest => guest.status === "VISUALIZED").length}/{event?.guests.length} já visualizaram seus amigos secretos</p>
                 </Button>
-                <GuestsView />
+                <GuestsView guests={event.guests} />
             </div>
             <div className={'divisor'} />
             <Link href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`} className='modalFooter'>
                 <Button
-                    icon={<ViewIcon />}
+                    icon={<ViewIcon fill='var(--primary-03)' opacity={0.5} />}
                     additionalClasses={styles.footerButton}
                     noEffects
                 >

@@ -50,7 +50,7 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
         }, DURATION);
     }, [])
 
-    const MULTIPLY_BY = Math.floor(TAGS_PER_ROW / guestsImages.length) + 1;
+    const MULTIPLY_BY = Math.floor(TAGS_PER_ROW / guestsImages.length) + 3;
     const IS_ARRAY_EVEN = guestsImages.length % 2 === 0;
     const SORTED_ARRAY = useMemo(() => IS_ARRAY_EVEN ? makeRepeated(shuffle(guestsImages), MULTIPLY_BY)
         : makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([guestsImages[guestsImages.length - 1]]), []);
@@ -78,7 +78,7 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
             >
                 {
                     status === "animating" && <InfiniteLoopSlider key={'firstAnimator'} duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
-                        {shuffle(guestsImages.length < TAGS_PER_ROW ? makeRepeated(guestsImages, 2) : guestsImages).slice(0, TAGS_PER_ROW).map((guest, i) => (
+                        {shuffle(guestsImages.length < TAGS_PER_ROW ? makeRepeated(guestsImages, 3) : guestsImages).slice(0, TAGS_PER_ROW).map((guest, i) => (
                             <Tag key={i.toString()} image_url={guest} size={125} />
                         ))}
                     </InfiniteLoopSlider>
@@ -115,7 +115,7 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
 
                 {
                     status === "animating" && <InfiniteLoopSlider key={"secondAnimator"} duration={random(DURATION - 5000, DURATION + 5000)} reverse={0}>
-                        {shuffle(guestsImages.length < TAGS_PER_ROW ? makeRepeated(guestsImages, 2) : guestsImages).slice(0, TAGS_PER_ROW).map((guest, i) => (
+                        {shuffle(guestsImages.length < TAGS_PER_ROW ? makeRepeated(guestsImages, 3) : guestsImages).slice(0, TAGS_PER_ROW).map((guest, i) => (
                             <Tag key={i.toString()} image_url={guest} size={125} />
                         ))}
                     </InfiniteLoopSlider>

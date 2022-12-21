@@ -47,7 +47,7 @@ const GuestCard = ({ guest, event }: { guest: Omit<Guest, "event">, event: Omit<
                             </> :
                             event.status === "DIVULGATED" ?
                                 <>
-                                    <VisualizedIcon width={16} height={16} />
+                                    <VisualizedIcon width={16} height={16} fill={`var(--neutral)`} />
                                     <p>Visualização pendente...</p>
                                 </>
                                 :

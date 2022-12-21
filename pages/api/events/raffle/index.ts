@@ -45,6 +45,7 @@ router
         function getRandomRaffle(guest: Guest) {
             const availableGuests = eventGuests.filter((iterationGuest) => iterationGuest.id !== guest.id && isAlreadyRaffled(iterationGuest.id) === false);
             const randomGuest = availableGuests[Math.floor(Math.random() * availableGuests.length)];
+            guestsAlreadyRaffledIds.push(randomGuest.id);
             return randomGuest
         }
 

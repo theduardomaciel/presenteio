@@ -107,12 +107,15 @@ export default function ActionButtons({ guest, event }: Props) {
         <>
             <div className={styles.actions}>
                 {
-                    event.status === "DIVULGATED" && guest.status === "CONFIRMED" && <SendEmail fill="var(--neutral)" width={22} height={22} onClick={() => setResendEmailModalState({ status: true })} />
+                    event.status === "DIVULGATED" && guest.status === "CONFIRMED" && <>
+                        <ShareIcon width={22} height={22} onClick={() => setShareModalVisible(true)} />
+                        <SendEmail fill="var(--neutral)" width={22} height={22} onClick={() => setResendEmailModalState({ status: true })} />
+                    </>
                 }
                 {
                     event.status === "PENDING" &&
                     <>
-                        <ShareIcon width={22} height={22} onClick={() => setShareModalVisible(true)} />
+
                         <EditIcon fill="var(--neutral)" width={22} height={22} onClick={() => setIsGuestModalVisible(true)} />
                         <DeleteIcon fill="white" width={22} height={22} onClick={() => setDeleteModalState({ status: true })} />
                     </>

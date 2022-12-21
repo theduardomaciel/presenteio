@@ -19,10 +19,8 @@ export interface EmailProps {
 }
 
 export default function RevealEmail({ guestName, guestId, eventName, eventType, eventInviteCode }: EmailProps) {
-    const root = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://presenteio.vercel.app";
-
-    const IMAGE_URL = `${root}/api/images/generateEventImage?name=${eventName?.replaceAll(' ', '%20')}&type=${eventType}`
-    const EVENT_REVEAL_URL = `${root}/invite/${eventInviteCode}/reveal?guest=${guestId}`
+    const IMAGE_URL = `https://presenteio.vercel.app/api/images/generateEventImage?name=${eventName?.replaceAll(' ', '%20')}&type=${eventType}`
+    const EVENT_REVEAL_URL = `https://presenteio.vercel.app/invite/${eventInviteCode}/reveal?guest=${guestId}`
 
     console.log(IMAGE_URL, EVENT_REVEAL_URL)
 
@@ -30,6 +28,9 @@ export default function RevealEmail({ guestName, guestId, eventName, eventType, 
         <Html>
             <Head />
             <Container style={main}>
+                <Text style={text}>
+                    <strong>Problemas com o e-mail?</strong> <Link style={linkStyle} href={EVENT_REVEAL_URL}>Clique aqui para ver seu amigo secreto</Link>
+                </Text>
                 <Container style={container}>
                     {
                         eventName && eventType &&
@@ -54,13 +55,6 @@ export default function RevealEmail({ guestName, guestId, eventName, eventType, 
                     >
                         Descobrir meu Amigo Secreto
                     </Button>
-                    <Text style={text}>
-                        <strong>Caso o botão acima não funcione, visite a página diretamente por meio do link abaixo:</strong>
-                    </Text>
-                    <Link style={linkStyle} href={EVENT_REVEAL_URL}>{EVENT_REVEAL_URL}</Link>;
-                    <Text style={text}>
-                        Se o problema persistir, entre em contato com o anfitrião para que ele resolva os problemas diretamente.
-                    </Text>
                 </Container>
             </Container>
         </Html>
@@ -70,8 +64,10 @@ export default function RevealEmail({ guestName, guestId, eventName, eventType, 
 const main = {
     backgroundColor: '#ffffff',
     margin: '0 auto',
+    width: "100%",
+    display: "block" as const,
     paddingRight: "150px"
-};
+} as CSSProperties;
 
 const container = {
     padding: '55px 72px',

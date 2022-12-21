@@ -42,6 +42,8 @@
 
     transition: 1s;
 
+    aspect-ratio: 1 /1;
+
     animation-name: glow;
     animation-duration: 850ms;
 }
