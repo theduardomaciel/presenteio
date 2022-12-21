@@ -129,6 +129,10 @@ div.hide {
     border-radius: 1rem;
 }
 
+.link {
+    line-break: anywhere;
+}
+
 .link:hover {
     text-decoration: underline;
 }

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
@@ -116,13 +116,14 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
     }
 
     const MIN_GUESTS = 3;
+    const DISABLED = useMemo(() => event.status === "DIVULGATED" || event.guests.length < MIN_GUESTS || event.guests.filter(guest => guest.status === "PENDING").length > 0, [event])
 
     return (
         <>
             <div className={styles.buttonsHolder}>
                 <Button
-                    disabled={event.status === "DIVULGATED" || event.guests.length < MIN_GUESTS}
-                    style={event.status === "DIVULGATED" || event.guests.length < MIN_GUESTS ? DISABLED_BUTTON : ENABLED_BUTTON}
+                    disabled={DISABLED}
+                    style={DISABLED ? DISABLED_BUTTON : ENABLED_BUTTON}
                     onClick={() => setSendEmailModalState({ status: true })}
                 >
                     <SendEmail fill="var(--neutral)" height={24} width={24} />

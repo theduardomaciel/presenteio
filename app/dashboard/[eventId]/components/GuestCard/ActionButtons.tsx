@@ -106,9 +106,9 @@ export default function ActionButtons({ guest, event }: Props) {
     return (
         <>
             <div className={styles.actions}>
+                <ShareIcon width={22} height={22} onClick={() => setShareModalVisible(true)} />
                 {
                     event.status === "DIVULGATED" && guest.status === "CONFIRMED" && <>
-                        <ShareIcon width={22} height={22} onClick={() => setShareModalVisible(true)} />
                         <SendEmail fill="var(--neutral)" width={22} height={22} onClick={() => setResendEmailModalState({ status: true })} />
                     </>
                 }
