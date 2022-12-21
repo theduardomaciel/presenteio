@@ -52,7 +52,7 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
 
     const MULTIPLY_BY = Math.floor(TAGS_PER_ROW / guestsImages.length) + 3;
     const IS_ARRAY_EVEN = guestsImages.length % 2 === 0;
-    const SORTED_ARRAY = useMemo(() => IS_ARRAY_EVEN ? makeRepeated(shuffle(guestsImages), MULTIPLY_BY)
+    const SORTED_ARRAY = useMemo(() => IS_ARRAY_EVEN ? makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([guestsImages[guestsImages.length - 1]])
         : makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([guestsImages[guestsImages.length - 1]]), []);
 
     const MIDDLE_INDEX = Math.floor(SORTED_ARRAY.length / 2);

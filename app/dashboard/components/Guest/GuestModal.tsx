@@ -159,7 +159,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                 type={"text"}
                 value={guestName}
                 onChange={e => setGuestName(e.target.value)}
-                minLength={8}
+                minLength={6}
                 maxLength={30}
                 required
             />

@@ -80,7 +80,7 @@ export default function GuestsDisplay({ preGuests, setPreGuests, hasAddButton }:
         <DashboardSectionHeader title="Participantes">
         </DashboardSectionHeader>
         {hasAddButton && <AddGuestButton setIsGuestModalVisible={setIsGuestModalVisible} fullWidth />}
-        <div className={`${styles.guestsHolder} ${preGuests.length === 0 ? styles.empty : ""}`}>
+        <div className={`${styles.guestsHolder} scroll ${preGuests.length === 0 ? styles.empty : ""}`}>
             {
                 preGuests.length === 0 ?
                     <EmptyGuests label='Você não adicionou nenhum convidado previamente.' style={{ paddingBlock: "5rem" }} />

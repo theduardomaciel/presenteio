@@ -68,14 +68,14 @@ export default async function Invite({ params, searchParams }: InviteProps) {
                             Os e-mails já foram enviados e estão disponíveis para visualização. Pronto para descobrir quem é seu amigo secreto?
                         </p>
                         <div className={'divisor'} />
-                        <p>                        Caso não tenha recebido o e-mail, visualize seu amigo secreto por meio do link abaixo.</p>
                         <Link href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`} className='modalFooter'>
+                            <p>                        Caso não tenha recebido o e-mail, visualize seu amigo secreto por meio do link abaixo.</p>
                             <Button
                                 icon={<ViewIcon fill='var(--primary-03)' opacity={0.5} />}
                                 additionalClasses={styles.footerButton}
                                 noEffects
                             >
-                                <p className={`${styles.footerButtonFont}`}>Ver meu amigo secreto novamente</p>
+                                <p className={`${styles.footerButtonFont}`}>Ver meu amigo secreto</p>
                             </Button>
                         </Link>
                     </>

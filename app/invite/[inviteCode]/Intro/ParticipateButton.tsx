@@ -137,7 +137,7 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
             userData.current.email = formData.get("email") as string;
             setActualSection(["direct_invite_guest_image", 1]);
         }}>
-            <Input required name="email" minLength={10} maxLength={50} label="E-mail" />
+            <Input required name="email" minLength={8} maxLength={50} label="E-mail" />
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
@@ -187,7 +187,7 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
 
             setActualSection(["invite_guest_email", 1])
         }}>
-            <Input required name="name" minLength={10} maxLength={50} label="Nome" placeholder="Fulano da Silva" style={{ width: "100%" }} />
+            <Input required name="name" minLength={6} maxLength={50} label="Nome" placeholder="Fulano da Silva" style={{ width: "100%" }} />
             {ContinueButton}
         </form>,
         footer: CancelFooter
@@ -204,7 +204,7 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
 
             setActualSection(["invite_guest_image", 1])
         }}>
-            <Input required type={"email"} minLength={10} maxLength={50} name="email" label="E-mail" style={{ width: "100%" }} />
+            <Input required type={"email"} minLength={8} maxLength={50} name="email" label="E-mail" style={{ width: "100%" }} />
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
