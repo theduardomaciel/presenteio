@@ -69,25 +69,17 @@ export const getEvent = cache(async (id: number) => {
 export const getEventFromInviteCode = cache(async (inviteCode: string) => {
     if (!inviteCode) return null;
 
-    const nextCookies = cookies();
-    const token = nextCookies.get('presenteio.token');
-
-    if (!token) return;
-
     try {
-        const response = verify(token?.value as string, process.env.JWT_SECRET_KEY as string) as { data: string }
-        if (response) {
-            const event = await prisma.event.findUnique({
-                where: {
-                    inviteCode: inviteCode
-                },
-                include: {
-                    guests: true
-                }
-            });
+        const event = await prisma.event.findUnique({
+            where: {
+                inviteCode: inviteCode
+            },
+            include: {
+                guests: true
+            }
+        });
 
-            return event;
-        }
+        return event;
     } catch (error) {
         console.log(error)
     }

@@ -158,6 +158,10 @@
         transform: scaleX(1);
     }
 
+    .content .title {
+        margin-bottom: 0px;
+    }
+
     .content .title div h3 {
         font-size: 3.2rem;
     }

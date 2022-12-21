@@ -144,7 +144,7 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 buttons={confirmModalState.status === "success" ? [
                     {
                         text: "Ir para o Evento",
-                        onClick: confirmModalState.status === "success" ? () => router.push(`/dashboard/${confirmModalState.value}`) : undefined,
+                        onClick: confirmModalState.status === "success" ? () => router.replace(`/dashboard/${confirmModalState.value}`) : undefined,
                     }
                 ] : undefined}
             >
