@@ -50,10 +50,9 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
         }, DURATION);
     }, [])
 
-    const MULTIPLY_BY = Math.floor(TAGS_PER_ROW / guestsImages.length) + 3;
+    const MULTIPLY_BY = Math.floor((TAGS_PER_ROW * 2) / guestsImages.length);
     const IS_ARRAY_EVEN = guestsImages.length % 2 === 0;
-    const SORTED_ARRAY = useMemo(() => IS_ARRAY_EVEN ? makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([guestsImages[guestsImages.length - 1]])
-        : makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([guestsImages[guestsImages.length - 1]]), []);
+    const SORTED_ARRAY = useMemo(() => makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([guestsImages[guestsImages.length - 1]]), []);
 
     const MIDDLE_INDEX = Math.floor(SORTED_ARRAY.length / 2);
 
@@ -63,7 +62,7 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
             additionalClass={i === MIDDLE_INDEX ? styles.chosenGuest : undefined}
             image_url={i === MIDDLE_INDEX ? chosenGuest.image_url : guest}
             size={150}
-            removeMargin
+            style={{ marginRight: 0 }}
         />
     ));
 

@@ -67,17 +67,6 @@ export default async function Invite({ params, searchParams }: InviteProps) {
                         <p><strong>Verifique sua caixa de entrada!</strong> <br />
                             Os e-mails já foram enviados e estão disponíveis para visualização. Pronto para descobrir quem é seu amigo secreto?
                         </p>
-                        <div className={'divisor'} />
-                        <Link href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`} className='modalFooter'>
-                            <p>                        Caso não tenha recebido o e-mail, visualize seu amigo secreto por meio do link abaixo.</p>
-                            <Button
-                                icon={<ViewIcon fill='var(--primary-03)' opacity={0.5} />}
-                                additionalClasses={styles.footerButton}
-                                noEffects
-                            >
-                                <p className={`${styles.footerButtonFont}`}>Ver meu amigo secreto</p>
-                            </Button>
-                        </Link>
                     </>
                     :
                     <p>Todos os seus dados foram atualizados. <br />
@@ -87,6 +76,18 @@ export default async function Invite({ params, searchParams }: InviteProps) {
                 <p className={styles.buttonFont}>{event.status === "DIVULGATED" ? "Os e-mails já foram enviados pelo anfitrião!" : "Os e-mails ainda não foram enviados pelo anfitrião."}</p>
             </Button>
             <div className={"divisor"} />
+            {
+                event.status === "DIVULGATED" &&
+                <Link href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`} className='modalFooter' >
+                    <Button
+                        icon={<ViewIcon fill='var(--primary-03)' opacity={0.5} />}
+                        additionalClasses={styles.footerButton}
+                        noEffects
+                    >
+                        <p className={`${styles.footerButtonFont}`}>Ver meu amigo secreto</p>
+                    </Button>
+                </Link>
+            }
         </div>,
         "visualized": <div className={styles.content}>
             {Title}

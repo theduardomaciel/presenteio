@@ -8,10 +8,12 @@ import styles from './styles.module.css'
 // Assets
 import CheckIcon from '@public/icons/check.svg';
 import ChevronLeft from "@public/icons/chevron_left.svg";
+import PersonIcon from "@public/icons/person.svg";
 
 import useHorizontalScroll from 'hooks/useHorizontalScroll';
 
 import Guest from 'types/Guest';
+import { GUEST_IMAGE_PLACEHOLDER } from '@dashboard/components/Guest/GuestModal';
 
 export default function GuestsView({ guests }: { guests: Guest[] }) {
 
@@ -31,7 +33,12 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
                             {
                                 guest.status === "VISUALIZED" && <VisualizedFilter />
                             }
-                            <Image style={{ zIndex: 0, borderRadius: "50%" }} src={guest.image_url} alt={guest.name} width={40} height={40} />
+                            {
+                                guest.image_url ? <Image style={{ zIndex: 0, borderRadius: "50%" }} src={guest.image_url} alt={guest.name} width={40} height={40} /> :
+                                    <div style={{ ...GUEST_IMAGE_PLACEHOLDER, width: 40, height: 40 }}>
+                                        <PersonIcon width={16} height={16} opacity={0.5} />
+                                    </div>
+                            }
                         </li>
                     ))
                 }

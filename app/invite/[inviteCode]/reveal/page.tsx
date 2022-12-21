@@ -17,7 +17,7 @@ import Event from 'types/Event';
 
 export default async function Reveal({ params, searchParams }: InviteProps) {
     const event = await getEventFromInviteCode(params?.inviteCode as string) as unknown as Event;
-    const guest = await getGuest(searchParams?.guest as string, true) as unknown as Guest;
+    const guest = await getGuest(searchParams?.guest as string) as unknown as Guest;
 
     if (!guest || event?.status !== "DIVULGATED" || !guest.chosenGuest) {
         notFound();

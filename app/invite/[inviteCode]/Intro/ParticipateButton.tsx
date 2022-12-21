@@ -168,10 +168,11 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
                     !preview && <AddPhotoIcon />
                 }
             </label>
-            <input required type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="image" id="image" />
+            <input type={"file"} onChange={onSelectFile} accept="image/png, image/jpeg" style={{ display: "none" }} name="image" id="image" />
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
+            <div className="modalFooter" onClick={() => updateOrCreateGuest("update")}><p>Não possuo uma imagem</p></div>
         </form>,
         footer: <ReturnFooter sectionToReturn="direct_invite_guest_email" />
     } as Section;
@@ -233,6 +234,7 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
+            <div className="modalFooter" onClick={() => updateOrCreateGuest("create")}><p>Não possuo uma imagem</p></div>
         </form>,
         footer: <ReturnFooter sectionToReturn="invite_guest_email" />
     } as Section;

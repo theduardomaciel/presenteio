@@ -1,6 +1,7 @@
 'use client';
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import axios from "axios";
 
 import styles from "../invite.module.css";
 
@@ -8,7 +9,7 @@ import GiftIcon from '@public/icons/gift.svg';
 
 // Components
 import Button from "components/Button";
-import ScrollAnimation from "../components/ScrollAnimation";
+import ScrollAnimation from "./ScrollAnimation";
 import EventTitle from "../components/EventTitle";
 
 import Guest from "types/Guest";
@@ -21,6 +22,23 @@ interface Props {
 
 export default function RevealContent({ guestsImages, chosenGuest, eventProps }: Props) {
     const [status, setStatus] = useState<"idle" | "animating">("idle");
+
+    async function updateStatus() {
+        setStatus("animating")
+
+        try {
+            const response = await axios.patch(`/api/guests/${chosenGuest.id}`, {
+                status: "VISUALIZED"
+            })
+            if (response) {
+                console.log("Status atualizado com sucesso!")
+            } else {
+                console.log("Erro ao atualizar status.")
+            }
+        } catch (error) {
+            console.log(error, "Erro ao atualizar status.")
+        }
+    }
 
     return (
         <AnimatePresence mode="popLayout">
@@ -43,7 +61,7 @@ export default function RevealContent({ guestsImages, chosenGuest, eventProps }:
                             additionalClasses={styles.button}
                             style={{ cursor: "pointer" }}
                             icon={<GiftIcon width={"1.8rem"} height={"1.8rem"} fill={`var(--neutral)`} />}
-                            onClick={() => setStatus("animating")}
+                            onClick={updateStatus}
                         >
                             <p className={`${styles.buttonFont}`}>Descobrir meu Amigo Secreto</p>
                         </Button>

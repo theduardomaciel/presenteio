@@ -149,7 +149,6 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                     onChange={onSelectFile}
                     accept="image/png, image/jpeg"
                     style={{ display: "none" }}
-                    required
                     id='guestImageUpload'
                     name="guestImage"
                 />

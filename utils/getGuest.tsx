@@ -7,7 +7,7 @@ export const preload = (id: string) => {
     void getGuest(id);
 }
 
-export const getGuest = cache(async (id: string, updateStatus?: boolean) => {
+export const getGuest = cache(async (id: string) => {
     if (!id) return null;
 
     try {
@@ -20,21 +20,6 @@ export const getGuest = cache(async (id: string, updateStatus?: boolean) => {
                 chosenGuest: true
             }
         });
-        if (updateStatus && guest?.status === "CONFIRMED") {
-            await prisma.guest.update({
-                where: {
-                    id: id
-                },
-                data: {
-                    status: "VISUALIZED"
-                },
-                include: {
-                    event: false,
-                    chosenGuest: true
-                }
-            });
-            console.log("Status updated.")
-        }
         return guest;
     } catch (error) {
         console.log(error)

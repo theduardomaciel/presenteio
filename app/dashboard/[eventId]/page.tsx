@@ -53,7 +53,9 @@ export default async function EventPage({ params }: { params: any }) {
                 <Overlay />
             </div>
             <DashboardSectionHeader title='Participantes'>
-                <AddGuest eventId={event.id} />
+                {
+                    event.status !== "DIVULGATED" && <AddGuest eventId={event.id} />
+                }
             </DashboardSectionHeader>
             <div className={`${styles.guestsHolder} scroll ${event.guests && event.guests.length === 0 ? styles.empty : ""}`}>
                 {

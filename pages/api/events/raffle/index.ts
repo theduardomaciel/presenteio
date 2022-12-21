@@ -89,7 +89,7 @@ router
         try {
             const authenticated = verify(token, process.env.JWT_SECRET_KEY as string) as { data: string };
             if (authenticated) {
-                await sendAllEmails()
+                //await sendAllEmails()
                 const updatedEvent = await prisma.event.update({
                     where: {
                         id: parseInt(id as string),

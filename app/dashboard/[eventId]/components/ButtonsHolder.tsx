@@ -202,7 +202,7 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                 style={{ gap: "3.5rem" }}
                 insertLogo={sendEmailModalState.status !== true}
                 headerProps={{
-                    icon: sendEmailModalState.status === true ? <SendEmail width={"2.4rem"} height={"2.4rem"} /> : undefined,
+                    icon: sendEmailModalState.status === true ? <SendEmail fill="var(--neutral)" width={"2.4rem"} height={"2.4rem"} /> : undefined,
                     title: sendEmailModalState.title ? sendEmailModalState.title : `Você tem certeza que deseja enviar os e-mails?`,
                     description: sendEmailModalState.description ? sendEmailModalState.description : `Após enviar os e-mails, novos usuários não poderão participar do evento e a edição das informações dos convidados será bloqueada.`
                 }}
