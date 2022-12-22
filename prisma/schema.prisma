@@ -63,7 +63,7 @@ model Guest {
     chosenGuest Guest?  @relation(fields: [guestId], references: [id], name: "chosenGuest", onDelete: NoAction, onUpdate: NoAction)
     guestId     String?
 
-    event   Event @relation(fields: [eventId], references: [id])
+    event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
     eventId Int
 
     guests Guest[] @relation(name: "chosenGuest")
