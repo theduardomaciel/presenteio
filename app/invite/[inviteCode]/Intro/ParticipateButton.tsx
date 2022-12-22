@@ -180,7 +180,6 @@ export default function ParticipateButton({ guest, event }: Props) {
                     <div className="modalFooter" style={{ textAlign: "center" }} onClick={() => updateOrCreateGuest("update")}><p>Permanecer com esta foto</p></div> :
                     <div className="modalFooter" style={{ textAlign: "center" }} onClick={() => updateOrCreateGuest("update")}><p>Continuar sem foto <br /><span style={{ fontSize: "1rem" }}>(os outros não verão sua imagem durante a revelação)</span></p></div>
             }
-
         </form>,
         footer: <ReturnFooter sectionToReturn="direct_invite_guest_email" />
     } as Section;

@@ -62,11 +62,10 @@ model Guest {
 
     chosenGuest Guest?  @relation(fields: [guestId], references: [id], name: "chosenGuest", onDelete: NoAction, onUpdate: NoAction)
     guestId     String?
+    guests      Guest[] @relation(name: "chosenGuest")
 
-    event   Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+    event   Event? @relation(fields: [eventId], references: [id], onDelete: Cascade)
     eventId Int
-
-    guests Guest[] @relation(name: "chosenGuest")
 
     @@index([eventId])
     @@index([guestId])
