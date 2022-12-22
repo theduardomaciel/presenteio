@@ -9,7 +9,7 @@ import { verify } from "jsonwebtoken";
 import extractToken from "../../../lib/extractToken";
 
 import { deleteImage, getImageUrl } from "../images/uploadImage";
-import { PreGuest } from "@dashboard/components/Guest/PreGuestsDisplay";
+import { PreGuest } from "app/dashboard/compose/PreGuestsDisplay";
 
 router
     .patch(async (req, res) => {

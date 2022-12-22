@@ -53,7 +53,8 @@ export const getEvent = cache(async (id: number) => {
                 include: {
                     guests: {
                         include: {
-                            event: false
+                            event: false,
+                            chosenGuest: true
                         }
                     },
                 }

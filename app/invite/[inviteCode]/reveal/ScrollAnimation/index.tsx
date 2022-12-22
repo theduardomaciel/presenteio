@@ -22,9 +22,10 @@ import Guest from "types/Guest";
 interface Props {
     guestsImages: string[];
     chosenGuest: Guest;
+    eventPrices?: { min?: number; max?: number };
 }
 
-export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
+export default function ScrollAnimation({ guestsImages, chosenGuest, eventPrices }: Props) {
     const [status, setStatus] = useState<"animating" | "finishing" | "animated">("animating");
 
     useEffect(() => {
@@ -66,6 +67,10 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
         />
     ));
 
+    const PRICE_MESSAGE = eventPrices?.min && eventPrices.max ? `esteja entre R$${eventPrices.min} e R$${eventPrices.max}` :
+        eventPrices?.min ? `esteja, caso possível, próximo de R$${eventPrices.min}` :
+            eventPrices?.max ? `não ultrapasse R$${eventPrices.max}` : "";
+
     return (
         <AnimatePresence>
             <motion.div
@@ -106,7 +111,7 @@ export default function ScrollAnimation({ guestsImages, chosenGuest }: Props) {
                             <h2>Seu amigo secreto é</h2>
                             <h1>{chosenGuest.name}!</h1>
                         </div>
-                        <p>Não se preocupe, você poderá ver o nome de seu amigo secreto novamente a qualquer momento. <br />
+                        <p>{eventPrices && eventPrices.min || eventPrices?.max ? `Para este evento, o recomendado é que o valor dos presentes ${PRICE_MESSAGE}.` : "Não se preocupe, você poderá ver o nome de seu amigo secreto novamente a qualquer momento."} <br />
                             Agora é só preparar o presente e aguardar o tão aguardado dia do amigo secreto!</p>
                         <div className={'divisor'} />
                     </motion.div>

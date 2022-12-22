@@ -19,16 +19,18 @@ import Input from "components/Input";
 
 // Hooks
 import useImagePreview from "hooks/useImagePreview";
-import Guest from "types/Guest";
 import { toBase64, extractBase64 } from "@utils/base64";
+
+import Guest from "types/Guest";
+import Event from "types/Event";
+import getWordGenre from "@utils/wordGenre";
 
 interface Props {
     guest?: Guest;
-    eventId: number;
-    inviteCode?: string;
+    event: Omit<Event, "createdAt">
 }
 
-export default function ParticipateButton({ guest, eventId, inviteCode }: Props) {
+export default function ParticipateButton({ guest, event }: Props) {
     const [[actualSection, direction], setActualSection] = useState<[string, number]>(["null", 1]);
 
     const router = useRouter();
@@ -43,14 +45,14 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
         try {
             const response = behaviour === "create" ?
                 await axios.post("/api/guests/create", {
-                    eventId: eventId,
+                    eventId: event.id,
                     name: userData.current.name,
                     email: userData.current.email,
                     status: "CONFIRMED",
                     image_base64: base64
                 }) :
                 await axios.patch(`/api/guests/${guest?.id}`, {
-                    eventId: eventId,
+                    eventId: event.id,
                     name: userData.current.name,
                     email: userData.current.email,
                     status: "CONFIRMED",
@@ -58,7 +60,7 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
                 });
             if (response) {
                 setActualSection(["null", -1]);
-                router.push(`/invite/${inviteCode}/?guest=${response.data.id}`);
+                router.push(`/invite/${event.inviteCode}/?guest=${response.data.id}`);
                 router.refresh();
             } else {
                 setActualSection(["error", 1]);
@@ -88,7 +90,7 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
             updateOrCreateGuest("update")
         } else if (!guest?.email) {
             setActualSection(["direct_invite_guest_email", 1])
-        } else if (!guest?.image_url) {
+        } else if (!guest?.image_url || event.allowProfileChange) {
             setActualSection(["direct_invite_guest_image", 1])
         } else {
             setActualSection(["error", -1])
@@ -146,12 +148,12 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
     } as Section;
 
     const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
-    const [preview, setPreview] = useState<any>(undefined)
+    const [preview, setPreview] = useState<any>(guest?.image_url ? guest.image_url : undefined)
     const onSelectFile = useImagePreview(setSelectedFile, setPreview, selectedFile)
 
     const DirectInviteGuest_image = {
-        title: "Parece que o anfitrião não inseriu uma imagem para você",
-        description: "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para os outros convidados.",
+        title: guest?.image_url && event.allowProfileChange ? "Parece que o anfitrião já adicionou uma imagem para você" : "Parece que o anfitrião não inseriu uma imagem para você",
+        description: guest?.image_url && event.allowProfileChange ? "No entanto, caso prefira outra, basta fazer o upload abaixo para que ela seja exibida para os outros convidados." : "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para os outros convidados.",
         children: <form className={styles.section} onSubmit={(event) => {
             event.preventDefault();
 
@@ -178,7 +180,7 @@ export default function ParticipateButton({ guest, eventId, inviteCode }: Props)
     } as Section;
 
     const InviteGuest_name = {
-        title: "Pronto para participar do Amigo Secreto?",
+        title: `"Pronto para participar do ${event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"} d${getWordGenre(event.name)} ${event.name}?`,
         description: "Insira o seu nome (e o primeiro sobrenome!) no campo abaixo para que os outros participantes saibam que você é!",
         children: <form className={styles.section} onSubmit={(event) => {
             event.preventDefault();

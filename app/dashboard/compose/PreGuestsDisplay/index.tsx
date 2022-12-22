@@ -5,10 +5,10 @@ import Image from 'next/image';
 import styles from './styles.module.css';
 
 // Components
-import EmptyGuests from '../EmptyGuests';
+import EmptyGuests from '../../components/Guest/EmptyGuests';
 import DashboardSectionHeader from '@dashboard/components/Section/SectionHeader';
 import Button from 'components/Button';
-import GuestModal from '../GuestModal';
+import GuestModal from '../../components/Guest/GuestModal';
 
 // Icons
 import MailIcon from '@public/icons/mail.svg';
@@ -43,7 +43,10 @@ const PreGuestPreview = ({ guest, setCurrentPreGuest, toggleVisibility }: {
     setCurrentPreGuest: Dispatch<SetStateAction<PreGuest>>,
 }) => {
     console.log(guest.imagePreview)
-    return <div className={styles.guestPreview}>
+    return <div className={styles.guestPreview} onClick={() => {
+        setCurrentPreGuest(guest);
+        toggleVisibility()
+    }}>
         <div className={styles.guestInfo} >
             {
                 guest.imagePreview && guest.imagePreview.includes('http') && <Image src={guest.imagePreview} style={{ borderRadius: "50%", objectFit: "cover" }} width={28} height={28} alt={guest.name} />
@@ -55,12 +58,12 @@ const PreGuestPreview = ({ guest, setCurrentPreGuest, toggleVisibility }: {
                 <span>{guest.email ? guest.email : "[pendente]"}</span>
             </div>
         </div>
-        <div className={styles.actions}>
+        {/* <div className={styles.actions}>
             <EditFilledIcon onClick={() => {
                 setCurrentPreGuest(guest);
                 toggleVisibility()
             }} />
-        </div>
+        </div> */}
     </div>
 }
 

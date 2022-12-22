@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Button from "components/Button";
 import Modal from 'components/Modal';
 import Input from 'components/Input';
-import { PreGuest } from './PreGuestsDisplay';
+import { PreGuest } from '../../compose/PreGuestsDisplay';
 
 // Icons
 import UserIcon from '@public/icons/person.svg';

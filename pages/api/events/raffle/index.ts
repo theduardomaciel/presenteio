@@ -69,8 +69,6 @@ router
             }
         })
 
-
-        const root = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://presenteio.vercel.app";
         async function sendAllEmails() {
             await Promise.all(guests.map(async (guest) => {
                 if (guest.email) {

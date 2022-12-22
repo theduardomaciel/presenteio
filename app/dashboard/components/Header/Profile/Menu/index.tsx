@@ -90,17 +90,15 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
                         </header>
                         <div style={{ backgroundColor: "var(--primary-03)" }} className={styles.line}></div>
                         <ul className={styles.buttons}>
-                            <Link href={`/dashboard/settings`}>
+                            {/* <Link href={`/dashboard/settings`}>
                                 <Button
                                     label='Configurações'
-                                    /* noEffects */
                                     style={buttonStyle}
                                     icon={<ConfigIcon />}
                                 />
-                            </Link>
+                            </Link> */}
                             <Button
                                 label='Log-out'
-                                /* noEffects */
                                 onClick={handleLogout}
                                 style={buttonStyle}
                                 icon={<LogoutIcon />}

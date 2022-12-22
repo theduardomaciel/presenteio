@@ -17,7 +17,7 @@ import Guest from "types/Guest";
 interface Props {
     guestsImages: string[];
     chosenGuest: Guest;
-    eventProps: { name: string, type: string }
+    eventProps: { name: string, type: string, prices?: { min?: number, max?: number } }
 }
 
 export default function RevealContent({ guestsImages, chosenGuest, eventProps }: Props) {
@@ -68,7 +68,7 @@ export default function RevealContent({ guestsImages, chosenGuest, eventProps }:
                         <div className={"divisor"} />
                     </div>
                     :
-                    <ScrollAnimation guestsImages={guestsImages} chosenGuest={chosenGuest} />
+                    <ScrollAnimation guestsImages={guestsImages} chosenGuest={chosenGuest} eventPrices={eventProps.prices} />
             }
         </AnimatePresence>
 

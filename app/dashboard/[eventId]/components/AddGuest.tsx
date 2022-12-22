@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 import GuestModal from "@dashboard/components/Guest/GuestModal";
-import { AddGuestButton } from "@dashboard/components/Guest/PreGuestsDisplay";
+import { AddGuestButton } from "app/dashboard/compose/PreGuestsDisplay";
 
 export default function AddGuest({ eventId }: { eventId: number }) {
     const [isGuestModalVisible, setIsGuestModalVisible] = useState(false);

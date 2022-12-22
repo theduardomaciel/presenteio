@@ -57,7 +57,7 @@ const GuestCard = ({ guest, event }: { guest: Omit<Guest, "event">, event: Omit<
                                 </>
                     }
                 </div>
-                <div className='divisor vertical' />
+                <div className='divisor vertical' onClick={() => console.log(guest.chosenGuest ? guest.chosenGuest.name : "")} />
                 {
                     guest.status !== "PENDING" &&
                     <div className={styles.iconAndLabel}>

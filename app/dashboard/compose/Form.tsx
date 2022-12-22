@@ -10,7 +10,7 @@ import CheckboxAndLabel from '../../../components/Checkbox/Label';
 import DashboardSubSectionHeader from '@dashboard/components/Section/SubSectionHeader';
 import DashboardPricePicker from '@dashboard/components/Event/PricePicker';
 import EventDisplay from '@dashboard/components/Event/EventDisplay';
-import GuestsDisplay, { PreGuest } from '@dashboard/components/Guest/PreGuestsDisplay';
+import GuestsDisplay, { PreGuest } from 'app/dashboard/compose/PreGuestsDisplay';
 import Modal, { MODAL_STATE } from 'components/Modal';
 
 // Icons

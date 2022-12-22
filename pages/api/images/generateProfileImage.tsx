@@ -9,14 +9,15 @@ const COLORS = ['#FF2626', "#FF3D3D", '#FD7979']
 
 export default function GenerateImage(req: NextRequest) {
     try {
-        const { searchParams } = new URL(req.url)
-        let name = searchParams.get('name')
+        const { searchParams } = new URL(req.url);
 
-        if (!name) {
-            name = ""
-        }
+        const hasName = searchParams.has('name');
+        const NAME = hasName
+            ? searchParams.get('name') as string
+            : 'Guest';
 
-        const NAME = name as string;
+        const hasWidth = searchParams.has('width');
+        const WIDTH = hasWidth ? parseInt(searchParams.get('width') as string) : 48;
 
         const RANDOM_COLORS = Array.from({ length: 3 }, () => {
             return COLORS[Math.random() * COLORS.length | 0]
@@ -45,8 +46,8 @@ export default function GenerateImage(req: NextRequest) {
 
             ),
             {
-                width: 250,
-                height: 250,
+                width: WIDTH,
+                height: WIDTH,
             },
         );
     } catch (error: any) {
