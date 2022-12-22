@@ -15,19 +15,20 @@ import EventTitle from "../components/EventTitle";
 import Guest from "types/Guest";
 
 interface Props {
+    guestId: string;
     guestsImages: string[];
     chosenGuest: Guest;
     eventProps: { name: string, type: string, prices?: { min?: number, max?: number } }
 }
 
-export default function RevealContent({ guestsImages, chosenGuest, eventProps }: Props) {
+export default function RevealContent({ guestId, guestsImages, chosenGuest, eventProps }: Props) {
     const [status, setStatus] = useState<"idle" | "animating">("idle");
 
     async function updateStatus() {
         setStatus("animating")
 
         try {
-            const response = await axios.patch(`/api/guests/${chosenGuest.id}`, {
+            const response = await axios.patch(`/api/guests/${guestId}`, {
                 status: "VISUALIZED"
             })
             if (response) {

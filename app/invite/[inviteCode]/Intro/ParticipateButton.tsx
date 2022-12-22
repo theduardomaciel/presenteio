@@ -143,6 +143,7 @@ export default function ParticipateButton({ guest, event }: Props) {
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
+            <div className="modalFooter" onClick={() => setActualSection(["direct_invite_guest_image", 1])}><p>Não quero ser notificado por e-mail</p></div>
         </form>,
         footer: CancelFooter
     } as Section;
@@ -174,7 +175,7 @@ export default function ParticipateButton({ guest, event }: Props) {
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
-            <div className="modalFooter" onClick={() => updateOrCreateGuest("update")}><p>Não possuo uma imagem</p></div>
+            <div className="modalFooter" style={{ textAlign: "center" }} onClick={() => updateOrCreateGuest("update")}><p>Continuar sem foto <br /><span style={{ fontSize: "1rem" }}>(os outros não verão sua imagem durante a revelação)</span></p></div>
         </form>,
         footer: <ReturnFooter sectionToReturn="direct_invite_guest_email" />
     } as Section;
@@ -236,6 +237,7 @@ export default function ParticipateButton({ guest, event }: Props) {
             <Button type="submit" style={{ width: "100%", padding: "0.8rem 3rem" }} >
                 Continuar
             </Button>
+            <div className="modalFooter" style={{ textAlign: "center" }} onClick={() => updateOrCreateGuest("create")}><p>Continuar sem foto <br /><span style={{ fontSize: "1rem" }}>(os outros não verão sua imagem durante a revelação)</span></p></div>
             <div className="modalFooter" onClick={() => updateOrCreateGuest("create")}><p>Não possuo uma imagem</p></div>
         </form>,
         footer: <ReturnFooter sectionToReturn="invite_guest_email" />

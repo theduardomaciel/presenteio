@@ -27,6 +27,7 @@ export default async function Reveal({ params, searchParams }: InviteProps) {
         <div className={styles.container}>
             <div className={styles.gradient} />
             <RevealContent
+                guestId={guest.id}
                 guestsImages={event.guests.map(guest => guest.image_url)}
                 chosenGuest={guest.chosenGuest}
                 eventProps={{ type: event.type, name: event.name, prices: event.minPrice || event.maxPrice ? { min: event.minPrice, max: event.maxPrice } : undefined }}
