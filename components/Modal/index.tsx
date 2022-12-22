@@ -118,7 +118,10 @@ export default function Modal({ isVisible, status, toggleVisibility, style, isLo
                                     }
                                     {
                                         headerProps?.description &&
-                                        <p className={styles.description}>{headerProps.description}</p>
+                                            typeof headerProps.description === "string" ?
+                                            <p className={styles.description}>{headerProps.description}</p>
+                                            :
+                                            <span className={styles.description}>{headerProps.description}</span>
                                     }
                                 </section>
                             }

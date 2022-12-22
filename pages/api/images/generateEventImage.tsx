@@ -20,17 +20,16 @@ export default async function handler(req: NextRequest) {
 
     try {
         const { searchParams } = new URL(req.url)
-        console.log(searchParams.get("name"))
-        let name = searchParams.get('name') as string;
-        let type = searchParams.get('type') as string;
 
-        if (!name) {
-            name = ""
-        }
+        const hasName = searchParams.has('name');
+        const name = hasName
+            ? searchParams.get('name') as string
+            : 'Evento';
 
-        if (!type) {
-            type = ""
-        }
+        const hasType = searchParams.has('type');
+        const type = hasType
+            ? searchParams.get('type') as string
+            : 'Amigo Secreto';
 
         return new ImageResponse(
             (

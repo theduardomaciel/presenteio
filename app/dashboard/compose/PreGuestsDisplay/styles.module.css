@@ -29,6 +29,7 @@
     gap: 1.5rem;
 
     flex-wrap: wrap;
+    cursor: pointer;
 
     width: 100%;
 
@@ -77,8 +78,16 @@
     cursor: pointer;
 }
 
+.actions {
+    display: none;
+}
+
 @media (min-width: 1024px) {
     .guestsHolder {
         padding: 1.5rem;
+    }
+
+    .actions {
+        display: flex;
     }
 }

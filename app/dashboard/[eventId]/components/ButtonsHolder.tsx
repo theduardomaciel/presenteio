@@ -21,6 +21,7 @@ import ArrowRightIcon from "@public/icons/arrow_right_alt.svg";
 import DeleteIcon from "@public/icons/delete.svg";
 
 import Event from "types/Event";
+import DashboardToast, { ToastDynamicProps } from "components/Toast";
 
 const ENABLED_BUTTON = {
     padding: "1rem 2.5rem",
@@ -40,6 +41,8 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
     const [sendEmailModalState, setSendEmailModalState] = useState<MODAL_STATE>({ status: false });
     const [editEventModalState, setEditEventModalState] = useState<MODAL_STATE>({ status: false });
     const [deleteModalState, setDeleteModalState] = useState<MODAL_STATE>({ status: false });
+
+    const [[isToastVisible, toastProps], setToastVisible] = useState<ToastDynamicProps>([false]);
 
     const [isLoading, setLoading] = useState(false);
     const router = useRouter();
@@ -123,12 +126,21 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
         <>
             <div className={styles.buttonsHolder}>
                 <Button
-                    disabled={DISABLED}
                     style={DISABLED ? DISABLED_BUTTON : ENABLED_BUTTON}
-                    onClick={() => setSendEmailModalState({ status: true })}
+                    onClick={() => {
+                        if (DISABLED) {
+                            setToastVisible([true, {
+                                status: "info",
+                                title: "Infelizmente, não é possível realizar esta ação.",
+                                description: `Para realizar o sorteio, o evento deve ter pelo menos ${MIN_GUESTS} convidados e não pode ter sido divulgado.`,
+                            }])
+                        } else {
+                            setSendEmailModalState({ status: true })
+                        }
+                    }}
                 >
                     <SendEmail fill="var(--neutral)" height={24} width={24} />
-                    Enviar e-mails
+                    Sortear e enviar e-mails
                 </Button>
                 <Button style={ENABLED_BUTTON} onClick={() => setEditEventModalState({ status: true })}>
                     <SettingsIcon height={24} width={24} />
@@ -165,7 +177,14 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                         </section>
                         <section>
                             <DashboardSubSectionHeader title='Zona de Perigo' description='As ações tomadas nessa seção sao permanentes e irreversíveis.' />
-                            <Button type="button" style={{ width: "100%", padding: "1rem", backgroundColor: "var(--primary-01)" }} onClick={() => setDeleteModalState({ status: true })}>
+                            <Button
+                                type="button"
+                                style={{ width: "100%", padding: "1rem", backgroundColor: "var(--primary-01)" }}
+                                onClick={() => {
+                                    setEditEventModalState({ status: false })
+                                    setDeleteModalState({ status: true })
+                                }}
+                            >
                                 <DeleteIcon fill="var(--neutral)" width={18} height={18} />
                                 Excluir Evento
                             </Button>
@@ -218,6 +237,11 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                         onClick: raffleGuests,
                     },
                 ] : undefined}
+            />
+            <DashboardToast
+                toastProps={toastProps}
+                isOpened={isToastVisible}
+                setDynamicOpened={setToastVisible}
             />
         </>
     )

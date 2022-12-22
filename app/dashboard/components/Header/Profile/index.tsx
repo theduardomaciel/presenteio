@@ -22,15 +22,18 @@ const contentfulImageLoader: ImageLoader = ({ src, width }: ImageLoaderProps) =>
 export default async function DashboardProfile({ children, additionalClasses }: Props) {
     const account = await getAccount();
 
+    const WIDTH = 36;
+
     const imageProps = {
         className: styles.profileImage,
-        width: 36,
-        height: 36,
+        width: WIDTH,
+        height: WIDTH,
         alt: ""
     }
 
-    const PLACEHOLDER_IMAGE_URL = process.env.NODE_ENV === 'development' ? `http://localhost:3000/api/images/generateProfileImage?name=${account?.name.replaceAll(' ', '%20')}`
-        : `https://presenteio.vercel.app/api/images/generateProfileImage?name=${account?.name.replaceAll(' ', '%20')}`;
+    const PLACEHOLDER_IMAGE_URL = process.env.NODE_ENV === 'development' ?
+        `http://localhost:3000/api/images/generateProfileImage?name=${account?.name.replaceAll(' ', '%20')}&width=${WIDTH}`
+        : `https://presenteio.vercel.app/api/images/generateProfileImage?name=${account?.name.replaceAll(' ', '%20')}&width=${WIDTH}`;
 
     return (
         <div className={`${styles.container} ${additionalClasses}`} style={children ? {} : { width: "15%" }}>
@@ -40,11 +43,7 @@ export default async function DashboardProfile({ children, additionalClasses }: 
                     account?.image_url ?
                         <Image src={account.image_url} {...imageProps} />
                         :
-                        <Image
-                            loader={contentfulImageLoader}
-                            src={PLACEHOLDER_IMAGE_URL}
-                            {...imageProps}
-                        />
+                        <img src={PLACEHOLDER_IMAGE_URL} {...imageProps} />
                 }
                 <DashboardProfileMenu name={account?.name} />
             </div>

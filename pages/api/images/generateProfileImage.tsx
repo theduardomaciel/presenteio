@@ -17,7 +17,7 @@ export default function GenerateImage(req: NextRequest) {
             : 'Guest';
 
         const hasWidth = searchParams.has('width');
-        const WIDTH = hasWidth ? parseInt(searchParams.get('width') as string) : 48;
+        const WIDTH = hasWidth ? parseInt(searchParams.get('width') as string) : 200;
 
         const RANDOM_COLORS = Array.from({ length: 3 }, () => {
             return COLORS[Math.random() * COLORS.length | 0]
@@ -36,7 +36,7 @@ export default function GenerateImage(req: NextRequest) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         backgroundImage: `linear-gradient(45deg, ${RANDOM_COLORS[0]}, ${RANDOM_COLORS[1]}, ${RANDOM_COLORS[2]})`,
-                        fontSize: 96,
+                        fontSize: WIDTH / 2,
                         color: "white",
                         fontWeight: 900,
                     }}

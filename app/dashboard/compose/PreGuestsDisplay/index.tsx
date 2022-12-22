@@ -42,7 +42,6 @@ const PreGuestPreview = ({ guest, setCurrentPreGuest, toggleVisibility }: {
     toggleVisibility: () => void,
     setCurrentPreGuest: Dispatch<SetStateAction<PreGuest>>,
 }) => {
-    console.log(guest.imagePreview)
     return <div className={styles.guestPreview} onClick={() => {
         setCurrentPreGuest(guest);
         toggleVisibility()
@@ -58,12 +57,12 @@ const PreGuestPreview = ({ guest, setCurrentPreGuest, toggleVisibility }: {
                 <span>{guest.email ? guest.email : "[pendente]"}</span>
             </div>
         </div>
-        {/* <div className={styles.actions}>
+        <div className={styles.actions}>
             <EditFilledIcon onClick={() => {
                 setCurrentPreGuest(guest);
                 toggleVisibility()
             }} />
-        </div> */}
+        </div>
     </div>
 }
 

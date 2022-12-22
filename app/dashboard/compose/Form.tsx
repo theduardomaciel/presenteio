@@ -123,6 +123,7 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 isVisible={confirmModalState.status !== false}
                 toggleVisibility={() => setConfirmModalState({ status: false })}
                 insertLogo
+                isLoading={isLoading}
                 headerProps={{
                     title: confirmModalState.status === true ? 'Pronto para criar o evento?' :
                         confirmModalState.status === "success" ? "Tudo certo por aqui." :
@@ -141,12 +142,12 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 returnButton={{
                     enabled: confirmModalState.status !== "success" && confirmModalState.status !== "pending" ? true : false,
                 }}
-                buttons={confirmModalState.status === "success" ? [
+                buttons={[
                     {
                         text: "Ir para o Evento",
                         onClick: confirmModalState.status === "success" ? () => router.replace(`/dashboard/${confirmModalState.value}`) : undefined,
                     }
-                ] : undefined}
+                ]}
             >
                 {
                     confirmModalState.status === true &&

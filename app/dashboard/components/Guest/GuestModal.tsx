@@ -132,7 +132,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
             isVisible={isVisible}
             toggleVisibility={toggleVisibility}
             headerProps={{
-                title: "Adicionar participante"
+                title: modalProps?.guest || modalProps?.preGuest ? "Editar convidado" : "Adicionar convidado",
             }}
         >
             <div>
@@ -158,7 +158,6 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
                 type={"text"}
                 value={guestName}
                 onChange={e => setGuestName(e.target.value)}
-                minLength={6}
                 maxLength={30}
                 required
             />

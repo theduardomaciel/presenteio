@@ -30,6 +30,8 @@ interface Props {
     setOpened?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// dynamic props example: const [[isToastVisible, toastProps], setToastVisible] = useState<ToastDynamicProps>([false]);
+
 export default function DashboardToast({ isOpened, setOpened, setDynamicOpened, toastProps }: Props) {
     return (
         <Toast.Root className={`${styles.toastRoot} ${styles[toastProps?.status as string]}`} open={isOpened} onOpenChange={(opened) => {

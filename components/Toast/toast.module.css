@@ -29,22 +29,18 @@
 
 .toastRoot.success {
     border: 1px solid lawngreen;
-    color: lawngreen;
 }
 
 .toastRoot.error {
     border: 1px solid red;
-    color: red;
 }
 
 .toastRoot.warning {
     border: 1px solid orange;
-    color: orange;
 }
 
 .toastRoot.info {
     border: 1px solid blue;
-    color: blue;
 }
 
 .column {
@@ -126,6 +122,38 @@
     line-height: 1.3;
 }
 
-.toastAction {
-    grid-area: action;
+/* TITLE AND DESCRIPTION */
+
+.toastRoot.success .toastTitle {
+    color: lawngreen;
+}
+
+.toastRoot.error .toastTitle {
+    color: red;
+}
+
+.toastRoot.warning .toastTitle {
+    color: orange;
+}
+
+.toastRoot.info .toastTitle {
+    color: blue;
+}
+
+/* ICON */
+
+.toastRoot.success .column svg {
+    fill: lawngreen;
+}
+
+.toastRoot.error .column svg {
+    fill: red;
+}
+
+.toastRoot.warning .column svg {
+    fill: orange;
+}
+
+.toastRoot.info .column svg {
+    fill: blue;
 }
