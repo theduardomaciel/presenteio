@@ -34,6 +34,7 @@ function getGreetings() {
 }
 
 export default function Intro({ guest, event }: Props) {
+    const { createdAt, ...rest } = event;
     return <>
         {
             guest &&
@@ -49,7 +50,7 @@ export default function Intro({ guest, event }: Props) {
                     <h3>d{getWordGenre(event.name)} {event.name}</h3>
                 </div>
 
-                <ParticipateButton guest={guest} eventId={event.id} inviteCode={event.inviteCode} />
+                <ParticipateButton guest={guest} event={rest} />
             </div>
 
             <Image
