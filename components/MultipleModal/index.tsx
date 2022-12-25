@@ -13,8 +13,10 @@ import styles from './styles.module.css';
 export interface Section {
     title: string;
     description: React.ReactNode;
-
-    noBackground?: boolean;
+    hideVisibility?: {
+        background?: boolean;
+        container?: boolean;
+    }
 
     footer?: React.ReactNode;
     children?: React.ReactNode;
@@ -56,7 +58,7 @@ const transition = {
     opacity: { duration: 0.75 },
 }
 
-export default function AuthModal({ actualSection, direction, sections, initial, hasBackground }: Props) {
+export default function AuthModal({ actualSection, direction, sections, initial }: Props) {
 
     const titleStyle = {
         justifyContent: "center",
@@ -69,7 +71,7 @@ export default function AuthModal({ actualSection, direction, sections, initial,
     Object.keys(sections).map((key, index) => {
         const section = sections[key];
         sectionsModals[key] = <motion.div
-            className={`${styles.holder} ${hasBackground ? styles.background : ""}`}
+            className={`${styles.holder} ${section.hideVisibility?.background ? styles.noBackground : section.hideVisibility?.container ? styles.noContainer : ""}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -85,7 +87,6 @@ export default function AuthModal({ actualSection, direction, sections, initial,
                 animate="center"
                 exit="exit"
                 transition={transition}
-                style={{ background: section.noBackground ? "transparent" : (hasBackground ? `linear-gradient(180deg, rgba(255, 255, 255, 0.75) 100%, rgba(255, 255, 255, 0.50) 100%)` : `linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.50) 100%)`) }}
             >
                 <div className={styles.headerContainer} style={section.logoPosition === "top" ? titleStyle : undefined}>
                     {section.logoPosition === "top" && <Logo />}

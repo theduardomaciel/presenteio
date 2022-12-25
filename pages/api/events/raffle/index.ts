@@ -4,7 +4,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { verify } from "jsonwebtoken";
 
 import prisma from "../../../../lib/prisma";
-import extractToken from "../../../../lib/extractToken";
 import { EventStatus, Guest } from "@prisma/client";
 import { sendEmailToGuest } from "pages/api/emails/sendEmail";
 
@@ -13,11 +12,6 @@ const router = createRouter<NextApiRequestWithBodyData, NextApiResponse>();
 
 router
     .post(async (req, res) => {
-        const token = extractToken(req) as string | null;
-
-        console.log(token)
-        if (!token) return res.status(401).end("Unauthorized");
-
         const { id } = req.body;
 
         if (!id) {
@@ -54,6 +48,8 @@ router
             return { ...guest, chosenGuest: guestRaffle }
         }));
 
+        //console.log(guests.map(guest => `${guest.name} -> ${guest.chosenGuest.name}`))
+
         const guestsToUpdate = guests.map((guest) => {
             return {
                 where: {
@@ -85,25 +81,20 @@ router
         }
 
         try {
-            const authenticated = verify(token, process.env.JWT_SECRET_KEY as string) as { data: string };
-            if (authenticated) {
-                await sendAllEmails()
-                const updatedEvent = await prisma.event.update({
-                    where: {
-                        id: parseInt(id as string),
+            await sendAllEmails()
+            const updatedEvent = await prisma.event.update({
+                where: {
+                    id: parseInt(id as string),
+                },
+                data: {
+                    status: EventStatus.DIVULGATED,
+                    guests: {
+                        update: guestsToUpdate && guestsToUpdate.length > 0 ? guestsToUpdate : undefined
                     },
-                    data: {
-                        status: EventStatus.DIVULGATED,
-                        guests: {
-                            update: guestsToUpdate && guestsToUpdate.length > 0 ? guestsToUpdate : undefined
-                        },
-                    }
-                }) as any;
-                console.log(`Os convidados do evento ${updatedEvent.name} foram sorteados com sucesso!`)
-                return res.status(200).json(updatedEvent);
-            } else {
-                return res.status(401).end("Unauthorized");
-            }
+                }
+            }) as any;
+            console.log(`Os convidados do evento ${updatedEvent.name} foram sorteados com sucesso!`)
+            return res.status(200).json(updatedEvent);
         } catch (error) {
             console.log(error)
         }

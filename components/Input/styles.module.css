@@ -42,7 +42,7 @@
 
     color: var(--font-light);
 
-    background-color: var(--neutral);
+    background-color: var(--background-02);
     border: 1px solid var(--light-gray);
 }
 

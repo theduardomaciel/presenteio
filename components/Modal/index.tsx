@@ -19,20 +19,17 @@ interface ModalButton {
     icon?: React.ReactElement;
 }
 
-type Status = boolean | 'success' | 'pending' | 'error';
-
-type Props = React.HTMLAttributes<HTMLDivElement> & {
-    isVisible: boolean;
-    style?: MotionStyle;
+interface Props {
+    status: boolean | 'success' | 'pending' | 'error';
     toggleVisibility: () => void;
-
-    insertLogo?: boolean;
-
+    children?: React.ReactNode;
+    style?: MotionStyle;
 
     headerProps?: {
         title?: string;
         description?: React.ReactNode;
         icon?: React.ReactElement;
+        insertLogo?: boolean;
         iconSize?: string;
         position?: "center" | "flex-start" | "flex-end";
         integratedTitle?: boolean;
@@ -45,27 +42,38 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
         onClick?: () => void;
     };
 
-    status?: Status;
     buttons?: Array<ModalButton>;
-
-    isLoading?: boolean;
 }
 
-export type MODAL_STATE = { status: Status, title?: string, description?: string, value?: string };
+export interface ModalProps {
+    status: Props['status'];
+    headerProps?: Props['headerProps'];
+    buttons?: Props['buttons'];
+    data?: any;
+}
 
-export default function Modal({ isVisible, status, toggleVisibility, style, isLoading, insertLogo, returnButton = { enabled: true }, headerProps, buttons, children }: Props) {
+const getTitle = (status: Props['status'], headerProps: Props['headerProps']) => {
+    return status === "success" ? "Tudo certo por aqui." :
+        status === "pending" ? "Aguarde um momento..." :
+            status === "error" ? "Parece que tivemos um problema." :
+                headerProps?.title
+}
+
+export default function Modal({ status, toggleVisibility, style, returnButton = { enabled: true }, headerProps, buttons, children }: Props) {
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const target = event.nativeEvent.target as HTMLDivElement;
         if (target.id === "background") {
-            if (isLoading === true) return;
-            toggleVisibility()
+            if (status === "pending") return;
+            toggleVisibility && toggleVisibility()
         };
     }
+
+    const title = headerProps?.title ? headerProps?.title : getTitle(status, headerProps)
 
     return (
         <AnimatePresence mode='wait'>
             {
-                isVisible && (
+                status !== false && (
                     <motion.div
                         className={styles.background}
                         key="modal"
@@ -95,14 +103,14 @@ export default function Modal({ isVisible, status, toggleVisibility, style, isLo
                                         headerProps?.integratedTitle && <h2
                                             className={styles.title}
                                             style={{ textAlign: "left", lineHeight: "3.55rem" }}>
-                                            {headerProps?.title}
+                                            {title}
                                         </h2>
                                     }
                                 </div>
                             }
 
                             {
-                                insertLogo &&
+                                headerProps?.insertLogo &&
                                 <div className={styles.headerContainer} style={{ justifyContent: headerProps?.position ? headerProps?.position : "center" }}>
                                     <Logo className={styles.logo} height={32} />
                                 </div>
@@ -126,8 +134,7 @@ export default function Modal({ isVisible, status, toggleVisibility, style, isLo
                                 </section>
                             }
 
-                            {children as any}
-
+                            {children}
 
                             {
                                 buttons && buttons.length > 0 &&
@@ -138,13 +145,13 @@ export default function Modal({ isVisible, status, toggleVisibility, style, isLo
                                                 <Button
                                                     key={button.text}
                                                     onClick={button.onClick}
-                                                    isLoading={isLoading}
+                                                    isLoading={status === "pending"}
                                                     type={button.type ? button.type : "button"}
                                                     style={{
                                                         ...button.style,
                                                         background: button.disabled ? "var(--light-gray)" : "var(--primary-01)",
                                                         padding: `1rem 2.5rem`,
-                                                        cursor: button.disabled || isLoading ? "not-allowed" : "pointer"
+                                                        cursor: button.disabled || status === "pending" ? "not-allowed" : "pointer"
                                                     }}
                                                 >
                                                     {button.icon ? (button.icon) : headerProps?.icon ? (headerProps.icon) : null}
@@ -156,7 +163,7 @@ export default function Modal({ isVisible, status, toggleVisibility, style, isLo
                                 </div>
                             }
                             {
-                                returnButton.enabled && !isLoading ? <div className={'modalFooterHolder'}>
+                                returnButton.enabled && status !== "pending" ? <div className={'modalFooterHolder'}>
                                     <div className='divisor' />
                                     <div className={'modalFooter'} onClick={toggleVisibility}>
                                         {

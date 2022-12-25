@@ -4,35 +4,24 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 import prisma from "../../../lib/prisma";
-import { verify } from "jsonwebtoken";
-import extractToken from "../../../lib/extractToken";
+import { decode, verify } from "jsonwebtoken";
 
 router
     .get(async (req, res) => {
-        const token = extractToken(req) as string | null;
-        if (!token) return res.status(401).end("Unauthorized");
-
+        const tokenCookie = req.cookies['presenteio.token'] as string;
         try {
-            const authenticated = verify(token, process.env.JWT_SECRET_KEY as string) as { data: string };
-            if (authenticated) {
-                const userId = authenticated.data as string;
+            const authenticated = verify(tokenCookie, process.env.JWT_SECRET_KEY as string) as { data: string };
+            const userId = authenticated.data;
 
-                try {
-                    const account = await prisma.account.findUnique({
-                        where: {
-                            id: userId,
-                        }
-                    });
-                    res.status(200).json(account);
-                } catch (error) {
-                    console.log(error)
-                    return res.status(500).end(`Error: ${error}`);
+            const account = await prisma.account.findUnique({
+                where: {
+                    id: userId,
                 }
-            } else {
-                return res.status(401).end("Unauthorized");
-            }
+            });
+            res.status(200).json(account);
         } catch (error) {
             console.log(error)
+            return res.status(500).end(`Internal error.`);
         }
     })
 

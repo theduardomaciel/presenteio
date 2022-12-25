@@ -34,7 +34,7 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
                                 guest.status === "VISUALIZED" && <VisualizedFilter />
                             }
                             {
-                                guest.image_url ? <Image style={{ zIndex: 0, borderRadius: "50%" }} src={guest.image_url} alt={guest.name} width={40} height={40} /> :
+                                guest.image_url ? <Image style={{ zIndex: 0, borderRadius: "50%", objectFit: "cover" }} src={guest.image_url} alt={guest.name} width={40} height={40} /> :
                                     <div style={{ ...GUEST_IMAGE_PLACEHOLDER, width: 40, height: 40 }}>
                                         <PersonIcon width={16} height={16} opacity={0.5} />
                                     </div>

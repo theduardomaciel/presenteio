@@ -32,7 +32,7 @@ export default function ShareModal({ isVisible, toggleVisibility, link, descript
 
     return (
         <Modal
-            isVisible={isVisible}
+            status={isVisible}
             toggleVisibility={toggleVisibility}
             headerProps={{
                 title: "Compartilhar evento",

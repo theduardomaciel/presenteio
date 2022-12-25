@@ -16,7 +16,7 @@ export default function GoogleButton(props: Props) {
                 gap: "3rem",
                 backgroundColor: "var(--neutral)",
                 border: "1px solid var(--light-gray)",
-                color: "var(--font-light)",
+                color: "var(--font-light-02)",
                 fontFamily: "Arial",
                 width: "100%",
                 fontWeight: 700,

@@ -6,11 +6,11 @@ import { useSearchParams } from 'next/navigation';
 import axios, { AxiosError } from 'axios';
 
 // Components
-import AuthModal, { Section } from '../../../components/AuthModal';
+import AuthModal, { Section } from '../../../components/MultipleModal';
 import Button from '../../../components/Button';
 import Input from '../../../components/Input';
 import Hint from '../../../components/Hint';
-import GoogleButton from '../GoogleButton';
+import GoogleButton from '../google/GoogleButton';
 
 // Stylesheets
 import styles from '../auth.module.css';
@@ -375,6 +375,9 @@ export default function Register() {
 
     const FlowChoose = {
         title: "Vamos criar sua conta",
+        hideVisibility: {
+            background: true,
+        },
         description: "Antes de podermos criar, precisamos que você escolha como vai querer entrar na plataforma.",
         children: <div className={styles.section1}>
             <Button
@@ -416,6 +419,9 @@ export default function Register() {
 
     const GoogleFlow = {
         title: "Estamos quase lá",
+        hideVisibility: {
+            background: true,
+        },
         description: "Agora falta muito pouco para administrar seus próprios eventos, basta entrar com sua conta Google para cadastrar-se.",
         children: <div className={styles.section1}>
             <GoogleButton isLoading={isLoading} onClick={() => login()} />
@@ -429,6 +435,9 @@ export default function Register() {
 
     const EmailFlow = {
         title: "Estamos quase lá",
+        hideVisibility: {
+            background: true,
+        },
         description: "Agora falta muito pouco para administrar seus próprios eventos, basta inserir as informações necessárias para cadastrar-se.",
         children: <form className={styles.section1} onSubmit={submitForm} encType="multipart/form-data">
             <Input errorMessage={error && error.input === "nameInput" ? ERRORS[error.error] : undefined}
@@ -449,6 +458,9 @@ export default function Register() {
 
     const ConfirmEmail = {
         title: "Confirmar e-mail",
+        hideVisibility: {
+            background: true,
+        },
         description: "Insira o código que acabamos de enviar para seu e-mail.",
         children: <div className={styles.section1}>
             <div id='emailCode' onKeyUp={onCodeInput} onPaste={handlePaste} className={styles.code}>
@@ -469,6 +481,9 @@ export default function Register() {
 
     const Loading = {
         title: "Sua conta já está quase pronta!",
+        hideVisibility: {
+            background: true,
+        },
         logoPosition: "top",
         description: "Estamos realizando os últimos ajustes, então, espera só mais um pouquinho!",
         children: <Button isLoading={true} style={{ width: "100%", paddingBlock: "1rem" }} />,
@@ -476,6 +491,9 @@ export default function Register() {
 
     const Error = {
         title: "Eita! Algo deu errado.",
+        hideVisibility: {
+            background: true,
+        },
         logoPosition: "top",
         description: "Por favor, tente novamente mais tarde. Caso o problema persista, entre em contato conosco.",
         footer: <div className='modalFooter' onClick={() => changeSection("flow_choose", -1)} >
@@ -486,6 +504,9 @@ export default function Register() {
 
     const AccountExists = {
         title: "Parece que você já tem uma conta!",
+        hideVisibility: {
+            background: true,
+        },
         logoPosition: "top",
         description: "O e-mail que você inseriu já está cadastrado em nossa plataforma.",
         children: <Link href={`/auth/login`}><Button label='Fazer login' style={{ width: "100%", paddingBlock: "1rem" }} /></Link>,
@@ -493,6 +514,10 @@ export default function Register() {
 
     const FinalSection = {
         title: "Já estamos prontos.",
+        hideVisibility: {
+            background: true,
+            container: true,
+        },
         logoPosition: "top",
         description: "Aproveite todas as funcionalidades da plataforma e crie eventos para amigos, trabalho e família com tranquilidade.",
         children: <Link href={`/dashboard`}><Button label='Entrar na plataforma' style={{ width: "100%", paddingBlock: "1rem" }} /></Link>,

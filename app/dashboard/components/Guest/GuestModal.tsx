@@ -129,7 +129,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 
     return (
         <Modal
-            isVisible={isVisible}
+            status={isVisible}
             toggleVisibility={toggleVisibility}
             headerProps={{
                 title: modalProps?.guest || modalProps?.preGuest ? "Editar convidado" : "Adicionar convidado",

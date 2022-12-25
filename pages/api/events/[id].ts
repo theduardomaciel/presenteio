@@ -5,11 +5,7 @@ const router = createRouter<NextApiRequest, NextApiResponse>();
 
 import prisma from "../../../lib/prisma";
 
-import { verify } from "jsonwebtoken";
-import extractToken from "../../../lib/extractToken";
-
 import { deleteImage, getImageUrl } from "../images/uploadImage";
-import { PreGuest } from "app/dashboard/compose/PreGuestsDisplay";
 
 router
     .patch(async (req, res) => {

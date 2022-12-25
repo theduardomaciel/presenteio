@@ -7,8 +7,8 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 // Components
-import AuthModal, { Section } from '../../../components/AuthModal';
-import GoogleButton from '../GoogleButton';
+import AuthModal, { Section } from '../../../components/MultipleModal';
+import GoogleButton from '../google/GoogleButton';
 
 // Stylesheets
 import styles from '../auth.module.css';
@@ -28,8 +28,8 @@ interface AccountData {
 }
 
 export default function Login() {
-    const search = useSearchParams().get('animate');
-    const isAuth = search && search === "true";
+    const isAuth = useSearchParams().get('animate') === "true";
+    const theme = useSearchParams().get('theme');
 
     const router = useRouter();
 
@@ -54,6 +54,9 @@ export default function Login() {
 
     const Section0 = {
         title: "Log in",
+        hideVisibility: {
+            background: true,
+        },
         description: "Faça o login em sua conta para administrar os seus eventos.",
         children: <form onSubmit={handleSubmit} className={styles.section1}>
             <GoogleButton onClick={() => login()} isLoading={isLoading === true} />
@@ -120,7 +123,7 @@ export default function Login() {
     return (
         <div className={styles.pageHolder}>
             <AuthModal initial={isAuth ? true : false} sections={{ 'login': Section0 }} actualSection={actualSection} direction={direction} />
-            {isAuth && <Landing hideBackground />}
+            {isAuth && <Landing hideBackground theme={theme as string} />}
         </div>
     )
 }

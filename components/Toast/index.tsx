@@ -1,9 +1,10 @@
 'use client';
 import * as React from 'react';
-
 import * as Toast from '@radix-ui/react-toast';
 
 import styles from './toast.module.css';
+
+import InfoIcon from '@public/icons/info.svg'
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
     return (
@@ -44,6 +45,11 @@ export default function DashboardToast({ isOpened, setOpened, setDynamicOpened, 
             {
                 toastProps?.icon && <div className={styles.column}>
                     {toastProps.icon}
+                </div>
+            }
+            {
+                !toastProps?.icon && toastProps?.status === "info" && <div className={styles.column}>
+                    <InfoIcon />
                 </div>
             }
             <div className={styles.column}>

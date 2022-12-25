@@ -1,4 +1,4 @@
-import { createRouter, expressWrapper } from "next-connect";
+import { createRouter } from "next-connect";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 // Middlewares
@@ -8,15 +8,7 @@ import multer from 'multer';
 import { ImgurClient } from 'imgur';
 const client = new ImgurClient({ clientId: process.env.IMGUR_CLIENT_ID, clientSecret: process.env.IMGUR_CLIENT_SECRET });
 
-export type NextApiRequestWithBodyData = NextApiRequest & { file: any };
-
-const router = createRouter<NextApiRequestWithBodyData, NextApiResponse>();
-
-// File upload
-const storage = multer.memoryStorage()
-const upload = multer({ storage: storage })
-
-const uploadMiddleware = upload.single('blob');
+const router = createRouter<NextApiRequest, NextApiResponse>();
 
 export async function getImageUrl(image_base64: string, name?: string) {
     if (image_base64) {
@@ -68,10 +60,14 @@ export async function deleteImage(image_deleteHash: string) {
 }
 
 router
-    .use(expressWrapper(uploadMiddleware) as any) // express middleware are supported if you wrap it with expressWrapper
     .post(async (req, res) => {
-        const image_url = getImageUrl(req.file);
-        res.status(200).json({ image_url: image_url })
+        const { image_base64, name } = req.body;
+        try {
+            const image_url = await getImageUrl(image_base64, name);
+            res.status(200).json({ image_url: image_url })
+        } catch (error) {
+            res.status(500).end(`Internal error.`);
+        }
     })
     .delete(async (req, res) => {
         const { image_deleteHash } = req.query;

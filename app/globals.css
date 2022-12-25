@@ -11,26 +11,51 @@
     --primary-03: #FD7979;
 
     --font-dark: #141414;
-    --font-light: #918C8C;
-    --font-light-02: #797979;
+    --font-light: #797979;
+    --font-light-02: #5a5858;
 
     --neutral: #FFFFFF;
     --light-gray: #D9D9D9;
 
     --background-01: #F8EAEA;
+    --background-02: #faefef;
+    --background-modal: rgba(250, 239, 239, 0.75);
 
     --header-height: 8.5rem;
 }
 
+html.dark {
+    --primary-01: #d41f1f;
+    --primary-02: #FF2626;
+    --primary-03: #FF3D3D;
+
+    --font-dark: #141414;
+    --font-light: #e1d9d9;
+    --font-light-02: #ab9999;
+
+    --neutral: #FFFFFF;
+    --light-gray: #454545;
+
+    --background-01: #121212;
+    --background-02: #222222;
+    --background-modal: rgba(34, 34, 34, 0.75);
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Judson:ital,wght@0,400;0,700;1,400&display=swap');
+
+html {
+    background-color: var(--background-01);
+    transition: 150ms;
+    zindex: -2;
+}
 
 html,
 body {
     padding: 0;
     margin: 0;
     overflow-y: overlay;
+    height: 100%;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -163,16 +188,9 @@ div.hide {
     }
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
     body {
         color: var(--font-light);
         background: var(--background-01);
     }
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        color: var(--font-light);
-        background: var(--background-01);
-    }
-}
+} */

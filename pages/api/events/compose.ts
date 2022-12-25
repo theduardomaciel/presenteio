@@ -1,12 +1,11 @@
 import { createRouter } from "next-connect";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { verify } from "jsonwebtoken";
+import { decode, verify } from "jsonwebtoken";
 
 import prisma from "../../../lib/prisma";
-import extractToken from "../../../lib/extractToken";
 import { getImageUrl } from "../images/uploadImage";
-import Guest from "types/Guest";
+
 import { PreGuest } from "app/dashboard/compose/PreGuestsDisplay";
 
 export type NextApiRequestWithBodyData = NextApiRequest & { file: any };
@@ -14,13 +13,9 @@ const router = createRouter<NextApiRequestWithBodyData, NextApiResponse>();
 
 router
     .post(async (req, res) => {
-        const token = extractToken(req) as string | null;
-        if (!token) return res.status(401).end("Unauthorized");
-
         try {
-            const authenticated = verify(token, process.env.JWT_SECRET_KEY as string) as { data: string };
-            if (authenticated) {
-                const userId = authenticated.data as string;
+            const userId = decode(req.cookies['presenteio.token'] as string) as string;
+            if (userId) {
                 const { name, guests, image_base64, minPrice, maxPrice, allowInvite, allowProfileChange } = req.body;
 
                 if (!name) return res.status(400).end("Name is required.");

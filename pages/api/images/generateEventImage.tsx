@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { CSSProperties } from 'react';
 
 export const config = {
-    runtime: 'experimental-edge',
+    runtime: 'edge',
 };
 
 const gelasio = fetch(new URL('./assets/Gelasio_BoldItalic.ttf', import.meta.url)).then(

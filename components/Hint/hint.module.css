@@ -9,6 +9,7 @@
     width: 100%;
     max-width: 90vw;
 
+    background-color: var(--background-modal);
     border: 1px solid var(--primary-01);
     border-radius: 2.5rem;
 }

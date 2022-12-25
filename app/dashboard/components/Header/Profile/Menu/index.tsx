@@ -36,6 +36,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
     const popout = useRef<HTMLDivElement>(null);
 
     async function handleLogout() {
+        setIsOpen(false)
         await eraseCookie("presenteio.token");
         router.push("/");
     }
@@ -58,7 +59,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
     } as CSSProperties;
 
     return (
-        <AnimatePresence>
+        <AnimatePresence key={'headerProfileMenu'}>
             <DownArrow onClick={toggleOpen} />
             {
                 isOpen && (
@@ -90,13 +91,14 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
                         </header>
                         <div style={{ backgroundColor: "var(--primary-03)" }} className={styles.line}></div>
                         <ul className={styles.buttons}>
-                            {/* <Link href={`/dashboard/settings`}>
+                            <Link href={`/dashboard/settings`}>
                                 <Button
                                     label='Configurações'
                                     style={buttonStyle}
                                     icon={<ConfigIcon />}
+                                    onClick={() => setIsOpen(false)}
                                 />
-                            </Link> */}
+                            </Link>
                             <Button
                                 label='Log-out'
                                 onClick={handleLogout}

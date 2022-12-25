@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from "../styles.module.css";
 
 import Button from "components/Button";
-import Modal, { MODAL_STATE } from "components/Modal";
+import Modal, { ModalProps } from "components/Modal";
 import DashboardSectionHeader from "@dashboard/components/Section/SectionHeader";
 import { InviteOptions } from "../../compose/Form";
 import DashboardSubSectionHeader from "@dashboard/components/Section/SubSectionHeader";
@@ -34,13 +34,13 @@ const DISABLED_BUTTON = {
     borderRadius: "0.8rem",
     border: "none",
     outline: "none",
-    backgroundColor: "var(--font-light)",
+    backgroundColor: "var(--light-gray)",
 } as React.CSSProperties;
 
 export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt'> }) {
-    const [sendEmailModalState, setSendEmailModalState] = useState<MODAL_STATE>({ status: false });
-    const [editEventModalState, setEditEventModalState] = useState<MODAL_STATE>({ status: false });
-    const [deleteModalState, setDeleteModalState] = useState<MODAL_STATE>({ status: false });
+    const [sendEmailModalState, setSendEmailModalState] = useState<ModalProps>({ status: false });
+    const [editEventModalState, setEditEventModalState] = useState<ModalProps>({ status: false });
+    const [deleteModalState, setDeleteModalState] = useState<ModalProps>({ status: false });
 
     const [[isToastVisible, toastProps], setToastVisible] = useState<ToastDynamicProps>([false]);
 
@@ -49,7 +49,7 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
 
     async function onSubmitEdit(formEvent: React.FormEvent<HTMLFormElement>) {
         formEvent.preventDefault();
-        setLoading(true)
+        setEditEventModalState((previousState => ({ ...previousState, status: "pending" })));
 
         const form = new FormData(formEvent.currentTarget);
 
@@ -64,22 +64,22 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
             const response = await axios.patch(`/api/events/${event.id}`, data)
             if (response) {
                 setLoading(false)
-                setEditEventModalState({ status: "success", value: "O evento atualizado com sucesso!" })
+                setEditEventModalState({ status: "success", headerProps: { description: "O evento atualizado com sucesso!" } })
                 router.refresh();
             } else {
                 setLoading(false)
-                setEditEventModalState({ status: "error", value: "Um erro interno nos impediu de atualizar o evento. Por favor, tente novamente mais tarde." })
+                setEditEventModalState({ status: "error", headerProps: { description: "Um erro interno nos impediu de atualizar o evento. Por favor, tente novamente mais tarde." } })
             }
         } catch (error) {
             console.log(error)
             setLoading(false)
-            setEditEventModalState({ status: "error", value: "Um erro interno nos impediu de atualizar o evento. Por favor, tente novamente mais tarde." })
+            setEditEventModalState({ status: "error", headerProps: { description: "Um erro interno nos impediu de atualizar o evento. Por favor, tente novamente mais tarde." } })
         }
     }
 
     async function deleteEvent() {
         setLoading(true)
-        setDeleteModalState({ status: "pending", value: "Aguarde enquanto excluímos este evento e todas as suas informações." })
+        setDeleteModalState({ status: "pending", headerProps: { description: "Estamos excluindo o evento e todos os seus dados." } })
 
         try {
             const response = await axios.delete(`/api/events/${event.id}`)
@@ -87,34 +87,38 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                 router.refresh()
                 router.push(`/dashboard`)
             } else {
-                setDeleteModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
+                setDeleteModalState({ status: "error", headerProps: { description: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." } })
             }
         } catch (error) {
             console.log(error)
-            setDeleteModalState({ status: "error", value: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." })
+            setDeleteModalState({ status: "error", headerProps: { description: "Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde." } })
         }
     }
 
     async function raffleGuests() {
         setLoading(true)
-        setSendEmailModalState({ status: "pending", title: "Aguarde um momento...", description: "Estamos sorteando os convidados e enviando os e-mails com os resultados pessoais a todos." })
+        setSendEmailModalState({ status: "pending", headerProps: { title: "Aguarde um momento...", description: "Estamos sorteando os convidados e enviando os e-mails com os resultados pessoais a todos." } })
 
         try {
             const response = await axios.post(`/api/events/raffle`, { id: event.id })
             if (response) {
                 setLoading(false)
                 setSendEmailModalState({
-                    status: "success", title: "Os e-mails foram enviados com sucesso!", description: `Todos os participantes já foram sorteados, agora, basta que cada um acesse seu e-mail para descobrir quem foi seu sorteado!\n\nA partir de agora, nenhum outro participante pode entrar no evento.`
+                    status: "success",
+                    headerProps: {
+                        title: "Os e-mails foram enviados com sucesso!",
+                        description: `Todos os participantes já foram sorteados, agora, basta que cada um acesse seu e-mail para descobrir quem foi seu sorteado!\n\nA partir de agora, nenhum outro participante pode entrar no evento.`
+                    }
                 })
                 router.refresh();
             } else {
                 setLoading(false)
-                setSendEmailModalState({ status: "error", title: "Eita! Algo deu errado!", description: "Um erro interno nos impediu de sortear os convidados. Por favor, tente novamente mais tarde." })
+                setSendEmailModalState({ status: "error", headerProps: { description: "Um erro interno nos impediu de sortear os convidados. Por favor, tente novamente mais tarde." } })
             }
         } catch (error) {
             console.log(error)
             setLoading(false)
-            setSendEmailModalState({ status: "error", title: "Eita! Algo deu errado!", description: "Um erro interno nos impediu de sortear os convidados. Por favor, tente novamente mais tarde." })
+            setSendEmailModalState({ status: "error", headerProps: { description: "Um erro interno nos impediu de sortear os convidados. Por favor, tente novamente mais tarde." } })
         }
     }
 
@@ -129,11 +133,20 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                     style={DISABLED ? DISABLED_BUTTON : ENABLED_BUTTON}
                     onClick={() => {
                         if (DISABLED) {
-                            setToastVisible([true, {
-                                status: "info",
-                                title: "Infelizmente, não é possível realizar esta ação.",
-                                description: `Para realizar o sorteio, o evento deve ter pelo menos ${MIN_GUESTS} convidados e não pode ter sido divulgado.`,
-                            }])
+                            if (event.status === "DIVULGATED") {
+                                setToastVisible([true, {
+                                    status: "info",
+                                    title: "Infelizmente, não é possível realizar esta ação.",
+                                    description: `O sorteio já foi realizado e os e-mails já foram enviados.`,
+                                }])
+
+                            } else {
+                                setToastVisible([true, {
+                                    status: "info",
+                                    title: "Infelizmente, não é possível realizar esta ação.",
+                                    description: `Para realizar o sorteio, o evento deve ter pelo menos ${MIN_GUESTS} convidados.`,
+                                }])
+                            }
                         } else {
                             setSendEmailModalState({ status: true })
                         }
@@ -148,19 +161,18 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                 </Button>
             </div>
             <Modal
-                isVisible={editEventModalState.status !== false}
+                status={editEventModalState.status}
                 toggleVisibility={() => setEditEventModalState({ status: false })}
-                isLoading={isLoading}
                 headerProps={{
                     icon: <SettingsIcon width={"2.4rem"} height={"2.4rem"} />,
-                    title: editEventModalState.status === "success" ? "Eba! Deu tudo certo!" : editEventModalState.status === "error" ? "Eita! Algo deu errado." : "Editar Evento",
-                    description: editEventModalState.status ? editEventModalState.value : undefined,
+                    title: editEventModalState.headerProps?.title || "Editar Evento",
+                    description: editEventModalState.headerProps?.description,
                     integratedTitle: true
                 }}
                 returnButton={{
                     enabled: true,
-                    text: editEventModalState.status === true ? "Cancelar" : "Voltar",
-                    icon: editEventModalState.status === true ? <CloseIcon /> : <ArrowRightIcon fill="var(--primary-01)" width={18} height={18} style={{ transform: "rotate(180deg)" }} />,
+                    text: editEventModalState.status === true ? "Cancelar" : "Fechar",
+                    //icon: editEventModalState.status === true ? <CloseIcon /> : <ArrowRightIcon fill="var(--primary-01)" width={18} height={18} style={{ transform: "rotate(180deg)" }} />,
                     onClick: () => setEditEventModalState({ status: false }),
                 }}
             >
@@ -197,14 +209,13 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                 }
             </Modal>
             <Modal
-                isVisible={deleteModalState.status !== false}
+                status={sendEmailModalState.status}
                 toggleVisibility={() => setDeleteModalState({ status: false })}
                 headerProps={{
                     icon: <DeleteIcon fill="var(--neutral)" width={"2.4rem"} height={"2.4rem"} />,
-                    title: deleteModalState.status === "error" ? "Eita! Algo deu errado..." : deleteModalState.status === "pending" ? "Estamos trabalhando..." : `Você tem certeza que deseja excluir o evento?`,
-                    description: deleteModalState.value ? deleteModalState.value : `Após excluir o evento, todos os dados relacionados a ele serão perdidos.`
+                    title: deleteModalState.headerProps?.title || `Você tem certeza que deseja excluir o evento?`,
+                    description: deleteModalState.headerProps?.description
                 }}
-                isLoading={isLoading}
                 buttons={[
                     {
                         text: "Excluir Evento",
@@ -214,15 +225,14 @@ export default function ButtonsHolder({ event }: { event: Omit<Event, 'createdAt
                 ]}
             />
             <Modal
-                isVisible={sendEmailModalState.status !== false}
+                status={sendEmailModalState.status}
                 toggleVisibility={() => setSendEmailModalState({ status: false })}
-                isLoading={isLoading}
                 style={{ gap: "3.5rem" }}
-                insertLogo={sendEmailModalState.status !== true}
                 headerProps={{
                     icon: sendEmailModalState.status === true ? <SendEmail fill="var(--neutral)" width={"2.4rem"} height={"2.4rem"} /> : undefined,
-                    title: sendEmailModalState.title ? sendEmailModalState.title : `Você tem certeza que deseja enviar os e-mails?`,
-                    description: sendEmailModalState.description ? sendEmailModalState.description :
+                    insertLogo: sendEmailModalState.status !== true,
+                    title: sendEmailModalState.headerProps?.title || `Você tem certeza que deseja enviar os e-mails?`,
+                    description: sendEmailModalState.headerProps?.description ||
                         `${hasGuestsWithoutEmail ? "Alguns convidados ainda não inseriram seus e-mails, portanto nem todos receberão o link em sua caixa de entrada!\n\n" : ""}Após enviar os e-mails, novos usuários não poderão participar do evento e a edição das informações dos convidados será bloqueada.`
                 }}
                 returnButton={{

@@ -14,7 +14,7 @@ import RightArrowAltIcon from "@public/icons/arrow_right_alt.svg";
 import AddPhotoIcon from '@public/icons/add_photo.svg';
 
 import Button from "components/Button";
-import AuthModal, { Section } from "components/AuthModal";
+import AuthModal, { Section } from "components/MultipleModal";
 import Input from "components/Input";
 
 // Hooks

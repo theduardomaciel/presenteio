@@ -12,7 +12,8 @@
     min-height: 100vh;
     height: fit-content;
 
-    background: transparent;
+    background-color: rgba(0, 0, 0, 0.85);
+    /* backdrop-filter: blur(5px); */
 
     transition: 0.5s;
     overflow: hidden;
@@ -20,13 +21,12 @@
     z-index: 9;
 }
 
-.holder.background {
-    background-color: rgba(0, 0, 0, 0.85);
-    /* backdrop-filter: blur(5px); */
+.holder.noBackground {
+    background: transparent;
 }
 
-.holder.background .container {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 100%, rgba(255, 255, 255, 0.50) 100%);
+.holder.noContainer .container {
+    background: transparent
 }
 
 .container {
@@ -43,7 +43,7 @@
 
     text-align: left;
 
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.50) 100%);
+    background: linear-gradient(180deg, var(--background-02) 0%, var(--background-modal) 100%);
     backdrop-filter: blur(25px);
     border-radius: 2rem;
 

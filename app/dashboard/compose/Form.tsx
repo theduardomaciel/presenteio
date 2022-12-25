@@ -11,7 +11,7 @@ import DashboardSubSectionHeader from '@dashboard/components/Section/SubSectionH
 import DashboardPricePicker from '@dashboard/components/Event/PricePicker';
 import EventDisplay from '@dashboard/components/Event/EventDisplay';
 import GuestsDisplay, { PreGuest } from 'app/dashboard/compose/PreGuestsDisplay';
-import Modal, { MODAL_STATE } from 'components/Modal';
+import Modal, { ModalProps } from 'components/Modal';
 
 // Icons
 import AddIcon from '@public/icons/add.svg';
@@ -33,7 +33,7 @@ export const InviteOptions = ({ defaultValues }: { defaultValues?: { allowInvite
 }
 
 export default function ComposeEventForm({ children }: { children: React.ReactNode }) {
-    const [confirmModalState, setConfirmModalState] = useState<MODAL_STATE>({ status: false });
+    const [confirmModalState, setConfirmModalState] = useState<ModalProps>({ status: false });
     const [isLoading, setIsLoading] = useState(false);
     const [preGuests, setPreGuests] = useState<PreGuest[]>([]);
 
@@ -42,7 +42,12 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
         console.log(confirmModalState)
         if (confirmModalState.status === true) {
             setIsLoading(true)
-            setConfirmModalState({ status: "pending" })
+            setConfirmModalState({
+                status: "pending", headerProps: {
+                    title: "Aguarde um momento...",
+                    description: "Estamos criando seu evento, isso pode demorar um pouco."
+                }
+            })
             const form = new FormData(event.currentTarget);
 
             const eventImage = form.get('eventImageUpload') as File;
@@ -76,14 +81,20 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 const response = await axios.post(`/api/events/compose`, data, config)
                 if (response) {
                     console.log(response.data)
-                    setConfirmModalState({ status: "success", value: response.data.id })
+                    setConfirmModalState({
+                        status: "success",
+                        data: response.data.id,
+                        headerProps: {
+                            description: `Eba! Seu evento foi criado com sucesso!\n 
+                    Agora é só enviar o convite geral ou os convites personalizados para os convidados e aproveitar o momento!` }
+                    })
                 } else {
-                    setConfirmModalState({ status: "error", value: `Não foi possível obter uma resposta de nossos servidores acerca de seu evento. Por favor, tente novamente.` })
+                    setConfirmModalState({ status: "error", headerProps: { description: `Não foi possível obter uma resposta de nossos servidores acerca de seu evento. Por favor, tente novamente.` } })
                 }
                 setIsLoading(false)
             } catch (error: any) {
                 console.log(error)
-                setConfirmModalState({ status: "error", value: "Um erro desconhecido occoreu. Por favor, tente novamente." })
+                setConfirmModalState({ status: "error", headerProps: { description: `Não foi possível criar seu evento. Por favor, tente novamente.` } })
                 setIsLoading(false)
             }
         }
@@ -120,24 +131,14 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 </div>
             </div>
             <Modal
-                isVisible={confirmModalState.status !== false}
+                status={confirmModalState.status}
                 toggleVisibility={() => setConfirmModalState({ status: false })}
-                insertLogo
-                isLoading={isLoading}
                 headerProps={{
-                    title: confirmModalState.status === true ? 'Pronto para criar o evento?' :
-                        confirmModalState.status === "success" ? "Tudo certo por aqui." :
-                            confirmModalState.status === "pending" ? "Aguarde um momento..." :
-                                confirmModalState.status === "error" ? "Parece que tivemos um problema." : "",
-                    description: confirmModalState.status === true ?
+                    insertLogo: true,
+                    title: confirmModalState.headerProps?.title || "Pronto para criar o evento?",
+                    description: confirmModalState.headerProps?.description ||
                         `Confira todas as informações antes de criá-lo para que todos os convidados tenham a experiência desejada desde o início.\n
-                Não se preocupe pois nenhum convidado será notificado até que todos tenham confirmado presença.` :
-                        confirmModalState.status === "success" ?
-                            `Eba! Seu evento foi criado com sucesso!\n 
-                    Agora é só enviar o convite geral ou os convites personalizados para os convidados e aproveitar o momento!` :
-                            confirmModalState.status === "pending" ? "Estamos criando seu evento..." :
-                                confirmModalState.status === "error" ?
-                                    confirmModalState.value : "[erro desconhecido]"
+                Não se preocupe pois nenhum convidado será notificado até que todos tenham confirmado presença.`
                 }}
                 returnButton={{
                     enabled: confirmModalState.status !== "success" && confirmModalState.status !== "pending" ? true : false,
@@ -145,7 +146,7 @@ export default function ComposeEventForm({ children }: { children: React.ReactNo
                 buttons={[
                     {
                         text: "Ir para o Evento",
-                        onClick: confirmModalState.status === "success" ? () => router.replace(`/dashboard/${confirmModalState.value}`) : undefined,
+                        onClick: confirmModalState.status === "success" ? () => router.replace(`/dashboard/${confirmModalState.data}`) : undefined,
                     }
                 ]}
             >

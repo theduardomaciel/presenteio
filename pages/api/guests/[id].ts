@@ -1,12 +1,9 @@
-import { createRouter, expressWrapper } from "next-connect";
+import { createRouter } from "next-connect";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 const router = createRouter<NextApiRequest, NextApiResponse>();
 
 import prisma from "../../../lib/prisma";
-
-import { verify } from "jsonwebtoken";
-import extractToken from "../../../lib/extractToken";
 
 import { deleteImage, getImageUrl } from "../images/uploadImage";
 

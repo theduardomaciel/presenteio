@@ -77,132 +77,12 @@
     font-size: 2.4rem;
 }
 
-.titleFrame {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-
-    height: 10rem;
-    width: 100%;
-    position: relative;
-
-    animation: resizeTitleFrame 25s cubic-bezier(0.645, 0.045, 0.355, 1) infinite;
-}
-
-.container .titleFrame h1 {
-    font-family: 'Gelasio';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 8.2rem;
-    line-height: 85%;
-    text-align: center;
-    color: var(--primary-01);
-
+.hint {
     position: absolute;
-    transform: translateX(0%);
-}
-
-.container .titleFrame h1:nth-child(1) {
-    animation: move1 25s ease-in-out infinite;
-}
-
-.container .titleFrame h1:nth-child(2) {
-    opacity: 0;
-    animation: move2 25s ease-in-out infinite;
-}
-
-.titleFrame h1:nth-child(2)::after {
-    font-family: 'Gelasio';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 9.8rem;
-    line-height: 85%;
-    text-align: center;
-    color: var(--primary-01);
-
-    content: "Sorteio";
-
-    position: absolute;
-    top: 50%;
+    width: 75vw;
+    bottom: 20vh;
     left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-@keyframes move1 {
-    0% {
-        transform: translateX(0%);
-        opacity: 1;
-    }
-
-    40% {
-        transform: translateX(0%);
-        opacity: 1;
-    }
-
-    50% {
-        transform: translateX(-100%);
-        opacity: 0.5;
-    }
-
-    90% {
-        transform: translateX(-100%);
-        opacity: 0.5;
-    }
-
-    100% {
-        transform: translateX(0%);
-        opacity: 1;
-    }
-}
-
-@keyframes move2 {
-    0% {
-        transform: translateX(75%);
-        opacity: 0.5;
-    }
-
-    40% {
-        transform: translateX(75%);
-        opacity: 0.5;
-    }
-
-    50% {
-        transform: translateX(0%);
-        opacity: 1;
-    }
-
-    90% {
-        transform: translateX(0%);
-        opacity: 1;
-    }
-
-    100% {
-        transform: translateX(75%);
-        opacity: 0.5;
-    }
-}
-
-@keyframes resizeTitleFrame {
-    0% {
-        height: 10rem;
-    }
-
-    40% {
-        height: 10rem;
-    }
-
-    50% {
-        height: 3.5rem;
-    }
-
-    90% {
-        height: 3.5rem;
-    }
-
-    100% {
-        height: 10rem;
-    }
+    transform: translateX(-50%);
 }
 
 /* FOOTER */
@@ -260,23 +140,10 @@
         padding: 3.5rem 7.5rem;
     }
 
-    .container .titleFrame {
-        height: 3.5rem;
-        animation: none;
-    }
-
-    .container .titleFrame h1 {
-        white-space: nowrap;
-        font-size: 9.8rem;
-    }
-
     .container main {
         padding-inline: 11.5rem;
     }
 
-    .container .titleFrame h1:nth-child(2)::after {
-        content: "Sorteio em Grupo";
-    }
 
     .container footer {
         justify-content: space-between;
@@ -287,57 +154,7 @@
         display: flex;
     }
 
-    @keyframes move1 {
-        0% {
-            transform: translateX(0%);
-            opacity: 1;
-        }
-
-        40% {
-            transform: translateX(0%);
-            opacity: 1;
-        }
-
-        50% {
-            transform: translateX(-150%);
-            opacity: 0;
-        }
-
-        90% {
-            transform: translateX(-150%);
-            opacity: 0;
-        }
-
-        100% {
-            transform: translateX(0%);
-            opacity: 1;
-        }
-    }
-
-    @keyframes move2 {
-        0% {
-            transform: translateX(200%);
-            opacity: 0;
-        }
-
-        40% {
-            transform: translateX(200%);
-            opacity: 0;
-        }
-
-        50% {
-            transform: translateX(0%);
-            opacity: 1;
-        }
-
-        90% {
-            transform: translateX(0%);
-            opacity: 1;
-        }
-
-        100% {
-            transform: translateX(200%);
-            opacity: 0;
-        }
+    .hint {
+        width: fit-content;
     }
 }

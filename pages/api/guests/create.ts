@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { createRouter } from "next-connect";
 
-import jwt from 'jsonwebtoken';
-
 import prisma from "../../../lib/prisma";
 import { getImageUrl } from '../images/uploadImage';
 import { GuestStatus } from '@prisma/client';

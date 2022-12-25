@@ -102,7 +102,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
             <div className={'divisor'} />
             <Link href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`} className='modalFooter'>
                 <Button
-                    icon={<ViewIcon fill='var(--primary-03)' opacity={0.5} />}
+                    icon={<ViewIcon fill='var(--primary-03)' />}
                     additionalClasses={styles.footerButton}
                     noEffects
                 >

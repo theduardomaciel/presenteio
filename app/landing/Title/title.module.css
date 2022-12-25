@@ -1,0 +1,192 @@
+.titleFrame {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    height: 10rem;
+    width: 100%;
+    position: relative;
+
+    /* animation: resizeTitleFrame 25s cubic-bezier(0.645, 0.045, 0.355, 1) infinite; */
+}
+
+.titleFrame h1 {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 8.2rem;
+    line-height: 85%;
+    height: fit-content;
+    text-align: center;
+    color: var(--primary-01);
+
+    position: absolute;
+    transform: translateX(0%);
+}
+
+.titleFrame .title1 {
+    animation: move1 25s ease-in-out infinite;
+}
+
+.titleFrame .title2 {
+    opacity: 0;
+    animation: move2 25s ease-in-out infinite;
+}
+
+@keyframes move1 {
+    0% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+
+    90% {
+        transform: translateX(-150%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes move2 {
+    0% {
+        transform: translateX(200%);
+        opacity: 0;
+    }
+
+    40% {
+        transform: translateX(200%);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    90% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(200%);
+        opacity: 0;
+    }
+}
+
+/* .titleFrame .title2::after {
+    font-family: 'Gelasio';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 9.8rem;
+    line-height: 85%;
+    text-align: center;
+    color: var(--primary-01);
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+} */
+
+/* @keyframes move1 {
+    0% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    50% {
+        transform: translateX(-100%);
+        opacity: 0.5;
+    }
+
+    90% {
+        transform: translateX(-100%);
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes move2 {
+    0% {
+        transform: translateX(75%);
+        opacity: 0.5;
+    }
+
+    40% {
+        transform: translateX(75%);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    90% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(75%);
+        opacity: 0.5;
+    }
+} */
+
+@keyframes resizeTitleFrame {
+    0% {
+        height: 10rem;
+    }
+
+    40% {
+        height: 10rem;
+    }
+
+    50% {
+        height: 3.5rem;
+    }
+
+    90% {
+        height: 3.5rem;
+    }
+
+    100% {
+        height: 10rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    /* .titleFrame {
+        height: 3.5rem;
+        animation: none;
+    } */
+
+    .titleFrame h1 {
+        /* white-space: nowrap; */
+        font-size: 9.8rem;
+    }
+}

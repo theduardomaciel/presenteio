@@ -40,7 +40,7 @@
 }
 
 .toastRoot.info {
-    border: 1px solid blue;
+    border: 1px solid cornflowerblue;
 }
 
 .column {
@@ -116,7 +116,7 @@
 .toastDescription {
     grid-area: description;
     margin: 0;
-    color: var(--font-light);
+    color: var(--font-light-02);
     font-family: "Judson";
     font-size: 1.2rem;
     line-height: 1.3;
@@ -137,7 +137,7 @@
 }
 
 .toastRoot.info .toastTitle {
-    color: blue;
+    color: cornflowerblue;
 }
 
 /* ICON */
@@ -155,5 +155,5 @@
 }
 
 .toastRoot.info .column svg {
-    fill: blue;
+    fill: cornflowerblue;
 }

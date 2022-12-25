@@ -41,6 +41,7 @@
 
 .priceManualPicker h6 {
     font-family: 'Arial';
+    color: var(--font-light);
     font-style: normal;
     font-weight: 700;
     font-size: 1.4rem;
@@ -59,7 +60,7 @@
 }
 
 .priceManualPicker div .input input {
-    background: var(--neutral);
+    background: var(--background-02);
     border: 1px solid var(--light-gray);
     border-radius: 0.3rem;
 
