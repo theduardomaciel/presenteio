@@ -1,196 +1,198 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-    font-size: 62.5%;
-    /*  100% ----- 16px
+	font-size: 62.5%;
+	/*  100% ----- 16px
         x  ------- 10px
         1rem = 10px */
 
-    color-scheme: light dark;
+	color-scheme: light dark;
 
-    --primary-01: #FF2626;
-    --primary-02: #FF3D3D;
-    --primary-03: #FD7979;
+	--primary-01: #ff2626;
+	--primary-02: #ff3d3d;
+	--primary-03: #fd7979;
 
-    --font-dark: #141414;
-    --font-light: #797979;
-    --font-light-02: #5a5858;
+	--font-dark: #141414;
+	--font-light: #797979;
+	--font-light-02: #5a5858;
 
-    --neutral: #FFFFFF;
-    --light-gray: #D9D9D9;
+	--neutral: #ffffff;
+	--light-gray: #d9d9d9;
 
-    --background-01: #F8EAEA;
-    --background-02: #faefef;
-    --background-modal: rgba(250, 239, 239, 0.75);
+	--background-01: #f8eaea;
+	--background-02: #faefef;
+	--background-modal: rgba(250, 239, 239, 0.75);
 
-    --header-height: 8.5rem;
+	--header-height: 8.5rem;
+	--wrapper: 3.5rem;
 }
 
 html.dark {
-    --primary-01: #d41f1f;
-    --primary-02: #FF2626;
-    --primary-03: #FF3D3D;
+	--primary-01: #d41f1f;
+	--primary-02: #ff2626;
+	--primary-03: #ff3d3d;
 
-    --font-dark: #141414;
-    --font-light: #e1d9d9;
-    --font-light-02: #ab9999;
+	--font-dark: #141414;
+	--font-light: #e1d9d9;
+	--font-light-02: #ab9999;
 
-    --neutral: #FFFFFF;
-    --light-gray: #454545;
+	--neutral: #ffffff;
+	--light-gray: #454545;
 
-    --background-01: #121212;
-    --background-02: #222222;
-    --background-modal: rgba(34, 34, 34, 0.75);
+	--background-01: #121212;
+	--background-02: #222222;
+	--background-modal: rgba(34, 34, 34, 0.75);
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Judson:ital,wght@0,400;0,700;1,400&display=swap');
-
 html {
-    background-color: var(--background-01);
-    transition: 150ms;
-    zindex: -2;
+	background-color: var(--background-01);
+	transition: 150ms;
+
+	font-family: var(--font-judson) var(--font-inter) var(--font-judson);
+
+	/* letter-spacing: 0.1rem; */
 }
 
 html,
 body {
-    padding: 0;
-    margin: 0;
-    overflow-y: overlay;
-    height: 100%;
+	padding: 0;
+	margin: 0;
+	/* overflow-y: overlay; */
+	height: 100%;
 
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+	color: inherit;
+	text-decoration: none;
 }
 
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 
 div.hide main,
 div.hide footer,
 div.hide header,
 div.hide section {
-    opacity: 0;
+	opacity: 0;
 }
 
-div.hide>* {
-    transition: 1s;
+div.hide > * {
+	transition: 1s;
 }
 
 div.hide {
-    user-select: none;
-    overflow-y: hidden;
+	user-select: none;
+	overflow-y: hidden;
 }
 
 .imageContain {
-    object-fit: cover;
+	object-fit: cover;
 }
 
 .modalFooterHolder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2.5rem;
 }
 
 .modalFooter {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    cursor: pointer;
-    width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 1rem;
+	cursor: pointer;
+	width: 100%;
 
-    transition: 150ms;
+	transition: 150ms;
 }
 
 .modalFooter:hover {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .modalFooter p {
-    font-family: 'Arial';
-    font-style: normal;
-    font-size: 1.2rem;
-    line-height: 1.5rem;
+	font-family: "Arial";
+	font-style: normal;
+	font-size: 1.2rem;
+	line-height: 1.5rem;
 
-    vertical-align: middle;
+	vertical-align: middle;
 
-    color: var(--primary-01);
+	color: var(--primary-01);
 }
 
 .modalFooter svg {
-    fill: var(--primary-01);
-    width: 1.8rem;
-    height: 1.8rem;
+	fill: var(--primary-01);
+	width: 1.8rem;
+	height: 1.8rem;
 }
 
 .divisor {
-    width: 10rem;
-    border: 1px solid var(--primary-01);
-    border-radius: 1rem;
+	width: 10rem;
+	border: 1px solid var(--primary-01);
+	border-radius: 1rem;
 }
 
 .divisor.vertical {
-    width: 1px;
-    height: 2rem;
-    min-height: 100%;
-    border: 1px solid var(--primary-01);
-    border-radius: 1rem;
+	width: 1px;
+	height: 2rem;
+	min-height: 100%;
+	border: 1px solid var(--primary-01);
+	border-radius: 1rem;
 }
 
 .link {
-    line-break: anywhere;
+	line-break: anywhere;
 }
 
 .link:hover {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 .click {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .icon:hover {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 @media (min-width: 1024px) {
-    .scroll::-webkit-scrollbar {
-        width: 1rem;
-    }
+	:root {
+		--wrapper: 7.5rem;
+	}
 
-    .scroll::-webkit-scrollbar-track {
-        background: transparent;
-        opacity: 0;
-    }
+	.scroll::-webkit-scrollbar {
+		width: 1rem;
+	}
 
-    /* Handle */
-    .scroll::-webkit-scrollbar-thumb {
-        background: var(--primary-03);
-        border-radius: 1rem;
-        opacity: 0.5;
-    }
+	.scroll::-webkit-scrollbar-track {
+		background: transparent;
+		opacity: 0;
+	}
+
+	/* Handle */
+	.scroll::-webkit-scrollbar-thumb {
+		background: var(--primary-03);
+		border-radius: 1rem;
+		opacity: 0.5;
+	}
 }
-
-/* @media (prefers-color-scheme: light) {
-    body {
-        color: var(--font-light);
-        background: var(--background-01);
-    }
-} */

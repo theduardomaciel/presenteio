@@ -17,14 +17,14 @@
 }
 
 .option header h3 {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-weight: 900;
     font-size: 1.8rem;
     color: var(--primary-02);
 }
 
 .option header p {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-size: 1.6rem;
     font-weight: 400;
     color: var(--font-light);
@@ -52,7 +52,7 @@
 }
 
 .themeItem p {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.2rem;
@@ -74,7 +74,8 @@
 }
 
 .themeButtonsHolder .themeItem.selected svg {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
     transition: 500ms;
     outline: 3px solid var(--primary-03);
 }

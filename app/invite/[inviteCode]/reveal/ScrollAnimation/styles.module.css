@@ -35,10 +35,8 @@
     border-radius: 50%;
 
     margin-right: 7.5rem;
-    box-shadow:
-        0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-        0 0.1rem 0.5rem rgb(0 0 0 / 30%),
-        0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+    box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+        0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
 
     transition: 1s;
 
@@ -51,23 +49,19 @@
 @keyframes glow {
     0% {
         outline: none;
-        box-shadow:
-            0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-            0 0.1rem 0.5rem rgb(0 0 0 / 30%),
-            0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+        box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+            0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
     }
 
     50% {
-        box-shadow: 0px 1px 25px 5px #FFFFFF;
-        outline: 5px solid #FFFFFF;
+        box-shadow: 0px 1px 25px 5px #ffffff;
+        outline: 5px solid #ffffff;
     }
 
     100% {
         outline: none;
-        box-shadow:
-            0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-            0 0.1rem 0.5rem rgb(0 0 0 / 30%),
-            0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+        box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+            0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
     }
 }
 
@@ -85,7 +79,7 @@
 }
 
 .chosenReveal h2 {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 700;
     font-size: 2.8rem;
@@ -95,7 +89,7 @@
 }
 
 .chosenReveal h1 {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: italic;
     font-weight: 700;
     font-size: 5.6rem;
@@ -105,7 +99,7 @@
 }
 
 .chosenReveal p {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.8rem;
@@ -125,10 +119,8 @@
 @keyframes growImage {
     0% {
         border: none;
-        box-shadow:
-            0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-            0 0.1rem 0.5rem rgb(0 0 0 / 30%),
-            0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+        box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+            0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
 
         height: 150px;
         width: 150px;
@@ -136,7 +128,7 @@
 
     100% {
         border: 3px solid var(--primary-02);
-        box-shadow: 0px 1px 100px 45px #FFFFFF;
+        box-shadow: 0px 1px 100px 45px #ffffff;
 
         height: 200px;
         width: 200px;

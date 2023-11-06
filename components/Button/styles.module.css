@@ -7,7 +7,7 @@
     gap: 1rem;
 
     color: var(--neutral);
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.6rem;
@@ -23,7 +23,7 @@
 .button p,
 .button span {
     color: var(--neutral);
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.6rem;

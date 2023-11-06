@@ -32,7 +32,7 @@
 }
 
 .header h6 {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 400;
     font-size: 1.8rem;
@@ -41,7 +41,7 @@
 }
 
 .header p {
-    font-family: 'Arial';
+    font-family: "Arial";
     font-style: normal;
     font-weight: 500;
     font-size: 1.2rem;
@@ -65,7 +65,7 @@
 }
 
 .content .title div h3 {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.8rem;
@@ -74,7 +74,7 @@
 }
 
 .content .title div h1 {
-    font-family: 'Gelasio', serif;
+    font-family: "Gelasio", serif;
     font-style: normal;
     font-weight: 700;
     font-size: 5.6rem;
@@ -98,7 +98,6 @@
     transform: scaleX(-1);
 }
 
-
 .giftImage {
     overflow: hidden;
 
@@ -120,7 +119,7 @@
 }
 
 .section h4 {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 2.4rem;

@@ -11,7 +11,7 @@
             "@dashboard/components/*": [
                 "app/dashboard/components/*"
             ],
-            "@public/*": [
+            "@/public/*": [
                 "public/*"
             ],
             "@utils/*": [

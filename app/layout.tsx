@@ -1,27 +1,58 @@
-import './globals.css'
+import { cookies } from "next/headers";
+import { Metadata } from "next";
+import { Judson, Gelasio, Inter } from "next/font/google";
 
-import { cookies } from 'next/headers';
-import GoogleProvider from './auth/google/GoogleOAuthProvider';
+import "./globals.css";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-    const nextCookies = cookies();
-    const theme = nextCookies.get('theme')?.value;
+import GoogleProvider from "./auth/google/GoogleOAuthProvider";
 
-    const isDark = theme && theme === "dark";
-    return (
-        <html className={`${isDark ? 'dark' : ""}`} lang="pt-br">
-            <head>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" />
+const judson = Judson({
+	subsets: ["latin-ext"],
+	display: "swap",
+	variable: "--font-judson",
+	weight: ["400", "700"],
+});
 
-                <link href="https://fonts.googleapis.com/css2?family=Gelasio:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
-                <link href="https://fonts.googleapis.com/css2?family=Judson:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-            </head>
-            <body>
-                <GoogleProvider clientId={process.env.GOOGLE_CLIENT_ID as string}>
-                    {children}
-                </GoogleProvider>
-            </body>
-        </html>
-    )
+const gelasio = Gelasio({
+	subsets: ["latin-ext"],
+	display: "swap",
+	variable: "--font-gelasio",
+	weight: ["400", "500", "600", "700"],
+});
+
+const inter = Inter({
+	subsets: ["latin-ext"],
+	display: "swap",
+	variable: "--font-inter",
+});
+
+export const metadata: Metadata = {
+	title: "presenteio",
+	description:
+		"A platform for automating social events that seeks to help create good moments in an easy and practical way.",
+};
+
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const isDark = cookies().get("theme")?.value == "dark";
+
+	return (
+		<html
+			className={`${isDark ? "dark" : ""} ${gelasio.variable} ${
+				judson.variable
+			} ${inter.variable}`}
+			lang="pt-br"
+		>
+			<body>
+				<GoogleProvider
+					clientId={process.env.GOOGLE_CLIENT_ID as string}
+				>
+					{children}
+				</GoogleProvider>
+			</body>
+		</html>
+	);
 }

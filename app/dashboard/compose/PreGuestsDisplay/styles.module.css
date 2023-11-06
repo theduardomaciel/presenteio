@@ -33,7 +33,11 @@
 
     width: 100%;
 
-    background: linear-gradient(90deg, var(--primary-01) 0%, var(--primary-02) 100%);
+    background: linear-gradient(
+        90deg,
+        var(--primary-01) 0%,
+        var(--primary-02) 100%
+    );
     border-radius: 0.5rem;
 }
 
@@ -46,7 +50,7 @@
 }
 
 .guestPreview p {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 1.6rem;
@@ -66,7 +70,7 @@
 }
 
 .guestPreview .iconHolder span {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 700;
     font-size: 1.2rem;

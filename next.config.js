@@ -1,35 +1,57 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-    experimental: {
-        appDir: true,
-    },
-    webpack(config) {
-        config.module.rules.push({
-            test: /\.svg$/i,
-            issuer: /\.[jt]sx?$/,
-            use: ['@svgr/webpack'],
-        })
-        config.resolve.fallback = { fs: false, path: false };
 
-        return config
+const withSvgr = require("next-plugin-svgr");
+
+module.exports = withSvgr({
+    webpack(config, options) {
+        return config;
     },
     async redirects() {
         return [
             {
-                source: '/login',
-                destination: '/auth/login',
+                source: "/login",
+                destination: "/auth/login",
                 permanent: true,
             },
             {
-                source: '/register',
-                destination: '/auth/register',
+                source: "/register",
+                destination: "/auth/register",
                 permanent: true,
             },
-        ]
+        ];
     },
     images: {
-        domains: ['lh3.googleusercontent.com', 'localhost', 'avatars.githubusercontent.com', 'i.imgur.com', 'github.com'],
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "lh3.googleusercontent.com",
+                port: "",
+                pathname: "/",
+            },
+            {
+                protocol: "https",
+                hostname: "avatars.githubusercontent.com",
+                port: "",
+                pathname: "/",
+            },
+            {
+                protocol: "https",
+                hostname: "i.imgur.com",
+                port: "",
+                pathname: "/",
+            },
+            {
+                protocol: "https",
+                hostname: "github.com",
+                port: "",
+                pathname: "/",
+            },
+            {
+                protocol: "http",
+                hostname: "localhost",
+                port: "",
+                pathname: "/",
+            },
+        ],
     },
-}
-
-module.exports = nextConfig
+});

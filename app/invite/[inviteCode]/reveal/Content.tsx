@@ -1,11 +1,11 @@
-'use client';
+"use client";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 
 import styles from "../invite.module.css";
 
-import GiftIcon from '@public/icons/gift.svg';
+import GiftIcon from "@/public/icons/gift.svg";
 
 // Components
 import Button from "components/Button";
@@ -18,26 +18,35 @@ interface Props {
     guestId: string;
     guestsImages: string[];
     chosenGuest: Guest;
-    eventProps: { name: string, type: string, prices?: { min?: number, max?: number } }
+    eventProps: {
+        name: string;
+        type: string;
+        prices?: { min?: number; max?: number };
+    };
 }
 
-export default function RevealContent({ guestId, guestsImages, chosenGuest, eventProps }: Props) {
+export default function RevealContent({
+    guestId,
+    guestsImages,
+    chosenGuest,
+    eventProps,
+}: Props) {
     const [status, setStatus] = useState<"idle" | "animating">("idle");
 
     async function updateStatus() {
-        setStatus("animating")
+        setStatus("animating");
 
         try {
             const response = await axios.patch(`/api/guests/${guestId}`, {
-                status: "VISUALIZED"
-            })
+                status: "VISUALIZED",
+            });
             if (response) {
-                console.log("Status atualizado com sucesso!")
+                console.log("Status atualizado com sucesso!");
             } else {
-                console.log("Erro ao atualizar status.")
+                console.log("Erro ao atualizar status.");
             }
         } catch (error) {
-            console.log(error, "Erro ao atualizar status.")
+            console.log(error, "Erro ao atualizar status.");
         }
     }
 
@@ -51,27 +60,43 @@ export default function RevealContent({ guestId, guestsImages, chosenGuest, even
             >
                 <EventTitle type={eventProps.type} name={eventProps.name} />
             </motion.div>
-            {
-                status === "idle" ?
-                    <div className={styles.content}>
-                        <h1>Chegou a hora de descobrir seu amigo secreto.</h1>
-                        <p><strong>Estamos naquele aguardado momento do ano!</strong> <br />
-                            Por trás de um botão está a descoberta de quem é seu amigo secreto, então, o que está esperando? <br />
-                            Vai lá e descobre!</p>
-                        <Button
-                            additionalClasses={styles.button}
-                            style={{ cursor: "pointer" }}
-                            icon={<GiftIcon width={"1.8rem"} height={"1.8rem"} fill={`var(--neutral)`} />}
-                            onClick={updateStatus}
-                        >
-                            <p className={`${styles.buttonFont}`}>Descobrir meu Amigo Secreto</p>
-                        </Button>
-                        <div className={"divisor"} />
-                    </div>
-                    :
-                    <ScrollAnimation guestsImages={guestsImages} chosenGuest={chosenGuest} eventPrices={eventProps.prices} />
-            }
+            {status === "idle" ? (
+                <div className={styles.content}>
+                    <h1>Chegou a hora de descobrir seu amigo secreto.</h1>
+                    <p>
+                        <strong>
+                            Estamos naquele aguardado momento do ano!
+                        </strong>{" "}
+                        <br />
+                        Por trás de um botão está a descoberta de quem é seu
+                        amigo secreto, então, o que está esperando? <br />
+                        Vai lá e descobre!
+                    </p>
+                    <Button
+                        additionalClasses={styles.button}
+                        style={{ cursor: "pointer" }}
+                        icon={
+                            <GiftIcon
+                                width={"1.8rem"}
+                                height={"1.8rem"}
+                                fill={`var(--neutral)`}
+                            />
+                        }
+                        onClick={updateStatus}
+                    >
+                        <p className={`${styles.buttonFont}`}>
+                            Descobrir meu Amigo Secreto
+                        </p>
+                    </Button>
+                    <div className={"divisor"} />
+                </div>
+            ) : (
+                <ScrollAnimation
+                    guestsImages={guestsImages}
+                    chosenGuest={chosenGuest}
+                    eventPrices={eventProps.prices}
+                />
+            )}
         </AnimatePresence>
-
-    )
+    );
 }

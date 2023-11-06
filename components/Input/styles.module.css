@@ -32,7 +32,7 @@
     border-radius: 0.6rem;
     padding: 1.25rem 1rem;
 
-    font-family: 'Arial';
+    font-family: "Arial";
     font-style: normal;
     font-weight: 500;
     font-size: 1.3rem;
@@ -61,7 +61,7 @@
 }
 
 .errorText {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.2rem;
@@ -147,7 +147,7 @@
 }
 
 .label {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.4rem;

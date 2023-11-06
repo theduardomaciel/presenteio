@@ -23,7 +23,7 @@
 }
 
 .content .title {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 2.4rem;

@@ -9,7 +9,7 @@
 }
 
 .container p {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 1.2rem;
@@ -28,7 +28,7 @@
 }
 
 .container input {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 2.2rem;

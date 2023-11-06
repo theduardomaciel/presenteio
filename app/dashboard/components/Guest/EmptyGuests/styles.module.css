@@ -24,7 +24,7 @@
 }
 
 .emptyContainer header h6 {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 1.8rem;
@@ -34,7 +34,7 @@
 }
 
 .emptyContainer p {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.2rem;

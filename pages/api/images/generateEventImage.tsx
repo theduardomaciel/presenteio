@@ -10,13 +10,13 @@ const gelasio = fetch(new URL('./assets/Gelasio_BoldItalic.ttf', import.meta.url
     (res) => res.arrayBuffer(),
 );
 
-const judson = fetch(new URL('./assets/Judson_Regular.ttf', import.meta.url)).then(
+const var(--font-judson) = fetch(new URL('./assets/var(--font-judson)_Regular.ttf', import.meta.url)).then(
     (res) => res.arrayBuffer(),
 );
 
 export default async function handler(req: NextRequest) {
     const gelasioFontData = await gelasio;
-    const judsonFontData = await judson;
+    const var(--font-judson)FontData = await var(--font-judson);
 
     try {
         const { searchParams } = new URL(req.url)
@@ -51,8 +51,8 @@ export default async function handler(req: NextRequest) {
                         style: 'italic',
                     },
                     {
-                        name: 'Judson',
-                        data: judsonFontData,
+                        name: 'var(--font-judson)',
+                        data: var(--font-judson)FontData,
                         style: 'normal',
                     },
                 ],
@@ -85,7 +85,7 @@ const h2 = {
 } as CSSProperties;
 
 const h3 = {
-    fontFamily: "'Judson'",
+    fontFamily: "'var(--font-judson)'",
     fontStyle: "normal",
     fontWeight: 400,
     fontSize: 28,

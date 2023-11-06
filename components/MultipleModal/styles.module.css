@@ -26,7 +26,7 @@
 }
 
 .holder.noContainer .container {
-    background: transparent
+    background: transparent;
 }
 
 .container {
@@ -43,7 +43,11 @@
 
     text-align: left;
 
-    background: linear-gradient(180deg, var(--background-02) 0%, var(--background-modal) 100%);
+    background: linear-gradient(
+        180deg,
+        var(--background-02) 0%,
+        var(--background-modal) 100%
+    );
     backdrop-filter: blur(25px);
     border-radius: 2rem;
 
@@ -61,7 +65,7 @@
 }
 
 .headerContainer h2 {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 2.8rem;
@@ -73,7 +77,7 @@
 }
 
 .headerContainer p {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.6rem;

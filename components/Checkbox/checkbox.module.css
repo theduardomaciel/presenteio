@@ -11,7 +11,7 @@
 }
 
 .container p {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 700;
     font-size: 1.6rem;

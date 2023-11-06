@@ -17,7 +17,8 @@
 .toastRoot {
     background-color: white;
     border-radius: 0.6rem;
-    box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+    box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+        hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
     padding: 1.5rem 2rem;
     display: flex;
     flex-direction: row;
@@ -52,24 +53,24 @@
     height: 100%;
 }
 
-.toastRoot[data-state='open'] {
+.toastRoot[data-state="open"] {
     animation: slideIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.toastRoot[data-state='closed'] {
+.toastRoot[data-state="closed"] {
     animation: hide 100ms ease-in;
 }
 
-.toastRoot[data-swipe='move'] {
+.toastRoot[data-swipe="move"] {
     transform: translateX(var(--radix-toast-swipe-move-x));
 }
 
-.toastRoot[data-swipe='cancel'] {
+.toastRoot[data-swipe="cancel"] {
     transform: translateX(0);
     transition: transform 200ms ease-out;
 }
 
-.toastRoot[data-swipe='end'] {
+.toastRoot[data-swipe="end"] {
     animation: swipeOut 100ms ease-out;
 }
 
@@ -117,7 +118,7 @@
     grid-area: description;
     margin: 0;
     color: var(--font-light-02);
-    font-family: "Judson";
+    font-family: "var(--font-judson)";
     font-size: 1.2rem;
     line-height: 1.3;
 }

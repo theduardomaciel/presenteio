@@ -1,0 +1,94 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	width: 100%;
+
+	position: relative;
+
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+/* MAIN */
+.container main {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	gap: 10rem;
+
+	position: relative;
+	height: 100vh;
+
+	width: 100%;
+}
+
+.container main .content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	position: relative;
+	width: 100%;
+
+	gap: 3rem;
+}
+
+.container main .content .title {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	width: 100%;
+}
+
+.container main .content .title p {
+	font-family: "var(--font-judson)", serif;
+	font-style: normal;
+	font-weight: 400;
+	letter-spacing: 0.1rem;
+	font-size: 1.8rem;
+
+	color: var(--primary-03);
+}
+
+.container main .content .title p:nth-child(3) {
+	font-size: 2.4rem;
+}
+
+.hint {
+	position: absolute;
+	width: 75vw;
+	bottom: 20vh;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.imageHolder {
+	display: none;
+	z-index: 2;
+	transform: scaleX(-1);
+}
+
+@media (min-width: 1024px) {
+	.imageHolder {
+		display: flex;
+	}
+
+	.container main .content .title {
+		gap: 2.5rem;
+	}
+
+	.container main {
+		padding-inline: 11.5rem;
+	}
+
+	.hint {
+		width: fit-content;
+	}
+}

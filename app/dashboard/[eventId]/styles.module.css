@@ -22,7 +22,7 @@
 }
 
 .iconHolder h6 {
-    font-family: 'Gelasio';
+    font-family: var(--font-gelasio);
     font-style: normal;
     font-weight: 700;
     font-size: 1.6rem;
@@ -43,7 +43,7 @@
 }
 
 .info p {
-    font-family: 'Judson';
+    font-family: "var(--font-judson)";
     font-style: normal;
     font-weight: 400;
     font-size: 1.6rem;
@@ -64,7 +64,7 @@
     height: fit-content;
 
     position: relative;
-    border: 1px dashed #FF2626;
+    border: 1px dashed #ff2626;
     border-radius: 0.5rem;
 
     overflow-y: scroll;

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import GoogleLogo from '@public/icons/google.svg';
+import GoogleLogo from "@/public/icons/google.svg";
 import Button from "components/Button";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -10,7 +10,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export default function GoogleButton(props: Props) {
     return (
         <Button
-            type='button'
+            type="button"
             style={{
                 padding: "1.2rem",
                 gap: "3rem",
@@ -29,6 +29,6 @@ export default function GoogleButton(props: Props) {
         >
             <GoogleLogo />
             Entrar com Google
-        </Button >
-    )
+        </Button>
+    );
 }
