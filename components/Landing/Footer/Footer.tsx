@@ -103,7 +103,7 @@ const Section = ({ title, links, children }: SectionProps) => {
 			{links &&
 				links.map((link, index) => (
 					<a href={link.href} key={index.toString()}>
-						<li className="mr-12 font-regular text-sm cursor-pointer text-text-100 hover:text-text-200 transition-colors font-serif">
+						<li className="mr-12 font-regular text-sm cursor-pointer text-text-100 hover:text-text-200 transition-colors font-serif hover:underline">
 							{link.title}
 						</li>
 					</a>

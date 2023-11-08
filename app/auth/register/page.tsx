@@ -50,7 +50,6 @@ import RightIcon from "../../../public/icons/arrow_right_alt.svg";
 
 import Landing from "../../(landing)/page";
 
-import { setCookie } from "../../../utils/cookies";
 import Account from "../../../types/Account";
 import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
 

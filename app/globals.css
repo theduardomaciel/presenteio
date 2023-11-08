@@ -49,6 +49,7 @@ html.dark {
 html {
 	background-color: var(--background-01);
 	transition: 150ms;
+	scroll-behavior: smooth;
 
 	font-family: var(--font-judson) var(--font-inter) var(--font-judson);
 
@@ -177,7 +178,7 @@ div.hide {
 
 @media (min-width: 1024px) {
 	:root {
-		--wrapper: 7.5rem;
+		--wrapper: 11.5rem;
 	}
 
 	.scroll::-webkit-scrollbar {

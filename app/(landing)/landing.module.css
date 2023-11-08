@@ -15,6 +15,16 @@
 /* MAIN */
 .container main {
 	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+
+	position: relative;
+	width: 100%;
+}
+
+.container main .landing {
+	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-around;
@@ -22,6 +32,8 @@
 
 	position: relative;
 	height: 100vh;
+
+	padding-inline: var(--wrapper);
 
 	width: 100%;
 }
@@ -82,10 +94,6 @@
 
 	.container main .content .title {
 		gap: 2.5rem;
-	}
-
-	.container main {
-		padding-inline: 11.5rem;
 	}
 
 	.hint {

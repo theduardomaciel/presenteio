@@ -18,9 +18,23 @@ type Theme = "system" | "dark" | "light";
 import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 
 const ICONS = {
-	system: <DesktopIcon width={14} height={14} />,
-	light: <SunIcon width={14} height={14} color="var(--primary-02)" />,
-	dark: <MoonIcon width={14} height={14} color="var(--primary-02)" />,
+	system: <DesktopIcon width={14} className="min-w-[14px]" height={14} />,
+	light: (
+		<SunIcon
+			width={14}
+			className="min-w-[14px]"
+			height={14}
+			color="var(--primary-02)"
+		/>
+	),
+	dark: (
+		<MoonIcon
+			width={14}
+			className="min-w-[14px]"
+			height={14}
+			color="var(--primary-02)"
+		/>
+	),
 };
 
 interface Props {

@@ -1,12 +1,13 @@
 import { cookies } from "next/headers";
 import { Metadata } from "next";
 import { Judson, Gelasio, Inter } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
 import GoogleProvider from "./auth/google/GoogleOAuthProvider";
 
-const judson = Judson({
+/* const judson = Judson({
 	subsets: ["latin-ext"],
 	display: "swap",
 	variable: "--font-judson",
@@ -18,9 +19,52 @@ const gelasio = Gelasio({
 	display: "swap",
 	variable: "--font-gelasio",
 	weight: ["400", "500", "600", "700"],
+}); */
+
+const judsonLocal = localFont({
+	src: [
+		{
+			path: "./fonts/Judson/Judson-Regular.ttf",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Judson/Judson-Bold.ttf",
+			weight: "700",
+			style: "normal",
+		},
+	],
+	variable: "--font-judson",
+});
+
+const gelasioLocal = localFont({
+	src: [
+		{
+			path: "./fonts/Gelasio/Gelasio-Regular.ttf",
+			weight: "400",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Gelasio/Gelasio-Medium.ttf",
+			weight: "500",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Gelasio/Gelasio-SemiBold.ttf",
+			weight: "600",
+			style: "normal",
+		},
+		{
+			path: "./fonts/Gelasio/Gelasio-Bold.ttf",
+			weight: "700",
+			style: "normal",
+		},
+	],
+	variable: "--font-gelasio",
 });
 
 const inter = Inter({
+	weight: "variable",
 	subsets: ["latin-ext"],
 	display: "swap",
 	variable: "--font-inter",
@@ -41,8 +85,8 @@ export default function RootLayout({
 
 	return (
 		<html
-			className={`${isDark ? "dark" : ""} ${gelasio.variable} ${
-				judson.variable
+			className={`${isDark ? "dark" : ""} ${gelasioLocal.variable} ${
+				judsonLocal.variable
 			} ${inter.variable}`}
 			lang="pt-br"
 		>
