@@ -1,0 +1,112 @@
+.pricePicker {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+
+	gap: 2.5rem;
+	width: 100%;
+}
+
+/* .sliderHolder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+
+    width: 100%;
+} */
+
+.manualPickers {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+
+	flex-wrap: wrap;
+
+	gap: 1rem;
+	width: 100%;
+}
+
+.priceManualPicker {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+
+	width: 100%;
+}
+
+.priceManualPicker h6 {
+	font-family: "var(--font-inter)";
+	color: var(--font-light);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.6rem;
+}
+
+.priceManualPicker div {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 1rem;
+}
+
+.priceManualPicker div .input {
+	position: relative;
+}
+
+.priceManualPicker div .input input {
+	background: var(--background-02);
+	border: 1px solid var(--light-gray);
+	border-radius: 0.3rem;
+
+	font-family: var(--font-inter);
+	font-size: 1.2rem;
+
+	display: flex;
+	min-height: 2.5rem;
+	height: 100%;
+	width: 6rem;
+
+	caret-color: var(--font-light);
+
+	padding-left: 2.85rem;
+	color: var(--font-light);
+}
+
+.priceManualPicker div .input input:focus {
+	outline: none;
+	border: 1px solid var(--primary-03);
+}
+
+.priceManualPicker div .input p {
+	content: "R$";
+	display: flex;
+
+	font-family: "var(--font-inter)";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.2rem;
+
+	padding-left: 0.25rem;
+
+	color: var(--font-light);
+
+	position: absolute;
+	top: 50%;
+	left: 5%;
+
+	transform: translateY(-50%);
+
+	z-index: 2;
+}
+
+@media (min-width: 1024px) {
+	.priceManualPicker.fixed {
+		width: 49%;
+	}
+}

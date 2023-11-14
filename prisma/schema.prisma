@@ -4,19 +4,18 @@ generator client {
 
 datasource db {
     provider          = "mysql"
+    relationMode      = "prisma"
     url               = env("DATABASE_URL")
     shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-    relationMode      = "prisma"
 }
 
 model Account {
     id        String   @id @default(uuid())
     createdAt DateTime @default(now())
-    email     String
-    name      String
-    password  String?
 
-    token String?
+    email    String
+    name     String
+    password String? // é opcional porque pode ser uma conta do Google
 
     image_url        String?
     image_deleteHash String?
@@ -28,20 +27,25 @@ model Account {
 }
 
 model Event {
-    id                 Int         @id @default(autoincrement())
-    createdAt          DateTime    @default(now())
-    inviteCode         String      @unique @default(cuid())
-    type               EventType   @default(AMIGOSECRETO)
-    status             EventStatus @default(PENDING)
-    name               String
-    description        String?
-    color              String?
-    image_url          String?
-    image_deleteHash   String?
-    minPrice           Float?
-    maxPrice           Float?
-    allowInvite        Boolean     @default(false)
-    allowProfileChange Boolean     @default(false)
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+
+    inviteCode String      @unique @default(cuid())
+    type       EventType   @default(AMIGOSECRETO)
+    status     EventStatus @default(PENDING)
+
+    name        String
+    description String?
+    color       String?
+
+    image_url        String?
+    image_deleteHash String?
+
+    minPrice Float?
+    maxPrice Float?
+
+    allowInvite        Boolean @default(false)
+    allowProfileChange Boolean @default(false)
 
     host      Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
     accountId String
@@ -53,19 +57,20 @@ model Event {
 }
 
 model Guest {
-    id               String      @id @default(uuid())
+    id String @id @default(uuid())
+
     name             String
     email            String?
     image_url        String?
     image_deleteHash String?
     status           GuestStatus @default(PENDING)
 
-    chosenGuest Guest?  @relation(fields: [guestId], references: [id], name: "chosenGuest", onDelete: NoAction, onUpdate: NoAction)
-    guestId     String?
-    guests      Guest[] @relation(name: "chosenGuest")
+    guestId            String? @unique
+    correspondingGuest Guest?  @relation(fields: [guestId], references: [id], name: "correspondingGuest", onDelete: NoAction, onUpdate: NoAction)
+    guest              Guest?  @relation(name: "correspondingGuest")
 
     event   Event? @relation(fields: [eventId], references: [id], onDelete: Cascade)
-    eventId Int
+    eventId String
 
     @@index([eventId])
     @@index([guestId])
@@ -80,7 +85,7 @@ enum GuestStatus {
 
 enum EventStatus {
     PENDING
-    DIVULGATED
+    DIVULGED
 }
 
 enum EventType {

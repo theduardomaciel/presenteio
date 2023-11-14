@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 // Styling
-import { cn } from "@utils/ui";
+import { cn } from "@/utils/ui";
 
 // Icons
 import Arrow_right_alt from "@/public/icons/arrow_right_alt.svg";

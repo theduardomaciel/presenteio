@@ -46,7 +46,7 @@ export default function LandingFooter() {
 								},
 								{
 									title: "Fale Conosco",
-									href: "/contact",
+									href: "mailto:app.presenteio@gmail.com",
 								},
 							]}
 						/>
@@ -55,11 +55,11 @@ export default function LandingFooter() {
 							links={[
 								{
 									title: "Política de Privacidade",
-									href: "/privacy",
+									href: "/privacy-policy",
 								},
 								{
 									title: "Termos de Uso",
-									href: "/terms",
+									href: "/terms-of-service",
 								},
 							]}
 						/>

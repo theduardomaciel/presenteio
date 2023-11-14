@@ -11,7 +11,7 @@ import {
 	SelectScrollDown,
 	SelectTrigger,
 	SelectValue,
-} from "components/ui/Select";
+} from "components/_ui/Select";
 
 type Theme = "system" | "dark" | "light";
 

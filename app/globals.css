@@ -48,7 +48,7 @@ html.dark {
 
 html {
 	background-color: var(--background-01);
-	transition: 150ms;
+	position: relative;
 	scroll-behavior: smooth;
 
 	font-family: var(--font-judson) var(--font-inter) var(--font-judson);
@@ -83,22 +83,6 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
-}
-
-div.hide main,
-div.hide footer,
-div.hide header,
-div.hide section {
-	opacity: 0;
-}
-
-div.hide > * {
-	transition: 1s;
-}
-
-div.hide {
-	user-select: none;
-	overflow-y: hidden;
 }
 
 .imageContain {

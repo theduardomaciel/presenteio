@@ -1,195 +1,195 @@
 .tagList {
-    width: 100%;
-    display: flex;
-    flex-shrink: 0;
-    flex-direction: column;
-    gap: 1.5rem 0;
-    position: relative;
-    padding: 1.5rem 0;
-    align-items: center;
+	width: 100%;
+	display: flex;
+	flex-shrink: 0;
+	flex-direction: column;
+	gap: 1.5rem 0;
+	position: relative;
+	padding: 1.5rem 0;
+	align-items: center;
 }
 
 .inner {
-    display: flex;
-    width: fit-content;
-    animation-name: loop;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-    animation-duration: 15000ms;
+	display: flex;
+	width: fit-content;
+	animation-name: loop;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+	animation-direction: normal;
+	animation-duration: 15000ms;
 
-    transition: 1s;
+	transition: 1s;
 }
 
 @keyframes loop {
-    0% {
-        transform: translateX(25%);
-    }
+	0% {
+		transform: translateX(25%);
+	}
 
-    100% {
-        transform: translateX(-25%);
-    }
+	100% {
+		transform: translateX(-25%);
+	}
 }
 
 .image {
-    border-radius: 50%;
+	border-radius: 50%;
 
-    margin-right: 7.5rem;
-    box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-        0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+	margin-right: 7.5rem;
+	box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+		0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
 
-    transition: 1s;
+	transition: 1s;
 
-    aspect-ratio: 1 /1;
+	aspect-ratio: 1 /1;
 
-    animation-name: glow;
-    animation-duration: 850ms;
+	animation-name: glow;
+	animation-duration: 850ms;
 }
 
 @keyframes glow {
-    0% {
-        outline: none;
-        box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-            0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
-    }
+	0% {
+		outline: none;
+		box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+			0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+	}
 
-    50% {
-        box-shadow: 0px 1px 25px 5px #ffffff;
-        outline: 5px solid #ffffff;
-    }
+	50% {
+		box-shadow: 0px 1px 25px 5px #ffffff;
+		outline: 5px solid #ffffff;
+	}
 
-    100% {
-        outline: none;
-        box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-            0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
-    }
+	100% {
+		outline: none;
+		box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+			0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+	}
 }
 
 .chosenReveal {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    align-self: center;
-    padding: 0px;
-    gap: 2.5rem;
-    text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	align-self: center;
+	padding: 0px;
+	gap: 2.5rem;
+	text-align: center;
 
-    max-width: 75%;
+	max-width: 75%;
 }
 
 .chosenReveal h2 {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 2.8rem;
-    line-height: 3.3rem;
+	font-family: "var(--font-judson)";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 2.8rem;
+	line-height: 3.3rem;
 
-    color: var(--primary-02);
+	color: var(--primary-02);
 }
 
 .chosenReveal h1 {
-    font-family: var(--font-gelasio);
-    font-style: italic;
-    font-weight: 700;
-    font-size: 5.6rem;
-    line-height: 7.1rem;
+	font-family: var(--font-gelasio);
+	font-style: italic;
+	font-weight: 700;
+	font-size: 5.6rem;
+	line-height: 7.1rem;
 
-    color: var(--primary-01);
+	color: var(--primary-01);
 }
 
 .chosenReveal p {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.8rem;
-    line-height: 2.1rem;
+	font-family: "var(--font-judson)";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.8rem;
+	line-height: 2.1rem;
 
-    color: var(--font-light-02);
+	color: var(--font-light-02);
 }
 
-.chosenGuest {
-    animation-name: growImage;
-    animation-duration: 1s;
-    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    animation-fill-mode: forwards;
-    animation-delay: 15s;
+.correspondingGuest {
+	animation-name: growImage;
+	animation-duration: 1s;
+	animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	animation-fill-mode: forwards;
+	animation-delay: 15s;
 }
 
 @keyframes growImage {
-    0% {
-        border: none;
-        box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
-            0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
+	0% {
+		border: none;
+		box-shadow: 0 0.1rem 0.2rem rgb(0 0 0 / 20%),
+			0 0.1rem 0.5rem rgb(0 0 0 / 30%), 0 0.2rem 1.5rem rgb(0 0 0 / 40%);
 
-        height: 150px;
-        width: 150px;
-    }
+		height: 150px;
+		width: 150px;
+	}
 
-    100% {
-        border: 3px solid var(--primary-02);
-        box-shadow: 0px 1px 100px 45px #ffffff;
+	100% {
+		border: 3px solid var(--primary-02);
+		box-shadow: 0px 1px 100px 45px #ffffff;
 
-        height: 200px;
-        width: 200px;
-    }
+		height: 200px;
+		width: 200px;
+	}
 }
 
 .center {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 7.5rem;
-    user-select: none;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+	gap: 7.5rem;
+	user-select: none;
 
-    width: 100vw;
+	width: 100vw;
 
-    transform: translateX(100vw);
+	transform: translateX(100vw);
 
-    animation: centerAnimation 15s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+	animation: centerAnimation 15s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 @keyframes centerAnimation {
-    0% {
-        transform: translateX(100vw);
-    }
+	0% {
+		transform: translateX(100vw);
+	}
 
-    100% {
-        transform: translateX(0vw);
-    }
+	100% {
+		transform: translateX(0vw);
+	}
 }
 
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
+	0% {
+		opacity: 0;
+	}
 
-    100% {
-        opacity: 1;
-    }
+	100% {
+		opacity: 1;
+	}
 }
 
 @keyframes fadeOut {
-    0% {
-        opacity: 0;
-    }
+	0% {
+		opacity: 0;
+	}
 
-    100% {
-        opacity: 1;
-    }
+	100% {
+		opacity: 1;
+	}
 }
 
 @media (min-width: 1024px) {
-    .inner.middle {
-        margin-left: 0;
-    }
+	.inner.middle {
+		margin-left: 0;
+	}
 
-    .tagList {
-        gap: 3.5rem 0;
-    }
+	.tagList {
+		gap: 3.5rem 0;
+	}
 
-    .chosenReveal {
-        max-width: 45vw;
-    }
+	.chosenReveal {
+		max-width: 45vw;
+	}
 }

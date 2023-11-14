@@ -1,5 +1,5 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 import {
 	Select,
@@ -10,8 +10,8 @@ import {
 	SelectScrollUp,
 	SelectScrollDown,
 	SelectTrigger,
-	SelectValue
-} from 'components/ui/Select';
+	SelectValue,
+} from "components/_ui/Select";
 
 export default function LanguagePicker() {
 	return (

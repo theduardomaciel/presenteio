@@ -1,87 +1,94 @@
-import { cache } from 'react';
-import 'server-only';
+import "server-only";
+import { cache } from "react";
 
-import { verify } from 'jsonwebtoken';
-import { cookies } from 'next/headers';
+import { verify } from "jsonwebtoken";
+import { cookies } from "next/headers";
 
-import prisma from '../lib/prisma';
+import prisma from "../lib/prisma";
+import type { TokenPayload } from "app/api/auth/register/route";
 
 export const preload = () => {
-    void getEvents();
-}
+	void getEvents();
+};
 
 export const getEvents = cache(async () => {
-    const nextCookies = cookies();
-    const token = nextCookies.get('presenteio.token');
+	const token = cookies().get("presenteio.token");
 
-    if (!token) return;
+	if (!token) throw new Error("No token found");
 
-    try {
-        const response = verify(token?.value as string, process.env.JWT_SECRET_KEY as string) as { data: string }
-        if (response) {
-            const events = await prisma.event.findMany({
-                where: {
-                    accountId: response.data as string
-                },
-                include: {
-                    guests: true
-                }
-            });
+	try {
+		const payload = verify(
+			token?.value as string,
+			process.env.JWT_SECRET_KEY as string
+		) as TokenPayload;
 
-            return events;
-        }
-    } catch (error) {
-        console.log(error)
-    }
+		if (payload) {
+			const events = await prisma.event.findMany({
+				where: {
+					accountId: payload.data as string,
+				},
+				include: {
+					guests: true,
+				},
+			});
+
+			return events;
+		}
+	} catch (error) {
+		console.log(error);
+	}
 });
 
-export const getEvent = cache(async (id: number) => {
-    if (!id) return null;
+export const getEvent = cache(async (id: string) => {
+	if (!id) return null;
 
-    const nextCookies = cookies();
-    const token = nextCookies.get('presenteio.token');
+	const nextCookies = cookies();
+	const token = nextCookies.get("presenteio.token");
 
-    if (!token) return;
+	if (!token) return;
 
-    try {
-        const response = verify(token?.value as string, process.env.JWT_SECRET_KEY as string) as { data: string }
-        if (response) {
-            const event = await prisma.event.findUnique({
-                where: {
-                    id: id
-                },
-                include: {
-                    guests: {
-                        include: {
-                            event: false,
-                            chosenGuest: true
-                        }
-                    },
-                }
-            });
+	try {
+		const response = verify(
+			token?.value as string,
+			process.env.JWT_SECRET_KEY as string
+		) as TokenPayload;
+		if (response) {
+			const event = await prisma.event.findUnique({
+				where: {
+					id: id,
+				},
+				include: {
+					guests: {
+						include: {
+							event: false,
+							correspondingGuest: true,
+						},
+					},
+				},
+			});
 
-            return event;
-        }
-    } catch (error) {
-        console.log(error)
-    }
+			return event;
+		}
+	} catch (error) {
+		console.log(error);
+	}
 });
 
 export const getEventFromInviteCode = cache(async (inviteCode: string) => {
-    if (!inviteCode) return null;
+	if (!inviteCode) return null;
 
-    try {
-        const event = await prisma.event.findUnique({
-            where: {
-                inviteCode: inviteCode
-            },
-            include: {
-                guests: true
-            }
-        });
+	try {
+		const event = await prisma.event.findUnique({
+			where: {
+				inviteCode: inviteCode,
+			},
+			include: {
+				guests: true,
+			},
+		});
 
-        return event;
-    } catch (error) {
-        console.log(error)
-    }
+		return event;
+	} catch (error) {
+		console.log(error);
+	}
 });

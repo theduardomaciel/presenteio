@@ -1,48 +1,36 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "lib": [
-            "dom",
-            "dom.iterable",
-            "esnext"
-        ],
-        "baseUrl": ".",
-        "paths": {
-            "@dashboard/components/*": [
-                "app/dashboard/components/*"
-            ],
-            "@/public/*": [
-                "public/*"
-            ],
-            "@utils/*": [
-                "utils/*"
-            ],
-        },
-        "allowJs": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noEmit": true,
-        "esModuleInterop": true,
-        "module": "esnext",
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "jsx": "preserve",
-        "incremental": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ]
-    },
-    "include": [
-        "**/*.ts",
-        "**/*.tsx",
-        ".next/types/**/*.ts",
-    ],
-    "exclude": [
-        "node_modules",
-        "next-env.d.ts"
-    ]
+	"compilerOptions": {
+		"target": "es5",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"baseUrl": ".",
+		"paths": {
+			"@/dashboard/components/*": ["components/_dashboard/*"],
+			"@/public/*": ["public/*"],
+			"@/utils/*": ["utils/*"]
+		},
+		"allowJs": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"module": "esnext",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"jsx": "preserve",
+		"incremental": true,
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		".next/types/**/*.ts",
+		"app/api/images/generate/event/route.tsX"
+	],
+	"exclude": ["node_modules", "next-env.d.ts"]
 }

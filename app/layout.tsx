@@ -1,11 +1,11 @@
 import { cookies } from "next/headers";
 import { Metadata } from "next";
-import { Judson, Gelasio, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import "./globals.css";
 
-import GoogleProvider from "./auth/google/GoogleOAuthProvider";
+import GoogleProvider from "./(auth)/subcomponents/google/GoogleOAuthProvider";
 
 /* const judson = Judson({
 	subsets: ["latin-ext"],

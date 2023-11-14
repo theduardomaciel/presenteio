@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 // Styling
-import { cn } from "@utils/ui";
+import { cn } from "@/utils/ui";
 
 // Icons
 import Arrow_right_alt from "@/public/icons/arrow_right_alt.svg";
@@ -42,7 +42,7 @@ export default function LandingSection2() {
 					}
 					button={{
 						text: "Criar uma conta",
-						href: "/auth/register",
+						href: "/register",
 						icon: (
 							<Face1Icon
 								width={`2.4rem`}

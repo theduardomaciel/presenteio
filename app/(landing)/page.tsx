@@ -12,7 +12,7 @@ import Gifts from "@/public/images/gifts.png";
 import Arrow_right_alt from "@/public/icons/arrow_right_alt.svg";
 
 // Components
-import Button from "components/Button";
+import Button from "components/_ui/Button";
 import TypewrittenText from "components/TypewrittenText";
 import LandingTitle from "../../components/Landing/Title";
 import LandingSection2 from "./sections/Section2";
@@ -41,12 +41,7 @@ export default function LandingPage() {
 							</span>
 						</p>
 					</div>
-					<Link
-						href={{
-							pathname: `/auth/register`,
-							query: { animate: true },
-						}}
-					>
+					<Link href={`/register`}>
 						<Button
 							iconProps={{ animate: "position-toRight" }}
 							style={{

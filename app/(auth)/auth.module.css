@@ -1,0 +1,137 @@
+.section1 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 2rem;
+	width: 100%;
+}
+
+.optionIcon {
+	min-width: fit-content;
+}
+
+.optionIcon path {
+	fill: var(--primary-01);
+}
+
+.button.selected .optionIcon path {
+	fill: var(--neutral);
+}
+
+.button.selected p,
+.button.selected h6 {
+	color: var(--neutral);
+}
+
+.button {
+	flex-direction: column;
+}
+
+.buttonInfo {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: left;
+
+	gap: 0.5rem;
+}
+
+.buttonInfo h6 {
+	font-family: "Arial";
+	color: var(--primary-02);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.6rem;
+}
+
+.buttonInfo p {
+	font-family: "Arial";
+	color: var(--primary-02);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.2rem;
+}
+
+.code {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
+
+	gap: 0.575rem;
+}
+
+.codeNumber {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem 0px;
+
+	background-color: transparent;
+
+	font-family: "Arial";
+	font-weight: 900;
+	font-size: 5.5rem;
+	color: var(--primary-01);
+	text-align: center;
+	text-transform: uppercase;
+
+	max-width: 9rem;
+
+	border: 2px solid var(--primary-02);
+	border-radius: 0.5rem;
+}
+
+.codeNumber:focus {
+	outline: 2px solid var(--primary-01);
+}
+
+.outro {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+
+	font-family: "Arial";
+}
+
+.divisor {
+	width: 45%;
+	height: 0.5px;
+	background-color: var(--light-gray);
+	border-radius: 50%;
+	opacity: 0.55;
+}
+
+.resendEmail {
+	font-family: "Arial";
+	font-size: 1.2rem;
+	cursor: pointer;
+
+	color: var(--font-light);
+	background: none;
+	border: none;
+	outline: none;
+	box-shadow: none;
+
+	transition: 150ms;
+}
+
+.resendEmail:not(.disabled):hover {
+	transform: scale(1.05);
+	font-weight: 700;
+}
+
+.resendEmail.disabled {
+	cursor: not-allowed;
+}
+
+@media (min-width: 1024px) {
+	.button {
+		flex-direction: row;
+	}
+}
