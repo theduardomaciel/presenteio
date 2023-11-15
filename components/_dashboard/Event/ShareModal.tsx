@@ -59,20 +59,19 @@ export default function ShareModal({
 				),
 			}}
 		>
-			<div
-				className={inputStyles.input}
+			<button
+				className={`${inputStyles.input} link`}
+				onClick={onLinkClick}
 				style={{ gap: "1rem", height: "fit-content" }}
 			>
 				<p
-					onClick={onLinkClick}
 					ref={linkTextRef}
-					className="link"
 					style={{ cursor: "pointer", maxWidth: "90%" }}
 				>
 					{link}
 				</p>
 				<CopyIcon width={16} height={16} />
-			</div>
+			</button>
 		</Modal>
 	);
 }

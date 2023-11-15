@@ -1,97 +1,97 @@
 .guestsHolder {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 1rem;
 
-    width: 100%;
-    height: 100%;
-    min-height: 25rem;
+	width: 100%;
+	height: 100%;
+	min-height: 25rem;
 
-    overflow-y: scroll;
+	overflow-y: scroll;
 
-    border: 1px dashed var(--primary-01);
-    border-radius: 0.5rem;
+	border: 1px dashed var(--primary-01);
+	border-radius: 0.5rem;
 }
 
 .guestsHolder.empty {
-    overflow-y: hidden;
-    justify-content: center;
+	overflow-y: hidden;
+	justify-content: center;
 }
 
 .guestPreview {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem;
-    gap: 1.5rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.5rem;
+	gap: 1.5rem;
 
-    flex-wrap: wrap;
-    cursor: pointer;
+	flex-wrap: wrap;
+	cursor: pointer;
 
-    width: 100%;
+	width: 100%;
 
-    background: linear-gradient(
-        90deg,
-        var(--primary-01) 0%,
-        var(--primary-02) 100%
-    );
-    border-radius: 0.5rem;
+	background: linear-gradient(
+		90deg,
+		var(--primary-01) 0%,
+		var(--primary-02) 100%
+	);
+	border-radius: 0.5rem;
 }
 
 .guestPreview .guestInfo {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: row;
-    gap: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: row;
+	gap: 1rem;
 }
 
 .guestPreview p {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.6rem;
-    line-height: 2rem;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.6rem;
+	line-height: 2rem;
 
-    color: var(--neutral);
+	color: var(--neutral);
 }
 
 .guestPreview .iconHolder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    gap: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	gap: 0.5rem;
 
-    opacity: 0.7;
+	opacity: 0.7;
 }
 
 .guestPreview .iconHolder span {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.2rem;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.2rem;
 
-    color: var(--neutral);
+	color: var(--neutral);
 }
 
 .guestPreview .actions svg {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .actions {
-    display: none;
+	display: none;
 }
 
 @media (min-width: 1024px) {
-    .guestsHolder {
-        padding: 1.5rem;
-    }
+	.guestsHolder {
+		padding: 1.5rem;
+	}
 
-    .actions {
-        display: flex;
-    }
+	.actions {
+		display: flex;
+	}
 }

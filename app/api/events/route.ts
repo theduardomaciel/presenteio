@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
 				image_base64,
 				minPrice,
 				maxPrice,
+				color,
 				allowInvite,
 				allowProfileChange,
 			} = await request.json();
@@ -59,6 +60,7 @@ export async function POST(request: NextRequest) {
 							? { create: guestsToConnect }
 							: {},
 						name: name,
+						color: color || undefined,
 						minPrice: minPrice ? parseFloat(minPrice) : null,
 						maxPrice: maxPrice ? parseFloat(maxPrice) : null,
 						allowInvite: allowInvite ? true : false,

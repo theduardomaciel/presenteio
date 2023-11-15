@@ -79,7 +79,7 @@
 }
 
 .chosenReveal h2 {
-	font-family: "var(--font-judson)";
+	font-family: var(--font-judson);
 	font-style: normal;
 	font-weight: 700;
 	font-size: 2.8rem;
@@ -99,7 +99,7 @@
 }
 
 .chosenReveal p {
-	font-family: "var(--font-judson)";
+	font-family: var(--font-judson);
 	font-style: normal;
 	font-weight: 400;
 	font-size: 1.8rem;

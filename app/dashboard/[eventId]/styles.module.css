@@ -1,141 +1,128 @@
 .section1 {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-end;
 
-    padding: 2rem;
-    width: 100%;
-    min-height: 20rem;
+	padding: 2rem;
+	width: 100%;
+	min-height: 20rem;
 
-    position: relative;
-    border-radius: 0.5rem;
-    overflow: hidden;
+	position: relative;
+	border-radius: 0.5rem;
+	overflow: hidden;
 }
 
 .iconHolder {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 1rem;
 }
 
 .iconHolder h6 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.6rem;
-    color: var(--neutral);
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.6rem;
+	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+	color: var(--neutral);
 }
 
 .info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    align-items: flex-start;
-    justify-content: flex-start;
+	display: flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	align-items: flex-start;
+	justify-content: flex-start;
 
-    max-width: 100%;
-    height: fit-content;
+	position: absolute;
+	left: 2rem;
+	bottom: 1.4rem;
 
-    z-index: 1;
+	max-width: 100%;
+	height: fit-content;
+
+	z-index: 1;
 }
 
 .info p {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: var(--neutral);
-    display: flex;
-    width: 100%;
-    line-break: anywhere;
+	font-family: var(--font-judson);
+	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.6rem;
+	color: var(--neutral);
+	display: flex;
+	width: 100%;
+	line-break: anywhere;
 }
 
 .guestsHolder {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	gap: 1.5rem;
 
-    width: 100%;
-    height: fit-content;
+	overflow-y: auto;
 
-    position: relative;
-    border: 1px dashed #ff2626;
-    border-radius: 0.5rem;
+	width: 100%;
+	height: fit-content;
 
-    overflow-y: scroll;
+	position: relative;
+	border: none;
+	border-radius: 0.5rem;
 }
 
 .guestsHolder.empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.buttonsHolder {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    height: fit-content;
-
-    flex-wrap: wrap;
-    gap: 1.5rem;
-
-    width: 100%;
-}
-
-.buttonsHolder button {
-    width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3.5rem;
 }
 
 .form section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.5rem;
 
-    width: 100%;
+	width: 100%;
 
-    text-align: left;
+	text-align: left;
 }
 
 .form section p {
-    text-align: left;
+	text-align: left;
 }
 
 @media (min-width: 1024px) {
-    .section1 {
-        width: 100%;
-        height: 35%;
-        min-height: 35%;
-    }
+	.section1 {
+		width: 100%;
+		height: 35%;
+		min-height: 35%;
+	}
 
-    .guestsHolder {
-        width: 100%;
-        height: 40%;
+	.guestsHolder {
+		width: 100%;
+		height: 40%;
 
-        padding: 2rem;
+		padding: 2rem;
 
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2.5rem;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2.5rem;
 
-        padding: 2rem;
-    }
+		border: 1px dashed var(--primary-01);
 
-    .buttonsHolder button {
-        width: 49%;
-    }
+		padding: 2rem;
+	}
 }

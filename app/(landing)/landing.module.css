@@ -60,7 +60,7 @@
 }
 
 .container main .content .title p {
-	font-family: "var(--font-judson)", serif;
+	font-family: var(--font-judson), serif;
 	font-style: normal;
 	font-weight: 400;
 	letter-spacing: 0.1rem;

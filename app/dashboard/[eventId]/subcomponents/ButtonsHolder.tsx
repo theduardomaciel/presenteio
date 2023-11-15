@@ -1,54 +1,35 @@
 "use client";
+
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
+// Styling
 import styles from "../styles.module.css";
+import { DISABLED_BUTTON, ENABLED_BUTTON } from "./styles";
 
+// Components
 import Button from "components/_ui/Button";
 import Modal, { ModalProps } from "components/Modal";
-import DashboardSectionHeader from "@/dashboard/components/Section/SectionHeader";
-import { InviteOptions } from "../../compose/Form";
-import DashboardSubSectionHeader from "@/dashboard/components/Section/SubSectionHeader";
-import DashboardPricePicker from "@/dashboard/components/Event/PricePicker";
+import DashboardToast, { ToastDynamicProps } from "components/_ui/Toast";
+
+import EventEditModal from "./modals/EventEdit";
+import EventDeleteModal from "./modals/EventDelete";
 
 // Assets
 import SendEmail from "@/public/icons/send_email.svg";
-import SettingsIcon from "@/public/icons/settings.svg";
-import SaveIcon from "@/public/icons/save.svg";
 import CloseIcon from "@/public/icons/close.svg";
 import ArrowRightIcon from "@/public/icons/arrow_right_alt.svg";
-import DeleteIcon from "@/public/icons/delete.svg";
 
-import type { Event } from "@prisma/client";
-import DashboardToast, { ToastDynamicProps } from "components/Toast";
-
-const ENABLED_BUTTON = {
-	padding: "1rem 2.5rem",
-	borderRadius: "0.8rem",
-	backgroundColor: "var(--primary-02)",
-} as React.CSSProperties;
-
-const DISABLED_BUTTON = {
-	padding: "1rem 2.5rem",
-	borderRadius: "0.8rem",
-	border: "none",
-	outline: "none",
-	backgroundColor: "var(--light-gray)",
-} as React.CSSProperties;
+// Utils
+import type { Event, Guest } from "@prisma/client";
 
 export default function ButtonsHolder({
 	event,
 }: {
-	event: Omit<Event, "createdAt">;
+	event: Omit<Event & { guests: Guest[] }, "createdAt">;
 }) {
 	const [sendEmailModalState, setSendEmailModalState] = useState<ModalProps>({
-		status: false,
-	});
-	const [editEventModalState, setEditEventModalState] = useState<ModalProps>({
-		status: false,
-	});
-	const [deleteModalState, setDeleteModalState] = useState<ModalProps>({
 		status: false,
 	});
 
@@ -57,92 +38,6 @@ export default function ButtonsHolder({
 
 	const [isLoading, setLoading] = useState(false);
 	const router = useRouter();
-
-	async function onSubmitEdit(formEvent: React.FormEvent<HTMLFormElement>) {
-		formEvent.preventDefault();
-		setEditEventModalState((previousState) => ({
-			...previousState,
-			status: "pending",
-		}));
-
-		const form = new FormData(formEvent.currentTarget);
-
-		const data = {
-			allowInvite: form.get("allowInvite") as string,
-			allowProfileChange: form.get("allowProfileChange") as string,
-			minPrice: form.get("min") as string,
-			maxPrice: form.get("max") as string,
-		};
-
-		try {
-			const response = await axios.patch(`/api/events/${event.id}`, data);
-			if (response) {
-				setLoading(false);
-				setEditEventModalState({
-					status: "success",
-					headerProps: {
-						description: "O evento atualizado com sucesso!",
-					},
-				});
-				router.refresh();
-			} else {
-				setLoading(false);
-				setEditEventModalState({
-					status: "error",
-					headerProps: {
-						description:
-							"Um erro interno nos impediu de atualizar o evento. Por favor, tente novamente mais tarde.",
-					},
-				});
-			}
-		} catch (error) {
-			console.log(error);
-			setLoading(false);
-			setEditEventModalState({
-				status: "error",
-				headerProps: {
-					description:
-						"Um erro interno nos impediu de atualizar o evento. Por favor, tente novamente mais tarde.",
-				},
-			});
-		}
-	}
-
-	async function deleteEvent() {
-		setLoading(true);
-		setDeleteModalState({
-			status: "pending",
-			headerProps: {
-				description:
-					"Estamos excluindo o evento e todos os seus dados.",
-			},
-		});
-
-		try {
-			const response = await axios.delete(`/api/events/${event.id}`);
-			if (response) {
-				router.refresh();
-				router.push(`/dashboard`);
-			} else {
-				setDeleteModalState({
-					status: "error",
-					headerProps: {
-						description:
-							"Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde.",
-					},
-				});
-			}
-		} catch (error) {
-			console.log(error);
-			setDeleteModalState({
-				status: "error",
-				headerProps: {
-					description:
-						"Um erro interno nos impediu de excluir o evento. Por favor, tente novamente mais tarde.",
-				},
-			});
-		}
-	}
 
 	async function raffleGuests() {
 		setLoading(true);
@@ -194,7 +89,7 @@ export default function ButtonsHolder({
 
 	const MIN_GUESTS = 3;
 	const DISABLED = useMemo(
-		() => event.status === "DIVULGATED" || event.guests.length < MIN_GUESTS,
+		() => event.status === "DIVULGED" || event.guests.length < MIN_GUESTS,
 		[event]
 	);
 	const hasGuestsWithoutEmail =
@@ -202,12 +97,14 @@ export default function ButtonsHolder({
 
 	return (
 		<>
-			<div className={styles.buttonsHolder}>
+			<div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4">
 				<Button
 					style={DISABLED ? DISABLED_BUTTON : ENABLED_BUTTON}
+					isLoading={isLoading}
+					className="w-full lg:w-1/2"
 					onClick={() => {
 						if (DISABLED) {
-							if (event.status === "DIVULGATED") {
+							if (event.status === "DIVULGED") {
 								setToastVisible([
 									true,
 									{
@@ -231,125 +128,15 @@ export default function ButtonsHolder({
 						}
 					}}
 				>
-					<SendEmail fill="var(--neutral)" height={24} width={24} />
+					<SendEmail height={22} width={22} />
 					Sortear e enviar e-mails
 				</Button>
-				<Button
-					style={ENABLED_BUTTON}
-					onClick={() => setEditEventModalState({ status: true })}
-				>
-					<SettingsIcon height={24} width={24} />
-					Configurações do Evento
-				</Button>
+				<div className="flex flex-row items-center justify-end gap-[1.5rem] w-full lg:w-1/2">
+					<EventEditModal event={event} />
+					<EventDeleteModal eventId={event?.id} />
+				</div>
 			</div>
-			<Modal
-				status={editEventModalState.status}
-				toggleVisibility={() =>
-					setEditEventModalState({ status: false })
-				}
-				headerProps={{
-					icon: <SettingsIcon width={"2.4rem"} height={"2.4rem"} />,
-					title:
-						editEventModalState.headerProps?.title ||
-						"Editar Evento",
-					description: editEventModalState.headerProps?.description,
-					integratedTitle: true,
-				}}
-				returnButton={{
-					enabled: true,
-					text:
-						editEventModalState.status === true
-							? "Cancelar"
-							: "Fechar",
-					//icon: editEventModalState.status === true ? <CloseIcon /> : <ArrowRightIcon fill="var(--primary-01)" width={18} height={18} style={{ transform: "rotate(180deg)" }} />,
-					onClick: () => setEditEventModalState({ status: false }),
-				}}
-			>
-				{editEventModalState.status === true && (
-					<form onSubmit={onSubmitEdit} className={styles.form}>
-						<section>
-							<DashboardSectionHeader title="Configurações de convite" />
-							<InviteOptions
-								defaultValues={{
-									allowInvite: event.allowInvite,
-									allowProfileChange:
-										event.allowProfileChange,
-								}}
-							/>
-						</section>
-						<section>
-							<DashboardSectionHeader title="Regras do Evento" />
-							<DashboardSubSectionHeader
-								title="Margem de preço"
-								description="Altere os valores de preço mínimo e/ou máximo dos presentes do evento."
-							/>
-							<DashboardPricePicker
-								defaultValues={{
-									min: event.minPrice,
-									max: event.maxPrice,
-								}}
-							/>
-						</section>
-						<section>
-							<DashboardSubSectionHeader
-								title="Zona de Perigo"
-								description="As ações tomadas nessa seção sao permanentes e irreversíveis."
-							/>
-							<Button
-								type="button"
-								style={{
-									width: "100%",
-									padding: "1rem",
-									backgroundColor: "var(--primary-01)",
-								}}
-								onClick={() => {
-									setEditEventModalState({ status: false });
-									setDeleteModalState({ status: true });
-								}}
-							>
-								<DeleteIcon
-									fill="var(--neutral)"
-									width={18}
-									height={18}
-								/>
-								Excluir Evento
-							</Button>
-						</section>
-						<Button
-							isLoading={isLoading}
-							type="submit"
-							style={{ width: "100%" }}
-						>
-							<SaveIcon fill="var(--neutral)" />
-							Salvar
-						</Button>
-					</form>
-				)}
-			</Modal>
-			<Modal
-				status={sendEmailModalState.status}
-				toggleVisibility={() => setDeleteModalState({ status: false })}
-				headerProps={{
-					icon: (
-						<DeleteIcon
-							fill="var(--neutral)"
-							width={"2.4rem"}
-							height={"2.4rem"}
-						/>
-					),
-					title:
-						deleteModalState.headerProps?.title ||
-						`Você tem certeza que deseja excluir o evento?`,
-					description: deleteModalState.headerProps?.description,
-				}}
-				buttons={[
-					{
-						text: "Excluir Evento",
-						type: "button",
-						onClick: deleteEvent,
-					},
-				]}
-			/>
+
 			<Modal
 				status={sendEmailModalState.status}
 				toggleVisibility={() =>
@@ -408,6 +195,7 @@ export default function ButtonsHolder({
 						: undefined
 				}
 			/>
+
 			<DashboardToast
 				toastProps={toastProps}
 				isOpened={isToastVisible}

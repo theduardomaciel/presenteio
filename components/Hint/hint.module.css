@@ -18,7 +18,7 @@
 	font-style: normal;
 	font-weight: 400;
 	font-size: 1.3rem;
-	font-family: "var(--font-judson)";
+	font-family: var(--font-judson);
 	color: var(--primary-02);
 	line-height: 90%;
 }

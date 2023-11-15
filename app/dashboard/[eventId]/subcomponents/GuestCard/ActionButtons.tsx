@@ -16,12 +16,12 @@ import EditIcon from "@/public/icons/edit.svg";
 import DeleteIcon from "@/public/icons/delete.svg";
 
 // Types
-import DashboardToast, { ToastDynamicProps } from "components/Toast";
+import DashboardToast, { ToastDynamicProps } from "components/_ui/Toast";
 import { type Guest, type Event, EventStatus } from "@prisma/client";
 
 interface Props {
 	guest: Guest & {
-		correspondingGuest: Guest;
+		correspondingGuest?: Guest;
 	};
 	event: Omit<Event, "createdAt">;
 }

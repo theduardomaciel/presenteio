@@ -80,7 +80,9 @@ export default function ScrollAnimation({
 				i === MIDDLE_INDEX ? styles.correspondingGuest : undefined
 			}
 			image_url={
-				i === MIDDLE_INDEX ? correspondingGuest.image_url : guest
+				i === MIDDLE_INDEX
+					? correspondingGuest.image_url || undefined
+					: guest
 			}
 			size={150}
 			style={{ marginRight: 0 }}

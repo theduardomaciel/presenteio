@@ -7,7 +7,7 @@ import styles from "./profile.module.css";
 import DashboardProfileMenu from "./Menu";
 
 // Types
-import { getAccount } from "@/utils/getAccount";
+import { getAccount } from "lib/getAccount";
 
 interface Props {
 	children?: React.ReactNode;

@@ -6,13 +6,11 @@ import styles from "./reveal.module.css";
 // Components
 import RevealContent from "./Content";
 
-import { getEventFromInviteCode } from "@/utils/getEvents";
-import { getGuest } from "@/utils/getGuest";
+import { getEventFromInviteCode } from "lib/getEvents";
+import { getGuest } from "lib/getGuest";
 
 // Types
 import { InviteProps } from "../page";
-import type { Guest } from "@prisma/client";
-import type { Event } from "@prisma/client";
 
 export default async function Reveal({ params, searchParams }: InviteProps) {
 	const event = await getEventFromInviteCode(params?.inviteCode as string);
@@ -22,12 +20,16 @@ export default async function Reveal({ params, searchParams }: InviteProps) {
 		notFound();
 	}
 
+	const guestImages = event.guests
+		.map((guest) => guest.image_url)
+		.filter((image) => image !== null) as string[];
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.gradient} />
 			<RevealContent
 				guestId={guest.id}
-				guestsImages={event.guests.map((guest) => guest.image_url)}
+				guestsImages={guestImages}
 				correspondingGuest={guest.correspondingGuest}
 				eventProps={{
 					type: event.type,

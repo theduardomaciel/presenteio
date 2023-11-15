@@ -35,22 +35,27 @@ export interface PreGuest {
 	imagePreview?: string;
 }
 
+interface AddGuestButtonProps {
+	setIsGuestModalVisible: Dispatch<SetStateAction<boolean>>;
+	className?: string;
+	style?: React.CSSProperties;
+}
+
 export const AddGuestButton = ({
 	setIsGuestModalVisible,
-	fullWidth,
-}: {
-	setIsGuestModalVisible: Dispatch<SetStateAction<boolean>>;
-	fullWidth?: boolean;
-}) => (
+	className,
+	style,
+}: AddGuestButtonProps) => (
 	<Button
 		label="Adicionar participante"
 		icon={<AddIcon />}
 		onClick={() => {
 			setIsGuestModalVisible(true);
 		}}
+		className={className}
 		style={{
-			width: fullWidth ? "100%" : "fit-content",
 			paddingBlock: "0.5rem",
+			...style,
 		}}
 	/>
 );
@@ -93,6 +98,9 @@ const PreGuestPreview = ({
 								style={{
 									borderRadius: "50%",
 									objectFit: "cover",
+									aspectRatio: "1/1",
+									minHeight: 28,
+									minWidth: 28,
 								}}
 								width={28}
 								height={28}
@@ -158,7 +166,7 @@ export default function GuestsDisplay({
 			{hasAddButton && (
 				<AddGuestButton
 					setIsGuestModalVisible={setIsGuestModalVisible}
-					fullWidth
+					className="w-full"
 				/>
 			)}
 			<div

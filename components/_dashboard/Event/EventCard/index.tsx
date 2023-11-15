@@ -8,7 +8,11 @@ import styles from "./eventCard.module.css";
 import PersonIcon from "@/public/icons/person.svg";
 import SecretFriend from "@/public/icons/secret_friend.svg";
 
-import Overlay from "../../Overlay";
+import Background from "@/public/background.svg";
+
+import Overlay from "@/dashboard/components/Overlay";
+
+// Types
 import type { Event, Guest } from "@prisma/client";
 
 // Types
@@ -55,13 +59,15 @@ export default function EventCard({ event }: Props) {
 					style={{
 						width: "100%",
 						height: "100%",
-						backgroundColor: "var(--primary-03)",
+						backgroundColor: "transparent",
 						position: "absolute",
 						top: "0",
 						left: 0,
 						zIndex: -1,
 					}}
-				/>
+				>
+					<Background className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full" />
+				</div>
 			)}
 		</Link>
 	);

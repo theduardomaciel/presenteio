@@ -27,9 +27,7 @@ export async function PATCH(
 		console.log(error);
 	}
 
-	const imageResponse = image_base64
-		? ((await getImageUrl(image_base64)) as any)
-		: null;
+	const imageResponse = image_base64 ? await getImageUrl(image_base64) : null;
 
 	try {
 		const responseGuest = await prisma.guest.update({
@@ -40,8 +38,12 @@ export async function PATCH(
 				name: name || undefined,
 				email: email || undefined,
 				status: status || undefined,
-				image_url: imageResponse.image_url || undefined,
-				image_deleteHash: imageResponse.image_deleteHash || undefined,
+				image_url: imageResponse
+					? imageResponse?.image_url || undefined
+					: undefined,
+				image_deleteHash: imageResponse
+					? imageResponse?.image_deleteHash || undefined
+					: undefined,
 			},
 		});
 		return Response.json(responseGuest);

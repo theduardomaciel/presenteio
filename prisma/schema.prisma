@@ -36,7 +36,7 @@ model Event {
 
     name        String
     description String?
-    color       String?
+    color       Color   @default(RED)
 
     image_url        String?
     image_deleteHash String?
@@ -54,6 +54,18 @@ model Event {
 
     @@index([accountId])
     @@map("events")
+}
+
+enum Color {
+    PURPLE
+    BLUE
+    GREEN
+    YELLOW
+    RED
+    PINK
+    ORANGE
+    BROWN
+    GREY
 }
 
 model Guest {

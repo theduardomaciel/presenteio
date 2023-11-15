@@ -6,7 +6,7 @@ import dashboardStyles from "../dashboard.module.css";
 import styles from "./styles.module.css";
 
 // Components
-import EventEdit from "@/dashboard/components/Event/EventEdit";
+import EventEdit from "@/dashboard/components/Event/EventNameEdit";
 import DashboardHeader from "@/dashboard/components/Header";
 import Overlay from "@/dashboard/components/Overlay";
 import DashboardSectionHeader from "@/dashboard/components/Section/SectionHeader";
@@ -16,11 +16,13 @@ import EmptyGuests from "@/dashboard/components/Guest/EmptyGuests";
 import AddGuest from "./subcomponents/AddGuest";
 import InviteLink from "./subcomponents/InviteLink";
 
-// Icons
+// Assets
 import LinkIcon from "@/public/icons/link.svg";
+import BackgroundPattern from "@/public/images/background_pattern.png";
 
 // Utils
-import { getEvent } from "@/utils/getEvents";
+import { getEvent } from "lib/getEvents";
+import EventDisplay from "@/dashboard/components/Event/EventDisplay";
 
 export default async function EventPage({
 	params,
@@ -52,22 +54,37 @@ export default async function EventPage({
 						{event.allowInvite ? (
 							<InviteLink inviteCode={event.inviteCode} />
 						) : (
-							<p>Convites desativados neste evento</p>
+							<p className="cursor-not-allowed">
+								Convites desativados neste evento
+							</p>
 						)}
 					</div>
-					{event.image_url && (
+					{event.image_url ? (
 						<Image
 							src={event.image_url}
 							className={"imageContain"}
 							fill
-							alt=""
+							alt="Event background image"
+						/>
+					) : (
+						<div
+							className={"imagePlaceholder"}
+							style={{
+								backgroundImage: `url(${BackgroundPattern.src})`,
+							}}
 						/>
 					)}
 					<Overlay />
 				</div>
 				<DashboardSectionHeader title="Participantes">
 					{event.status !== "DIVULGED" && (
-						<AddGuest eventId={event.id} />
+						<AddGuest
+							eventId={event.id}
+							style={{
+								backgroundColor: "transparent",
+								color: "var(--primary-01)",
+							}}
+						/>
 					)}
 				</DashboardSectionHeader>
 				<div

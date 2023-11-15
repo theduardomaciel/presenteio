@@ -420,7 +420,7 @@ export default function Register({ isAnimated }: { isAnimated?: boolean }) {
 		children: (
 			<div className={styles.section1}>
 				<Button
-					additionalClasses={`${styles.button} ${
+					className={`${styles.button} ${
 						selected === 0 ? styles.selected : ""
 					}`}
 					style={selected === 0 ? selectedStyle : unselectedStyle}
@@ -444,7 +444,7 @@ export default function Register({ isAnimated }: { isAnimated?: boolean }) {
 					</div>
 				</Button>
 				<Button
-					additionalClasses={`${styles.button} ${
+					className={`${styles.button} ${
 						selected === 1 ? styles.selected : ""
 					}`}
 					style={selected === 1 ? selectedStyle : unselectedStyle}

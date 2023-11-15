@@ -1,17 +1,17 @@
 .background {
-    width: 100vw;
-    height: 100vh;
+	width: 100vw;
+	height: 100vh;
 
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
+	display: flex;
+	position: fixed;
+	top: 0;
+	left: 0;
 
-    align-items: center;
-    justify-content: center;
-    padding-block: 2.5rem;
+	align-items: center;
+	justify-content: center;
+	padding-block: 2.5rem;
 
-    /* -webkit-backface-visibility: hidden;
+	/* -webkit-backface-visibility: hidden;
     -webkit-perspective: 1000;
     -webkit-transform: translate3d(0, 0, 0);
     -webkit-transform: translateZ(0);
@@ -20,132 +20,132 @@
     transform: translate3d(0, 0, 0);
     transform: translateZ(0); */
 
-    background-color: rgba(0, 0, 0, 0.75);
-    /* backdrop-filter: blur(2.5px); */
+	background-color: rgba(0, 0, 0, 0.75);
+	/* backdrop-filter: blur(2.5px); */
 
-    transition: 0.5s;
-    z-index: 10;
+	transition: 0.5s;
+	z-index: 10;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2.5rem;
-    padding: 3.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2.5rem;
+	padding: 3.5rem;
 
-    max-height: 90vh;
-    width: fit-content;
-    max-width: 90vw;
+	max-height: 90vh;
+	width: fit-content;
+	max-width: 90vw;
 
-    overflow-y: overlay;
+	overflow-y: overlay;
 
-    background: linear-gradient(
-        180deg,
-        var(--background-02) 0%,
-        var(--background-modal) 100%
-    );
-    backdrop-filter: blur(25px);
-    border-radius: 1.5rem;
+	background: linear-gradient(
+		180deg,
+		var(--background-02) 0%,
+		var(--background-modal) 100%
+	);
+	backdrop-filter: blur(25px);
+	border-radius: 1.5rem;
 
-    z-index: 15;
+	z-index: 15;
 }
 
 .container section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	gap: 1rem;
 }
 
 .logo svg {
-    height: 3.5rem;
+	height: 3.5rem;
 }
 
 .iconHolder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-    padding: 2rem;
-    border-radius: 0.5rem;
+	padding: 2rem;
+	border-radius: 0.5rem;
 
-    background-color: var(--primary-01);
+	background-color: var(--primary-01);
 }
 
 .iconHolder svg {
-    height: 3.6rem;
-    width: 3.6rem;
+	height: 3.6rem;
+	width: 3.6rem;
 }
 
 .iconHolder.withTitle {
-    padding: 0.75rem;
+	padding: 0.75rem;
 }
 
 .iconHolder.withTitle svg {
-    height: 2.2rem;
-    width: 2.2rem;
+	height: 2.2rem;
+	width: 2.2rem;
 }
 
 .headerContainer {
-    display: none;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
+	display: none;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 2.5rem;
 }
 
 .container .title {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 2.8rem;
-    line-height: 3.6rem;
-    width: 100%;
-    text-align: center;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 2.8rem;
+	line-height: 3.6rem;
+	width: 100%;
+	text-align: center;
 
-    color: var(--primary-01);
+	color: var(--primary-01);
 }
 
 .container .description {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.8rem;
-    line-height: 2.1rem;
-    text-align: center;
-    color: var(--font-light-02);
-    width: 100%;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.8rem;
+	line-height: 2.1rem;
+	text-align: center;
+	color: var(--font-light-02);
+	width: 100%;
 
-    white-space: pre-line;
+	white-space: pre-line;
 }
 
 .buttonsHolder {
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
 
-    flex-wrap: wrap-reverse;
-    width: 100%;
+	flex-wrap: wrap-reverse;
+	width: 100%;
 
-    align-items: center;
-    justify-content: center;
+	align-items: center;
+	justify-content: center;
 }
 
 @media (min-width: 1024px) {
-    .container {
-        width: 57.6rem;
-        padding: 5rem;
-        padding: 5.5rem 6rem;
-    }
+	.container {
+		width: 57.6rem;
+		padding: 5rem;
+		padding: 5.5rem 6rem;
+	}
 
-    .headerContainer {
-        display: flex;
-    }
+	.headerContainer {
+		display: flex;
+	}
 
-    .buttonsHolder {
-        flex-wrap: nowrap;
-    }
+	.buttonsHolder {
+		flex-wrap: nowrap;
+	}
 }

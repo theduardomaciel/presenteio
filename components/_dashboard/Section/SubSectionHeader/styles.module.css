@@ -1,48 +1,48 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
 
-    gap: 1rem;
+	gap: 1rem;
 }
 
 .container .title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
 
-    width: 100%;
-    gap: 1rem;
+	width: 100%;
+	gap: 1rem;
 }
 
 .container h4 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.8rem;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.8rem;
 
-    color: var(--primary-02);
+	color: var(--primary-02);
 }
 
 .container p {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 600;
-    font-size: 1.6rem;
+	font-family: var(--font-inter);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 1.6rem;
 
-    width: 100%;
-    color: var(--font-light);
+	width: 100%;
+	color: var(--font-light);
 }
 
 .line {
-    display: flex;
-    border: 1px solid #ff2626;
-    height: 100%;
-    width: 1px;
-    border-radius: 1.5rem;
+	display: flex;
+	border: 1px solid var(--primary-02);
+	height: 100%;
+	width: 1px;
+	border-radius: 1.5rem;
 
-    min-height: 1.8rem;
+	min-height: 1.8rem;
 }

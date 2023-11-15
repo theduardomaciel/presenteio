@@ -1,96 +1,96 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    background: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+	height: 100vh;
+	background: none;
 
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px;
-    gap: 3.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 0px;
+	gap: 3.5rem;
 
-    max-width: 80vw;
+	max-width: 80vw;
 
-    text-align: center;
+	text-align: center;
 }
 
 .content h1 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 2.8rem;
-    line-height: 3.6rem;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 2.8rem;
+	line-height: 3.6rem;
 
-    color: var(--primary-01);
+	color: var(--primary-01);
 }
 
 .content p {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.8rem;
-    line-height: 2.1rem;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.8rem;
+	line-height: 2.1rem;
 
-    color: var(--font-light-02);
+	color: var(--font-light-02);
 }
 
 .content .button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem 1.5rem;
+	gap: 1rem;
 
-    cursor: default;
+	cursor: default;
 
-    background: var(--primary-01);
-    border: 0.5px solid var(--primary-03);
-    border-radius: 0.5rem;
+	background: var(--primary-01);
+	border: 0.5px solid var(--primary-03);
+	border-radius: 0.5rem;
 }
 
 .content .button .buttonFont {
-    font-family: "var(--font-judson)", serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.6rem;
+	font-family: var(--font-judson), serif;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.6rem;
 
-    color: var(--neutral);
+	color: var(--neutral);
 }
 
 .content .footerButton {
-    background: none;
-    padding: 0;
-    border: none;
-    outline: none;
+	background: none;
+	padding: 0;
+	border: none;
+	outline: none;
 }
 
 .content .footerButtonFont {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.6rem;
-    line-height: 1.8rem;
-    color: var(--primary-03);
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.6rem;
+	line-height: 1.8rem;
+	color: var(--primary-03);
 }
 
 @media (min-width: 1024px) {
-    .content {
-        max-width: 40vw;
-        gap: 4.5rem;
-    }
+	.content {
+		max-width: 40vw;
+		gap: 4.5rem;
+	}
 
-    .content h1 {
-        font-size: 3.2rem;
-        line-height: 4.1rem;
-    }
+	.content h1 {
+		font-size: 3.2rem;
+		line-height: 4.1rem;
+	}
 }

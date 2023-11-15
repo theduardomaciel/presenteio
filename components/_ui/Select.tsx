@@ -11,18 +11,19 @@ import {
 } from "@radix-ui/react-icons";
 
 const Select = SelectPrimitive.Root;
-const SelectGroup = SelectPrimitive.Group;
 const SelectValue = SelectPrimitive.Value;
+const SelectGroup = SelectPrimitive.Group;
 
 interface SelectTriggerProps
 	extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> {
 	icon?: React.ReactNode;
+	hideChevron?: boolean;
 }
 
 const SelectTrigger = React.forwardRef<
 	React.ElementRef<typeof SelectPrimitive.Trigger>,
 	SelectTriggerProps
->(({ className, children, icon, ...props }, ref) => (
+>(({ className, children, hideChevron, icon, ...props }, ref) => (
 	<SelectPrimitive.Trigger
 		ref={ref}
 		className={cn(
@@ -31,9 +32,11 @@ const SelectTrigger = React.forwardRef<
 		)}
 		{...props}
 	>
-		{icon && icon}
+		<SelectPrimitive.Icon asChild>{icon && icon}</SelectPrimitive.Icon>
 		{children}
-		<ChevronDownIcon className="h-4 w-4" />
+		<SelectPrimitive.Icon asChild>
+			{!hideChevron && <ChevronDownIcon className="h-4 w-4" />}
+		</SelectPrimitive.Icon>
 	</SelectPrimitive.Trigger>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
@@ -51,9 +54,11 @@ const SelectContent = React.forwardRef<
 			)}
 			{...props}
 		>
+			<SelectScrollUp />
 			<SelectPrimitive.Viewport className="">
 				{children}
 			</SelectPrimitive.Viewport>
+			<SelectScrollDown />
 		</SelectPrimitive.Content>
 	</SelectPrimitive.Portal>
 ));
@@ -75,7 +80,7 @@ const SelectLabel = React.forwardRef<
 SelectLabel.displayName = SelectPrimitive.Label.displayName;
 
 const scrollClasses = cn(
-	"flex items-center justify-center h-[25px] bg-gray-200 dark:bg-dark-gray-300 text-primary-02 cursor-default"
+	"flex items-center justify-center h-[25px] bg-red-100/50 dark:bg-dark-gray-300 text-primary-02 cursor-default"
 );
 
 const SelectScrollUp = React.forwardRef<
@@ -109,27 +114,30 @@ SelectScrollDown.displayName = SelectPrimitive.ScrollDownButton.displayName;
 interface SelectItemProps
 	extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> {
 	icon?: React.ReactNode;
+	suppressCheckIcon?: boolean;
 }
 
 const SelectItem = React.forwardRef<
 	React.ElementRef<typeof SelectPrimitive.Item>,
 	SelectItemProps
->(({ className, children, icon, ...props }, ref) => (
+>(({ className, suppressCheckIcon, children, icon, ...props }, ref) => (
 	<SelectPrimitive.Item
 		ref={ref}
 		className={cn(
-			"relative flex cursor-default select-none items-center py-2.5 px-4 gap-x-select text-sm font-medium outline-none focus:bg-slate-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 text-primary-02",
+			"relative flex flex-row cursor-default select-none items-center py-2.5 px-4 gap-x-select text-sm font-medium outline-none focus:bg-slate-100 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 gap-2 text-primary-02",
 			className
 		)}
 		{...props}
 	>
 		{icon && icon}
 		<SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-		<span className="absolute right-4 flex h-3.5 w-3.5 items-center justify-center">
-			<SelectPrimitive.ItemIndicator>
-				<CheckIcon className="h-4 w-4" color="var(--primary-02)" />
-			</SelectPrimitive.ItemIndicator>
-		</span>
+		{!suppressCheckIcon && (
+			<span className="absolute right-4 flex h-3.5 w-3.5 items-center justify-center">
+				<SelectPrimitive.ItemIndicator>
+					<CheckIcon className="h-4 w-4" color="var(--primary-02)" />
+				</SelectPrimitive.ItemIndicator>
+			</span>
+		)}
 	</SelectPrimitive.Item>
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;
@@ -190,7 +198,5 @@ export {
 	SelectLabel,
 	SelectItem,
 	SelectSeparator,
-	SelectScrollUp,
-	SelectScrollDown,
 	SelectWithLabel,
 };

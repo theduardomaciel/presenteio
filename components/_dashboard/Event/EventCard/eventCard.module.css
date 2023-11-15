@@ -1,83 +1,86 @@
 .eventCard {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
 
-    position: relative;
+	position: relative;
 
-    height: 18rem;
-    width: 100%;
+	height: 18rem;
+	width: 100%;
 
-    padding: 1.5rem 2rem;
+	padding: 1.5rem 2rem;
 
-    border-radius: 0.5rem;
-    overflow: hidden;
+	border-radius: 0.5rem;
+	overflow: hidden;
 
-    transition: 1s;
-    cursor: pointer;
+	transition: 1s;
+	cursor: pointer;
 }
 
 .eventCard:hover {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    transform: translateY(-0.1rem);
-    outline: 2.5px solid var(--primary-03);
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	transform: scale(1.0015);
+	transition: 350ms ease-in-out;
+	outline: 2.5px solid var(--primary-03);
 }
 
 .eventCard:active {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .iconAndLabel {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 1rem;
 
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.4rem;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.4rem;
+	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
 
-    color: var(--neutral);
+	color: var(--neutral);
 }
 
 .eventCard header {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
 
-    width: 100%;
-    z-index: 1;
+	width: 100%;
+	z-index: 1;
 }
 
 .eventCard .info {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
 
-    z-index: 1;
-    gap: 0;
+	z-index: 1;
+	gap: 0;
 }
 
 .eventCard .info h3 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 2.8rem;
-    line-height: 3.6rem;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 2.8rem;
+	text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+	line-height: 3.6rem;
 
-    max-width: 90%;
+	max-width: 90%;
 
-    color: var(--neutral);
+	color: var(--neutral);
 }
 
 .image {
-    object-fit: cover;
-    filter: blur(0.15rem);
+	object-fit: cover;
+	filter: blur(0.15rem);
 
-    z-index: -1;
+	z-index: -1;
 }

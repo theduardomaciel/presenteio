@@ -1,7 +1,7 @@
 import styles from "../dashboard.module.css";
 
 // Components
-import EventEdit from "@/dashboard/components/Event/EventEdit";
+import EventEdit from "@/dashboard/components/Event/EventNameEdit";
 import DashboardHeader from "@/dashboard/components/Header";
 import ComposeEventForm from "./Form";
 

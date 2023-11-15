@@ -30,7 +30,7 @@ const GuestCard = ({
 				<div className={styles.iconAndLabel}>
 					{guest.image_url && (
 						<Image
-							className={`${styles.image} imageContain`}
+							className={`${styles.image} aspect-square`}
 							src={guest.image_url}
 							alt="Guest image."
 							height={28}
@@ -44,7 +44,7 @@ const GuestCard = ({
 			<footer>
 				<div className={styles.iconAndLabel}>
 					{guest.status === "CONFIRMED" &&
-					event.status !== "DIVULGATED" ? (
+					event.status !== "DIVULGED" ? (
 						<>
 							<DataIcon width={16} height={16} />
 							<p>Dados Confirmados</p>
@@ -54,7 +54,7 @@ const GuestCard = ({
 							<ConfirmedIcon width={16} height={16} />
 							<p>Visualizado</p>
 						</>
-					) : event.status === "DIVULGATED" ? (
+					) : event.status === "DIVULGED" ? (
 						<>
 							<VisualizedIcon
 								width={16}
@@ -70,12 +70,19 @@ const GuestCard = ({
 						</>
 					)}
 				</div>
-				<div className="divisor vertical" />
+
 				{guest.status !== "PENDING" && (
-					<div className={styles.iconAndLabel}>
-						<EmailIcon />
-						<p>{guest.email ? guest.email : "[e-mail pendente]"}</p>
-					</div>
+					<>
+						<div className="divisor vertical" />
+						<div className={styles.iconAndLabel}>
+							<EmailIcon />
+							<p>
+								{guest.email
+									? guest.email
+									: "[e-mail pendente]"}
+							</p>
+						</div>
+					</>
 				)}
 			</footer>
 		</div>

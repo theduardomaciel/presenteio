@@ -1,58 +1,11 @@
-.button {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 1.25rem 3rem;
-    gap: 1rem;
-
-    color: var(--neutral);
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.6rem;
-
-    background: var(--primary-02);
-    border: 1px solid var(--primary-03);
-    border-radius: 0.8rem;
-
-    transition: 350ms;
-    cursor: pointer;
-}
-
-.button p,
-.button span {
-    color: var(--neutral);
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.6rem;
-}
-
-.button.disabled,
-.button.loading {
-    background: var(--primary-03);
-    border: none;
-    cursor: not-allowed;
-}
-
-.button:not(.disabled):not(.loading):not(.noEffects):hover {
-    background-color: var(--primary-01);
-    outline: 2px solid var(--primary-02);
-}
-
-.button:not(.noEffects)::active {
-    outline: 1px solid var(--neutral);
-}
-
 .button svg {
-    transition: 250ms;
+	transition: 25ms;
 }
 
 .button.position-toRight:hover svg {
-    transform: translateX(0.5rem);
+	transform: translateX(0.5rem);
 }
 
 .button.position-toRight:active svg {
-    transform: translateX(2rem);
+	transform: translateX(2rem);
 }

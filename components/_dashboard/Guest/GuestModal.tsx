@@ -12,6 +12,7 @@ import { PreGuest } from "app/dashboard/compose/PreGuestsDisplay";
 
 // Icons
 import UserIcon from "@/public/icons/person.svg";
+import AddPhotoIcon from "@/public/icons/add_photo.svg";
 import GroupAddIcon from "@/public/icons/group_add.svg";
 import EditFilledIcon from "@/public/icons/edit_filled.svg";
 
@@ -204,7 +205,9 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 						/>
 					)}
 					{!preview && (
-						<UserIcon style={{ width: "5rem", height: "5rem" }} />
+						<AddPhotoIcon
+							style={{ width: "4rem", height: "4rem" }}
+						/>
 					)}
 				</label>
 				<input

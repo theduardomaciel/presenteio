@@ -72,9 +72,11 @@ export default function ComposeEventForm({
 			const form = new FormData(event.currentTarget);
 
 			const eventImage = form.get("eventImageUpload") as File;
+
 			const image_base64 = eventImage
-				? ((await toBase64(eventImage)) as string)
+				? await toBase64(eventImage)
 				: undefined;
+
 			const correctedImage =
 				image_base64 && image_base64.length > 30
 					? extractBase64(image_base64)
@@ -102,6 +104,7 @@ export default function ComposeEventForm({
 				maxPrice: form.get("max"),
 				image_base64: correctedImage,
 				guests: guestsWithImage,
+				color: form.get("accentColor"),
 			};
 			console.log(data);
 
@@ -143,6 +146,7 @@ export default function ComposeEventForm({
 	}
 
 	const router = useRouter();
+
 	return (
 		<form onSubmit={onSubmit} style={{ width: "100%" }}>
 			{children}
@@ -172,9 +176,9 @@ export default function ComposeEventForm({
 						/>
 						<DashboardPricePicker fixedWidth />
 					</div>
-					<div className={styles.section}>
+					<div className={styles.section} style={{ height: "100%" }}>
 						<DashboardSectionHeader title="Personalização" />
-						<EventDisplay />
+						<EventDisplay style={{ height: "100%" }} />
 					</div>
 					<Button
 						type="button"

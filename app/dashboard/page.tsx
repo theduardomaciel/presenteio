@@ -7,7 +7,7 @@ import EmptyGuests from "@/dashboard/components/Guest/EmptyGuests";
 import CreateEventButton from "@/dashboard/components/CreateEventButton";
 import LandingFooter from "components/Landing/Footer/Footer";
 
-import { getEvents } from "@/utils/getEvents";
+import { getEvents } from "lib/getEvents";
 
 export default async function Dashboard() {
 	const events = await getEvents();

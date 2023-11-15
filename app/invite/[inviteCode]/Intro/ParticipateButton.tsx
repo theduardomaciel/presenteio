@@ -42,28 +42,27 @@ export default function ParticipateButton({ guest, event }: Props) {
 		image: undefined as File | undefined,
 	});
 
-	async function updateOrCreateGuest(behaviour: "create" | "update") {
+	async function updateOrCreateGuest(behavior: "create" | "update") {
 		setActualSection(["updating_data", 1]);
 
 		const unformattedBase64 = userData.current.image
 			? ((await toBase64(userData.current.image as File)) as string)
 			: null;
+
 		const base64 = unformattedBase64
 			? extractBase64(unformattedBase64)
 			: null;
 
 		try {
 			const response =
-				behaviour === "create"
+				behavior === "create"
 					? await axios.post("/api/guests/create", {
-							eventId: event.id,
 							name: userData.current.name,
 							email: userData.current.email,
 							status: "CONFIRMED",
 							image_base64: base64,
 					  })
 					: await axios.patch(`/api/guests/${guest?.id}`, {
-							eventId: event.id,
 							name: userData.current.name,
 							email: userData.current.email,
 							status: "CONFIRMED",

@@ -1,171 +1,171 @@
 .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3rem;
-    height: 100%;
-    width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 3rem;
+	height: 100%;
+	width: 100%;
 
-    padding-inline: 2.5rem;
-    overflow: hidden;
-    position: relative;
+	padding-inline: 2.5rem;
+	overflow: hidden;
+	position: relative;
 
-    text-align: center;
+	text-align: center;
 }
 
 .header {
-    display: none;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+	display: none;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 
-    position: fixed;
-    top: 0;
-    left: 0;
+	position: fixed;
+	top: 0;
+	left: 0;
 
-    height: var(--header-height);
-    width: 100%;
-    padding-inline: 7.5rem;
+	height: var(--header-height);
+	width: 100%;
+	padding-inline: 7.5rem;
 
-    z-index: 3;
+	z-index: 3;
 }
 
 .header h6 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.8rem;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.8rem;
 
-    color: var(--primary-03);
+	color: var(--primary-03);
 }
 
 .header p {
-    font-family: "Arial";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 1.2rem;
+	font-family: "Arial";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.2rem;
 
-    cursor: pointer;
+	cursor: pointer;
 
-    color: var(--primary-02);
+	color: var(--primary-02);
 }
 
 .content .title {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3rem;
-    margin-bottom: 10rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 3rem;
+	margin-bottom: 10rem;
 }
 
 .content .title .titleContent {
-    gap: 0.5rem;
+	gap: 0.5rem;
 }
 
 .content .title div h3 {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.8rem;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.8rem;
 
-    color: var(--primary-03);
+	color: var(--primary-03);
 }
 
 .content .title div h1 {
-    font-family: "Gelasio", serif;
-    font-style: normal;
-    font-weight: 700;
-    font-size: 5.6rem;
-    line-height: 84.95%;
-    color: var(--primary-01);
+	font-family: "Gelasio", serif;
+	font-style: normal;
+	font-weight: 700;
+	font-size: 5.6rem;
+	line-height: 84.95%;
+	color: var(--primary-01);
 }
 
 .imageHolder {
-    width: 305px;
-    height: 374px;
+	width: 305px;
+	height: 374px;
 }
 
 .giftsImage {
-    position: absolute;
-    bottom: -15rem;
-    left: -6.5rem;
+	position: absolute;
+	bottom: -15rem;
+	left: -6.5rem;
 
-    object-fit: contain;
+	object-fit: contain;
 
-    z-index: 2;
-    transform: scaleX(-1);
+	z-index: 2;
+	transform: scaleX(-1);
 }
 
 .giftImage {
-    overflow: hidden;
+	overflow: hidden;
 
-    position: absolute;
-    top: -1rem;
-    right: 2.5rem;
+	position: absolute;
+	top: -1rem;
+	right: 2.5rem;
 
-    z-index: 2;
-    transform: scaleX(-1);
+	z-index: 2;
+	transform: scaleX(-1);
 }
 
 .section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3.5rem;
 
-    width: 100%;
+	width: 100%;
 }
 
 .section h4 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 2.4rem;
-    line-height: 3rem;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 2.4rem;
+	line-height: 3rem;
 
-    color: var(--primary-02);
+	color: var(--primary-02);
 }
 
 @media (min-width: 1024px) {
-    .container header {
-        display: flex;
-    }
+	.container header {
+		display: flex;
+	}
 
-    .header {
-        display: flex;
-    }
+	.header {
+		display: flex;
+	}
 
-    .content {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 10rem;
-        margin-bottom: 0px;
-        width: 85vw;
-    }
+	.content {
+		flex-direction: row;
+		justify-content: space-between;
+		gap: 10rem;
+		margin-bottom: 0px;
+		width: 85vw;
+	}
 
-    .giftsImage {
-        display: flex;
-        position: initial;
-        transform: scaleX(1);
-    }
+	.giftsImage {
+		display: flex;
+		position: initial;
+		transform: scaleX(1);
+	}
 
-    .giftImage {
-        top: 70%;
-        left: 5.5rem;
-        transform: scaleX(1);
-    }
+	.giftImage {
+		top: 70%;
+		left: 5.5rem;
+		transform: scaleX(1);
+	}
 
-    .content .title {
-        margin-bottom: 0px;
-    }
+	.content .title {
+		margin-bottom: 0px;
+	}
 
-    .content .title div h3 {
-        font-size: 3.2rem;
-    }
+	.content .title div h3 {
+		font-size: 3.2rem;
+	}
 
-    .content .title div h1 {
-        font-size: 9.2rem;
-    }
+	.content .title div h1 {
+		font-size: 9.2rem;
+	}
 }

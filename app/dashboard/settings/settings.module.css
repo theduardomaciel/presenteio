@@ -1,85 +1,85 @@
 .option {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
 
-    gap: 8rem;
+	gap: 8rem;
 }
 
 .option header {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 0.1rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 0.1rem;
 }
 
 .option header h3 {
-    font-family: var(--font-gelasio);
-    font-weight: 900;
-    font-size: 1.8rem;
-    color: var(--primary-02);
+	font-family: var(--font-gelasio);
+	font-weight: 900;
+	font-size: 1.8rem;
+	color: var(--primary-02);
 }
 
 .option header p {
-    font-family: "var(--font-judson)";
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: var(--font-light);
+	font-family: var(--font-judson);
+	font-size: 1.6rem;
+	font-weight: 400;
+	color: var(--font-light);
 }
 
 .option .themeButtonsHolder {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 5rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 5rem;
 
-    user-select: none;
+	user-select: none;
 }
 
 .option .themeItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	height: 100%;
 
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .themeItem p {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.2rem;
-    transition: 75ms ease-in-out;
-    color: var(--font-light);
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.2rem;
+	transition: 75ms ease-in-out;
+	color: var(--font-light);
 
-    white-space: nowrap;
+	white-space: nowrap;
 }
 
 .themeItem.selected p {
-    color: var(--font-light-02);
-    font-weight: 900;
-    transition: 500ms;
+	color: var(--font-light-02);
+	font-weight: 900;
+	transition: 500ms;
 }
 
 .themeButtonsHolder .themeItem svg {
-    transition: 100ms;
-    border-radius: 50%;
+	transition: 100ms;
+	border-radius: 50%;
 }
 
 .themeButtonsHolder .themeItem.selected svg {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    transition: 500ms;
-    outline: 3px solid var(--primary-03);
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+		rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+	transition: 500ms;
+	outline: 3px solid var(--primary-03);
 }
 
 .themeButtonsHolder .themeItem:hover svg {
-    transform: scale(1.015);
+	transform: scale(1.015);
 }

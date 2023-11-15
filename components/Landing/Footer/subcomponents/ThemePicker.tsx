@@ -7,8 +7,6 @@ import {
 	SelectItem,
 	SelectLabel,
 	SelectGroup,
-	SelectScrollUp,
-	SelectScrollDown,
 	SelectTrigger,
 	SelectValue,
 } from "components/_ui/Select";
@@ -56,7 +54,6 @@ export default function ThemePicker({ initialTheme = "system" }: Props) {
 				<SelectValue placeholder={initialTheme} />
 			</SelectTrigger>
 			<SelectContent>
-				<SelectScrollUp />
 				<SelectGroup>
 					<SelectLabel>Tema</SelectLabel>
 					<SelectItem value="system" icon={ICONS.system}>
@@ -69,7 +66,6 @@ export default function ThemePicker({ initialTheme = "system" }: Props) {
 						Escuro
 					</SelectItem>
 				</SelectGroup>
-				<SelectScrollDown />
 			</SelectContent>
 		</Select>
 	);

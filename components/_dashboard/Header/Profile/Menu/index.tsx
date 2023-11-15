@@ -80,7 +80,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
 					variants={{
 						open: {
 							opacity: 1,
-							y: 0,
+							y: -25,
 							transition: { ease: "backOut", duration: 0.45 },
 						},
 						closed: {
@@ -105,7 +105,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
 							<Button
 								label="Configurações"
 								style={buttonStyle}
-								icon={<ConfigIcon />}
+								icon={<ConfigIcon width={28} height={28} />}
 								onClick={() => setIsOpen(false)}
 							/>
 						</Link>
@@ -119,7 +119,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
 								}, 10);
 							}}
 							style={buttonStyle}
-							icon={<LogoutIcon />}
+							icon={<LogoutIcon width={28} height={28} />}
 						/>
 					</ul>
 				</motion.div>

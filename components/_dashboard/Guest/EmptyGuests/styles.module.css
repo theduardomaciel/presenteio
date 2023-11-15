@@ -1,56 +1,56 @@
 .emptyContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 2rem;
 
-    gap: 1rem;
+	gap: 1rem;
 
-    width: 100%;
+	width: 100%;
 }
 
 .emptyContainer svg {
-    fill: var(--primary-02);
+	fill: var(--primary-02);
 }
 
 .emptyContainer header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 
-    gap: 0.5rem;
+	gap: 0.5rem;
 }
 
 .emptyContainer header h6 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.8rem;
-    text-align: center;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.8rem;
+	text-align: center;
 
-    color: var(--primary-02);
+	color: var(--primary-02);
 }
 
 .emptyContainer p {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.2rem;
-    text-align: center;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.2rem;
+	text-align: center;
 
-    white-space: pre-line;
+	white-space: pre-line;
 
-    color: var(--primary-02);
+	color: var(--primary-02);
 }
 
 @media (min-width: 1024px) {
-    .emptyContainer header h6 {
-        font-size: 2.4rem;
-    }
+	.emptyContainer header h6 {
+		font-size: 2.4rem;
+	}
 
-    .emptyContainer p {
-        font-size: 1.6rem;
-    }
+	.emptyContainer p {
+		font-size: 1.6rem;
+	}
 }

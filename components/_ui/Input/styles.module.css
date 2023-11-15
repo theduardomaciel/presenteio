@@ -1,160 +1,160 @@
 .flex {
-    display: flex;
-    /* flex-wrap: wrap; */
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: flex-start;
+	display: flex;
+	/* flex-wrap: wrap; */
+	flex-direction: column;
+	gap: 0.5rem;
+	align-items: flex-start;
 
-    position: relative;
+	position: relative;
 
-    width: 100%;
-    min-height: fit-content;
+	width: 100%;
+	min-height: fit-content;
 }
 
 .flex .labelContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
 
-    width: 100%;
+	width: 100%;
 }
 
 .input {
-    display: inline-flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
 
-    width: 100%;
-    height: 4rem;
+	width: 100%;
+	height: 4rem;
 
-    border-radius: 0.6rem;
-    padding: 1.25rem 1rem;
+	border-radius: 0.6rem;
+	padding: 1.25rem 1rem;
 
-    font-family: "Arial";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 1.3rem;
+	font-family: "Arial";
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.3rem;
 
-    text-align: left;
-    vertical-align: top;
+	text-align: left;
+	vertical-align: top;
 
-    color: var(--font-light);
+	color: var(--font-light);
 
-    background-color: var(--background-02);
-    border: 1px solid var(--light-gray);
+	background-color: var(--background-02);
+	border: 1px solid var(--light-gray);
 }
 
 .input::placeholder {
-    vertical-align: top;
+	vertical-align: top;
 }
 
 .row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 100%;
-    width: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 100%;
+	width: 100%;
 
-    position: relative;
+	position: relative;
 }
 
 .errorText {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.2rem;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.2rem;
 
-    color: var(--primary-01);
+	color: var(--primary-01);
 }
 
 .fixedUnit {
-    position: absolute;
-    right: 0;
+	position: absolute;
+	right: 0;
 
-    height: 100%;
+	height: 100%;
 
-    border-radius: 0 1rem 1rem 0;
-    width: fit-content;
+	border-radius: 0 1rem 1rem 0;
+	width: fit-content;
 }
 
 .increaseControl {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
-    /* height: 100%; */
+	/* height: 100%; */
 
-    position: absolute;
-    left: 1rem;
+	position: absolute;
+	left: 1rem;
 
-    color: var(--primary-04);
+	color: var(--primary-04);
 }
 
 .icon {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 
-    /* height: 100%; */
+	/* height: 100%; */
 
-    position: absolute;
-    left: 1rem;
-    top: 50%;
+	position: absolute;
+	left: 1rem;
+	top: 50%;
 
-    transform: translateY(-50%);
+	transform: translateY(-50%);
 
-    color: var(--primary-04);
+	color: var(--primary-04);
 }
 
 .increaseArrow {
-    transform: translateY(0) scale(1);
+	transform: translateY(0) scale(1);
 
-    cursor: pointer;
-    transition: 0.5s;
-    user-select: none;
+	cursor: pointer;
+	transition: 0.5s;
+	user-select: none;
 
-    font-size: 2.6rem;
+	font-size: 2.6rem;
 }
 
 .increaseArrow.clicked {
-    transform: translateY(-55%) scale(1.1);
+	transform: translateY(-55%) scale(1.1);
 }
 
 .decreaseArrow {
-    transform: translateY(0) scale(1);
+	transform: translateY(0) scale(1);
 
-    cursor: pointer;
-    transition: 0.5s;
-    user-select: none;
+	cursor: pointer;
+	transition: 0.5s;
+	user-select: none;
 
-    font-size: 2.6rem;
+	font-size: 2.6rem;
 
-    margin-top: -1rem;
+	margin-top: -1rem;
 }
 
 .decreaseArrow.clicked {
-    transform: translateY(55%) scale(1.1);
+	transform: translateY(55%) scale(1.1);
 }
 
 .input::placeholder {
-    color: var(--primary-04);
+	color: var(--primary-04);
 }
 
 .input:focus {
-    outline: 0.2rem solid var(--primary-03);
+	outline: 0.2rem solid var(--primary-03);
 }
 
 .label {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.4rem;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.4rem;
 
-    display: flex;
-    align-items: center;
-    width: 100%;
+	display: flex;
+	align-items: center;
+	width: 100%;
 
-    color: var(--font-light);
+	color: var(--font-light);
 }

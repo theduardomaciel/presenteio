@@ -16,8 +16,8 @@ import GuestsView from "./components/GuestsView";
 import EventTitle from "./components/EventTitle";
 
 // Utils
-import { getEventFromInviteCode } from "@/utils/getEvents";
-import { getGuest } from "@/utils/getGuest";
+import { getEventFromInviteCode } from "lib/getEvents";
+import { getGuest } from "lib/getGuest";
 
 import type { Event } from "@prisma/client";
 import type { Guest } from "@prisma/client";
@@ -32,20 +32,16 @@ export interface InviteProps {
 }
 
 export default async function Invite({ params, searchParams }: InviteProps) {
-	const event = (await getEventFromInviteCode(
-		params?.inviteCode as string
-	)) as unknown as Event;
-	const guest = (await getGuest(
-		searchParams?.guest as string
-	)) as unknown as Guest;
+	const event = await getEventFromInviteCode(params?.inviteCode as string);
+	const guest = await getGuest(searchParams?.guest as string);
 
 	if (!event || (!guest && !event?.allowInvite)) {
 		notFound();
 	}
 
 	const STATUS =
-		event?.status === "DIVULGATED" && !guest
-			? "divulgated"
+		event?.status === "DIVULGED" && !guest
+			? "DIVULGED"
 			: guest
 			? guest?.status === "PENDING"
 				? "intro"
@@ -57,8 +53,8 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 	const Title = <EventTitle type={event.type} name={event.name} />;
 
 	const SCREENS = {
-		intro: <Intro guest={guest} event={event} />,
-		divulgated: (
+		intro: <Intro guest={guest || undefined} event={event} />,
+		DIVULGED: (
 			<div className={styles.content}>
 				<h1>O sorteio já foi realizado.</h1>
 				<p>
@@ -66,7 +62,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 					sorteio já foi realizado entre os participantes que entraram
 					no evento.
 				</p>
-				<Button additionalClasses={styles.button} noEffects>
+				<Button className={styles.button} noEffects>
 					<p className={styles.buttonFont}>
 						Contate o anfitrião do evento caso isso seja um erro.
 					</p>
@@ -78,7 +74,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 			<div className={styles.content}>
 				{Title}
 				<h1>Já estamos prontos.</h1>
-				{event.status === "DIVULGATED" ? (
+				{event.status === "DIVULGED" ? (
 					<>
 						<p>
 							<strong>Verifique sua caixa de entrada!</strong>{" "}
@@ -95,15 +91,15 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 						entrem e o anfitrião realize o sorteio.
 					</p>
 				)}
-				<Button additionalClasses={styles.button} noEffects>
+				<Button className={styles.button} noEffects>
 					<p className={styles.buttonFont}>
-						{event.status === "DIVULGATED"
+						{event.status === "DIVULGED"
 							? "Os e-mails já foram enviados pelo anfitrião!"
 							: "Os e-mails ainda não foram enviados pelo anfitrião."}
 					</p>
 				</Button>
 				<div className={"divisor"} />
-				{event.status === "DIVULGATED" && (
+				{event.status === "DIVULGED" && (
 					<Link
 						href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
 						className="modalFooter"
@@ -115,7 +111,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 									opacity={0.5}
 								/>
 							}
-							additionalClasses={styles.footerButton}
+							className={styles.footerButton}
 							noEffects
 						>
 							<p className={`${styles.footerButtonFont}`}>
@@ -143,7 +139,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 						maxWidth: "95%",
 					}}
 				>
-					<Button additionalClasses={styles.button} noEffects>
+					<Button className={styles.button} noEffects>
 						<p className={styles.buttonFont}>
 							{
 								event?.guests.filter(
@@ -163,7 +159,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 				>
 					<Button
 						icon={<ViewIcon fill="var(--primary-03)" />}
-						additionalClasses={styles.footerButton}
+						className={styles.footerButton}
 						noEffects
 					>
 						<p className={`${styles.footerButtonFont}`}>

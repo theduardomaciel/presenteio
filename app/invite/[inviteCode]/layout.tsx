@@ -6,7 +6,7 @@ import Background from "@/public/images/background.png";
 import DarkBackground from "@/public/images/background_dark.png";
 import placeholder from "@/public/images/placeholder.webp";
 
-import { getEventFromInviteCode } from "@/utils/getEvents";
+import { getEventFromInviteCode } from "lib/getEvents";
 import type { Event } from "@prisma/client";
 
 interface Props {

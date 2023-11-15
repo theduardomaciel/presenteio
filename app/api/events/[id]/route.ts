@@ -31,7 +31,7 @@ export async function PATCH(
 	try {
 		const event = await prisma.event.update({
 			where: {
-				id: parseInt(id),
+				id: id,
 			},
 			data: {
 				name: name || undefined,
@@ -71,7 +71,7 @@ export async function DELETE(
 	try {
 		const event = await prisma.event.findUnique({
 			where: {
-				id: parseInt(id),
+				id: id,
 			},
 			include: {
 				guests: true,
@@ -95,7 +95,7 @@ export async function DELETE(
 	try {
 		const event = await prisma.event.delete({
 			where: {
-				id: parseInt(id),
+				id: id,
 			},
 		});
 

@@ -1,35 +1,29 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 
 export default function useImagePreview(
-    setSelectedFile: Dispatch<SetStateAction<File | undefined>>,
-    setPreview: any, selectedFile: File | undefined,
-    preventCacheClear?: boolean
+	setPreview: Dispatch<SetStateAction<string | undefined>>,
+	preventCacheClear?: boolean
 ) {
-    // create a preview as a side effect, whenever selected file is changed
-    useEffect(() => {
-        if (!selectedFile) {
-            setPreview(undefined)
-            return
-        }
+	let objectUrl: string | undefined;
 
-        const objectUrl = URL.createObjectURL(selectedFile)
-        setPreview(objectUrl)
+	const onSelectFile = (event: any) => {
+		if (!event.target.files || event.target.files.length === 0) {
+			return null;
+		}
+		const selectedFile = event.target.files[0];
 
-        if (!preventCacheClear) {
-            // free memory when ever this component is unmounted
-            return () => {
-                URL.revokeObjectURL(objectUrl)
-            }
-        }
-    }, [selectedFile])
+		objectUrl = URL.createObjectURL(selectedFile);
+		setPreview(objectUrl);
+	};
 
-    const onSelectFile = (event: any) => {
-        if (!event.target.files || event.target.files.length === 0) {
-            setSelectedFile(undefined)
-            return
-        }
-        setSelectedFile(event.target.files[0])
-    }
+	useEffect(() => {
+		if (objectUrl && !preventCacheClear) {
+			// free memory whenever this component is unmounted
+			return () => {
+				URL.revokeObjectURL(objectUrl as string);
+			};
+		}
+	}, []);
 
-    return onSelectFile;
+	return onSelectFile;
 }

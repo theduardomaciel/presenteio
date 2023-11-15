@@ -7,8 +7,6 @@ import {
 	SelectItem,
 	SelectLabel,
 	SelectGroup,
-	SelectScrollUp,
-	SelectScrollDown,
 	SelectTrigger,
 	SelectValue,
 } from "components/_ui/Select";
@@ -20,13 +18,11 @@ export default function LanguagePicker() {
 				<SelectValue placeholder="Idioma" />
 			</SelectTrigger>
 			<SelectContent>
-				<SelectScrollUp />
 				<SelectGroup>
 					<SelectLabel>Idioma</SelectLabel>
 					<SelectItem value="pt-BR">Português (Brasil)</SelectItem>
 					<SelectItem value="en">Inglês</SelectItem>
 				</SelectGroup>
-				<SelectScrollDown />
 			</SelectContent>
 		</Select>
 	);

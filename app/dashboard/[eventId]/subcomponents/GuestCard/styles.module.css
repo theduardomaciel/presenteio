@@ -1,89 +1,89 @@
 .guestCard {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 1.5rem;
-    gap: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 1.5rem;
+	gap: 1.5rem;
 
-    height: fit-content;
-    width: 100%;
+	height: fit-content;
+	width: 100%;
 
-    background: linear-gradient(
-        90deg,
-        var(--primary-01) 0%,
-        var(--primary-02) 100%
-    );
-    border-radius: 0.5rem;
+	background: linear-gradient(
+		90deg,
+		var(--primary-01) 0%,
+		var(--primary-02) 100%
+	);
+	border-radius: 0.5rem;
 }
 
 .guestCard header,
 .guestCard footer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 
-    gap: 1rem;
-    flex-wrap: wrap;
+	gap: 1rem;
+	flex-wrap: wrap;
 
-    width: 100%;
+	width: 100%;
 }
 
 .guestCard header h6 {
-    font-family: var(--font-gelasio);
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.6rem;
-    line-height: 2rem;
+	font-family: var(--font-gelasio);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.6rem;
+	line-height: 2rem;
 
-    width: 100%;
-    text-overflow: ellipsis;
+	width: 100%;
+	text-overflow: ellipsis;
 
-    color: var(--neutral);
+	color: var(--neutral);
 }
 
 .guestCard header .image {
-    border-radius: 50%;
-    object-fit: cover;
-    min-width: 28px;
+	border-radius: 50%;
+	object-fit: cover;
+	min-width: 28px;
 }
 
 .iconAndLabel {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 1rem;
 }
 
 .iconAndLabel p {
-    font-family: "var(--font-judson)";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 1.4rem;
+	font-family: var(--font-judson);
+	font-style: normal;
+	font-weight: 700;
+	font-size: 1.4rem;
 
-    color: var(--neutral);
+	color: var(--neutral);
 }
 
 .actions {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 2rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 2rem;
 }
 
 .actions svg {
-    cursor: pointer;
-    transition: 0.125s;
+	cursor: pointer;
+	transition: 0.125s;
 }
 
 .actions svg:hover {
-    transform: scale(1.085);
+	transform: scale(1.085);
 }
 
 @media (min-width: 1024px) {
-    .guestCard header {
-        gap: 7.5rem;
-    }
+	.guestCard header {
+		gap: 7.5rem;
+	}
 }
