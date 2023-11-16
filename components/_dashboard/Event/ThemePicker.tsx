@@ -124,7 +124,7 @@ export default function EventThemePicker({
 						/>
 					))}
 				</SelectGroup>
-				<SelectArrow className="fill-blue-900 text-blue-900" />
+				{/* <SelectArrow className="fill-blue-900 text-blue-900" /> */}
 			</SelectContent>
 		</Select>
 	);

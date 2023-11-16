@@ -1,4 +1,4 @@
-import Image, { ImageLoader, ImageLoaderProps } from "next/image";
+import Image from "next/image";
 
 // Stylesheets
 import styles from "./profile.module.css";
@@ -26,7 +26,6 @@ export default async function DashboardProfile({
 		className: styles.profileImage,
 		width: WIDTH,
 		height: WIDTH,
-		alt: "",
 	};
 
 	const PLACEHOLDER_IMAGE_URL =
@@ -48,9 +47,17 @@ export default async function DashboardProfile({
 			{children}
 			<div className={styles.profileHolder}>
 				{account?.image_url ? (
-					<Image src={account.image_url} {...imageProps} />
+					<Image
+						src={account.image_url}
+						alt="Profile image"
+						{...imageProps}
+					/>
 				) : (
-					<img src={PLACEHOLDER_IMAGE_URL} {...imageProps} />
+					<img
+						src={PLACEHOLDER_IMAGE_URL}
+						alt="Profile placeholder image"
+						{...imageProps}
+					/>
 				)}
 				<DashboardProfileMenu name={account?.name} />
 			</div>

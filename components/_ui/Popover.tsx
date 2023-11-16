@@ -35,5 +35,6 @@ const PopoverArrow = React.forwardRef<
 >((props, ref) => (
 	<Arrow ref={ref} className="fill-background-02 " {...props} />
 ));
+PopoverArrow.displayName = PopoverPrimitive.Arrow.displayName;
 
 export { Popover, PopoverTrigger, PopoverContent, PopoverArrow, PopoverAnchor };
