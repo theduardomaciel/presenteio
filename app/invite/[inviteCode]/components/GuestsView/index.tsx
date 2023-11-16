@@ -30,7 +30,14 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
 				onClick={() => moveScroll(-25)}
 				style={{ cursor: "pointer", userSelect: "none" }}
 			/>
-			<ul id="guestsHolder" className={styles.guestsHolder}>
+			<ul
+				id="guestsHolder"
+				className={styles.guestsHolder}
+				style={{
+					justifyContent:
+						guests.length >= 5 ? "flex-start" : "center",
+				}}
+			>
 				{guests.map((guest, index) => (
 					<li key={index} className={styles.guest}>
 						{guest.status === "VISUALIZED" && <VisualizedFilter />}
@@ -40,6 +47,7 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
 									zIndex: 0,
 									borderRadius: "50%",
 									objectFit: "cover",
+									aspectRatio: "1/1",
 								}}
 								src={guest.image_url}
 								alt={guest.name}

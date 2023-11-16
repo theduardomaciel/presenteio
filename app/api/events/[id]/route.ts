@@ -10,7 +10,6 @@ export async function PATCH(
 	const { id } = params;
 	const {
 		name,
-		type,
 		color,
 		image_base64,
 		minPrice,
@@ -26,7 +25,32 @@ export async function PATCH(
 		});
 	}
 
-	const imageResponse = image_base64 ? await getImageUrl(image_base64) : null;
+	if (image_base64) {
+		try {
+			const event = await prisma.event.findUnique({
+				where: {
+					id: id,
+				},
+			});
+
+			event?.image_deleteHash &&
+				(await deleteImage(event.image_deleteHash));
+		} catch (error) {
+			console.log(error);
+
+			return new Response(
+				"There was a problem while trying to delete a picture. Try again later.",
+				{
+					status: 500,
+					statusText: "Internal Server Error",
+				}
+			);
+		}
+	}
+
+	const updatedImageUrl = image_base64
+		? await getImageUrl(image_base64)
+		: null;
 
 	try {
 		const event = await prisma.event.update({
@@ -35,10 +59,12 @@ export async function PATCH(
 			},
 			data: {
 				name: name || undefined,
-				image_url: imageResponse?.image_url || undefined,
-				image_deleteHash: imageResponse?.image_deleteHash || undefined,
+				image_url: updatedImageUrl?.image_url || undefined,
+				image_deleteHash:
+					updatedImageUrl?.image_deleteHash || undefined,
 				minPrice: parseInt(minPrice) || undefined,
 				maxPrice: parseInt(maxPrice) || undefined,
+				color: color || undefined,
 				allowInvite: allowInvite ? true : false,
 				allowProfileChange: allowProfileChange ? true : false,
 			},

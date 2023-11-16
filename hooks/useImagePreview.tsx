@@ -1,29 +1,28 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function useImagePreview(
-	setPreview: Dispatch<SetStateAction<string | undefined>>,
+	imageUrl?: string,
 	preventCacheClear?: boolean
 ) {
-	let objectUrl: string | undefined;
+	const [preview, setPreview] = useState<string | undefined>(imageUrl);
 
-	const onSelectFile = (event: any) => {
+	const onSelectFile = (event: ChangeEvent<HTMLInputElement>) => {
 		if (!event.target.files || event.target.files.length === 0) {
 			return null;
 		}
-		const selectedFile = event.target.files[0];
 
-		objectUrl = URL.createObjectURL(selectedFile);
-		setPreview(objectUrl);
+		const selectedFile = event.target.files[0];
+		setPreview(URL.createObjectURL(selectedFile));
 	};
 
 	useEffect(() => {
-		if (objectUrl && !preventCacheClear) {
+		if (preview && !preventCacheClear) {
 			// free memory whenever this component is unmounted
 			return () => {
-				URL.revokeObjectURL(objectUrl as string);
+				URL.revokeObjectURL(preview);
 			};
 		}
 	}, []);
 
-	return onSelectFile;
+	return { preview, setPreview, onSelectFile };
 }

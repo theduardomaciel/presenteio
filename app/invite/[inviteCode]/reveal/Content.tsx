@@ -37,14 +37,10 @@ export default function RevealContent({
 		setStatus("animating");
 
 		try {
-			const response = await axios.patch(`/api/guests/${guestId}`, {
+			await axios.patch(`/api/guests/${guestId}`, {
 				status: "VISUALIZED",
 			});
-			if (response) {
-				console.log("Status atualizado com sucesso!");
-			} else {
-				console.log("Erro ao atualizar status.");
-			}
+			console.log("Status atualizado com sucesso!");
 		} catch (error) {
 			console.log(error, "Erro ao atualizar status.");
 		}
@@ -53,6 +49,7 @@ export default function RevealContent({
 	return (
 		<AnimatePresence mode="popLayout">
 			<motion.div
+				key={eventProps.name}
 				layout
 				animate={{ scale: 1, opacity: 1 }}
 				exit={{ scale: 0.8, opacity: 0 }}
@@ -61,7 +58,7 @@ export default function RevealContent({
 				<EventTitle type={eventProps.type} name={eventProps.name} />
 			</motion.div>
 			{status === "idle" ? (
-				<div className={styles.content}>
+				<div className={styles.content} key={"content"}>
 					<h1>Chegou a hora de descobrir seu amigo secreto.</h1>
 					<p>
 						<strong>
@@ -73,7 +70,7 @@ export default function RevealContent({
 						Vai lá e descobre!
 					</p>
 					<Button
-						additionalClasses={styles.button}
+						className={styles.button}
 						style={{ cursor: "pointer" }}
 						icon={
 							<GiftIcon

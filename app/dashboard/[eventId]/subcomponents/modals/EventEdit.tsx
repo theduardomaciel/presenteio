@@ -27,6 +27,7 @@ import { InviteOptions } from "app/dashboard/compose/Form";
 
 // Utils
 import { type Event } from "@prisma/client";
+import { toBase64 } from "@/utils/image";
 
 interface Props {
 	event?: Omit<Event, "createdAt">;
@@ -50,11 +51,18 @@ export default function EventEditModal({ event }: Props) {
 
 		const form = new FormData(formEvent.currentTarget);
 
+		const eventImage = form.get("eventImageUpload") as File;
+		const image_base64 = eventImage
+			? await toBase64(eventImage)
+			: undefined;
+
 		const data = {
 			allowInvite: form.get("allowInvite") === "on",
 			allowProfileChange: form.get("allowProfileChange") === "on",
 			minPrice: form.get("min"),
 			maxPrice: form.get("max"),
+			color: form.get("accentColor"),
+			image_base64: image_base64,
 		};
 
 		try {
@@ -88,8 +96,9 @@ export default function EventEditModal({ event }: Props) {
 
 	const [hasChanges, setHasChanges] = useState(false);
 
-	function onFormChange(formEvent: React.FormEvent<HTMLFormElement>) {
+	async function onFormChange(formEvent: React.FormEvent<HTMLFormElement>) {
 		const form = new FormData(formEvent.currentTarget);
+		const eventImage = form.get("eventImageUpload") as File;
 
 		const data = {
 			allowInvite: form.get("allowInvite") === "on",
@@ -107,9 +116,10 @@ export default function EventEditModal({ event }: Props) {
 			color: event?.color,
 		};
 
-		//console.log(data, eventData);
-
-		if (JSON.stringify(data) === JSON.stringify(eventData)) {
+		if (
+			JSON.stringify(data) === JSON.stringify(eventData) &&
+			eventImage?.size === 0
+		) {
 			setHasChanges(false);
 		} else {
 			setHasChanges(true);
@@ -134,6 +144,7 @@ export default function EventEditModal({ event }: Props) {
 				toggleVisibility={() => {
 					setEditEventModalState({ status: false });
 					formRef.current?.reset();
+					setHasChanges(false);
 				}}
 				headerProps={{
 					icon: <SettingsIcon width={"2.4rem"} height={"2.4rem"} />,

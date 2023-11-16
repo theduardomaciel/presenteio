@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
 
 	const event = await prisma.event.findUnique({
 		where: {
-			id: parseInt(id as string),
+			id: id,
 		},
 		include: {
 			guests: true,
@@ -32,27 +32,15 @@ export async function POST(request: NextRequest) {
 		});
 	}
 
-	const eventGuests = event.guests as Guest[];
-
 	let guestsAlreadyRaffledIds: string[] = [];
-	const isAlreadyRaffled = (id: string) =>
-		guestsAlreadyRaffledIds.includes(id);
-
-	function getRandomRaffle(guest: Guest) {
-		const availableGuests = eventGuests.filter(
-			(iterationGuest) =>
-				iterationGuest.id !== guest.id &&
-				isAlreadyRaffled(iterationGuest.id) === false
-		);
-		const randomGuest =
-			availableGuests[Math.floor(Math.random() * availableGuests.length)];
-		guestsAlreadyRaffledIds.push(randomGuest.id);
-		return randomGuest;
-	}
 
 	const guests = await Promise.all(
-		await eventGuests.map((guest) => {
-			const guestRaffle = getRandomRaffle(guest);
+		await event.guests.map((guest) => {
+			const guestRaffle = getRandomRaffle(
+				event,
+				guestsAlreadyRaffledIds,
+				guest
+			);
 			return { ...guest, correspondingGuest: guestRaffle };
 		})
 	);
@@ -92,6 +80,27 @@ export async function POST(request: NextRequest) {
 	} catch (error) {
 		console.log(error);
 	}
+}
+
+const isAlreadyRaffled = (id: string, guestsAlreadyRaffledIds: string[]) =>
+	guestsAlreadyRaffledIds.includes(id);
+
+function getRandomRaffle(
+	event: Event & { guests: Guest[] },
+	guestsAlreadyRaffledIds: string[],
+	guest: Guest
+) {
+	const availableGuests = event!.guests.filter(
+		(iterationGuest) =>
+			iterationGuest.id !== guest.id &&
+			!isAlreadyRaffled(iterationGuest.id, guestsAlreadyRaffledIds)
+	);
+
+	const randomGuest =
+		availableGuests?.[Math.floor(Math.random() * availableGuests.length)];
+
+	guestsAlreadyRaffledIds.push(randomGuest.id);
+	return randomGuest;
 }
 
 async function sendAllEmails(guests: Guest[], event: Event) {

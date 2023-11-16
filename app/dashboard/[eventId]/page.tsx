@@ -64,6 +64,7 @@ export default async function EventPage({
 							src={event.image_url}
 							className={"imageContain"}
 							fill
+							sizes="100%"
 							alt="Event background image"
 						/>
 					) : (

@@ -89,9 +89,13 @@ export default function ButtonsHolder({
 
 	const MIN_GUESTS = 3;
 	const DISABLED = useMemo(
-		() => event.status === "DIVULGED" || event.guests.length < MIN_GUESTS,
+		() =>
+			event.status === "DIVULGED" ||
+			event.guests.filter((guest) => guest.status === "CONFIRMED")
+				.length < MIN_GUESTS,
 		[event]
 	);
+
 	const hasGuestsWithoutEmail =
 		event.guests.filter((guest) => !guest.email).length > 0;
 
@@ -119,7 +123,7 @@ export default function ButtonsHolder({
 									{
 										status: "info",
 										title: "Infelizmente, não é possível realizar esta ação.",
-										description: `Para realizar o sorteio, o evento deve ter pelo menos ${MIN_GUESTS} convidados.`,
+										description: `Para realizar o sorteio, o evento deve ter pelo menos ${MIN_GUESTS} convidados confirmados.`,
 									},
 								]);
 							}

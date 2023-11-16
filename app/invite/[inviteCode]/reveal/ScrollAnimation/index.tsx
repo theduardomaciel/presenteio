@@ -62,7 +62,6 @@ export default function ScrollAnimation({
 	}, []);
 
 	const MULTIPLY_BY = Math.floor((TAGS_PER_ROW * 2) / guestsImages.length);
-	const IS_ARRAY_EVEN = guestsImages.length % 2 === 0;
 	const SORTED_ARRAY = useMemo(
 		() =>
 			makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([
@@ -75,7 +74,7 @@ export default function ScrollAnimation({
 
 	const images = SORTED_ARRAY.map((guest, i) => (
 		<Tag
-			key={i.toString()}
+			key={i.toString() + "_image"}
 			additionalClass={
 				i === MIDDLE_INDEX ? styles.correspondingGuest : undefined
 			}
@@ -121,7 +120,7 @@ export default function ScrollAnimation({
 							.slice(0, TAGS_PER_ROW)
 							.map((guest, i) => (
 								<Tag
-									key={i.toString()}
+									key={i.toString() + "_firstAnimator"}
 									image_url={guest}
 									size={125}
 								/>
@@ -178,7 +177,7 @@ export default function ScrollAnimation({
 							.slice(0, TAGS_PER_ROW)
 							.map((guest, i) => (
 								<Tag
-									key={i.toString()}
+									key={i.toString() + "_secondAnimator"}
 									image_url={guest}
 									size={125}
 								/>

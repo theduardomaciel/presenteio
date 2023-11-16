@@ -11,7 +11,11 @@ function isAuthenticated(request: NextRequest) {
 	}
 }
 
-const allowedPaths = ["/api/emails/check", "/api/emails/send"];
+const allowedPaths = [
+	"/api/emails/check",
+	"/api/emails/send",
+	"/api/images/generate/event",
+];
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {

@@ -1,7 +1,8 @@
-import { CSSProperties } from "react";
+import { ImageResponse } from "next/og";
 
-import { NextRequest } from "next/server";
-import { ImageResponse } from "@vercel/og";
+// Types
+import type { CSSProperties } from "react";
+import type { NextRequest } from "next/server";
 
 // Utils
 import { EventType } from "@prisma/client";
@@ -9,11 +10,11 @@ import { EventType } from "@prisma/client";
 export const runtime = "edge";
 
 const gelasio = fetch(
-	new URL("./assets/Gelasio_BoldItalic.ttf", import.meta.url)
+	new URL("../../../../fonts/Gelasio/Gelasio-BoldItalic.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
 const judson = fetch(
-	new URL("./assets/Judson_Regular.ttf", import.meta.url)
+	new URL("../../../../fonts/Judson/Judson-Regular.ttf", import.meta.url)
 ).then((res) => res.arrayBuffer());
 
 export async function GET(request: NextRequest) {

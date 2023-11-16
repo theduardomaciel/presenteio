@@ -31,7 +31,7 @@ export default function RevealEmail({
 	)}&type=${eventType}`;
 	const EVENT_REVEAL_URL = `https://presenteio.vercel.app/invite/${eventInviteCode}/reveal?guest=${guestId}`;
 
-	console.log(IMAGE_URL, EVENT_REVEAL_URL);
+	//console.log(IMAGE_URL, EVENT_REVEAL_URL);
 
 	return (
 		<Html>
@@ -49,7 +49,7 @@ export default function RevealEmail({
 							src={`https://i.imgur.com/b61gJWS.png`}
 							width="300"
 							height="100"
-							alt="event logo"
+							alt="Event logo"
 							style={logo}
 						/>
 					)}
@@ -125,7 +125,7 @@ const linkStyle = {
 
 const button = {
 	background: "#FF3D3D",
-	padding: "15px 20px",
+	padding: "15px 0px",
 	borderRadius: "0.5rem",
 	fontStyle: "normal" as const,
 	fontSize: 18,

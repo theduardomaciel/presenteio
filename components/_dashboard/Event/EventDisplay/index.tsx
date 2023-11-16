@@ -1,5 +1,4 @@
 "use client";
-import { Suspense, useState } from "react";
 import Image from "next/image";
 
 // Styling
@@ -10,7 +9,6 @@ import BackgroundPattern from "@/public/images/background_pattern.png";
 
 import AddPhotoIcon from "@/public/icons/add_photo.svg";
 import EditPhotoIcon from "@/public/icons/change.svg";
-import SaveIcon from "@/public/icons/save.svg";
 
 // Components
 import Overlay from "@/dashboard/components/Overlay";
@@ -35,11 +33,9 @@ export default function EventDisplay({
 	className,
 	children,
 }: Props) {
-	const [preview, setPreview] = useState<string | undefined>(
+	const { preview, onSelectFile } = useImagePreview(
 		event?.image_url || undefined
 	);
-
-	const onSelectFile = useImagePreview(setPreview);
 
 	return (
 		<div
@@ -91,20 +87,6 @@ export default function EventDisplay({
 				name="eventImageUpload"
 				id="eventImageUpload"
 			/>
-
-			{/* {event && (
-				<Button
-					className="absolute right-6 top-[1.4rem] px-3 py-1 bg-primary-03 hover:bg-primary-02 text-white border-none"
-					noEffects
-				>
-					{isLoading ? (
-						<Spinner />
-					) : (
-						<SaveIcon className="icon click" type="submit" />
-					)}
-					Salvar
-				</Button>
-			)} */}
 
 			<div className="flex flex-row items-center justify-end gap-5 absolute bottom-1 right-1 lg:bottom-[1.2rem] lg:right-[1.2rem]">
 				<EventThemePicker

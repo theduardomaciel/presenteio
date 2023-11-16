@@ -10,12 +10,14 @@ import styles from "./intro.module.css";
 import Gifts from "@/public/images/gifts.png";
 import Gift from "@/public/images/gift.png";
 
+import Logo from "@/public/logo_gradient.svg";
 import LogoutIcon from "@/public/icons/logout.svg";
 
 import type { Guest } from "@prisma/client";
 import type { Event } from "@prisma/client";
 
 import getWordGenre from "@/utils/wordGenre";
+import Link from "next/link";
 
 interface Props {
 	guest?: Guest;
@@ -39,19 +41,21 @@ export default function Intro({ guest, event }: Props) {
 	const { createdAt, ...rest } = event;
 	return (
 		<>
-			{guest && (
-				<header className={styles.header}>
-					<h6>
-						{getGreetings()}, <strong>{guest.name}</strong>!
-					</h6>
-					{/* <button className="flex flex-row items-center justify-end gap-3 text-primary-02 font-sans text-sm hover:scale-[101%] hover:outline outline-[0.5px] outline-primary-01 outline-offset-[8px] rounded-[0.15px] transition-all duration-100">
+			<header className={styles.header}>
+				<h6>
+					{getGreetings()},{" "}
+					<strong>{guest ? guest.name : "convidado"}</strong>!
+				</h6>
+				{/* <button className="flex flex-row items-center justify-end gap-3 text-primary-02 font-sans text-sm hover:scale-[101%] hover:outline outline-[0.5px] outline-primary-01 outline-offset-[8px] rounded-[0.15px] transition-all duration-100">
 						Não sou esta pessoa, sair{" "}
 						<span>
 							<LogoutIcon width={18} height={18} />
 						</span>
 					</button> */}
-				</header>
-			)}
+				<Link href={`/`}>
+					<Logo />
+				</Link>
+			</header>
 			<div className={styles.content}>
 				<div className={styles.title}>
 					<div className={styles.titleContent}>

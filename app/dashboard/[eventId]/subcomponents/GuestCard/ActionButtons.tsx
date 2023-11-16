@@ -316,7 +316,8 @@ export default function ActionButtons({ guest, event }: Props) {
 				}}
 				buttons={[
 					{
-						text: "Remover Convidado",
+						text: "Sim, desejo remover o convidado",
+						style: { width: "100%" },
 						onClick: deleteGuest,
 					},
 				]}

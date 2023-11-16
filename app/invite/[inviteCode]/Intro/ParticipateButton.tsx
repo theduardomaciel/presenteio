@@ -19,7 +19,7 @@ import Input from "components/_ui/Input";
 
 // Hooks
 import useImagePreview from "hooks/useImagePreview";
-import { toBase64, extractBase64 } from "@/utils/base64";
+import { toBase64 } from "@/utils/image";
 
 import type { Guest } from "@prisma/client";
 import type { Event } from "@prisma/client";
@@ -45,18 +45,15 @@ export default function ParticipateButton({ guest, event }: Props) {
 	async function updateOrCreateGuest(behavior: "create" | "update") {
 		setActualSection(["updating_data", 1]);
 
-		const unformattedBase64 = userData.current.image
+		const base64 = userData.current.image
 			? ((await toBase64(userData.current.image as File)) as string)
-			: null;
-
-		const base64 = unformattedBase64
-			? extractBase64(unformattedBase64)
 			: null;
 
 		try {
 			const response =
 				behavior === "create"
-					? await axios.post("/api/guests/create", {
+					? await axios.post("/api/guests", {
+							eventId: event.id,
 							name: userData.current.name,
 							email: userData.current.email,
 							status: "CONFIRMED",
@@ -114,7 +111,7 @@ export default function ParticipateButton({ guest, event }: Props) {
 			updateOrCreateGuest("update");
 		} else if (!guest?.email) {
 			setActualSection(["direct_invite_guest_email", 1]);
-		} else if (!guest?.image_url || event.allowProfileChange) {
+		} else if (event.allowProfileChange) {
 			setActualSection(["direct_invite_guest_image", 1]);
 		} else {
 			setActualSection(["error", -1]);
@@ -192,13 +189,17 @@ export default function ParticipateButton({ guest, event }: Props) {
 		children: (
 			<form
 				className={styles.section}
-				onSubmit={(event) => {
-					event.preventDefault();
+				onSubmit={(formEvent) => {
+					formEvent.preventDefault();
 					const formData = new FormData(
-						event.target as HTMLFormElement
+						formEvent.target as HTMLFormElement
 					);
 					userData.current.email = formData.get("email") as string;
-					setActualSection(["direct_invite_guest_image", 1]);
+					if (event.allowProfileChange) {
+						setActualSection(["direct_invite_guest_image", 1]);
+					} else {
+						updateOrCreateGuest("update");
+					}
 				}}
 			>
 				<Input
@@ -216,9 +217,13 @@ export default function ParticipateButton({ guest, event }: Props) {
 				</Button>
 				<div
 					className="modalFooter"
-					onClick={() =>
-						setActualSection(["direct_invite_guest_image", 1])
-					}
+					onClick={() => {
+						if (event.allowProfileChange) {
+							setActualSection(["direct_invite_guest_image", 1]);
+						} else {
+							updateOrCreateGuest("update");
+						}
+					}}
 				>
 					<p>Não quero ser notificado por e-mail</p>
 				</div>
@@ -227,16 +232,8 @@ export default function ParticipateButton({ guest, event }: Props) {
 		footer: CancelFooter,
 	} as Section;
 
-	const [selectedFile, setSelectedFile] = useState<File | undefined>(
-		undefined
-	);
-	const [preview, setPreview] = useState<any>(
-		guest?.image_url ? guest.image_url : undefined
-	);
-	const onSelectFile = useImagePreview(
-		setSelectedFile,
-		setPreview,
-		selectedFile
+	const { preview, onSelectFile } = useImagePreview(
+		guest?.image_url || undefined
 	);
 
 	const DirectInviteGuest_image = {
@@ -263,15 +260,16 @@ export default function ParticipateButton({ guest, event }: Props) {
 				}}
 			>
 				<label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="image">
-					{preview && (
+					{preview ? (
 						<Image
 							src={preview}
 							fill
 							alt=""
 							style={{ borderRadius: "50%", objectFit: "cover" }}
 						/>
+					) : (
+						<AddPhotoIcon width={48} height={48} />
 					)}
-					{!preview && <AddPhotoIcon />}
 				</label>
 				<input
 					type={"file"}
@@ -316,7 +314,7 @@ export default function ParticipateButton({ guest, event }: Props) {
 	} as Section;
 
 	const InviteGuest_name = {
-		title: `"Pronto para participar do ${
+		title: `Pronto para participar do ${
 			event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"
 		} d${getWordGenre(event.name)} ${event.name}?`,
 		description:
@@ -413,7 +411,7 @@ export default function ParticipateButton({ guest, event }: Props) {
 							style={{ borderRadius: "50%", objectFit: "cover" }}
 						/>
 					)}
-					{!preview && <AddPhotoIcon />}
+					{!preview && <AddPhotoIcon width={48} height={48} />}
 				</label>
 				<input
 					required
@@ -441,12 +439,6 @@ export default function ParticipateButton({ guest, event }: Props) {
 							(os outros não verão sua imagem durante a revelação)
 						</span>
 					</p>
-				</div>
-				<div
-					className="modalFooter"
-					onClick={() => updateOrCreateGuest("create")}
-				>
-					<p>Não possuo uma imagem</p>
 				</div>
 			</form>
 		),

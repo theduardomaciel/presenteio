@@ -22,7 +22,7 @@ import UploadIcon from "@/public/icons/upload.svg";
 // Utils
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { extractBase64, toBase64 } from "@/utils/base64";
+import { toBase64 } from "@/utils/image";
 
 export const InviteOptions = ({
 	defaultValues,
@@ -58,7 +58,7 @@ export default function ComposeEventForm({
 
 	async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		console.log(confirmModalState);
+
 		if (confirmModalState.status === true) {
 			setIsLoading(true);
 			setConfirmModalState({
@@ -72,23 +72,15 @@ export default function ComposeEventForm({
 			const form = new FormData(event.currentTarget);
 
 			const eventImage = form.get("eventImageUpload") as File;
-
 			const image_base64 = eventImage
 				? await toBase64(eventImage)
 				: undefined;
 
-			const correctedImage =
-				image_base64 && image_base64.length > 30
-					? extractBase64(image_base64)
-					: undefined;
-
 			const guestsWithImage = await Promise.all(
 				Array.from(preGuests).map(async (guest) => {
 					if (guest.image) {
-						const guestImage_base64 = (await toBase64(
-							guest.image
-						)) as string;
-						guest.imagePreview = extractBase64(guestImage_base64);
+						guest.imagePreview =
+							(await toBase64(guest.image)) || undefined;
 					}
 					return guest;
 				})
@@ -102,11 +94,10 @@ export default function ComposeEventForm({
 				allowProfileChange: form.get("allowProfileChange"),
 				minPrice: form.get("min"),
 				maxPrice: form.get("max"),
-				image_base64: correctedImage,
+				image_base64: image_base64,
 				guests: guestsWithImage,
 				color: form.get("accentColor"),
 			};
-			console.log(data);
 
 			try {
 				const response = await axios.post(`/api/events`, data);

@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
 			data: {
 				event: {
 					connect: {
-						id: parseInt(eventId),
+						id: eventId,
 					},
 				},
 				name: name,

@@ -1,4 +1,4 @@
-import { decode, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import prisma from "lib/prisma";
 
 import { getImageUrl } from "../images/route";
@@ -25,7 +25,10 @@ export async function POST(request: NextRequest) {
 			} = await request.json();
 
 			if (!name)
-				return new Response("Name is required.", { status: 400 });
+				return new Response("Name is required.", {
+					status: 400,
+					statusText: "Bad request.",
+				});
 
 			const imageResponse = await getImageUrl(image_base64, name);
 			console.log("Image Response: " + imageResponse);

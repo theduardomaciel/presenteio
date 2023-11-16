@@ -37,10 +37,10 @@ export default function Button({
 	return (
 		<button
 			className={cn(
-				`${styles.button} flex flex-row justify-center items-center px-7 py-3 gap-3 text-white font-serif text-base bg-primary-02 border border-primary-03 rounded-lg transition-all duration-300 enabled:active:outline outline-1 outline-neutral`,
+				`${styles.button} flex flex-row justify-center items-center px-7 py-3 gap-3 text-white font-serif text-base bg-primary-02 border border-primary-03 rounded-lg transition-all duration-300 outline-1 outline-neutral`,
 				className,
 				{
-					"hover:enabled:bg-primary-01 hover:enabled:outline outline-2 outline-primary-01":
+					"enabled:active:outline hover:enabled:bg-primary-01 hover:enabled:outline outline-2 outline-primary-01":
 						!noEffects,
 					"bg-primary-03 border-none cursor-not-allowed":
 						disabled || isLoading,

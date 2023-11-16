@@ -1,0 +1,1 @@
+Allow: /api/images/generate/event*

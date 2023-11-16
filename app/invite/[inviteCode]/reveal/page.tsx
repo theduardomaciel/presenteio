@@ -10,7 +10,7 @@ import { getEventFromInviteCode } from "lib/getEvents";
 import { getGuest } from "lib/getGuest";
 
 // Types
-import { InviteProps } from "../page";
+import type { InviteProps } from "../page";
 
 export default async function Reveal({ params, searchParams }: InviteProps) {
 	const event = await getEventFromInviteCode(params?.inviteCode as string);

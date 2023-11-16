@@ -19,7 +19,7 @@ import EventTitle from "./components/EventTitle";
 import { getEventFromInviteCode } from "lib/getEvents";
 import { getGuest } from "lib/getGuest";
 
-import type { Event } from "@prisma/client";
+import type { Event, GuestStatus } from "@prisma/client";
 import type { Guest } from "@prisma/client";
 
 export interface InviteProps {
@@ -31,6 +31,24 @@ export interface InviteProps {
 	};
 }
 
+/* 
+PENDING: The guest is not in the event yet (needs to enter data or confirm).
+	EXPIRED: The event is divulged and the user is not in the event.
+	CONFIRMED: 
+		1. The event is divulged and the user is in the event.
+		2. The event is not divulged and the user is in the event.
+		VISUALIZED: The user has already visualized his corresponding guest.
+		*/
+
+const getCurrentStatus = (event: Event, guest?: Guest) => {
+	if (!guest) {
+		if (event.status === "DIVULGED") return "EXPIRED";
+		return "PENDING";
+	}
+
+	return guest.status as GuestStatus;
+};
+
 export default async function Invite({ params, searchParams }: InviteProps) {
 	const event = await getEventFromInviteCode(params?.inviteCode as string);
 	const guest = await getGuest(searchParams?.guest as string);
@@ -39,22 +57,13 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 		notFound();
 	}
 
-	const STATUS =
-		event?.status === "DIVULGED" && !guest
-			? "DIVULGED"
-			: guest
-			? guest?.status === "PENDING"
-				? "intro"
-				: guest?.status === "CONFIRMED"
-				? "waiting"
-				: "visualized"
-			: "intro";
+	const STATUS = getCurrentStatus(event, guest || undefined);
 
 	const Title = <EventTitle type={event.type} name={event.name} />;
 
 	const SCREENS = {
-		intro: <Intro guest={guest || undefined} event={event} />,
-		DIVULGED: (
+		PENDING: <Intro guest={guest || undefined} event={event} />,
+		EXPIRED: (
 			<div className={styles.content}>
 				<h1>O sorteio já foi realizado.</h1>
 				<p>
@@ -70,7 +79,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 				<div className={"divisor"} />
 			</div>
 		),
-		waiting: (
+		CONFIRMED: (
 			<div className={styles.content}>
 				{Title}
 				<h1>Já estamos prontos.</h1>
@@ -111,7 +120,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 									opacity={0.5}
 								/>
 							}
-							className={styles.footerButton}
+							className={`${styles.footerButton}`}
 							noEffects
 						>
 							<p className={`${styles.footerButtonFont}`}>
@@ -122,7 +131,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 				)}
 			</div>
 		),
-		visualized: (
+		VISUALIZED: (
 			<div className={styles.content}>
 				{Title}
 				<h1>Você já visualizou seu amigo secreto.</h1>

@@ -4,7 +4,6 @@ import { cookies } from "next/headers";
 // Assets
 import Background from "@/public/images/background.png";
 import DarkBackground from "@/public/images/background_dark.png";
-import placeholder from "@/public/images/placeholder.webp";
 
 import { getEventFromInviteCode } from "lib/getEvents";
 import type { Event } from "@prisma/client";
@@ -26,7 +25,7 @@ export default async function InviteLayout({ params, children }: Props) {
 
 	const isDark = theme && theme === "dark";
 	return (
-		<div style={{ position: "relative" }}>
+		<div className="relative">
 			{children}
 			<Image
 				src={isDark ? DarkBackground : Background}
