@@ -28,7 +28,7 @@ const ERRORS = {
 	500: "Erro interno do servidor.",
 };
 
-export default function Login({ isAnimated }: { isAnimated?: boolean }) {
+export default function Login() {
 	const router = useRouter();
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -163,14 +163,14 @@ export default function Login({ isAnimated }: { isAnimated?: boolean }) {
 		<Fragment>
 			<div
 				className={cn(
-					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] -z-10",
-					{
+					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] -z-10"
+					/* {
 						"animate-fadeIn": isAnimated,
-					}
+					} */
 				)}
 			/>
 			<AuthModal
-				initial={isAnimated ? true : false}
+				//initial={isAnimated ? true : false}
 				sections={{ login: Section0 }}
 				actualSection={actualSection}
 				direction={direction}
