@@ -115,7 +115,7 @@ type Sections =
 	| "final"
 	| "error";
 
-export default function Register({ isAnimated }: { isAnimated?: boolean }) {
+export default function Register() {
 	const timer = useRef(EMAIL_RESEND_DELAY);
 	const emailsSent = useRef(0);
 
@@ -779,14 +779,14 @@ export default function Register({ isAnimated }: { isAnimated?: boolean }) {
 		<Fragment>
 			<div
 				className={cn(
-					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] -z-10",
-					{
+					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] -z-10"
+					/* {
 						"animate-fadeIn": isAnimated,
-					}
+					} */
 				)}
 			/>
 			<AuthModal
-				initial={isAnimated ? true : false}
+				//initial={isAnimated ? true : false}
 				sections={sections}
 				actualSection={actualSection}
 				direction={direction}
