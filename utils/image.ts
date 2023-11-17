@@ -14,18 +14,15 @@ export const toBase64 = (file: File) =>
 				resolve(null);
 			} //reject("Erro ao ler a imagem");
 
-			return compressImage(reader.result as string).then(
-				(compressedImage) => {
-					if (compressedImage) {
-						//console.log("compressedImage", compressedImage);
-						resolve(compressedImage);
-					} else {
-						//reject("Erro ao comprimir a imagem");
-						console.warn("Erro ao comprimir a imagem");
-						resolve(null);
-					}
+			return compressImage(reader.result as string).then((image) => {
+				if (image) {
+					//console.log("Imagem: " + image);
+					resolve(image);
+				} else {
+					console.warn("Erro ao comprimir a imagem");
+					resolve(null);
 				}
-			);
+			});
 		};
 		reader.onerror = (error) => reject(error);
 	}) as Promise<string | null>;
@@ -61,10 +58,12 @@ const compressImage = async (imageString: string) => {
 			ctx.drawImage(image, 0, 0);
 
 			const compressedBase64 = canvas.toDataURL("image/jpeg", 0.5);
+			console.log("Compressed image size: ", byteSize(compressedBase64));
 
 			return extractBase64(compressedBase64);
 		}
 	} else {
+		console.log("No compression needed.");
 		return extractBase64(imageString);
 	}
 };

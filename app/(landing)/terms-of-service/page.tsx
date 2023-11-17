@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import styles from "../error.module.css";
+import styles from "app/error.module.css";
 
 // Assets
 import Logo from "@/public/logo_gradient.svg";
@@ -30,10 +30,10 @@ export default function TermsOfService() {
 					o presenteio a qualquer momento, sem aviso prévio. <br /> Ao
 					continuar a usar o presenteio após quaisquer modificações,
 					você concorda em aceitar e ficar vinculado aos termos
-					atualizados. Este presenteio é fornecido "no estado em que
-					se encontra", sem garantias de qualquer tipo, expressas ou
-					implícitas. <br /> O uso do presenteio é por sua conta e
-					risco.
+					atualizados. Este presenteio é fornecido &quot;no estado em
+					que se encontra&quot;, sem garantias de qualquer tipo,
+					expressas ou implícitas. <br /> O uso do presenteio é por
+					sua conta e risco.
 				</p>
 				<Link href={`/`}>
 					<Button>Voltar para o início</Button>

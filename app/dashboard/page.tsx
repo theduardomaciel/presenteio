@@ -14,7 +14,7 @@ export default async function Dashboard() {
 
 	return (
 		<>
-			<div className={styles.container}>
+			<div className={`${styles.container} min-h-screen`}>
 				<DashboardHeader profileChildren={<CreateEventButton />} />
 				<div className={`${styles.content}`}>
 					<h2 className={styles.title}>Meus Eventos</h2>

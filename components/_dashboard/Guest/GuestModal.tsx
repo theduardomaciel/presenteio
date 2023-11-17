@@ -1,5 +1,12 @@
 "use client";
-import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import {
+	CSSProperties,
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -52,7 +59,7 @@ interface Props {
 // código do preview de imagem: https://stackoverflow.com/questions/38049966/get-image-preview-before-uploading-in-react
 
 function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
-	const formRef = useRef<HTMLFormElement | null>(null);
+	const imageInputRef = useRef<HTMLInputElement | null>(null);
 
 	const { onSelectFile, setPreview, preview } = useImagePreview(
 		modalProps?.guest?.image_url || undefined
@@ -61,15 +68,15 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 	const [isLoading, setLoading] = useState(false);
 	const router = useRouter();
 
-	async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
+	const [name, setName] = useState(modalProps?.guest?.name || "");
+	const [email, setEmail] = useState(modalProps?.guest?.email || "");
+
+	async function onSubmit() {
+		if (!name) return alert("O nome é obrigatório");
 
 		if (modalProps?.setPreGuests) {
-			const name = data.get("guestName") as string;
-			const email = data.get("guestEmail") as string;
-
 			if (modalProps && modalProps.preGuest) {
+				// editing a preGuest
 				modalProps.setPreGuests((prev) => {
 					let newPreGuests = [...prev];
 					newPreGuests[
@@ -78,15 +85,18 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 						name: name,
 						email: email,
 						imagePreview: preview,
+						image: imageInputRef.current?.files?.[0] as File,
 					};
 					return newPreGuests;
 				});
 			} else {
+				// adding a preGuest
 				modalProps.setPreGuests((prev) =>
 					prev.concat({
 						name: name,
 						email: email,
 						imagePreview: preview,
+						image: imageInputRef.current?.files?.[0] as File,
 					})
 				);
 			}
@@ -94,12 +104,12 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 		} else if (modalProps?.guest) {
 			setLoading(true);
 
-			const image = data.get("guestImageUpload") as File;
+			const image = imageInputRef.current?.files?.[0] as File;
 			const image_base64 = image ? await toBase64(image) : null;
 
 			const guest = {
-				name: data.get("guestName"),
-				email: data.get("guestEmail"),
+				name: name,
+				email: email,
 				image_deleteHash: modalProps.guest.image_deleteHash,
 				image_base64: image_base64,
 			};
@@ -116,13 +126,16 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 		} else if (modalProps?.eventId) {
 			setLoading(true);
 
-			const image = data.get("guestImageUpload") as File;
+			const image = imageInputRef.current?.files?.[0] as File;
 			const image_base64 = image ? await toBase64(image) : null;
+
+			//console.log(image);
+			//console.log(image_base64);
 
 			const guest = {
 				eventId: modalProps.eventId,
-				name: data.get("guestName"),
-				email: data.get("guestEmail"),
+				name: name,
+				email: email,
 				image_base64: image_base64,
 			};
 
@@ -137,40 +150,38 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 		}
 	}
 
-	const [hasChanges, setHasChanges] = useState(false);
+	const hasChanges = useMemo(() => {
+		if (modalProps?.guest) {
+			/* console.log(
+				name,
+				modalProps?.guest?.name,
+				name !== modalProps?.guest?.name
+			);
+			console.log(
+				email,
+				modalProps?.guest?.email ?? "",
+				email !== modalProps?.guest?.email
+			);
+			console.log(
+				preview,
+				modalProps?.guest?.image_url,
+				preview !== modalProps?.guest?.image_url &&
+					preview !== undefined
+			); */
 
-	async function onFormChange(formEvent: React.FormEvent<HTMLFormElement>) {
-		const data = new FormData(formEvent.currentTarget);
-		const guestImage = data.get("guestImageUpload") as File;
-
-		const guest = {
-			name: data.get("guestName"),
-			email: data.get("guestEmail") || undefined,
-		};
-
-		const initialGuest = {
-			name: modalProps?.guest?.name,
-			email: modalProps?.guest?.email || undefined,
-		};
-
-		console.log(guest, initialGuest);
-
-		if (
-			JSON.stringify(guest) === JSON.stringify(initialGuest) &&
-			guestImage?.size === 0
-		) {
-			setHasChanges(false);
-		} else {
-			setHasChanges(true);
+			return (
+				name !== modalProps?.guest?.name ||
+				email !== (modalProps?.guest?.email ?? "") ||
+				(preview !== modalProps?.guest?.image_url &&
+					preview !== undefined)
+			);
 		}
-	}
+	}, [name, email, preview]);
 
 	const cleanUp = () => {
 		setLoading(false);
-		setHasChanges(false);
-		setPreview(undefined);
-		formRef.current?.reset();
-
+		imageInputRef.current?.value && (imageInputRef.current.value = "");
+		setPreview(modalProps?.guest?.image_url || undefined);
 		toggleVisibility();
 	};
 
@@ -188,12 +199,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 						: "Adicionar convidado",
 			}}
 		>
-			<form
-				ref={formRef}
-				className="flex flex-col items-center justify-start gap-5 w-full"
-				onChange={modalProps?.guest ? onFormChange : undefined}
-				onSubmit={onSubmit}
-			>
+			<div className="flex flex-col items-center justify-start gap-5 w-full">
 				<label
 					style={GUEST_IMAGE_PLACEHOLDER}
 					htmlFor="guestImageUpload"
@@ -213,6 +219,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 					)}
 				</label>
 				<input
+					ref={imageInputRef}
 					type={"file"}
 					onChange={onSelectFile}
 					accept="image/png, image/jpeg"
@@ -223,24 +230,26 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 				<Input
 					label="Nome*"
 					type={"text"}
+					value={name}
+					onChange={(e) => setName(e.target.value)}
 					name="guestName"
 					id="guestName"
 					maxLength={30}
-					defaultValue={modalProps?.guest?.name || undefined}
 					required
 				/>
 				<Input
 					label="E-mail"
 					name="guestEmail"
+					value={email}
+					onChange={(e) => setEmail(e.target.value)}
 					id="guestEmail"
 					minLength={8}
 					type={"email"}
-					defaultValue={modalProps?.guest?.email || undefined}
 				/>
 				<Button
-					type="submit"
+					onClick={onSubmit}
 					isLoading={isLoading}
-					disabled={modalProps?.guest ? !hasChanges : false}
+					disabled={modalProps?.guest ? !hasChanges : !name}
 					style={{ width: "100%", padding: "0.8rem 3rem" }}
 				>
 					{modalProps?.preGuest || modalProps?.guest ? (
@@ -252,7 +261,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 						? "Editar"
 						: "Adicionar"}
 				</Button>
-			</form>
+			</div>
 		</Modal>
 	);
 }

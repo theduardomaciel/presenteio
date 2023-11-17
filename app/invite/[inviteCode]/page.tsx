@@ -8,7 +8,7 @@ import styles from "./invite.module.css";
 import ViewIcon from "@/public/icons/view.svg";
 
 // Sections
-import Intro from "./Intro";
+import Intro from "./intro";
 
 // Components
 import Button from "components/_ui/Button";
@@ -108,27 +108,28 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 					</p>
 				</Button>
 				<div className={"divisor"} />
-				{event.status === "DIVULGED" && event.allowRevealFromPage && (
-					<Link
-						href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
-						className="modalFooter"
-					>
-						<Button
-							icon={
-								<ViewIcon
-									fill="var(--primary-03)"
-									opacity={0.5}
-								/>
-							}
-							className={`${styles.footerButton}`}
-							suppressEffects
+				{event.status === "DIVULGED" &&
+					(event.allowRevealFromPage || !guest?.email) && (
+						<Link
+							href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
+							className="modalFooter"
 						>
-							<p className={`${styles.footerButtonFont}`}>
-								Ver meu amigo secreto
-							</p>
-						</Button>
-					</Link>
-				)}
+							<Button
+								icon={
+									<ViewIcon
+										fill="var(--primary-03)"
+										opacity={0.5}
+									/>
+								}
+								className={`${styles.footerButton}`}
+								suppressEffects
+							>
+								<p className={`${styles.footerButtonFont}`}>
+									Ver meu amigo secreto
+								</p>
+							</Button>
+						</Link>
+					)}
 			</div>
 		),
 		VISUALIZED: (
@@ -162,22 +163,23 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 					<GuestsView guests={event.guests} />
 				</div>
 				<div className={"divisor"} />
-				{event.allowRevealFromPage && (
-					<Link
-						href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
-						className="modalFooter"
-					>
-						<Button
-							icon={<ViewIcon fill="var(--primary-03)" />}
-							className={styles.footerButton}
-							suppressEffects
+				{event.allowRevealFromPage ||
+					(!guest?.email && (
+						<Link
+							href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
+							className="modalFooter"
 						>
-							<p className={`${styles.footerButtonFont}`}>
-								Ver meu amigo secreto novamente
-							</p>
-						</Button>
-					</Link>
-				)}
+							<Button
+								icon={<ViewIcon fill="var(--primary-03)" />}
+								className={styles.footerButton}
+								suppressEffects
+							>
+								<p className={`${styles.footerButtonFont}`}>
+									Ver meu amigo secreto novamente
+								</p>
+							</Button>
+						</Link>
+					))}
 			</div>
 		),
 	};

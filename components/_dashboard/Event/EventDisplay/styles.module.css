@@ -5,10 +5,10 @@
 	align-items: center;
 
 	width: 100%;
-	background-color: transparent;
-
 	padding-block: 5rem;
+	/* aspect-ratio: 16/9; */
 
+	background-color: transparent;
 	border-radius: 0.5rem;
 	overflow: hidden;
 

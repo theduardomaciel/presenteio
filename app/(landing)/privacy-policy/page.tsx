@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import styles from "../error.module.css";
+import styles from "app/error.module.css";
 
 // Assets
 import Logo from "@/public/logo_gradient.svg";

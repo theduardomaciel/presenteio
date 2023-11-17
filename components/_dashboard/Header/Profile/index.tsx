@@ -20,25 +20,6 @@ export default async function DashboardProfile({
 }: Props) {
 	const account = await getAccount();
 
-	const WIDTH = 36;
-
-	const imageProps = {
-		className: styles.profileImage,
-		width: WIDTH,
-		height: WIDTH,
-	};
-
-	const PLACEHOLDER_IMAGE_URL =
-		process.env.NODE_ENV === "development"
-			? `http://localhost:3000/api/images/generate/profile?name=${account?.name.replaceAll(
-					" ",
-					"%20"
-			  )}&width=${WIDTH}`
-			: `https://presenteio.vercel.app/api/images/generate/profile?name=${account?.name.replaceAll(
-					" ",
-					"%20"
-			  )}&width=${WIDTH}`;
-
 	return (
 		<div
 			className={`${styles.container} ${additionalClasses}`}
@@ -49,15 +30,20 @@ export default async function DashboardProfile({
 				{account?.image_url ? (
 					<Image
 						src={account.image_url}
-						alt="Profile image"
-						{...imageProps}
+						className={styles.profileImage}
+						width={36}
+						height={36}
+						alt="Profile Image"
 					/>
 				) : (
-					<img
-						src={PLACEHOLDER_IMAGE_URL}
-						alt="Profile placeholder image"
-						{...imageProps}
-					/>
+					<div className={styles.profileImage}>
+						<span>
+							{account?.name
+								.split(" ")
+								.map((name) => name[0])
+								.join("")}
+						</span>
+					</div>
 				)}
 				<DashboardProfileMenu name={account?.name} />
 			</div>

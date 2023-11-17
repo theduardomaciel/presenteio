@@ -68,8 +68,8 @@ export async function getImageUrl(image_base64: string, name?: string) {
 				console.log("❌ There was not possible to upload the image.");
 				return null;
 			}
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			console.log(error.response.data);
 			console.log("❌ There was not possible to upload the image.");
 			return null;
 		}

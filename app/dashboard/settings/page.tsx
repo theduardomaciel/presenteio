@@ -12,76 +12,68 @@ import DashboardHeader from "@/dashboard/components/Header";
 import CreateEventButton from "@/dashboard/components/CreateEventButton";
 import DashboardSectionHeader from "@/dashboard/components/Section/SectionHeader";
 import ThemeSelector from "./subcomponents/ThemeSelector";
-import LandingFooter from "components/Landing/Footer/Footer";
 import Button from "components/_ui/Button";
 
 const buttonStyles = "px-10 py-2 bg-primary-01 font-extrabold w-full lg:w-56";
 
 export default async function Dashboard() {
 	return (
-		<>
+		<div className={`${dashboardStyles.container} ${dashboardStyles.free}`}>
+			<DashboardHeader profileChildren={<CreateEventButton />} />
 			<div
-				className={`${dashboardStyles.container} ${dashboardStyles.free}`}
+				className={`${dashboardStyles.content}`}
+				style={{ height: "fit-content" }}
 			>
-				<DashboardHeader profileChildren={<CreateEventButton />} />
-				<div
-					className={`${dashboardStyles.content}`}
-					style={{ height: "fit-content" }}
+				<h2 className={dashboardStyles.title}>Configurações</h2>
+				<DashboardSectionHeader title="Sua Conta" />
+				<SettingsOption
+					title="Alterar nome"
+					description="Altere seu nome caso tenha cometido algum engano ao criar sua conta."
 				>
-					<h2 className={dashboardStyles.title}>Configurações</h2>
-					<DashboardSectionHeader title="Sua Conta" />
-					<SettingsOption
-						title="Alterar nome"
-						description="Altere seu nome caso tenha cometido algum engano ao criar sua conta."
-						children={
-							<Button
-								className={buttonStyles}
-								disabled
-								icon={<NameChangeIcon />}
-							>
-								Alterar nome
-							</Button>
-						}
-					/>
-					<SettingsOption
-						title="Alterar imagem de perfil"
-						description="Altere sua imagem de perfil e deixe ela com a sua cara."
-						children={
-							<Button
-								className={buttonStyles}
-								disabled
-								icon={<PhotoChangeIcon />}
-							>
-								Alterar imagem
-							</Button>
-						}
-					/>
-					<SettingsOption
-						title="Alterar senha"
-						description="Altere sua senha para algo mais seguro e que você se lembre."
-						children={
-							<Button
-								className={buttonStyles}
-								disabled
-								icon={<PasswordChangeIcon />}
-							>
-								Alterar senha
-							</Button>
-						}
-					/>
-					<DashboardSectionHeader title="Personalização" />
-					<SettingsOption
-						title="Tema"
-						description="Modifique a aparência do site de acordo com suas
+					<Button
+						className={buttonStyles}
+						disabled
+						icon={<NameChangeIcon />}
+					>
+						Alterar nome
+					</Button>
+				</SettingsOption>
+				<SettingsOption
+					title="Alterar imagem de perfil"
+					description="Altere sua imagem de perfil e deixe ela com a sua cara."
+				>
+					<Button
+						className={buttonStyles}
+						disabled
+						icon={<PhotoChangeIcon />}
+					>
+						Alterar imagem
+					</Button>
+				</SettingsOption>
+				<SettingsOption
+					title="Alterar senha"
+					description="Altere sua senha para algo mais seguro e que você se lembre."
+				>
+					<Button
+						className={buttonStyles}
+						disabled
+						icon={<PasswordChangeIcon />}
+					>
+						Alterar senha
+					</Button>
+				</SettingsOption>
+				<DashboardSectionHeader title="Personalização" />
+				<SettingsOption
+					title="Tema"
+					description="Modifique a aparência do site de acordo com suas
 					preferências, permitindo a alternância entre um modo claro e
 					um modo escuro, ou seguindo o esquema de cores padrão do seu
 					dispositivo."
-						children={<ThemeSelector />}
-					/>
-				</div>
+				>
+					<ThemeSelector />
+				</SettingsOption>
 			</div>
-			<LandingFooter className="!px-dashboard-wrapper" />
-		</>
+		</div>
 	);
 }
 

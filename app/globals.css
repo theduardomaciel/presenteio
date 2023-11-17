@@ -63,12 +63,16 @@ html,
 body {
 	padding: 0;
 	margin: 0;
-	/* overflow-y: overlay; */
 	height: 100%;
 
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
 }
 
 a {

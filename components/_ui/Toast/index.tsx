@@ -58,7 +58,11 @@ export default function DashboardToast({
 			)}
 			{!toastProps?.icon && toastProps?.status === "info" && (
 				<div className={styles.column}>
-					<InfoIcon />
+					<InfoIcon
+						width={24}
+						height={24}
+						className={styles.toastTitle}
+					/>
 				</div>
 			)}
 			<div className={styles.column}>

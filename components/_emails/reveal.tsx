@@ -40,7 +40,10 @@ export default function RevealEmail({
 				<Container style={container}>
 					{eventName && eventType && (
 						<Img
-							src={EVENT_IMAGE_URL} // `https://i.imgur.com/b61gJWS.png`
+							src={
+								EVENT_IMAGE_URL ||
+								`https://i.imgur.com/b61gJWS.png`
+							}
 							width="300"
 							height="100"
 							alt="Event logo"

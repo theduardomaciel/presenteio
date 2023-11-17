@@ -7,7 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import styles from "app/error.module.css";
 
 // Assets
-import Logo from "@/public/logo.svg";
+import Logo from "@/public/logo_gradient.svg";
 import Background from "@/public/images/background.png";
 
 // Components

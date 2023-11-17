@@ -1,33 +1,51 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 2.5rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	gap: 2.5rem;
 }
 
 .profileHolder {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.profileHolder span {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+
+	font-family: var(--font-judson);
+	font-size: 1.8rem;
+	font-weight: 900;
+	color: var(--neutral);
+	text-transform: uppercase;
 }
 
 .profileHolder .profileImage {
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0px 1px 8px 3px rgba(0, 0, 0, 0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.6rem;
+	height: 3.6rem;
+	background-color: var(--primary-01);
+	border-radius: 50%;
+	overflow: hidden;
+	box-shadow: 0px 1px 8px 3px rgba(0, 0, 0, 0.1);
 }
 
 .profileHolder svg {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 @media (min-width: 1024px) {
-    .container {
-        width: fit-content;
-        justify-content: flex-end;
-    }
+	.container {
+		width: fit-content;
+		justify-content: flex-end;
+	}
 }

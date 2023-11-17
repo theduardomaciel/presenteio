@@ -1,9 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
-export default function useImagePreview(
-	imageUrl?: string,
-	preventCacheClear?: boolean
-) {
+export default function useImagePreview(imageUrl?: string) {
 	const [preview, setPreview] = useState<string | undefined>(imageUrl);
 
 	const onSelectFile = (event: ChangeEvent<HTMLInputElement>) => {
@@ -16,13 +13,13 @@ export default function useImagePreview(
 	};
 
 	useEffect(() => {
-		if (preview && !preventCacheClear) {
+		setPreview(imageUrl);
+
+		if (preview) {
 			// free memory whenever this component is unmounted
-			return () => {
-				URL.revokeObjectURL(preview);
-			};
+			return () => URL.revokeObjectURL(preview);
 		}
-	}, []);
+	}, [imageUrl]);
 
 	return { preview, setPreview, onSelectFile };
 }

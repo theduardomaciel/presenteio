@@ -5,6 +5,8 @@ import ImageOffIcon from "@/public/icons/invite/image_off.svg";
 import EmailOnIcon from "@/public/icons/invite/email_on.svg";
 import EmailOffIcon from "@/public/icons/invite/email_off.svg";
 
+import InfoIcon from "@/public/icons/info.svg";
+
 // Components
 import Checkbox from "components/_ui/Checkbox";
 import {
@@ -14,8 +16,11 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "components/_ui/Tooltip";
+import React from "react";
 
 interface Props {
+	hasEventBeenDivulged?: boolean;
+	hasGuestsWithoutEmail?: boolean;
 	defaultValues?: {
 		allowInvite?: boolean;
 		allowRevealFromPage?: boolean;
@@ -24,32 +29,68 @@ interface Props {
 	};
 }
 
-export default function EventInviteOptions({ defaultValues }: Props) {
+export default function EventInviteOptions({
+	hasEventBeenDivulged = false,
+	hasGuestsWithoutEmail = false,
+	defaultValues,
+}: Props) {
+	//console.log(defaultValues);
 	return (
-		<>
+		<TooltipProvider>
+			{!hasEventBeenDivulged && (
+				<Checkbox
+					defaultChecked={
+						defaultValues?.allowInvite !== undefined
+							? defaultValues.allowInvite
+							: true
+					}
+					name="allowInvite"
+					label="Permitir que outros usuários participem do evento por meio de convite"
+				/>
+			)}
 			<Checkbox
-				defaultChecked={defaultValues?.allowInvite || true}
-				name="allowInvite"
-				label="Permitir que outros usuários participem do evento por meio de convite"
-			/>
-			<Checkbox
-				defaultChecked={defaultValues?.allowProfileChange}
+				defaultChecked={defaultValues?.allowRevealFromPage}
 				name="allowRevealFromPage"
-				label="Permitir que os convidados possam visualizar seus sorteados por meio da página de convite"
-			/>
-			<div className="flex flex-row items-start justify-start w-full">
-				<p className={"option text-primary-02"}>
-					Permitir que os convidados possam alterar:
-				</p>
-				<div className="flex flex-row items-center justify-end gap-4">
-					<TooltipProvider>
+				label="Permitir que os convidados visualizem seus sorteados por meio de seus convites"
+			>
+				<Tooltip delayDuration={0}>
+					<TooltipTrigger asChild>
+						{hasGuestsWithoutEmail && (
+							<span tabIndex={0}>
+								<InfoIcon
+									width={18}
+									height={18}
+									color="var(--primary-03)"
+								/>
+							</span>
+						)}
+					</TooltipTrigger>
+					<TooltipContent>
+						<p>
+							Os convidados que não inseriram seus e-mails ainda
+							poderão visualizar seus sorteados por meio de seus
+							convites.
+						</p>
+						<TooltipArrow />
+					</TooltipContent>
+				</Tooltip>
+			</Checkbox>
+			{!hasEventBeenDivulged && (
+				<div className="flex flex-row items-center justify-center w-full">
+					<p className={"option text-primary-02"}>
+						Permitir que os convidados possam alterar:
+					</p>
+					<div className="flex flex-row items-center justify-end gap-4">
 						<Tooltip delayDuration={0}>
 							<TooltipTrigger asChild>
 								<span tabIndex={0}>
 									<ToggleProperty
 										name="allowProfileChange"
 										defaultChecked={
-											defaultValues?.allowProfileChange
+											defaultValues?.allowProfileChange !==
+											undefined
+												? defaultValues.allowProfileChange
+												: true
 										}
 										enabledIcon={ImageOnIcon}
 										disabledIcon={ImageOffIcon}
@@ -67,7 +108,10 @@ export default function EventInviteOptions({ defaultValues }: Props) {
 									<ToggleProperty
 										name="allowEmailChange"
 										defaultChecked={
-											defaultValues?.allowEmailChange
+											defaultValues?.allowEmailChange !==
+											undefined
+												? defaultValues.allowEmailChange
+												: true
 										}
 										enabledIcon={EmailOnIcon}
 										disabledIcon={EmailOffIcon}
@@ -79,24 +123,24 @@ export default function EventInviteOptions({ defaultValues }: Props) {
 								<TooltipArrow />
 							</TooltipContent>
 						</Tooltip>
-					</TooltipProvider>
+					</div>
 				</div>
-			</div>
-		</>
+			)}
+		</TooltipProvider>
 	);
 }
 
-interface TogglePropertyProps {
+interface TogglePropertyProps extends React.HTMLProps<HTMLInputElement> {
 	name: string;
 	enabledIcon: React.FC<React.SVGProps<SVGSVGElement>>;
 	disabledIcon: React.FC<React.SVGProps<SVGSVGElement>>;
-	defaultChecked?: boolean;
 }
 
 function ToggleProperty({
 	name,
 	enabledIcon: EnabledIcon,
 	disabledIcon: DisabledIcon,
+	...rest
 }: TogglePropertyProps) {
 	return (
 		<label
@@ -108,6 +152,7 @@ function ToggleProperty({
 				name={name}
 				type="checkbox"
 				className="hidden peer"
+				{...rest}
 			/>
 			<EnabledIcon
 				width={24}

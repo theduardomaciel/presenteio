@@ -51,6 +51,7 @@ export default function EventDisplay({
 						borderRadius: "0.5rem",
 						zIndex: 0,
 						objectFit: "cover",
+						aspectRatio: "16/9",
 					}}
 				/>
 			) : (

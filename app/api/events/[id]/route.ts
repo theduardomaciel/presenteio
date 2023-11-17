@@ -1,7 +1,8 @@
-import { type NextRequest } from "next/server";
-
 import prisma from "lib/prisma";
 import { deleteImage, getImageUrl } from "app/api/images/route";
+
+// Types
+import { type NextRequest } from "next/server";
 
 export async function PATCH(
 	request: NextRequest,
@@ -15,7 +16,9 @@ export async function PATCH(
 		minPrice,
 		maxPrice,
 		allowInvite,
+		allowRevealFromPage,
 		allowProfileChange,
+		allowEmailChange,
 	} = await request.json();
 
 	if (!id) {
@@ -62,11 +65,13 @@ export async function PATCH(
 				image_url: updatedImageUrl?.image_url || undefined,
 				image_deleteHash:
 					updatedImageUrl?.image_deleteHash || undefined,
-				minPrice: parseInt(minPrice) || undefined,
-				maxPrice: parseInt(maxPrice) || undefined,
+				minPrice: minPrice ? parseInt(minPrice) : undefined,
+				maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
 				color: color || undefined,
 				allowInvite: allowInvite ? true : false,
+				allowRevealFromPage: allowRevealFromPage ? true : false,
 				allowProfileChange: allowProfileChange ? true : false,
+				allowEmailChange: allowEmailChange ? true : false,
 			},
 		});
 

@@ -29,7 +29,7 @@ import { type Event } from "@prisma/client";
 import { toBase64 } from "@/utils/image";
 
 interface Props {
-	event?: Omit<Event, "createdAt">;
+	event?: Omit<Event, "createdAt"> & { guestsWithoutEmail: number };
 }
 
 export default function EventEditModal({ event }: Props) {
@@ -58,11 +58,13 @@ export default function EventEditModal({ event }: Props) {
 		const data = {
 			allowInvite: form.get("allowInvite") === "on",
 			allowProfileChange: form.get("allowProfileChange") === "on",
+			allowEmailChange: form.get("allowEmailChange") === "on",
+			allowRevealFromPage: form.get("allowRevealFromPage") === "on",
 			minPrice: form.get("min"),
 			maxPrice: form.get("max"),
 			color: form.get("accentColor"),
 			image_base64: image_base64,
-		};
+		} as Partial<Event> & { image_base64?: string };
 
 		try {
 			await axios.patch(`/api/events/${event?.id}`, data);
@@ -99,21 +101,41 @@ export default function EventEditModal({ event }: Props) {
 		const form = new FormData(formEvent.currentTarget);
 		const eventImage = form.get("eventImageUpload") as File;
 
+		// Temos que fazer isso pois algumas partes do formulário podem ser ocultadas do usuário caso o evento já tenha sido divulgado
+		const allowInvite = form.get("allowInvite");
+		const allowRevealFromPage = form.get("allowRevealFromPage");
+		const allowProfileChange = form.get("allowProfileChange");
+		const allowEmailChange = form.get("allowEmailChange");
+
 		const data = {
-			allowInvite: form.get("allowInvite") === "on",
-			allowProfileChange: form.get("allowProfileChange") === "on",
+			allowInvite: allowInvite
+				? form.get("allowInvite") === "on"
+				: event?.allowInvite,
+			allowRevealFromPage: allowRevealFromPage
+				? allowRevealFromPage === "on"
+				: event?.allowRevealFromPage,
+			allowProfileChange: allowProfileChange
+				? form.get("allowProfileChange") === "on"
+				: event?.allowProfileChange,
+			allowEmailChange: allowEmailChange
+				? form.get("allowEmailChange") === "on"
+				: event?.allowEmailChange,
 			minPrice: form.get("min") || undefined,
 			maxPrice: form.get("max") || undefined,
-			color: form.get("accentColor"),
+			color: form.get("accentColor") || "RED",
 		};
 
 		const eventData = {
 			allowInvite: event?.allowInvite,
+			allowRevealFromPage: event?.allowRevealFromPage,
 			allowProfileChange: event?.allowProfileChange,
+			allowEmailChange: event?.allowEmailChange,
 			minPrice: event?.minPrice?.toString() || undefined,
 			maxPrice: event?.maxPrice?.toString() || undefined,
 			color: event?.color,
 		};
+
+		//console.log(data, eventData);
 
 		if (
 			JSON.stringify(data) === JSON.stringify(eventData) &&
@@ -181,9 +203,18 @@ export default function EventEditModal({ event }: Props) {
 							<EventInviteOptions
 								defaultValues={{
 									allowInvite: event.allowInvite,
+									allowRevealFromPage:
+										event.allowRevealFromPage,
 									allowProfileChange:
 										event.allowProfileChange,
+									allowEmailChange: event.allowEmailChange,
 								}}
+								hasEventBeenDivulged={
+									event.status === "DIVULGED"
+								}
+								hasGuestsWithoutEmail={
+									event.guestsWithoutEmail > 0
+								}
 							/>
 						</section>
 						<section>

@@ -20,9 +20,7 @@ import DashboardToast, { ToastDynamicProps } from "components/_ui/Toast";
 import { type Guest, type Event, EventStatus } from "@prisma/client";
 
 interface Props {
-	guest: Guest & {
-		correspondingGuest?: Guest;
-	};
+	guest: Guest;
 	event: Omit<Event, "createdAt">;
 }
 
@@ -51,7 +49,7 @@ export default function ActionButtons({ guest, event }: Props) {
 					{
 						icon: (
 							<DeleteIcon
-								fill="var(--primary-01)"
+								color="var(--primary-01)"
 								width={36}
 								height={36}
 							/>
@@ -136,7 +134,7 @@ export default function ActionButtons({ guest, event }: Props) {
 					{
 						icon: (
 							<SendEmail
-								fill="var(--primary-01)"
+								color="var(--primary-01)"
 								width={36}
 								height={36}
 							/>
@@ -175,7 +173,6 @@ export default function ActionButtons({ guest, event }: Props) {
 					width={22}
 					height={22}
 					onClick={() => {
-						console.log(guest?.correspondingGuest?.name);
 						setEventShareModalVisible(true);
 					}}
 				/>
@@ -183,7 +180,7 @@ export default function ActionButtons({ guest, event }: Props) {
 					guest.status === "CONFIRMED" && (
 						<>
 							<SendEmail
-								fill="var(--neutral)"
+								color="var(--neutral)"
 								width={22}
 								height={22}
 								onClick={() =>
@@ -195,13 +192,13 @@ export default function ActionButtons({ guest, event }: Props) {
 				{event.status === "PENDING" && (
 					<>
 						<EditIcon
-							fill="var(--neutral)"
+							color="var(--neutral)"
 							width={22}
 							height={22}
 							onClick={() => setIsGuestModalVisible(true)}
 						/>
 						<DeleteIcon
-							fill="white"
+							color="white"
 							width={22}
 							height={22}
 							onClick={() =>
@@ -219,7 +216,7 @@ export default function ActionButtons({ guest, event }: Props) {
 				headerProps={{
 					icon: (
 						<SendEmail
-							fill="var(--neutral)"
+							color="var(--neutral)"
 							width={"2.4rem"}
 							height={"2.4rem"}
 						/>
@@ -259,7 +256,7 @@ export default function ActionButtons({ guest, event }: Props) {
 							{
 								icon: (
 									<EditIcon
-										fill="var(--primary-01)"
+										color="var(--primary-01)"
 										width={36}
 										height={36}
 									/>
@@ -299,7 +296,7 @@ export default function ActionButtons({ guest, event }: Props) {
 				headerProps={{
 					icon: (
 						<DeleteIcon
-							fill="white"
+							color="white"
 							width={"2.4rem"}
 							height={"2.4rem"}
 						/>

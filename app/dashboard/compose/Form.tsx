@@ -118,12 +118,15 @@ export default function ComposeEventForm({
 	const router = useRouter();
 
 	return (
-		<form onSubmit={onSubmit} style={{ width: "100%" }}>
+		<form
+			className="flex flex-col w-full items-stretch justify-stretch h-full flex-grow lg:min-h-screen"
+			onSubmit={onSubmit}
+		>
 			{children}
 			<div className={`${styles.content} ${styles.row}`}>
-				<div className={styles.column}>
+				<div className={`${styles.column} h-full`}>
 					<div
-						className={`${styles.section} ${styles.middle}`}
+						className={`${styles.section} h-full`}
 						style={{ gap: "1.35rem" }}
 					>
 						<GuestsDisplay
@@ -137,7 +140,7 @@ export default function ComposeEventForm({
 						<EventInviteOptions />
 					</div>
 				</div>
-				<div className={styles.column}>
+				<div className={`${styles.column} sticky top-4 right-0 h-full`}>
 					<div className={styles.section}>
 						<DashboardSectionHeader title="Regras do Evento" />
 						<DashboardSubSectionHeader
@@ -146,7 +149,7 @@ export default function ComposeEventForm({
 						/>
 						<EventPricePicker fixedWidth />
 					</div>
-					<div className={styles.section} style={{ height: "100%" }}>
+					<div className={`${styles.section} h-full`}>
 						<DashboardSectionHeader title="Personalização" />
 						<EventDisplay style={{ height: "100%" }} />
 					</div>

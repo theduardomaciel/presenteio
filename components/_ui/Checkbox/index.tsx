@@ -17,6 +17,7 @@ export default function Checkbox({ label, children, ...rest }: Props) {
 	return (
 		<div className={`${styles.container} ${label ? styles.withLabel : ""}`}>
 			{label && <p className="option">{label}</p>}
+			{children}
 			<PrimitiveCheckbox.Root className={styles.checkboxRoot} {...rest}>
 				<PrimitiveCheckbox.Indicator
 					className={styles.checkboxIndicator}

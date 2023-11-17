@@ -1,5 +1,5 @@
 "use client";
-import {
+import React, {
 	Dispatch,
 	MutableRefObject,
 	SetStateAction,
@@ -21,6 +21,9 @@ import MailIcon from "@/public/icons/mail.svg";
 import AddIcon from "@/public/icons/add.svg";
 import EditFilledIcon from "@/public/icons/edit_filled.svg";
 import DeleteIcon from "@/public/icons/delete.svg";
+import WarningIcon from "@/public/icons/warning1.svg";
+
+const MAX_GUESTS = 5;
 
 interface Props {
 	preGuests: PreGuest[];
@@ -35,7 +38,7 @@ export interface PreGuest {
 	imagePreview?: string;
 }
 
-interface AddGuestButtonProps {
+interface AddGuestButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
 	setIsGuestModalVisible: Dispatch<SetStateAction<boolean>>;
 	className?: string;
 	style?: React.CSSProperties;
@@ -45,6 +48,7 @@ export const AddGuestButton = ({
 	setIsGuestModalVisible,
 	className,
 	style,
+	...rest
 }: AddGuestButtonProps) => (
 	<Button
 		label="Adicionar participante"
@@ -52,11 +56,13 @@ export const AddGuestButton = ({
 		onClick={() => {
 			setIsGuestModalVisible(true);
 		}}
+		disabled={rest["aria-disabled"] === true}
 		className={className}
 		style={{
 			paddingBlock: "0.5rem",
 			...style,
 		}}
+		{...rest}
 	/>
 );
 
@@ -80,7 +86,7 @@ const PreGuestPreview = ({
 	return (
 		<div
 			className={
-				"flex flex-row items-center justify-between gap-5 w-full"
+				"flex flex-row items-center justify-between gap-[1.5rem] w-full"
 			}
 		>
 			<div
@@ -166,6 +172,7 @@ export default function GuestsDisplay({
 			{hasAddButton && (
 				<AddGuestButton
 					setIsGuestModalVisible={setIsGuestModalVisible}
+					aria-disabled={preGuests.length >= MAX_GUESTS}
 					className="w-full"
 				/>
 			)}
@@ -174,6 +181,7 @@ export default function GuestsDisplay({
 					preGuests.length === 0 ? styles.empty : ""
 				}`}
 			>
+				{/* <div className="flex bg-blue-800 w-1 h-96" /> */}
 				{preGuests.length === 0 ? (
 					<EmptyGuests
 						label="Você não adicionou nenhum convidado previamente."
@@ -189,6 +197,17 @@ export default function GuestsDisplay({
 							setPreGuests={setPreGuests}
 						/>
 					))
+				)}
+				{preGuests.length >= 5 && (
+					<div className="flex flex-row items-center justify-center w-full h-full gap-4 pt-2 text-primary-02">
+						<WarningIcon width={24} height={24} />
+						<p className="text-base">
+							Você atingiu o limite de {MAX_GUESTS} convidados.{" "}
+							<br />
+							Caso deseje aumentar esse limite, entre em contato
+							conosco.
+						</p>
+					</div>
 				)}
 			</div>
 			<GuestModal

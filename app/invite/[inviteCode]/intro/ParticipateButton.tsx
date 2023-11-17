@@ -1,18 +1,22 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
+// Styling
 import styles from "./intro.module.css";
 
+// Assets
 import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/GuestModal";
 
 import CloseIcon from "@/public/icons/close.svg";
 import RightArrowAltIcon from "@/public/icons/arrow_right_alt.svg";
 import AddPhotoIcon from "@/public/icons/add_photo.svg";
+import ChangePhotoIcon from "@/public/icons/change.svg";
 
+// Components
 import Button from "components/_ui/Button";
 import AuthModal, { Section } from "components/MultipleModal";
 import Input from "components/_ui/Input";
@@ -21,8 +25,11 @@ import Input from "components/_ui/Input";
 import useImagePreview from "hooks/useImagePreview";
 import { toBase64 } from "@/utils/image";
 
+// Types
 import type { Guest } from "@prisma/client";
 import type { Event } from "@prisma/client";
+
+// Utils
 import getWordGenre from "@/utils/wordGenre";
 
 interface Props {
@@ -66,10 +73,6 @@ export default function ParticipateButton({ guest, event }: Props) {
 							image_base64: base64,
 					  });
 			if (response) {
-				setActualSection(["null", -1]);
-				router.push(
-					`/invite/${event.inviteCode}/?guest=${response.data.id}`
-				);
 				router.refresh();
 			} else {
 				setActualSection(["error", 1]);
@@ -107,9 +110,21 @@ export default function ParticipateButton({ guest, event }: Props) {
 	);
 
 	function nextSectionWithGuest() {
-		if (guest?.email && guest?.image_url) {
+		// Se o usuário já tiver um e-mail e o anfitrião não permitir a alteração do e-mail, então ele não poderá alterar o e-mail
+		// Além disso, se ele já tiver uma imagem e o anfitrião não permitir a alteração da imagem, ele não poderá alterar a imagem
+		// Portanto, atualizamos o status do usuário para CONFIRMED e redirecionamos para a página do evento
+		if (
+			guest?.email &&
+			!event.allowEmailChange &&
+			guest?.image_url &&
+			!event.allowProfileChange
+		) {
 			updateOrCreateGuest("update");
-		} else if (!guest?.email) {
+		} else if (
+			(!guest?.email && !event.allowRevealFromPage) ||
+			event.allowEmailChange
+		) {
+			// Se o usuário não tiver um e-mail em um evento que não permite a visualização do resultado pela página do convite, então ele deverá inserir um e-mail
 			setActualSection(["direct_invite_guest_email", 1]);
 		} else if (event.allowProfileChange) {
 			setActualSection(["direct_invite_guest_image", 1]);
@@ -183,9 +198,12 @@ export default function ParticipateButton({ guest, event }: Props) {
 	} as Section;
 
 	const DirectInviteGuest_email = {
-		title: "Parece que ainda não sabemos seu e-mail",
-		description:
-			"O anfitrião do evento não informou seu e-mail, portanto, insira-o no campo abaixo para que você possa saber quem foi seu sorteado.",
+		title: guest?.email
+			? "Parece que o anfitrião já informou seu e-mail."
+			: "Parece que ainda não sabemos seu e-mail",
+		description: guest?.email
+			? "Você tem a oportunidade de atualizá-lo caso haja algum erro."
+			: "O anfitrião do evento não informou seu e-mail, portanto, insira-o no campo abaixo para que você possa saber quem foi seu sorteado.",
 		children: (
 			<form
 				className={styles.section}
@@ -203,8 +221,9 @@ export default function ParticipateButton({ guest, event }: Props) {
 				}}
 			>
 				<Input
-					required
+					required={!guest?.email}
 					name="email"
+					placeholder={guest?.email || undefined}
 					minLength={8}
 					maxLength={50}
 					label="E-mail"
@@ -215,18 +234,28 @@ export default function ParticipateButton({ guest, event }: Props) {
 				>
 					Continuar
 				</Button>
-				<div
-					className="modalFooter"
-					onClick={() => {
-						if (event.allowProfileChange) {
-							setActualSection(["direct_invite_guest_image", 1]);
-						} else {
-							updateOrCreateGuest("update");
-						}
-					}}
-				>
-					<p>Não quero ser notificado por e-mail</p>
-				</div>
+				{/* O usuário só poderá recusar a utilização de um e-mail, caso o anfitrião permita a visualização do resultado pela página do convite */}
+				{!guest?.email && event.allowRevealFromPage && (
+					<div
+						className="modalFooter"
+						onClick={() => {
+							if (event.allowProfileChange) {
+								setActualSection([
+									"direct_invite_guest_image",
+									1,
+								]);
+							} else {
+								updateOrCreateGuest("update");
+							}
+						}}
+					>
+						<p>
+							{guest?.email
+								? "Continuar com o e-mail atual"
+								: "Não quero ser notificado por e-mail"}
+						</p>
+					</div>
+				)}
 			</form>
 		),
 		footer: CancelFooter,
@@ -237,14 +266,12 @@ export default function ParticipateButton({ guest, event }: Props) {
 	);
 
 	const DirectInviteGuest_image = {
-		title:
-			guest?.image_url && event.allowProfileChange
-				? "Parece que o anfitrião já adicionou uma imagem para você"
-				: "Parece que o anfitrião não inseriu uma imagem para você",
-		description:
-			guest?.image_url && event.allowProfileChange
-				? "No entanto, caso prefira outra, basta fazer o upload abaixo para que ela seja exibida para os outros convidados."
-				: "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para os outros convidados.",
+		title: guest?.image_url
+			? "Parece que o anfitrião já adicionou uma imagem para você"
+			: "Parece que o anfitrião não inseriu uma imagem para você",
+		description: guest?.image_url
+			? "No entanto, caso prefira outra, basta fazer o upload abaixo para que ela seja exibida para os outros convidados."
+			: "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para os outros convidados.",
 		children: (
 			<form
 				className={styles.section}
@@ -265,10 +292,23 @@ export default function ParticipateButton({ guest, event }: Props) {
 							src={preview}
 							fill
 							alt=""
-							style={{ borderRadius: "50%", objectFit: "cover" }}
+							style={{
+								borderRadius: "50%",
+								objectFit: "cover",
+								aspectRatio: "1/1",
+							}}
 						/>
 					) : (
-						<AddPhotoIcon width={48} height={48} />
+						<AddPhotoIcon
+							width={48}
+							height={48}
+							color="var(--neutral)"
+						/>
+					)}
+					{guest?.image_url && event.allowProfileChange && (
+						<div className="flex items-center justify-center bg-background-02 z-[2] p-3 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+							<ChangePhotoIcon width={24} height={24} />
+						</div>
 					)}
 				</label>
 				<input
@@ -285,15 +325,7 @@ export default function ParticipateButton({ guest, event }: Props) {
 				>
 					Continuar
 				</Button>
-				{guest?.image_url && event.allowProfileChange ? (
-					<div
-						className="modalFooter"
-						style={{ textAlign: "center" }}
-						onClick={() => updateOrCreateGuest("update")}
-					>
-						<p>Permanecer com esta foto</p>
-					</div>
-				) : (
+				{!guest?.image_url && (
 					<div
 						className="modalFooter"
 						style={{ textAlign: "center" }}
@@ -403,15 +435,20 @@ export default function ParticipateButton({ guest, event }: Props) {
 				}}
 			>
 				<label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="image">
-					{preview && (
+					{preview ? (
 						<Image
 							src={preview}
 							fill
 							alt=""
 							style={{ borderRadius: "50%", objectFit: "cover" }}
 						/>
+					) : (
+						<AddPhotoIcon
+							width={48}
+							height={48}
+							color="var(--neutral)"
+						/>
 					)}
-					{!preview && <AddPhotoIcon width={48} height={48} />}
 				</label>
 				<input
 					required

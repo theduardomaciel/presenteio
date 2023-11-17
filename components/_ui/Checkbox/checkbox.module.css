@@ -35,6 +35,10 @@
 	accent-color: var(--primary-01);
 }
 
+.checkboxRoot:disabled {
+	opacity: 0.65;
+}
+
 .checkboxRoot span {
 	display: flex;
 	align-items: center;

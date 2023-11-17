@@ -5,7 +5,13 @@
 	justify-content: flex-start;
 	transition: 150ms;
 
-	overflow-x: hidden;
+	/* height: 100%; */
+	height: max-content;
+	flex-grow: 1;
+
+	/* height: 100%; */
+	/* remover esse height torna o conteúdo de tamanho ilimitado, estando a segunda coluna no position: sticky */
+	/* no entanto, o zoom na página se limit ao vh, o que não é ideal */
 }
 
 .content {
@@ -15,6 +21,8 @@
 	padding: var(--dashboard-wrapper);
 
 	width: 100%;
+	height: max-content;
+	flex-grow: 1;
 	position: relative;
 
 	gap: 2.5rem;
@@ -32,10 +40,11 @@
 .column {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
+	align-items: stretch;
+	justify-content: stretch;
+
 	width: 100%;
-	height: fit-content;
+
 	gap: 2.5rem;
 }
 
@@ -74,31 +83,18 @@
 }
 
 @media (min-width: 1024px) {
-	.container {
-		min-height: 100vh;
-	}
-
-	.column {
-		height: 100%;
-	}
-
 	.events {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 	}
 
-	.section.middle {
-		max-height: 70%;
-	}
-
 	.content {
 		padding: 3.5rem var(--dashboard-wrapper);
-		height: calc(100vh - var(--header-height));
 	}
 
 	.content.row {
 		flex-direction: row;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
 	}
 }

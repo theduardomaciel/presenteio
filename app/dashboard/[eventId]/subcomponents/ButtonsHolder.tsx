@@ -136,7 +136,14 @@ export default function ButtonsHolder({
 					Sortear e enviar e-mails
 				</Button>
 				<div className="flex flex-row items-center justify-end gap-[1.5rem] w-full lg:w-1/2">
-					<EventEditModal event={event} />
+					<EventEditModal
+						event={{
+							...event,
+							guestsWithoutEmail: event.guests.filter(
+								(guest) => !guest.email
+							).length,
+						}}
+					/>
 					<EventDeleteModal eventId={event?.id} />
 				</div>
 			</div>
@@ -151,7 +158,7 @@ export default function ButtonsHolder({
 					icon:
 						sendEmailModalState.status === true ? (
 							<SendEmail
-								fill="var(--neutral)"
+								color="var(--neutral)"
 								width={"2.4rem"}
 								height={"2.4rem"}
 							/>
