@@ -15,6 +15,8 @@ const allowedPaths = [
 	"/api/emails/check",
 	"/api/emails/send",
 	"/api/images/generate/event",
+	"/api/auth/login",
+	"/api/auth/register",
 ];
 
 // This function can be marked `async` if using `await` inside

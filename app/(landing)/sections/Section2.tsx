@@ -272,7 +272,7 @@ function Section2Container({
 	return (
 		<div
 			className={cn(
-				"flex flex-col lg:flex-row items-center w-full justify-center gap-12 p-6 h-full rounded-3xl border-2 border-primary-01 border-dashed relative overflow-hidden",
+				"flex flex-col lg:flex-row items-center w-full justify-center gap-12 p-6 lg:h-full rounded-3xl border-2 border-primary-01 border-dashed relative overflow-hidden",
 				{
 					"flex-col-reverse lg:flex-row-reverse": flexReverse,
 				}
