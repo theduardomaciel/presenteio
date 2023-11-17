@@ -1,11 +1,9 @@
-export default async function AuthLayout(props: {
+import React from "react";
+
+export default async function AuthLayout({
+	children,
+}: {
 	children: React.ReactNode;
-	auth: React.ReactNode;
 }) {
-	return (
-		<>
-			{props.children}
-			{props.auth}
-		</>
-	);
+	return <>{children}</>;
 }
