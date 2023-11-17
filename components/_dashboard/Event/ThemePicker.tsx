@@ -94,7 +94,7 @@ export default function EventThemePicker({
 			onValueChange={(value: keyof typeof COLORS) => setValue(value)}
 		>
 			<SelectTrigger
-				className="cursor-pointer bg-transparent border-none enabled:hover:bg-transparent focus:bg-transparent focus:select-none focus:ring-transparent focus:outline-none placeholder:text-white focus-within:shadow-none"
+				className="cursor-pointer bg-transparent border-none enabled:hover:bg-transparent focus:bg-transparent focus:select-none focus:ring-transparent focus:outline-none text-primary-01 focus-within:shadow-none"
 				hideChevron
 			>
 				<div

@@ -127,7 +127,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 			};
 
 			try {
-				const response = await axios.post(`/api/guests`, guest);
+				await axios.post(`/api/guests`, guest);
 				cleanUp();
 				router.refresh();
 			} catch (error) {
@@ -208,6 +208,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 					) : (
 						<AddPhotoIcon
 							style={{ width: "4rem", height: "4rem" }}
+							color="var(--neutral)"
 						/>
 					)}
 				</label>

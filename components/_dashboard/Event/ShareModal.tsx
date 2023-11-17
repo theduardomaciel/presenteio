@@ -16,7 +16,7 @@ interface Props {
 	link: string;
 }
 
-export default function ShareModal({
+export default function EventShareModal({
 	isVisible,
 	toggleVisibility,
 	link,

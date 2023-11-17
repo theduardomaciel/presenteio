@@ -1,19 +1,29 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
 // Radix
-import * as Checkbox from '@radix-ui/react-checkbox';
-import { CheckIcon } from '@radix-ui/react-icons';
+import * as PrimitiveCheckbox from "@radix-ui/react-checkbox";
+import { CheckIcon } from "@radix-ui/react-icons";
 
-import styles from './checkbox.module.css'
+import styles from "./checkbox.module.css";
 
-export default function DashboardCheckbox(props: Checkbox.CheckboxProps) {
-    return <div className={styles.container} >
-        <Checkbox.Root className={styles.checkboxRoot} {...props}>
-            <Checkbox.Indicator className={styles.checkboxIndicator}>
-                <CheckIcon />
-            </Checkbox.Indicator>
-        </Checkbox.Root>
-    </div>
+interface Props extends PrimitiveCheckbox.CheckboxProps {
+	label?: string;
+	children?: React.ReactNode;
+}
+
+export default function Checkbox({ label, children, ...rest }: Props) {
+	return (
+		<div className={`${styles.container} ${label ? styles.withLabel : ""}`}>
+			{label && <p className="option">{label}</p>}
+			<PrimitiveCheckbox.Root className={styles.checkboxRoot} {...rest}>
+				<PrimitiveCheckbox.Indicator
+					className={styles.checkboxIndicator}
+				>
+					<CheckIcon />
+				</PrimitiveCheckbox.Indicator>
+			</PrimitiveCheckbox.Root>
+		</div>
+	);
 }

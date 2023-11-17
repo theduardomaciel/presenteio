@@ -4,6 +4,7 @@
 	justify-content: center;
 	align-items: center;
 	gap: 1rem;
+	width: 100%;
 
 	flex-wrap: wrap;
 }
@@ -41,6 +42,8 @@
 
 	white-space: nowrap;
 	width: 15rem;
+
+	text-overflow: ellipsis;
 
 	text-align: center;
 

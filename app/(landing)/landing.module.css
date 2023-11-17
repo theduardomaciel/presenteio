@@ -69,6 +69,10 @@
 	color: var(--primary-03);
 }
 
+html.dark .container main .content .title p {
+	color: var(--neutral);
+}
+
 .container main .content .title p:nth-child(3) {
 	font-size: 2.4rem;
 }

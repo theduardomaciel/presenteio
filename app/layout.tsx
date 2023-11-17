@@ -1,11 +1,10 @@
-import { cookies } from "next/headers";
 import { Metadata } from "next";
+
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import "./globals.css";
-
-import GoogleProvider from "./(auth)/subcomponents/google/GoogleOAuthProvider";
+import { Providers } from "./providers";
 
 /* const judson = Judson({
 	subsets: ["latin-ext"],
@@ -81,21 +80,16 @@ export default function RootLayout({
 }: {
 	children: React.ReactNode;
 }) {
-	const isDark = cookies().get("theme")?.value == "dark";
-
 	return (
 		<html
-			className={`${isDark ? "dark" : ""} ${gelasioLocal.variable} ${
-				judsonLocal.variable
-			} ${inter.variable}`}
+			className={`${gelasioLocal.variable} ${judsonLocal.variable} ${inter.variable}`}
+			suppressHydrationWarning
 			lang="pt-br"
 		>
 			<body>
-				<GoogleProvider
-					clientId={process.env.GOOGLE_CLIENT_ID as string}
-				>
+				<Providers clientId={process.env.GOOGLE_CLIENT_ID as string}>
 					{children}
-				</GoogleProvider>
+				</Providers>
 			</body>
 		</html>
 	);

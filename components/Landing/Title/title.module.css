@@ -4,7 +4,7 @@
 	align-items: center;
 	justify-content: center;
 
-	height: 10rem;
+	height: 12.5rem;
 	width: 100%;
 	position: relative;
 
@@ -15,7 +15,7 @@
 	font-family: var(--font-gelasio);
 	font-style: normal;
 	font-weight: 700;
-	font-size: 8.2rem;
+	font-size: 7.5rem;
 	line-height: 85%;
 	height: fit-content;
 	text-align: center;

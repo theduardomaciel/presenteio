@@ -35,7 +35,7 @@ export default async function Dashboard() {
 					</div>
 				</div>
 			</div>
-			<LandingFooter />
+			<LandingFooter className="!px-dashboard-wrapper" />
 		</>
 	);
 }

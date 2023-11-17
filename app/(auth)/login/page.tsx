@@ -13,7 +13,7 @@ import styles from "../auth.module.css";
 
 // Components
 import AuthModal, { Section } from "components/MultipleModal";
-import GoogleButton from "../subcomponents/google/GoogleButton";
+import GoogleButton from "../subcomponents/GoogleButton";
 import Button from "components/_ui/Button";
 import Input from "components/_ui/Input";
 
@@ -140,17 +140,12 @@ export default function Login() {
 		const { email, password } = accountData;
 
 		try {
-			const response = await axios.post("/api/auth/login", {
+			await axios.post("/api/auth/login", {
 				email: email,
 				password: password,
 			});
 
-			if (response.status === 200) {
-				router.push(`/dashboard`);
-			} else {
-				setError(500);
-				setIsLoading(false);
-			}
+			router.push(`/dashboard`);
 		} catch (error: any) {
 			console.log(error);
 
@@ -163,7 +158,7 @@ export default function Login() {
 		<Fragment>
 			<div
 				className={cn(
-					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] -z-10"
+					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] dark:bg-[radial-gradient(50%_50%_at_50%_50%,#1E1E1E_0%,#050505_100%)] -z-10"
 					/* {
 						"animate-fadeIn": isAnimated,
 					} */

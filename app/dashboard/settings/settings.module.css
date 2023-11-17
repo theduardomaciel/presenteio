@@ -1,11 +1,11 @@
 .option {
 	display: flex;
-	flex-direction: row;
-	align-items: center;
+	flex-direction: column;
+	align-items: flex-start;
 	justify-content: space-between;
 	width: 100%;
 
-	gap: 8rem;
+	gap: 1rem;
 }
 
 .option header {
@@ -19,7 +19,7 @@
 .option header h3 {
 	font-family: var(--font-gelasio);
 	font-weight: 900;
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	color: var(--primary-02);
 }
 
@@ -82,4 +82,13 @@
 
 .themeButtonsHolder .themeItem:hover svg {
 	transform: scale(1.015);
+}
+
+@media (min-width: 1024px) {
+	.option {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		gap: 10rem;
+	}
 }

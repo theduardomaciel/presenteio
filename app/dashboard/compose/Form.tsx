@@ -1,15 +1,17 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 import styles from "../dashboard.module.css";
 
 // Components
 import Button from "components/_ui/Button";
 import DashboardSectionHeader from "@/dashboard/components/Section/SectionHeader";
-import CheckboxAndLabel from "components/_ui/Checkbox/Label";
 import DashboardSubSectionHeader from "@/dashboard/components/Section/SubSectionHeader";
-import DashboardPricePicker from "@/dashboard/components/Event/PricePicker";
+import EventPricePicker from "@/dashboard/components/Event/PricePicker";
 import EventDisplay from "@/dashboard/components/Event/EventDisplay";
+import EventInviteOptions from "@/dashboard/components/Event/InviteOptions";
 import GuestsDisplay, {
 	PreGuest,
 } from "app/dashboard/compose/PreGuestsDisplay";
@@ -20,30 +22,7 @@ import AddIcon from "@/public/icons/add.svg";
 import UploadIcon from "@/public/icons/upload.svg";
 
 // Utils
-import axios from "axios";
-import { useRouter } from "next/navigation";
 import { toBase64 } from "@/utils/image";
-
-export const InviteOptions = ({
-	defaultValues,
-}: {
-	defaultValues?: { allowInvite?: boolean; allowProfileChange?: boolean };
-}) => {
-	return (
-		<>
-			<CheckboxAndLabel
-				defaultChecked={defaultValues?.allowInvite}
-				name="allowInvite"
-				label="Permitir que outros usuários participem do evento por meio de convite"
-			/>
-			<CheckboxAndLabel
-				defaultChecked={defaultValues?.allowProfileChange}
-				name="allowProfileChange"
-				label="Permitir que convidados possam alterar sua foto de perfil"
-			/>
-		</>
-	);
-};
 
 export default function ComposeEventForm({
 	children,
@@ -87,11 +66,11 @@ export default function ComposeEventForm({
 			);
 
 			const data = {
-				name: form.get("eventName")
-					? form.get("eventName")
-					: "Evento sem nome",
+				name: form.get("eventName") || "Novo evento",
 				allowInvite: form.get("allowInvite"),
 				allowProfileChange: form.get("allowProfileChange"),
+				allowEmailChange: form.get("allowEmailChange"),
+				allowRevealFromPage: form.get("allowRevealFromPage"),
 				minPrice: form.get("min"),
 				maxPrice: form.get("max"),
 				image_base64: image_base64,
@@ -155,7 +134,7 @@ export default function ComposeEventForm({
 					</div>
 					<div className={styles.section}>
 						<DashboardSectionHeader title="Configurações de Convite" />
-						<InviteOptions />
+						<EventInviteOptions />
 					</div>
 				</div>
 				<div className={styles.column}>
@@ -165,7 +144,7 @@ export default function ComposeEventForm({
 							title="Margem de preço"
 							description="Determine se os presentes possuirão preço mínimo e/ou máximo."
 						/>
-						<DashboardPricePicker fixedWidth />
+						<EventPricePicker fixedWidth />
 					</div>
 					<div className={styles.section} style={{ height: "100%" }}>
 						<DashboardSectionHeader title="Personalização" />

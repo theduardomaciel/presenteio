@@ -100,7 +100,7 @@ export default function EventNameEdit({ event }: Props) {
 				className={styles.eventNameInput}
 				onFocus={onFocus}
 				onBlur={onBlur}
-				maxLength={30}
+				maxLength={40}
 				style={{
 					width: (eventName.length + 1) * 16 + "px",
 				}}

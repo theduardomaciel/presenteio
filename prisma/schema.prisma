@@ -44,8 +44,10 @@ model Event {
     minPrice Float?
     maxPrice Float?
 
-    allowInvite        Boolean @default(false)
-    allowProfileChange Boolean @default(false)
+    allowInvite         Boolean @default(false)
+    allowRevealFromPage Boolean @default(false)
+    allowEmailChange    Boolean @default(false)
+    allowProfileChange  Boolean @default(false)
 
     host      Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
     accountId String
@@ -77,15 +79,14 @@ model Guest {
     image_deleteHash String?
     status           GuestStatus @default(PENDING)
 
+    correspondingGuest Guest?  @relation("correspondingGuest", fields: [guestId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    guest              Guest?  @relation("correspondingGuest")
     guestId            String? @unique
-    correspondingGuest Guest?  @relation(fields: [guestId], references: [id], name: "correspondingGuest", onDelete: NoAction, onUpdate: NoAction)
-    guest              Guest?  @relation(name: "correspondingGuest")
 
     event   Event? @relation(fields: [eventId], references: [id], onDelete: Cascade)
     eventId String
 
     @@index([eventId])
-    @@index([guestId])
     @@map("guests")
 }
 

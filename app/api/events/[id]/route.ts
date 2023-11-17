@@ -119,14 +119,27 @@ export async function DELETE(
 	}
 
 	try {
-		const event = await prisma.event.delete({
-			where: {
-				id: id,
-			},
-		});
+		await prisma.$transaction([
+			prisma.guest.updateMany({
+				where: {
+					eventId: id,
+				},
+				data: {
+					guestId: null,
+				},
+			}),
+			prisma.event.delete({
+				where: {
+					id: id,
+				},
+			}),
+		]);
 
 		console.log("Evento excluído com sucesso.");
-		return Response.json(event);
+		return new Response("Event deleted successfully.", {
+			status: 200,
+			statusText: "OK",
+		});
 	} catch (error) {
 		console.log(error);
 		return new Response("Something went wrong. Please try again later.", {

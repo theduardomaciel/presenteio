@@ -19,7 +19,8 @@
 	gap: 4.5rem;
 }
 
-.content h1 {
+.content h1,
+.content h2 {
 	font-family: var(--font-gelasio);
 	font-style: normal;
 	font-weight: 700;

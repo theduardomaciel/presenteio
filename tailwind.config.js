@@ -28,6 +28,7 @@ module.exports = {
 			},
 			padding: {
 				wrapper: "var(--wrapper)",
+				"dashboard-wrapper": "var(--dashboard-wrapper)",
 			},
 			fontFamily: {
 				sans: ["var(--font-inter)"],

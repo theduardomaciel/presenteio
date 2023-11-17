@@ -27,16 +27,6 @@
 	color: var(--primary-02);
 }
 
-.container p {
-	font-family: var(--font-inter);
-	font-style: normal;
-	font-weight: 600;
-	font-size: 1.6rem;
-
-	width: 100%;
-	color: var(--font-light);
-}
-
 .line {
 	display: flex;
 	border: 1px solid var(--primary-02);

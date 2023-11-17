@@ -11,7 +11,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	icon?: React.ReactNode;
 	isLoading?: boolean;
 	className?: string;
-	noEffects?: boolean;
+	suppressEffects?:
+		| boolean
+		| {
+				background?: boolean;
+				outline?: boolean;
+		  };
 	accentColor?: string;
 	iconProps?: {
 		animate?:
@@ -28,7 +33,7 @@ export default function Button({
 	className,
 	isLoading,
 	disabled,
-	noEffects,
+	suppressEffects,
 	accentColor,
 	iconProps,
 	children,
@@ -38,10 +43,17 @@ export default function Button({
 		<button
 			className={cn(
 				`${styles.button} flex flex-row justify-center items-center px-7 py-3 gap-3 text-white font-serif text-base bg-primary-02 border border-primary-03 rounded-lg transition-all duration-300 outline-1 outline-neutral`,
+				`${iconProps?.animate ? styles[iconProps.animate] : ""}`,
 				className,
 				{
-					"enabled:active:outline hover:enabled:bg-primary-01 hover:enabled:outline outline-2 outline-primary-01":
-						!noEffects,
+					"hover:enabled:bg-primary-01":
+						typeof suppressEffects === "boolean"
+							? !suppressEffects
+							: !suppressEffects?.background,
+					"enabled:active:outline hover:enabled:outline outline-2 outline-primary-01":
+						typeof suppressEffects === "boolean"
+							? !suppressEffects
+							: !suppressEffects?.outline,
 					"bg-primary-03 border-none cursor-not-allowed":
 						disabled || isLoading,
 				}

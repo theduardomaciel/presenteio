@@ -20,10 +20,9 @@ import Spinner from "components/_ui/Spinner";
 
 import DashboardSectionHeader from "@/dashboard/components/Section/SectionHeader";
 import DashboardSubSectionHeader from "@/dashboard/components/Section/SubSectionHeader";
-import DashboardPricePicker from "@/dashboard/components/Event/PricePicker";
+import EventPricePicker from "@/dashboard/components/Event/PricePicker";
 import EventDisplay from "@/dashboard/components/Event/EventDisplay";
-
-import { InviteOptions } from "app/dashboard/compose/Form";
+import EventInviteOptions from "@/dashboard/components/Event/InviteOptions";
 
 // Utils
 import { type Event } from "@prisma/client";
@@ -179,7 +178,7 @@ export default function EventEditModal({ event }: Props) {
 						</section>
 						<section>
 							<DashboardSectionHeader title="Configurações de convite" />
-							<InviteOptions
+							<EventInviteOptions
 								defaultValues={{
 									allowInvite: event.allowInvite,
 									allowProfileChange:
@@ -193,7 +192,7 @@ export default function EventEditModal({ event }: Props) {
 								title="Margem de preço"
 								description="Altere os valores de preço mínimo e/ou máximo dos presentes do evento."
 							/>
-							<DashboardPricePicker
+							<EventPricePicker
 								defaultValues={{
 									min: event.minPrice || 0,
 									max: event.maxPrice || 0,

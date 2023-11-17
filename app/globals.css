@@ -27,6 +27,9 @@
 
 	--header-height: 8.5rem;
 	--wrapper: 3.5rem;
+
+	--dashboard-header-height: 10rem;
+	--dashboard-wrapper: 3.5rem;
 }
 
 html.dark {
@@ -34,15 +37,15 @@ html.dark {
 	--primary-02: #ff2626;
 	--primary-03: #ff3d3d;
 
-	--font-dark: #141414;
-	--font-light: #e1d9d9;
-	--font-light-02: #ab9999;
+	--font-dark: #ffffff;
+	--font-light: #f1e9e9;
+	--font-light-02: #e1d9d9;
 
 	--neutral: #ffffff;
 	--light-gray: #454545;
 
-	--background-01: #121212;
-	--background-02: #222222;
+	--background-01: #0e0e0e;
+	--background-02: #121212;
 	--background-modal: rgba(34, 34, 34, 0.75);
 }
 
@@ -144,6 +147,16 @@ input[type="number"]::-webkit-inner-spin-button {
 	border-radius: 1rem;
 }
 
+.option {
+	font-family: var(--font-inter);
+	font-style: normal;
+	font-weight: 600;
+	font-size: 1.6rem;
+
+	width: 100%;
+	color: var(--font-light);
+}
+
 .link {
 	line-break: anywhere;
 }
@@ -181,6 +194,9 @@ input[type="number"]::-webkit-inner-spin-button {
 @media (min-width: 1024px) {
 	:root {
 		--wrapper: 11.5rem;
+
+		--dashboard-wrapper: 6.5rem;
+		--dashboard-header-height: 8rem;
 	}
 
 	.scroll::-webkit-scrollbar {

@@ -129,7 +129,7 @@ const SelectItem = React.forwardRef<
 		)}
 		{...props}
 	>
-		{icon && icon}
+		<SelectPrimitive.Icon asChild>{icon && icon}</SelectPrimitive.Icon>
 		<SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
 		{!suppressCheckIcon && (
 			<span className="absolute right-4 flex h-3.5 w-3.5 items-center justify-center">

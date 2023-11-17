@@ -15,7 +15,7 @@ import AuthModal, { Section } from "components/MultipleModal";
 import Button from "components/_ui/Button";
 import Input from "components/_ui/Input";
 import Hint from "components/Hint";
-import GoogleButton from "../subcomponents/google/GoogleButton";
+import GoogleButton from "../subcomponents/GoogleButton";
 
 // Icons
 import MailLockIcon from "@/public/icons/mail_lock.svg";
@@ -779,7 +779,7 @@ export default function Register() {
 		<Fragment>
 			<div
 				className={cn(
-					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] -z-10"
+					"fixed top-0 left-0 w-screen h-screen bg-[radial-gradient(50%_50%_at_50%_50%,#FFF_0%,#FFCACA_100%)] dark:bg-[radial-gradient(50%_50%_at_50%_50%,#1E1E1E_0%,#050505_100%)] -z-10"
 					/* {
 						"animate-fadeIn": isAnimated,
 					} */

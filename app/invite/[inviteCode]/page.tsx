@@ -71,7 +71,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 					sorteio já foi realizado entre os participantes que entraram
 					no evento.
 				</p>
-				<Button className={styles.button} noEffects>
+				<Button className={styles.button} suppressEffects>
 					<p className={styles.buttonFont}>
 						Contate o anfitrião do evento caso isso seja um erro.
 					</p>
@@ -100,7 +100,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 						entrem e o anfitrião realize o sorteio.
 					</p>
 				)}
-				<Button className={styles.button} noEffects>
+				<Button className={styles.button} suppressEffects>
 					<p className={styles.buttonFont}>
 						{event.status === "DIVULGED"
 							? "Os e-mails já foram enviados pelo anfitrião!"
@@ -108,7 +108,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 					</p>
 				</Button>
 				<div className={"divisor"} />
-				{event.status === "DIVULGED" && (
+				{event.status === "DIVULGED" && event.allowRevealFromPage && (
 					<Link
 						href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
 						className="modalFooter"
@@ -121,7 +121,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 								/>
 							}
 							className={`${styles.footerButton}`}
-							noEffects
+							suppressEffects
 						>
 							<p className={`${styles.footerButtonFont}`}>
 								Ver meu amigo secreto
@@ -148,7 +148,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 						maxWidth: "95%",
 					}}
 				>
-					<Button className={styles.button} noEffects>
+					<Button className={styles.button} suppressEffects>
 						<p className={styles.buttonFont}>
 							{
 								event?.guests.filter(
@@ -162,20 +162,22 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 					<GuestsView guests={event.guests} />
 				</div>
 				<div className={"divisor"} />
-				<Link
-					href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
-					className="modalFooter"
-				>
-					<Button
-						icon={<ViewIcon fill="var(--primary-03)" />}
-						className={styles.footerButton}
-						noEffects
+				{event.allowRevealFromPage && (
+					<Link
+						href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
+						className="modalFooter"
 					>
-						<p className={`${styles.footerButtonFont}`}>
-							Ver meu amigo secreto novamente
-						</p>
-					</Button>
-				</Link>
+						<Button
+							icon={<ViewIcon fill="var(--primary-03)" />}
+							className={styles.footerButton}
+							suppressEffects
+						>
+							<p className={`${styles.footerButtonFont}`}>
+								Ver meu amigo secreto novamente
+							</p>
+						</Button>
+					</Link>
+				)}
 			</div>
 		),
 	};

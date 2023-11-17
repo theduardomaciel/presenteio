@@ -15,12 +15,16 @@ export default function TermsOfService() {
 		<div className={styles.container}>
 			<div className={styles.content}>
 				<Logo height={35} />
-				<h1>{`Não se preocupe, ainda não somos uma empresa.`}</h1>
+				<h1>{`Não se preocupe, nenhum dado desnecessário é coletado.`}</h1>
 				<p>
-					Na verdade, sou uma pessoa só! <br />
-					Então, pode ficar despreocupado, nenhum dado pessoal (além
-					de nome e e-mail, porque não dá pra fazer uma conta sem
-					isso) é coletado ao criar uma conta na plataforma.
+					Além de nome e e-mail, intrinsecamente necessários para a
+					criação de uma conta, nenhum outro dado pessoal seu é
+					coletado sem consentimento. <br /> <br /> No futuro, apenas
+					dados de uso do site serão coletados, como por exemplo, o
+					número de visitas em uma página, ou o número de cliques em
+					um botão. <br /> Esses dados são coletados para que possamos
+					melhorar a experiência de uso do site, e não são
+					compartilhados com terceiros.
 					<br />
 				</p>
 				<Link href={`/`}>

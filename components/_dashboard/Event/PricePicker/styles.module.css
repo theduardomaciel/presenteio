@@ -57,6 +57,7 @@
 
 .priceManualPicker div .input {
 	position: relative;
+	height: 100%;
 }
 
 .priceManualPicker div .input input {
@@ -70,11 +71,13 @@
 	display: flex;
 	min-height: 2.5rem;
 	height: 100%;
-	width: 6rem;
+	width: 6.5rem;
+
+	text-align: end;
 
 	caret-color: var(--font-light);
 
-	padding-left: 2.85rem;
+	padding-right: 1rem;
 	color: var(--font-light);
 }
 
@@ -91,6 +94,8 @@
 	font-style: normal;
 	font-weight: 700;
 	font-size: 1.2rem;
+	vertical-align: text-bottom;
+	line-height: 100%;
 
 	padding-left: 0.25rem;
 
@@ -98,7 +103,7 @@
 
 	position: absolute;
 	top: 50%;
-	left: 5%;
+	left: 10%;
 
 	transform: translateY(-50%);
 

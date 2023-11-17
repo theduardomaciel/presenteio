@@ -6,14 +6,24 @@ import Logo from "@/public/logo.svg";
 import ThemePicker from "./subcomponents/ThemePicker";
 import LanguagePicker from "./subcomponents/LanguagePicker";
 import Status from "./subcomponents/Status";
+import { cn } from "@/utils/ui";
 
 // Utils
 
-export default function LandingFooter() {
+interface Props {
+	className?: string;
+}
+
+export default function LandingFooter({ className }: Props) {
 	const theme = cookies().get("theme");
 
 	return (
-		<footer className="w-full flex flex-col items-center justify-center gap-y-10 gap-x-12 px-wrapper bg-primary-01 py-12">
+		<footer
+			className={cn(
+				className,
+				"w-full flex flex-col items-center justify-center gap-y-10 gap-x-12 px-wrapper bg-primary-01 py-12 text-neutral"
+			)}
+		>
 			<div className="flex flex-col items-start justify-start w-full gap-12">
 				<div className="flex flex-col md:flex-row flex-wrap gap-y-12 items-start justify-between gap-x-4 w-full relative">
 					{/* Column1 - title and PC buttons holder */}
@@ -31,7 +41,7 @@ export default function LandingFooter() {
 						</div>
 						{/* PC buttons holder */}
 						<div className="flex-row items-center justify-start gap-x-6 hidden lg:flex">
-							<ThemePicker initialTheme={theme?.value as any} />
+							<ThemePicker />
 							<LanguagePicker />
 						</div>
 					</div>

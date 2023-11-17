@@ -6,7 +6,7 @@ import axios from "axios";
 import styles from "./styles.module.css";
 
 import Modal, { ModalProps } from "components/Modal";
-import ShareModal from "@/dashboard/components/Event/ShareModal";
+import EventShareModal from "@/dashboard/components/Event/ShareModal";
 import GuestModal from "@/dashboard/components/Guest/GuestModal";
 
 // Icons
@@ -27,7 +27,8 @@ interface Props {
 }
 
 export default function ActionButtons({ guest, event }: Props) {
-	const [isShareModalVisible, setShareModalVisible] = useState(false);
+	const [isEventShareModalVisible, setEventShareModalVisible] =
+		useState(false);
 	const [resendEmailModalState, setResendEmailModalState] =
 		useState<ModalProps>({ status: false });
 	const [isGuestModalVisible, setIsGuestModalVisible] = useState(false);
@@ -175,7 +176,7 @@ export default function ActionButtons({ guest, event }: Props) {
 					height={22}
 					onClick={() => {
 						console.log(guest?.correspondingGuest?.name);
-						setShareModalVisible(true);
+						setEventShareModalVisible(true);
 					}}
 				/>
 				{event.status === "DIVULGED" &&
@@ -273,9 +274,9 @@ export default function ActionButtons({ guest, event }: Props) {
 					setIsGuestModalVisible(!isGuestModalVisible)
 				}
 			/>
-			<ShareModal
-				isVisible={isShareModalVisible}
-				toggleVisibility={() => setShareModalVisible(false)}
+			<EventShareModal
+				isVisible={isEventShareModalVisible}
+				toggleVisibility={() => setEventShareModalVisible(false)}
 				link={`${
 					typeof window !== "undefined"
 						? window.location.origin

@@ -11,6 +11,9 @@ import DashboardCheckbox from "components/_ui/Checkbox";
 const DEFAULT_MIN_VALUE = 25;
 const DEFAULT_MAX_VALUE = 75;
 
+const ABSOLUTE_MIN_VALUE = 0;
+const ABSOLUTE_MAX_VALUE = 999;
+
 interface ManualPickerProps {
 	type: "min" | "max";
 	value?: number | false;
@@ -46,7 +49,10 @@ function ManualPicker({
 							}
 							onChange={(e) =>
 								setValue?.(
-									Math.min(500, parseInt(e.target.value))
+									Math.min(
+										ABSOLUTE_MAX_VALUE,
+										parseInt(e.target.value)
+									)
 								)
 							}
 						/>
@@ -76,7 +82,7 @@ function CustomSlider(props: Slider.SliderProps) {
 			{...props}
 			className={sliderStyles.sliderRoot}
 			defaultValue={[DEFAULT_MIN_VALUE, DEFAULT_MAX_VALUE]}
-			max={500}
+			max={ABSOLUTE_MAX_VALUE}
 			step={1}
 			minStepsBetweenThumbs={10}
 			aria-label="Price Range"
@@ -98,7 +104,7 @@ function CustomSlider(props: Slider.SliderProps) {
 	);
 }
 
-export default function DashboardPricePicker({
+export default function EventPricePicker({
 	defaultValues,
 	fixedWidth = false,
 }: {
@@ -162,7 +168,7 @@ export default function DashboardPricePicker({
                 <p>R$0</p>
                 <CustomSlider />
                 <p></p>
-                <p>R$500</p>
+                <p>R$ABSOLUTE_MAX_VALUE</p>
             </div> */}
 		</div>
 	);

@@ -25,11 +25,11 @@ export default function RevealEmail({
 	eventType,
 	eventInviteCode,
 }: EmailProps) {
-	const IMAGE_URL = `https://presenteio.vercel.app/api/images/generate/event?name=${eventName?.replaceAll(
+	const EVENT_REVEAL_URL = `https://presenteio.vercel.app/invite/${eventInviteCode}/reveal?guest=${guestId}`;
+	const EVENT_IMAGE_URL = `https://presenteio.vercel.app/api/images/generate/event?name=${eventName?.replaceAll(
 		" ",
 		"%20"
 	)}&type=${eventType}`;
-	const EVENT_REVEAL_URL = `https://presenteio.vercel.app/invite/${eventInviteCode}/reveal?guest=${guestId}`;
 
 	//console.log(IMAGE_URL, EVENT_REVEAL_URL);
 
@@ -37,16 +37,10 @@ export default function RevealEmail({
 		<Html>
 			<Head />
 			<Container style={main}>
-				<Text style={text}>
-					<strong>Problemas com o e-mail?</strong>{" "}
-					<Link style={linkStyle} href={EVENT_REVEAL_URL}>
-						Clique aqui para ver seu amigo secreto
-					</Link>
-				</Text>
 				<Container style={container}>
 					{eventName && eventType && (
 						<Img
-							src={`https://i.imgur.com/b61gJWS.png`}
+							src={EVENT_IMAGE_URL} // `https://i.imgur.com/b61gJWS.png`
 							width="300"
 							height="100"
 							alt="Event logo"
@@ -68,6 +62,16 @@ export default function RevealEmail({
 						Descobrir meu Amigo Secreto
 					</Button>
 				</Container>
+				<Text style={subText}>
+					<strong>
+						Caso o botão acima não funcione, visite a página
+						diretamente por meio do link abaixo:
+					</strong>
+					<br /> <br />
+					<Link style={linkStyle} href={EVENT_REVEAL_URL}>
+						{EVENT_REVEAL_URL}
+					</Link>
+				</Text>
 			</Container>
 		</Html>
 	);
@@ -111,6 +115,15 @@ const text = {
 		"-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
 	fontSize: "16px",
 	lineHeight: "24px",
+} as CSSProperties;
+
+const subText = {
+	color: "#797979",
+	fontFamily:
+		"-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+	fontSize: "14px",
+	lineHeight: "24px",
+	marginTop: "30px",
 } as CSSProperties;
 
 const linkStyle = {

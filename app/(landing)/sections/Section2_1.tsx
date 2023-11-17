@@ -21,7 +21,7 @@ export default function LandingSection2_1() {
 
 			<div className="flex flex-col items-center justify-start w-full gap-3">
 				<table className="text-primary-01 w-full rounded-lg">
-					<tbody className="grid grid-cols-2 grid-rows-2">
+					<tbody className="flex flex-col lg:grid grid-cols-2 lg:grid-rows-2">
 						<Question
 							title="As ferramentas do presenteio serão gratuitas para sempre?"
 							description={`Sim! O código de nossas aplicações é aberto e está disponível para todos os usuários verem e verificarem cada linha escrita por nós!\n
@@ -30,26 +30,26 @@ Para saber mais sobre o código e por que mantemos nossa abordagem, você pode l
 								href: "https://github.com/theduardomaciel/presenteio",
 								text: "Acesse o repositório do projeto no Github",
 							}}
-							className="rounded-tl-lg"
+							className="max-md:rounded-tr-lg max-md:border-b-0 rounded-tl-lg"
 						/>
 						<Question
 							title="Qual o algoritmo utilizado para realizar os sorteios?"
 							description={`Utilizamos a linguagem de programação JavaScript para lidar com a realização de sorteios diretamente pelo seu navegador.\n
                         Nossos cálculos são 100% imparciais e os dados dos sorteios/eventos realizados no presenteio não passam em nossas mãos.\n
                         Caso ainda possua alguma dúvida, visite o código-fonte de nossas aplicações.`}
-							className="rounded-tr-lg border-l-0"
+							className="lg:rounded-tr-lg lg:border-l-0"
 						/>
 						<Question
 							title="Para que é necessário uma conta para criar eventos?"
 							description={`A criação de eventos envolve funcionalidades que requerem o armazenamento de dados à longo prazo, visto que eventos podem durar diversos dias.\n
                         Todos os dados armazenados enquanto um evento está ativo são removidos de nosso banco de dados instantaneamente quando um evento termina ou é apagado.`}
-							className="rounded-bl-lg border-t-0"
+							className="lg:rounded-bl-lg border-t-0"
 						/>
 						<Question
 							title="Posso realizar apostas com as ferramentas do presenteio?"
 							description={`Não endossamos ou apoiamos práticas nocivas aos nossos usuários, portanto, legalmente, nenhum indivíduo civil ou jurídico deve utilizar nossos serviços para esses fins.\n
                         A fim de respeitar a privacidade dos usuários, não monitoramos para que tipo de fins nossos serviços são utilizados, no entanto, pedimos bom senso.`}
-							className="rounded-br-lg border-l-0 border-t-0"
+							className="max-md:rounded-bl-lg rounded-br-lg lg:border-l-0 border-t-0"
 						/>
 					</tbody>
 				</table>

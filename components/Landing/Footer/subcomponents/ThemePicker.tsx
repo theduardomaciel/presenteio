@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useTheme } from "next-themes";
 
 import {
 	Select,
@@ -11,47 +11,40 @@ import {
 	SelectValue,
 } from "components/_ui/Select";
 
+// Assets
+import SystemIcon from "@/public/icons/computer.svg";
+import DarkIcon from "@/public/icons/theme/dark2.svg";
+import LightIcon from "@/public/icons/theme/light2.svg";
+import { useEffect, useState } from "react";
+
 type Theme = "system" | "dark" | "light";
 
-import { DesktopIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
-
 const ICONS = {
-	system: <DesktopIcon width={14} className="min-w-[14px]" height={14} />,
-	light: (
-		<SunIcon
-			width={14}
-			className="min-w-[14px]"
-			height={14}
-			color="var(--primary-02)"
-		/>
-	),
-	dark: (
-		<MoonIcon
-			width={14}
-			className="min-w-[14px]"
-			height={14}
-			color="var(--primary-02)"
-		/>
-	),
+	system: <SystemIcon width={14} height={14} />,
+	light: <LightIcon width={14} height={14} />,
+	dark: <DarkIcon width={14} height={14} />,
 };
 
-interface Props {
-	initialTheme?: Theme;
-}
+export default function ThemePicker() {
+	const [mounted, setMounted] = useState(false);
+	const { setTheme, theme } = useTheme();
 
-// No futuro, quando houver dicionários de tradução, utilizar o método de SelectValue comentado
+	// useEffect only runs on the client, so now we can safely show the UI
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
-export default function ThemePicker({ initialTheme = "system" }: Props) {
-	const [theme, setThemeState] = useState<Theme>("system");
+	if (!mounted) {
+		return null;
+	}
 
 	return (
-		<Select
-			defaultValue={theme}
-			value={theme}
-			onValueChange={(value) => console.log(value)}
-		>
-			<SelectTrigger className="shadow-sm" icon={ICONS[theme as Theme]}>
-				<SelectValue placeholder={initialTheme} />
+		<Select defaultValue={theme} value={theme} onValueChange={setTheme}>
+			<SelectTrigger
+				className="shadow-sm text-neutral"
+				icon={ICONS[theme as Theme]}
+			>
+				<SelectValue placeholder={theme} />
 			</SelectTrigger>
 			<SelectContent>
 				<SelectGroup>

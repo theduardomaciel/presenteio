@@ -1,5 +1,5 @@
 .button svg {
-	transition: 25ms;
+	transition: 100ms;
 }
 
 .button.position-toRight:hover svg {

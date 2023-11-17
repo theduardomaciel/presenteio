@@ -11,10 +11,10 @@
 }
 
 .container p {
-	font-family: var(--font-inter);
+	/* font-family: var(--font-inter);
 	font-style: normal;
 	font-weight: 700;
-	font-size: 1.6rem;
+	font-size: 1.6rem; */
 	color: var(--primary-02);
 }
 

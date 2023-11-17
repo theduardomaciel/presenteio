@@ -21,7 +21,6 @@ export default function LandingTitle() {
 		) as HTMLTitleElement;
 		if (title2) {
 			title2.innerText = getRandomTitle();
-			console.log(title2.innerText);
 			title2.addEventListener("animationiteration", () => {
 				title2.innerText = getRandomTitle();
 			});

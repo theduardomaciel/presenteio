@@ -88,11 +88,11 @@ export default function EventDisplay({
 				id="eventImageUpload"
 			/>
 
-			<div className="flex flex-row items-center justify-end gap-5 absolute bottom-1 right-1 lg:bottom-[1.2rem] lg:right-[1.2rem]">
+			{/* <div className="flex flex-row items-center justify-end gap-5 absolute bottom-1 right-1 lg:bottom-[1.2rem] lg:right-[1.2rem]">
 				<EventThemePicker
 					defaultColor={event?.color as unknown as any}
 				/>
-			</div>
+			</div> */}
 			{children}
 		</div>
 	);

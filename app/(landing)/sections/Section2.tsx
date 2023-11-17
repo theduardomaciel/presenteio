@@ -27,14 +27,15 @@ import LandingSection2_1 from "./Section2_1";
 
 export default function LandingSection2() {
 	return (
-		<div className="flex flex-col items-center justify-start w-full bg-white gap-12 pb-20">
-			<ul className="grid grid-cols-3 grid-rows-1 items-start justify-between w-full gap-6 -mt-20 px-wrapper">
+		<div className="flex flex-col items-center justify-start w-full bg-white dark:bg-background-02 gap-12 pb-20">
+			<ul className="flex flex-col lg:grid grid-cols-3 lg:grid-rows-1 items-start justify-between w-full gap-6 -mt-20 px-wrapper">
 				<Section2Card
 					key={"1"}
 					title="Eventos a poucos passos"
 					description="Crie eventos sociais em poucas etapas, convide os participantes e aproveite o momento!"
 					icon={
 						<TouchIcon
+							className="min-w-[2.4rem]"
 							width={`2.4rem`}
 							height={`2.4rem`}
 							fill={`var(--white)`}
@@ -45,6 +46,7 @@ export default function LandingSection2() {
 						href: "/register",
 						icon: (
 							<Face1Icon
+								className="min-w-[2.4rem]"
 								width={`2.4rem`}
 								height={`2.4rem`}
 								fill={`var(--primary-02)`}
@@ -59,6 +61,7 @@ export default function LandingSection2() {
 					icon={
 						<Dice1Icon
 							width={`2.4rem`}
+							className="min-w-[2.4rem]"
 							height={`2.4rem`}
 							fill={`var(--white)`}
 						/>
@@ -68,6 +71,7 @@ export default function LandingSection2() {
 						href: "/shuffle",
 						icon: (
 							<Arrow_right_alt
+								className="min-w-[2.4rem]"
 								width={`2.4rem`}
 								height={`2.4rem`}
 								fill={`var(--primary-02)`}
@@ -81,6 +85,7 @@ export default function LandingSection2() {
 					description="Acesse nossa Central de Ajuda, veja as Perguntas Frequentes, ou entre em contato quando precisar!"
 					icon={
 						<HelpIcon
+							className="min-w-[2.4rem]"
 							width={`2.4rem`}
 							height={`2.4rem`}
 							fill={`var(--white)`}
@@ -91,6 +96,7 @@ export default function LandingSection2() {
 						href: "/#faq",
 						icon: (
 							<SubdirectoryIcon
+								className="min-w-[2.4rem]"
 								width={`2.4rem`}
 								height={`2.4rem`}
 								fill={`var(--primary-02)`}
@@ -112,26 +118,26 @@ export default function LandingSection2() {
 Ou decidir algo simples no par ou ímpar?
 O presenteio cobre todas as suas necessidades."
 					>
-						<ul className="flex flex-row items-center justify-center gap-9">
+						<ul className="flex flex-row items-center justify-center gap-4 w-full lg:w-fit lg:gap-9">
 							<Section2Item1Circle>
 								<EnterpriseIcon
 									width={`2.4rem`}
 									height={`2.4rem`}
-									fill={`var(--font-dark)`}
+									color={`var(--font-dark)`}
 								/>
 							</Section2Item1Circle>
 							<Section2Item1Circle>
 								<HouseIcon
 									width={`2.4rem`}
 									height={`2.4rem`}
-									fill={`var(--font-dark)`}
+									color={`var(--font-dark)`}
 								/>
 							</Section2Item1Circle>
 							<Section2Item1Circle>
 								<GroupsIcon
 									width={`2.4rem`}
 									height={`2.4rem`}
-									fill={`var(--font-dark)`}
+									color={`var(--font-dark)`}
 								/>
 							</Section2Item1Circle>
 						</ul>
@@ -140,7 +146,7 @@ O presenteio cobre todas as suas necessidades."
 						title="Customize seus eventos."
 						description="Deixe sua criatividade tomar conta e escolha imagens, cores e formatos específicos para seus eventos."
 					></Section2Container>
-					<div className="grid grid-cols-2 items-center justify-between gap-6">
+					<div className="flex flex-col lg:grid lg:grid-cols-2 items-center justify-between gap-6">
 						<Section2Container
 							title="Aproveite atualizações constantes."
 							description="Enquanto tivermos apoio, trabalharemos em atualizações de conteúdo constantes, sempre em busca de qualidade excepcional."
@@ -154,13 +160,13 @@ O presenteio cobre todas as suas necessidades."
 							<Face2Icon
 								width={`11.8rem`}
 								height={`11.8rem`}
-								className="absolute -top-16 right-32 opacity-20 rotate-12 z-10"
+								className="absolute -top-16 right-[10%] lg:right-32 opacity-20 rotate-12 z-10"
 								fill={`var(--primary-03)`}
 							/>
 							<Face2Icon
 								width={`11.8rem`}
 								height={`11.8rem`}
-								className="absolute -bottom-16 left-48 opacity-20 rotate-12 z-10"
+								className="absolute -bottom-16 left-[25%] lg:left-48 opacity-20 rotate-12 z-10"
 								fill={`var(--primary-03)`}
 							/>
 							<Face2Icon
@@ -186,9 +192,21 @@ O presenteio cobre todas as suas necessidades."
 									fill={`var(--font-dark)`}
 								/>
 								<div className="flex flex-row items-center justify-center gap-3">
-									<DnsIcon fill={`var(--font-dark)`} />
-									<ComputerIcon fill={`var(--font-dark)`} />
-									<CloudIcon fill={`var(--font-dark)`} />
+									<DnsIcon
+										width={30}
+										height={30}
+										color={`var(--font-dark)`}
+									/>
+									<ComputerIcon
+										width={30}
+										height={30}
+										color={`var(--font-dark)`}
+									/>
+									<CloudIcon
+										width={30}
+										height={30}
+										color={`var(--font-dark)`}
+									/>
 								</div>
 							</div>
 						</Section2Container>
@@ -253,9 +271,9 @@ function Section2Container({
 	return (
 		<div
 			className={cn(
-				"flex flex-row items-center w-full justify-center gap-12 p-6 h-full rounded-3xl border-2 border-primary-01 border-dashed relative overflow-hidden",
+				"flex flex-col lg:flex-row items-center w-full justify-center gap-12 p-6 h-full rounded-3xl border-2 border-primary-01 border-dashed relative overflow-hidden",
 				{
-					"flex-row-reverse": flexReverse,
+					"flex-col-reverse lg:flex-row-reverse": flexReverse,
 				}
 			)}
 		>
