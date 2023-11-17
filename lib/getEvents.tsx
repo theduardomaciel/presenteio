@@ -14,7 +14,7 @@ export const preload = () => {
 export const getEvents = cache(async () => {
 	const token = cookies().get("presenteio.token");
 
-	if (!token) throw new Error("No token found");
+	if (!token || !verify) throw new Error("No token found");
 
 	try {
 		const payload = verify(

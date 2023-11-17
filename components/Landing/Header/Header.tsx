@@ -9,7 +9,10 @@ import Section from "./subcomponents/Section";
 
 export default function LandingHeader() {
 	return (
-		<header className="flex flex-row justify-between items-center absolute top-0 left-0 w-full px-wrapper py-9 z-20">
+		<header
+			id="header"
+			className="flex flex-row justify-between items-center absolute top-0 left-0 w-full px-wrapper py-9 z-20"
+		>
 			<Link href={`/`}>
 				<Logo />
 			</Link>

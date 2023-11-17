@@ -7,9 +7,14 @@ import EmptyGuests from "@/dashboard/components/Guest/EmptyGuests";
 import CreateEventButton from "@/dashboard/components/CreateEventButton";
 
 import { getEvents } from "lib/getEvents";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
 	const events = await getEvents();
+
+	if (!events) {
+		return redirect("/login");
+	}
 
 	return (
 		<div className={`${styles.container} min-h-screen`}>

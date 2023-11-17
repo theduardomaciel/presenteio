@@ -28,7 +28,7 @@ export default function Error({
 	return (
 		<div className={styles.container}>
 			<div className={styles.content}>
-				<Logo height={35} />
+				<Logo className={styles.logo} height={35} />
 				<h1>{`Eita! Parece que algo deu errado :(`}</h1>
 				<p>
 					Caso o problema persista, envie uma captura de tela do erro

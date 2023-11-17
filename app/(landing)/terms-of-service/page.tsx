@@ -14,7 +14,7 @@ export default function TermsOfService() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.content}>
-				<Logo height={35} />
+				<Logo className={styles.logo} height={35} />
 				<h1>{`Não se preocupe, você pode usar o presenteio livremente.`}</h1>
 				<p>
 					No entanto, não endossamos ou garantimos a adequação,

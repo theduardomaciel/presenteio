@@ -114,9 +114,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
 							type="submit"
 							onClick={() => {
 								startTransition(logoutAction);
-								setTimeout(() => {
-									router.push("/");
-								}, 10);
+								router.push("/");
 							}}
 							style={buttonStyle}
 							icon={<LogoutIcon width={28} height={28} />}

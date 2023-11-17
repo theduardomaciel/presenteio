@@ -4,8 +4,14 @@
 	align-items: center;
 	justify-content: center;
 
-	height: 100vh;
+	padding-top: calc(var(--header-height) + 5rem);
+	padding-bottom: 5rem;
+	height: 100%;
 	width: 100vw;
+}
+
+.logo {
+	display: none;
 }
 
 .content {
@@ -14,7 +20,7 @@
 	align-items: center;
 	justify-content: center;
 
-	max-width: 90vw;
+	padding-inline: var(--wrapper);
 
 	gap: 4.5rem;
 }
@@ -74,6 +80,10 @@
 }
 
 @media (min-width: 1024px) {
+	.container {
+		min-height: 100vh;
+	}
+
 	.content {
 		max-width: 45vw;
 	}

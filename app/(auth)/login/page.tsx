@@ -111,15 +111,9 @@ export default function Login() {
 			const response = await axios.post("/api/auth/login", {
 				access_token: tokenResponse.access_token,
 			});
-
 			console.log(response);
 
-			if (response.status === 200) {
-				router.push(`/dashboard`);
-			} else {
-				setError(500);
-				setIsLoading(false);
-			}
+			router.push(`/dashboard`);
 		} catch (error: any) {
 			console.log(error);
 
