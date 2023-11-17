@@ -54,8 +54,11 @@ export default function Button({
 						typeof suppressEffects === "boolean"
 							? !suppressEffects
 							: !suppressEffects?.outline,
-					"bg-primary-03 border-none cursor-not-allowed":
-						disabled || isLoading,
+					"border-none cursor-not-allowed": disabled || isLoading,
+					"bg-primary-03":
+						(disabled || isLoading) &&
+						typeof suppressEffects !== "boolean" &&
+						!suppressEffects?.background,
 				}
 			)}
 			disabled={isLoading || disabled}

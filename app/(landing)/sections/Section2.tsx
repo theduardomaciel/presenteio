@@ -93,7 +93,8 @@ export default function LandingSection2() {
 					}
 					button={{
 						text: "Ver Perguntas Frequentes",
-						href: "/#faq",
+						href: "#faq",
+						/* scroll: false, */
 						icon: (
 							<SubdirectoryIcon
 								className="min-w-[2.4rem]"
@@ -306,6 +307,7 @@ interface Section2CardProps {
 	button?: {
 		text: string;
 		href: string;
+		scroll?: boolean;
 		icon?: React.ReactNode;
 		iconPosition?: "left" | "right";
 	};
@@ -313,7 +315,7 @@ interface Section2CardProps {
 
 function Section2Card({ title, description, icon, button }: Section2CardProps) {
 	return (
-		<Link href={button?.href || "/"}>
+		<Link href={button?.href || "/"} scroll={button?.scroll}>
 			<li className="flex flex-col items-start justify-start bg-primary-02 rounded-lg p-5 gap-4">
 				<div className="flex flex-col items-start justify-start gap-1">
 					<div className="flex flex-row items-center justify-start gap-4">
@@ -327,7 +329,7 @@ function Section2Card({ title, description, icon, button }: Section2CardProps) {
 					</p>
 				</div>
 				{button && (
-					<button
+					<div
 						className={cn(
 							"flex flex-row items-center justify-start gap-4 px-5 py-2 rounded-lg bg-white w-full text-primary-02 font-serif text-left text-lg hover:outline outline-offset-2 outline-white",
 							{
@@ -338,7 +340,7 @@ function Section2Card({ title, description, icon, button }: Section2CardProps) {
 					>
 						{button?.icon && button.icon}
 						{button?.text}
-					</button>
+					</div>
 				)}
 			</li>
 		</Link>

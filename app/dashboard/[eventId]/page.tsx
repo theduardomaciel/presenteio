@@ -39,7 +39,7 @@ export default async function EventPage({
 	const { createdAt, ...rest } = event;
 
 	return (
-		<div className={`${dashboardStyles.container} min-h-screen`}>
+		<div className={`${dashboardStyles.container} lg:min-h-screen`}>
 			<DashboardHeader>
 				<EventEdit event={rest} />
 			</DashboardHeader>

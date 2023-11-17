@@ -52,10 +52,8 @@ html.dark {
 html {
 	background-color: var(--background-01);
 	position: relative;
-	scroll-behavior: smooth;
 
 	font-family: var(--font-judson) var(--font-inter) var(--font-judson);
-
 	/* letter-spacing: 0.1rem; */
 }
 
@@ -65,6 +63,7 @@ body {
 	margin: 0;
 	height: 100%;
 
+	scroll-behavior: smooth;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-rendering: optimizeLegibility;

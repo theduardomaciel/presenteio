@@ -7,6 +7,7 @@ import ThemePicker from "./subcomponents/ThemePicker";
 import LanguagePicker from "./subcomponents/LanguagePicker";
 import Status from "./subcomponents/Status";
 import { cn } from "@/utils/ui";
+import { GitHubLogoIcon, InstagramLogoIcon } from "@radix-ui/react-icons";
 
 // Utils
 
@@ -36,6 +37,19 @@ export default function LandingFooter({ className }: Props) {
 									className="font-title text-2xl text-text-100"
 								>
 									<Logo />
+								</a>
+								<div className="h-6 w-0 border-r border-neutral dark:border-dark-gray-100 rounded" />
+								<a
+									href="https://github.com/theduardomaciel/presenteio"
+									target="_blank"
+								>
+									<GitHubLogoIcon width={20} height={20} />
+								</a>
+								<a
+									href="https://instagram.com/theduardomaciel"
+									target="_blank"
+								>
+									<InstagramLogoIcon width={20} height={20} />
 								</a>
 							</div>
 						</div>

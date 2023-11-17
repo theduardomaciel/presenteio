@@ -8,7 +8,9 @@ interface StatusProps {
 export default function Status({ className }: StatusProps) {
 	return (
 		<a
-			href={"https://twitter.com/appofficia"}
+			href={
+				"https://theduardomaciel.vercel.app/status?utm_source=presenteio"
+			}
 			target="_blank"
 			className={cn(
 				"flex flex-row items-center justify-center gap-x-3 px-3 py-2 transition w-full lg:w-fit outline outline-[0.75px] outline-transparent hover:outline-white rounded-md font-sans text-sm",
