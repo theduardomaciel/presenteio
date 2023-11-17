@@ -1,5 +1,7 @@
 import prisma from "lib/prisma";
-import { deleteImage, getImageUrl } from "app/api/images/route";
+
+// Helpers
+import { deleteImage, getImageUrl } from "app/api/images/helper";
 
 // Types
 import { type NextRequest } from "next/server";

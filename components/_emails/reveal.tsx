@@ -10,7 +10,7 @@ import { Img } from "@react-email/img";
 
 import { EventType } from "@prisma/client";
 
-export interface EmailProps {
+export interface RevealEmailProps {
 	guestName: string;
 	guestId: string;
 	eventName?: string;
@@ -24,7 +24,7 @@ export default function RevealEmail({
 	eventName,
 	eventType,
 	eventInviteCode,
-}: EmailProps) {
+}: RevealEmailProps) {
 	const EVENT_REVEAL_URL = `https://presenteio.vercel.app/invite/${eventInviteCode}/reveal?guest=${guestId}`;
 	const EVENT_IMAGE_URL = `https://presenteio.vercel.app/api/images/generate/event?name=${eventName?.replaceAll(
 		" ",

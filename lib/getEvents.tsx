@@ -5,7 +5,7 @@ import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 
 import prisma from "./prisma";
-import type { TokenPayload } from "app/api/auth/register/route";
+import type { TokenPayload } from "app/api/auth/helper";
 
 export const preload = () => {
 	void getEvents();

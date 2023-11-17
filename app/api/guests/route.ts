@@ -1,5 +1,7 @@
 import prisma from "lib/prisma";
-import { getImageUrl } from "../images/route";
+
+// Helpers
+import { getImageUrl } from "../images/helper";
 
 // Types
 import { GuestStatus } from "@prisma/client";

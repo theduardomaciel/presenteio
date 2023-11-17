@@ -1,12 +1,12 @@
 import { verify } from "jsonwebtoken";
 import prisma from "lib/prisma";
 
-import { getImageUrl } from "../images/route";
+import { getImageUrl } from "../images/helper";
 
 // Types
 import { type NextRequest } from "next/server";
 import { type PreGuest } from "app/dashboard/compose/PreGuestsDisplay";
-import { TokenPayload } from "../auth/register/route";
+import { type TokenPayload } from "../auth/helper";
 
 export async function POST(request: NextRequest) {
 	try {

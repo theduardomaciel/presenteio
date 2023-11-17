@@ -1,7 +1,7 @@
 import { type NextRequest } from "next/server";
 import prisma from "lib/prisma";
 
-import { sendEmailToGuest } from "app/api/emails/send/route";
+import { sendRevealEmailToGuest } from "app/api/emails/send/helper";
 
 // Types
 import { type Event, type Guest, EventStatus } from "@prisma/client";
@@ -108,7 +108,7 @@ async function sendAllEmails(guests: Guest[], event: Event) {
 		guests.map(async (guest) => {
 			if (guest.email) {
 				console.log(`Sending email to ${guest.email}`);
-				await sendEmailToGuest(guest.email as string, {
+				await sendRevealEmailToGuest(guest.email as string, {
 					guestName: guest.name,
 					guestId: guest.id,
 					eventName: event?.name,

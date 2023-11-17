@@ -6,7 +6,7 @@ import {
 	type TokenPayload,
 	getAppAuthenticationToken,
 	getGoogleData,
-} from "../register/route";
+} from "../helper";
 
 export async function GET(
 	request: NextRequest,

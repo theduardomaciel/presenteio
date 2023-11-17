@@ -6,9 +6,9 @@ import { cookies } from "next/headers";
 
 import prisma from "./prisma";
 
-/* export const preload = () => {
-    void getAccount();
-} */
+export const preload = () => {
+	void getAccount();
+};
 
 export const getAccount = cache(async () => {
 	const nextCookies = cookies();

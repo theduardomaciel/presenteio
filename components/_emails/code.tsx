@@ -6,12 +6,12 @@ import { Container } from "@react-email/container";
 import { Text } from "@react-email/text";
 import { Img } from "@react-email/img";
 
-interface EmailProps {
+export interface CodeEmailProps {
 	code: string;
 	name: string;
 }
 
-export default function CodeEmail({ code, name }: EmailProps) {
+export default function CodeEmail({ code, name }: CodeEmailProps) {
 	return (
 		<Html>
 			<Head />

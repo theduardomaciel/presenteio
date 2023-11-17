@@ -1,11 +1,7 @@
 import { type NextRequest } from "next/server";
 
-// API
-import { ImgurClient } from "imgur";
-const client = new ImgurClient({
-	clientId: process.env.IMGUR_CLIENT_ID,
-	clientSecret: process.env.IMGUR_CLIENT_SECRET,
-});
+// Helpers
+import { deleteImage, getImageUrl } from "./helper";
 
 export async function POST(request: NextRequest) {
 	const { image_base64, name } = await request.json();
@@ -34,7 +30,7 @@ export async function DELETE(request: NextRequest) {
 		});
 
 	try {
-		await client.deleteImage(image_deleteHash as string);
+		await deleteImage(image_deleteHash);
 		console.log("✅ DELETED image with success!");
 		return new Response("Image deleted with success.", {
 			status: 200,
@@ -46,57 +42,5 @@ export async function DELETE(request: NextRequest) {
 			status: 500,
 			statusText: "Internal server error.",
 		});
-	}
-}
-
-export async function getImageUrl(image_base64: string, name?: string) {
-	if (image_base64) {
-		try {
-			const response = await client.upload({
-				image: image_base64,
-				title: `${name}_eventImage`,
-				type: "base64",
-			});
-			if (response.status === 200) {
-				console.log("✅ Image uploaded with success!");
-				return {
-					image_url: response.data.link,
-					image_deleteHash: response.data.deletehash,
-				};
-			} else {
-				console.log(response.data);
-				console.log("❌ There was not possible to upload the image.");
-				return null;
-			}
-		} catch (error: any) {
-			console.log(error.response.data);
-			console.log("❌ There was not possible to upload the image.");
-			return null;
-		}
-	} else {
-		console.log("Nenhuma string informada.");
-		return null;
-	}
-}
-
-export async function deleteImage(image_deleteHash: string) {
-	if (image_deleteHash) {
-		try {
-			const response = await client.deleteImage(image_deleteHash);
-			if (response.status === 200) {
-				console.log("✅ Image deleted with success!");
-				return true;
-			} else {
-				console.log("❌ There was not possible to delete the image.");
-				return null;
-			}
-		} catch (error) {
-			console.log(error);
-			console.log("❌ There was not possible to delete the image.");
-			return null;
-		}
-	} else {
-		console.log("Nenhum delete hash informado.");
-		return null;
 	}
 }

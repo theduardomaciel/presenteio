@@ -1,8 +1,10 @@
-import { type NextRequest } from "next/server";
-
 import prisma from "lib/prisma";
 
-import { deleteImage, getImageUrl } from "../../images/route";
+// Helpers
+import { deleteImage, getImageUrl } from "../../images/helper";
+
+// Types
+import { type NextRequest } from "next/server";
 
 export async function PATCH(
 	request: NextRequest,
