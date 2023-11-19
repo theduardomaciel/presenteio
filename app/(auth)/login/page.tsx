@@ -147,6 +147,7 @@ export default function Login() {
 				password: password,
 			});
 
+			router.refresh(); // o refresh é necessário para que os cookies sejam atualizados
 			router.push(`/dashboard`);
 		} catch (error: any) {
 			console.log(error);

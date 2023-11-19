@@ -108,7 +108,7 @@ export default function GuestCard({ guest, event, setToastVisible }: Props) {
 
 				{guest.status !== "PENDING" && (
 					<>
-						<div className="divisor vertical" />
+						{/* <div className="divisor vertical" /> */}
 						<div className={styles.iconAndLabel}>
 							<EmailIcon />
 							<p>

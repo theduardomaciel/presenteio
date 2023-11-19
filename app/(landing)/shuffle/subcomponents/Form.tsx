@@ -175,14 +175,14 @@ function InputSection() {
 	return (
 		<div className="flex w-screen flex-col items-center justify-center gap-[2.6rem]">
 			<div className="flex flex-col items-center justify-center">
-				<h2 className="text-center text-primary-02 text-2xl font-normal font-serif">
+				<h2 className="text-center text-primary-02 text-xl lg:text-2xl font-normal font-serif">
 					Offline, simples e prático.
 				</h2>
-				<h1 className="text-center text-primary-01 text-[92px] font-bold font-title leading-snug">
+				<h1 className="text-center text-primary-01 text-5xl lg:text-8xl font-bold font-title leading-snug">
 					Sorteador
 				</h1>
 			</div>
-			<div className="flex flex-row items-center justify-center gap-[2.6rem]">
+			<div className="flex flex-col lg:flex-row items-center justify-center gap-[2.6rem]">
 				<Input
 					label="Quantidade de números"
 					type="number"
@@ -256,7 +256,7 @@ function InputSection() {
 					}}
 				/>
 			</div>
-			<h3 className="text-primary-01 font-title text-lg font-bold">
+			<h3 className="text-primary-01 font-title text-lg font-bold text-center max-md:max-w-[70vw]">
 				Você irá sortear {numbersAmount || MIN_NUMBERS_AMOUNT} número
 				{numbersAmount !== "1" && numbersAmount !== ""
 					? "s"
@@ -279,7 +279,7 @@ interface ResultSectionProps {
 function ResultSection({ result, revealOnClick, onReset }: ResultSectionProps) {
 	return (
 		<div className="flex flex-col w-screen items-center justify-center gap-14">
-			<h2 className="text-center text-primary-01 text-5xl font-bold font-title">
+			<h2 className="text-center text-primary-01 text-4xl lg:text-5xl font-bold font-title">
 				Resultado do Sorteio
 			</h2>
 			<ul className="flex flex-row items-center justify-center flex-wrap gap-9 px-wrapper">
@@ -287,16 +287,19 @@ function ResultSection({ result, revealOnClick, onReset }: ResultSectionProps) {
 					<ResultNumber key={index} index={index} number={number} />
 				))}
 			</ul>
-			<div className="flex flex-row items-center justify-center text-white gap-6">
+			<div className="flex flex-col lg:flex-row items-center justify-center text-white gap-6">
 				<Button
-					className="font-bold text-lg py-2"
+					className="font-bold text-lg py-2 max-md:w-full"
 					onClick={onReset}
 					type="button"
 				>
 					Reiniciar
 					<ResetIcon width={24} height={24} />
 				</Button>
-				<Button className="font-bold text-lg py-2" type="submit">
+				<Button
+					className="font-bold text-lg py-2 max-md:w-full"
+					type="submit"
+				>
 					Sortear novamente
 					<DiceIcon />
 				</Button>
