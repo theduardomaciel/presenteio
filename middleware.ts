@@ -21,7 +21,7 @@ const allowedPaths = [
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-	// API
+	/* // API
 	const accountAuthenticated = isAuthenticated(request);
 	if (
 		request.nextUrl.pathname.startsWith("/api") &&
@@ -35,7 +35,7 @@ export function middleware(request: NextRequest) {
 			}),
 			{ status: 401, headers: { "content-type": "application/json" } }
 		);
-	}
+	} */
 
 	// APP
 	if (
