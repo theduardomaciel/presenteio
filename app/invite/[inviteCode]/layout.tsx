@@ -21,7 +21,7 @@ export default async function InviteLayout({ params, children }: Props) {
 				style={{
 					zIndex: -1,
 					background:
-						"radial-gradient(59.45% 59.45% at 45.17% 40.55%, var(--primary-03), rgba(255, 150, 179, 0.85), var(--primary-02))",
+						"radial-gradient(59.45% 59.45% at 45.17% 40.55%, var(--primary-03), rgba(255, 150, 179, 0.85), var(--primary-03))",
 				}}
 			/>
 			{event && event.image_url && (

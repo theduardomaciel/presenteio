@@ -15,14 +15,16 @@ const allowedPaths = [
 	"/api/emails/check",
 	"/api/emails/send",
 	"/api/images/generate/event",
+	"/api/guests",
 	"/api/auth/login",
 	"/api/auth/register",
 ];
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-	/* // API
 	const accountAuthenticated = isAuthenticated(request);
+
+	// API
 	if (
 		request.nextUrl.pathname.startsWith("/api") &&
 		!allowedPaths.includes(request.nextUrl.pathname) &&
@@ -35,7 +37,7 @@ export function middleware(request: NextRequest) {
 			}),
 			{ status: 401, headers: { "content-type": "application/json" } }
 		);
-	} */
+	}
 
 	// APP
 	if (
