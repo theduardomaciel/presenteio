@@ -87,15 +87,20 @@ export default function Login() {
 			</form>
 		),
 		footer: (
-			<div className="modalFooter">
+			<div
+				className="modalFooter"
+				aria-disabled={isLoading}
+				style={{
+					pointerEvents: isLoading ? "none" : "auto",
+					cursor: isLoading ? "not-allowed" : "pointer",
+				}}
+			>
 				<p>
 					Não tem uma conta?{" "}
 					<Link
 						href={`/register`}
 						style={{
 							fontWeight: "bold",
-							pointerEvents: isLoading ? "none" : "auto",
-							cursor: isLoading ? "not-allowed" : "pointer",
 						}}
 					>
 						Criar uma conta
@@ -115,12 +120,10 @@ export default function Login() {
 
 	async function getAccountFromGoogle(tokenResponse: TokenResponse) {
 		try {
-			const response = await axios.post("/api/auth/login", {
+			await axios.post("/api/auth/login", {
 				access_token: tokenResponse.access_token,
 			});
-			console.log(response);
 
-			router.refresh(); // o refresh é necessário para que os cookies sejam atualizados
 			router.push(`/dashboard`);
 		} catch (error: any) {
 			console.log(error);
@@ -169,6 +172,7 @@ export default function Login() {
 			/>
 			<AuthModal
 				//initial={isAnimated ? true : false}
+				initial={false}
 				sections={{ login: Section0 }}
 				actualSection={actualSection}
 				direction={direction}

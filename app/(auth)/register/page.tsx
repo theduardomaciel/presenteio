@@ -793,6 +793,7 @@ export default function Register() {
 			/>
 			<AuthModal
 				//initial={isAnimated ? true : false}
+				initial={false}
 				sections={sections}
 				actualSection={actualSection}
 				direction={direction}

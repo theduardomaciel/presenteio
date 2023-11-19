@@ -10,5 +10,4 @@ export const GUEST_IMAGE_PLACEHOLDER = {
 	justifyContent: "center",
 	position: "relative",
 	alignItems: "center",
-	cursor: "pointer",
 } as CSSProperties;

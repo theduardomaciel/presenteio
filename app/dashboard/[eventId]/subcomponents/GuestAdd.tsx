@@ -57,13 +57,14 @@ export default function GuestAdd({ eventId, ...props }: Props) {
 	return (
 		<>
 			<Button
-				label="Adicionar participante"
 				icon={<AddIcon width={18} height={18} />}
 				onClick={toggleVisibility}
 				disabled={props["aria-disabled"] === true}
 				suppressEffects={true}
 				{...props}
-			/>
+			>
+				<p className="hidden lg:flex">Adicionar participante</p>
+			</Button>
 			<GuestModal
 				isVisible={isVisible}
 				isLoading={isLoading}

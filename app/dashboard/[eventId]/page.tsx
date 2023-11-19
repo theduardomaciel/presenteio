@@ -83,7 +83,7 @@ export default async function EventPage({
 					{event.status !== "DIVULGED" && (
 						<GuestAdd
 							eventId={event.id}
-							className="bg-transparent pr-0 text-primary-01 border-none hover:text-primary-02 hover:scale-105"
+							className="bg-transparent p-0 text-primary-01 border-none hover:text-primary-02 hover:scale-105"
 							aria-disabled={event.guests.length >= 30}
 						/>
 					)}

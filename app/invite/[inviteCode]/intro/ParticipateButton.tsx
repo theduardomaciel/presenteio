@@ -224,6 +224,7 @@ export default function ParticipateButton({ guest, event }: Props) {
 					required={!guest?.email}
 					name="email"
 					placeholder={guest?.email || undefined}
+					className="placeholder:text-font-light"
 					minLength={8}
 					maxLength={50}
 					label="E-mail"
@@ -286,7 +287,10 @@ export default function ParticipateButton({ guest, event }: Props) {
 					updateOrCreateGuest("update");
 				}}
 			>
-				<label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="image">
+				<label
+					style={{ cursor: "pointer", ...GUEST_IMAGE_PLACEHOLDER }}
+					htmlFor="image"
+				>
 					{preview ? (
 						<Image
 							src={preview}
@@ -307,7 +311,11 @@ export default function ParticipateButton({ guest, event }: Props) {
 					)}
 					{guest?.image_url && event.allowProfileChange && (
 						<div className="flex items-center justify-center bg-background-02 z-[2] p-3 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-							<ChangePhotoIcon width={24} height={24} />
+							<ChangePhotoIcon
+								width={24}
+								height={24}
+								color="var(--primary-02)"
+							/>
 						</div>
 					)}
 				</label>
@@ -434,7 +442,10 @@ export default function ParticipateButton({ guest, event }: Props) {
 					updateOrCreateGuest("create");
 				}}
 			>
-				<label style={GUEST_IMAGE_PLACEHOLDER} htmlFor="image">
+				<label
+					style={{ cursor: "pointer", ...GUEST_IMAGE_PLACEHOLDER }}
+					htmlFor="image"
+				>
 					{preview ? (
 						<Image
 							src={preview}

@@ -61,7 +61,7 @@ export default function EventNameEdit({ event }: Props) {
 						description:
 							"O nome do evento foi alterado com sucesso.",
 						icon: (
-							<EditIcon width={22} fill={`var(--primary-02)`} />
+							<EditIcon width={22} color={`var(--primary-02)`} />
 						),
 						status: "success",
 					},

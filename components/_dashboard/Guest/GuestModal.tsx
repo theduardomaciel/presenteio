@@ -134,7 +134,7 @@ export default function GuestModal({
 		>
 			<div className="flex flex-col items-center justify-start gap-5 w-full">
 				<label
-					style={GUEST_IMAGE_PLACEHOLDER}
+					style={{ cursor: "pointer", ...GUEST_IMAGE_PLACEHOLDER }}
 					htmlFor="guestImageUpload"
 				>
 					{preview ? (
