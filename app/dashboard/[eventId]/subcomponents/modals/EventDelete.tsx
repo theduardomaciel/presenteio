@@ -37,8 +37,8 @@ export default function EventDeleteModal({ eventId }: Props) {
 		try {
 			const response = await axios.delete(`/api/events/${eventId}`);
 			if (response) {
+				router.replace(`/dashboard`);
 				router.refresh();
-				router.push(`/dashboard`);
 			} else {
 				setDeleteModalState({
 					status: "error",

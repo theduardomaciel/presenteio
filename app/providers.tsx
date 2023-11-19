@@ -10,7 +10,11 @@ interface Props {
 
 export function Providers({ children, clientId }: Props) {
 	return (
-		<ThemeProvider attribute="class" defaultTheme="light">
+		<ThemeProvider
+			attribute="class"
+			defaultTheme="light"
+			forcedTheme="light"
+		>
 			<GoogleOAuthProvider clientId={clientId}>
 				{children}
 			</GoogleOAuthProvider>
