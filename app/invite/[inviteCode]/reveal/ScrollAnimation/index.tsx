@@ -54,6 +54,7 @@ export default function ScrollAnimation({
 				if (div.classList.contains(styles.correspondingGuest)) return;
 				div.style.opacity = "0";
 			});
+
 			const fadeTimeout = setTimeout(() => {
 				const elements = document.querySelectorAll(`.${styles.image}`);
 				elements.forEach((element) => {
@@ -77,7 +78,7 @@ export default function ScrollAnimation({
 		}, DURATION);
 	}, []);
 
-	const MULTIPLY_BY = Math.floor((TAGS_PER_ROW * 2) / guestsImages.length);
+	const MULTIPLY_BY = Math.floor((TAGS_PER_ROW * 4) / guestsImages.length);
 	const SORTED_ARRAY = useMemo(
 		() =>
 			makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([
@@ -120,6 +121,9 @@ export default function ScrollAnimation({
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
+				transition={{
+					duration: 2.5,
+				}}
 				className={styles.tagList}
 			>
 				{status === "animating" && (

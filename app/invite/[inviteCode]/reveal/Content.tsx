@@ -12,7 +12,7 @@ import GiftIcon from "@/public/icons/gift.svg";
 // Components
 import Button from "components/_ui/Button";
 import ScrollAnimation from "./ScrollAnimation";
-import EventTitle from "../components/EventTitle";
+import EventTitle from "../subcomponents/EventTitle";
 
 import type { Guest } from "@prisma/client";
 
@@ -64,7 +64,16 @@ export default function RevealContent({
 				<EventTitle type={eventProps.type} name={eventProps.name} />
 			</motion.div>
 			{status === "idle" ? (
-				<div className={styles.content} key={"content"}>
+				<motion.div
+					className={styles.content}
+					key={"content"}
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					exit={{ opacity: 0 }}
+					transition={{
+						duration: 0.5,
+					}}
+				>
 					<h1>Chegou a hora de descobrir seu amigo secreto.</h1>
 					<p>
 						<strong>
@@ -91,7 +100,7 @@ export default function RevealContent({
 						</p>
 					</Button>
 					<div className={"divisor"} />
-				</div>
+				</motion.div>
 			) : (
 				<ScrollAnimation
 					guestsImages={guestsImages}

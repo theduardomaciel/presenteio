@@ -12,8 +12,8 @@ import Intro from "./intro";
 
 // Components
 import Button from "components/_ui/Button";
-import GuestsView from "./components/GuestsView";
-import EventTitle from "./components/EventTitle";
+import GuestsView from "./subcomponents/GuestsView";
+import EventTitle from "./subcomponents/EventTitle";
 
 // Utils
 import { getEventFromInviteCode } from "lib/getEvents";

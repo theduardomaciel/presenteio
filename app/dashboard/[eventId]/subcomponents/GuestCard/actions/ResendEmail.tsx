@@ -116,14 +116,12 @@ export default function ResendEmailToGuest({
 
 	return (
 		<Fragment>
-			{event.status === "DIVULGED" && guest.status === "CONFIRMED" && (
-				<SendEmail
-					color="var(--neutral)"
-					width={22}
-					height={22}
-					onClick={() => setResendEmailModalState({ status: true })}
-				/>
-			)}
+			<SendEmail
+				color="var(--neutral)"
+				width={22}
+				height={22}
+				onClick={() => setResendEmailModalState({ status: true })}
+			/>
 			<Modal
 				status={resendEmailModalState.status}
 				toggleVisibility={() =>

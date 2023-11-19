@@ -14,6 +14,7 @@ import useHorizontalScroll from "hooks/useHorizontalScroll";
 
 import type { Guest } from "@prisma/client";
 import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/styles";
+import HorizontalScroll from "components/HorizontalScroll";
 
 export default function GuestsView({ guests }: { guests: Guest[] }) {
 	const { moveScroll } = useHorizontalScroll("guestsHolder", true);
@@ -30,8 +31,7 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
 				onClick={() => moveScroll(-25)}
 				style={{ cursor: "pointer", userSelect: "none" }}
 			/>
-			<ul
-				id="guestsHolder"
+			<HorizontalScroll
 				className={styles.guestsHolder}
 				style={{
 					justifyContent:
@@ -48,7 +48,11 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
 									borderRadius: "50%",
 									objectFit: "cover",
 									aspectRatio: "1/1",
+									display: "flex",
+									minWidth: 40,
+									minHeight: 40,
 								}}
+								className="pointer-events-none select-none"
 								src={guest.image_url}
 								alt={guest.name}
 								width={40}
@@ -71,7 +75,7 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
 						)}
 					</li>
 				))}
-			</ul>
+			</HorizontalScroll>
 			<ChevronLeft
 				onClick={() => moveScroll(25)}
 				style={{

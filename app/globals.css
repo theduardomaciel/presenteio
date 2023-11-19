@@ -188,6 +188,21 @@ input[type="number"]::-webkit-inner-spin-button {
 	background-size: auto;
 }
 
+/* Grab */
+.draggable {
+	cursor: move; /* fallback if grab cursor is unsupported */
+	cursor: grab;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+}
+
+/* Apply a "closed-hand" cursor during drag operation. */
+.draggable:active {
+	cursor: grabbing;
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+}
+
 @media (min-width: 1024px) {
 	:root {
 		--wrapper: 11.5rem;
