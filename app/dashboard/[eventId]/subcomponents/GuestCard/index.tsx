@@ -1,9 +1,7 @@
 import Image from "next/image";
 
+// Styling
 import styles from "./styles.module.css";
-
-// Components
-import ActionButtons from "./ActionButtons";
 
 // Icons
 import EmailIcon from "@/public/icons/email.svg";
@@ -13,17 +11,24 @@ import PendingIcon from "@/public/icons/guestStatus/pending.svg";
 import VisualizedIcon from "@/public/icons/view.svg";
 import ConfirmedIcon from "@/public/icons/guestStatus/confirmed.svg";
 
-// Utils
+// Components
+import ShareEventToGuest from "./actions/Share";
+import ResendEmailToGuest from "./actions/ResendEmail";
+import EditGuest from "./actions/Edit";
+import DeleteGuest from "./actions/Delete";
+
+// Types
 import type { Guest } from "@prisma/client";
 import type { Event } from "@prisma/client";
+import type { ToastDynamicProps } from "components/_ui/Toast";
 
-const GuestCard = ({
-	guest,
-	event,
-}: {
+interface Props {
 	guest: Omit<Guest, "event">;
 	event: Omit<Event, "createdAt">;
-}) => {
+	setToastVisible: React.Dispatch<React.SetStateAction<ToastDynamicProps>>;
+}
+
+export default function GuestCard({ guest, event, setToastVisible }: Props) {
 	return (
 		<div className={styles.guestCard}>
 			<header>
@@ -39,7 +44,37 @@ const GuestCard = ({
 					)}
 					<h6>{guest.name}</h6>
 				</div>
-				<ActionButtons guest={guest} event={event} />
+				<div className={styles.actions}>
+					<ShareEventToGuest
+						event={{
+							inviteCode: event.inviteCode,
+						}}
+						guest={{
+							id: guest.id,
+							name: guest.name,
+						}}
+					/>
+					{event.status === "DIVULGED" &&
+						guest.status === "CONFIRMED" && (
+							<ResendEmailToGuest
+								event={event}
+								guest={guest}
+								setToastVisible={setToastVisible}
+							/>
+						)}
+					{event.status === "PENDING" && (
+						<>
+							<EditGuest
+								guest={guest}
+								setToastVisible={setToastVisible}
+							/>
+							<DeleteGuest
+								guestId={guest.id}
+								setToastVisible={setToastVisible}
+							/>
+						</>
+					)}
+				</div>
 			</header>
 			<footer>
 				<div className={styles.iconAndLabel}>
@@ -87,6 +122,4 @@ const GuestCard = ({
 			</footer>
 		</div>
 	);
-};
-
-export default GuestCard;
+}

@@ -482,7 +482,13 @@ export default function Register() {
 		),
 		footer: (
 			<div className="modalFooter">
-				<Link href={`/login`}>
+				<Link
+					href={`/login`}
+					style={{
+						pointerEvents: isLoading ? "none" : "auto",
+						cursor: isLoading ? "not-allowed" : "pointer",
+					}}
+				>
 					<p className={styles.footer}>
 						Já tem uma conta?{" "}
 						<span className="font-bold">Entrar</span>

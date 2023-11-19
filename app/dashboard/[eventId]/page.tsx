@@ -5,20 +5,21 @@ import { notFound } from "next/navigation";
 import dashboardStyles from "../dashboard.module.css";
 import styles from "./styles.module.css";
 
-// Components
-import EventEdit from "@/dashboard/components/Event/EventNameEdit";
-import DashboardHeader from "@/dashboard/components/Header";
-import Overlay from "@/dashboard/components/Overlay";
-import DashboardSectionHeader from "@/dashboard/components/Section/SectionHeader";
-import ButtonsHolder from "./subcomponents/ButtonsHolder";
-import GuestCard from "app/dashboard/[eventId]/subcomponents/GuestCard";
-import EmptyGuests from "@/dashboard/components/Guest/EmptyGuests";
-import AddGuest from "./subcomponents/AddGuest";
-import InviteLink from "./subcomponents/InviteLink";
-
 // Assets
 import LinkIcon from "@/public/icons/link.svg";
 import BackgroundPattern from "@/public/images/background_pattern.png";
+
+// Components
+import DashboardHeader from "@/dashboard/components/Header";
+import DashboardSectionHeader from "@/dashboard/components/Section/SectionHeader";
+import Overlay from "@/dashboard/components/Overlay";
+
+import InviteLink from "./subcomponents/InviteLink";
+import EventEdit from "@/dashboard/components/Event/EventNameEdit";
+import ButtonsHolder from "./subcomponents/ButtonsHolder";
+
+import GuestAdd from "./subcomponents/GuestAdd";
+import GuestsHolder from "./subcomponents/GuestsHolder";
 
 // Utils
 import { getEvent } from "lib/getEvents";
@@ -39,7 +40,7 @@ export default async function EventPage({
 	const { createdAt, ...rest } = event;
 
 	return (
-		<div className={`${dashboardStyles.container} lg:min-h-screen`}>
+		<div className={`${dashboardStyles.container} min-h-screen`}>
 			<DashboardHeader>
 				<EventEdit event={rest} />
 			</DashboardHeader>
@@ -76,41 +77,18 @@ export default async function EventPage({
 					)}
 					<Overlay />
 				</div>
+				<ButtonsHolder event={rest} />
+
 				<DashboardSectionHeader title="Participantes">
 					{event.status !== "DIVULGED" && (
-						<AddGuest
+						<GuestAdd
 							eventId={event.id}
-							style={{
-								backgroundColor: "transparent",
-								color: "var(--primary-01)",
-							}}
+							className="bg-transparent pr-0 text-primary-01 border-none hover:text-primary-02 hover:scale-105"
+							aria-disabled={event.guests.length >= 30}
 						/>
 					)}
 				</DashboardSectionHeader>
-				<div
-					className={`${styles.guestsHolder} scroll ${
-						event.guests && event.guests.length === 0
-							? styles.empty
-							: ""
-					}`}
-				>
-					{event.guests && event.guests.length > 0 ? (
-						event.guests.map((guest, index) => {
-							return (
-								<GuestCard
-									key={index}
-									guest={guest}
-									event={rest}
-								/>
-							);
-						})
-					) : (
-						<EmptyGuests
-							label={`Nenhum convidado foi adicionado ao evento até o momento.\nEnvie o convite para que novos usuários possam entrar!`}
-						/>
-					)}
-				</div>
-				<ButtonsHolder event={rest} />
+				<GuestsHolder event={rest} />
 			</div>
 		</div>
 	);

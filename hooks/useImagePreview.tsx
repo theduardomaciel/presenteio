@@ -1,5 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 
+// Código do preview de imagem: https://stackoverflow.com/questions/38049966/get-image-preview-before-uploading-in-react
+
 export default function useImagePreview(imageUrl?: string) {
 	const [preview, setPreview] = useState<string | undefined>(imageUrl);
 

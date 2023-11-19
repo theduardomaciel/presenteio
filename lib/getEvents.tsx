@@ -52,6 +52,7 @@ export const getEvent = cache(async (id: string) => {
 			token?.value as string,
 			process.env.JWT_SECRET_KEY as string
 		) as TokenPayload;
+
 		if (response) {
 			const event = await prisma.event.findUnique({
 				where: {
@@ -68,9 +69,12 @@ export const getEvent = cache(async (id: string) => {
 			});
 
 			return event;
+		} else {
+			return null;
 		}
 	} catch (error) {
 		console.log(error);
+		return null;
 	}
 });
 

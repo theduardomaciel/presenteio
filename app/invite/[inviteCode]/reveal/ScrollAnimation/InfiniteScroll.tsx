@@ -1,9 +1,11 @@
-import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/GuestModal";
-import PersonIcon from "@/public/icons/person.svg";
-
-// Stylesheet
 import Image from "next/image";
+
+// Styling
 import styles from "./styles.module.css";
+import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/styles";
+
+// Assets
+import PersonIcon from "@/public/icons/person.svg";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
 	reverse: boolean | number;

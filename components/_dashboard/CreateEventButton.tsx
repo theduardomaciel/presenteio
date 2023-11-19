@@ -9,7 +9,7 @@ const CreateEventButton = () => (
 		<Button
 			style={{ padding: `0.65rem 3rem`, height: "100%", fontWeight: 700 }}
 		>
-			<AddIcon />
+			<AddIcon width={24} height={24} />
 			Criar Evento
 		</Button>
 	</Link>

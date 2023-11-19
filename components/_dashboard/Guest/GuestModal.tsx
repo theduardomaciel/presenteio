@@ -1,24 +1,19 @@
 "use client";
-import {
-	CSSProperties,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+
+// Styling
+import { GUEST_IMAGE_PLACEHOLDER } from "./styles";
 
 // Components
 import Button from "components/_ui/Button";
 import Modal from "components/Modal";
 import Input from "components/_ui/Input";
-import { PreGuest } from "app/dashboard/compose/PreGuestsDisplay";
 
 // Icons
-import UserIcon from "@/public/icons/person.svg";
+import AddIcon from "@/public/icons/add.svg";
 import AddPhotoIcon from "@/public/icons/add_photo.svg";
 import GroupAddIcon from "@/public/icons/group_add.svg";
 import EditFilledIcon from "@/public/icons/edit_filled.svg";
@@ -29,167 +24,101 @@ import type { Guest } from "@prisma/client";
 // Hooks
 import useImagePreview from "hooks/useImagePreview";
 
+// Utils
 import { toBase64 } from "@/utils/image";
 
-export const GUEST_IMAGE_PLACEHOLDER = {
-	width: "13rem",
-	height: "13rem",
-	borderRadius: "50%",
-	backgroundColor: "var(--primary-02)",
-	display: "flex",
-	objectFit: "cover",
-	justifyContent: "center",
-	position: "relative",
-	alignItems: "center",
-	cursor: "pointer",
-} as CSSProperties;
+export interface PartialGuest {
+	id?: Guest["id"];
+	name: Guest["name"];
+	email?: Guest["email"];
+	image_url?: Guest["image_url"];
+	image_file?: File;
+}
 
 interface Props {
 	isVisible: boolean;
-	modalProps?: {
-		eventId?: string; // for adding a guest
-		guest?: Guest; // for editing a guest
-		postFunction?: () => void;
-		preGuest?: PreGuest; // for editing a preGuest
-		setPreGuests?: React.Dispatch<React.SetStateAction<PreGuest[]>>; // for adding a preGuest
-	};
+	isLoading?: boolean;
 	toggleVisibility: () => void;
+	onSubmit: (guest: PartialGuest) => void;
+	guest?: PartialGuest; // for editing a guest or pre-guest
 }
 
-// código do preview de imagem: https://stackoverflow.com/questions/38049966/get-image-preview-before-uploading-in-react
-
-function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
+export default function GuestModal({
+	isVisible,
+	isLoading,
+	toggleVisibility,
+	onSubmit,
+	guest,
+}: Props) {
 	const imageInputRef = useRef<HTMLInputElement | null>(null);
 
 	const { onSelectFile, setPreview, preview } = useImagePreview(
-		modalProps?.guest?.image_url || undefined
+		guest?.image_url || undefined
 	);
 
-	const [isLoading, setLoading] = useState(false);
-	const router = useRouter();
-
-	const [name, setName] = useState(modalProps?.guest?.name || "");
-	const [email, setEmail] = useState(modalProps?.guest?.email || "");
-
-	async function onSubmit() {
-		if (!name) return alert("O nome é obrigatório");
-
-		if (modalProps?.setPreGuests) {
-			if (modalProps && modalProps.preGuest) {
-				// editing a preGuest
-				modalProps.setPreGuests((prev) => {
-					let newPreGuests = [...prev];
-					newPreGuests[
-						prev.indexOf(modalProps.preGuest as PreGuest)
-					] = {
-						name: name,
-						email: email,
-						imagePreview: preview,
-						image: imageInputRef.current?.files?.[0] as File,
-					};
-					return newPreGuests;
-				});
-			} else {
-				// adding a preGuest
-				modalProps.setPreGuests((prev) =>
-					prev.concat({
-						name: name,
-						email: email,
-						imagePreview: preview,
-						image: imageInputRef.current?.files?.[0] as File,
-					})
-				);
-			}
-			cleanUp();
-		} else if (modalProps?.guest) {
-			setLoading(true);
-
-			const image = imageInputRef.current?.files?.[0] as File;
-			const image_base64 = image ? await toBase64(image) : null;
-
-			const guest = {
-				name: name,
-				email: email,
-				image_deleteHash: modalProps.guest.image_deleteHash,
-				image_base64: image_base64,
-			};
-
-			try {
-				await axios.patch(`/api/guests/${modalProps.guest.id}`, guest);
-				cleanUp();
-				router.refresh();
-				modalProps.postFunction && modalProps.postFunction();
-			} catch (error) {
-				console.log(error);
-				setLoading(false);
-			}
-		} else if (modalProps?.eventId) {
-			setLoading(true);
-
-			const image = imageInputRef.current?.files?.[0] as File;
-			const image_base64 = image ? await toBase64(image) : null;
-
-			//console.log(image);
-			//console.log(image_base64);
-
-			const guest = {
-				eventId: modalProps.eventId,
-				name: name,
-				email: email,
-				image_base64: image_base64,
-			};
-
-			try {
-				await axios.post(`/api/guests`, guest);
-				cleanUp();
-				router.refresh();
-			} catch (error) {
-				console.log(error);
-				setLoading(false);
-			}
-		}
-	}
+	const [name, setName] = useState(guest?.name || "");
+	const [email, setEmail] = useState(guest?.email || "");
 
 	const hasChanges = useMemo(() => {
-		if (modalProps?.guest) {
+		if (guest) {
 			/* console.log(
 				name,
-				modalProps?.guest?.name,
-				name !== modalProps?.guest?.name
+				guest?.name,
+				name !== guest?.name
 			);
 			console.log(
 				email,
-				modalProps?.guest?.email ?? "",
-				email !== modalProps?.guest?.email
+				guest?.email ?? "",
+				email !== guest?.email
 			);
 			console.log(
 				preview,
-				modalProps?.guest?.image_url,
-				preview !== modalProps?.guest?.image_url &&
+				guest?.image_url,
+				preview !== guest?.image_url &&
 					preview !== undefined
 			); */
 
 			return (
-				name !== modalProps?.guest?.name ||
-				email !== (modalProps?.guest?.email ?? "") ||
-				(preview !== modalProps?.guest?.image_url &&
-					preview !== undefined)
+				name !== guest?.name ||
+				email !== (guest?.email ?? "") ||
+				(preview !== guest?.image_url && preview !== undefined)
 			);
 		}
 	}, [name, email, preview]);
 
 	const cleanUp = () => {
-		setLoading(false);
-
-		if (modalProps?.setPreGuests) {
+		if (!guest?.id) {
 			setName("");
 			setEmail("");
 		}
 
 		imageInputRef.current?.value && (imageInputRef.current.value = "");
-		setPreview(modalProps?.guest?.image_url || undefined);
+		setPreview(guest?.image_url || undefined);
 
 		toggleVisibility();
+	};
+
+	const onSubmitButtonClick = async () => {
+		const emailInput = document.getElementById(
+			"guestEmail"
+		) as HTMLInputElement;
+		const isValidEmail = emailInput.checkValidity();
+
+		if (!isValidEmail) {
+			emailInput.reportValidity();
+			return;
+		}
+
+		const image = imageInputRef.current?.files?.[0];
+
+		await onSubmit({
+			name,
+			email,
+			image_url: preview ? preview : undefined,
+			image_file: image,
+		});
+
+		cleanUp();
 	};
 
 	return (
@@ -200,10 +129,7 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 				enabled: !isLoading,
 			}}
 			headerProps={{
-				title:
-					modalProps?.guest || modalProps?.preGuest
-						? "Editar convidado"
-						: "Adicionar convidado",
+				title: guest ? "Editar convidado" : "Adicionar convidado",
 			}}
 		>
 			<div className="flex flex-col items-center justify-start gap-5 w-full">
@@ -216,7 +142,10 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 							src={preview}
 							fill
 							alt=""
-							style={{ borderRadius: "50%", objectFit: "cover" }}
+							style={{
+								borderRadius: "50%",
+								objectFit: "cover",
+							}}
 						/>
 					) : (
 						<AddPhotoIcon
@@ -247,30 +176,26 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 				<Input
 					label="E-mail"
 					name="guestEmail"
+					id="guestEmail"
 					value={email}
 					onChange={(e) => setEmail(e.target.value)}
-					id="guestEmail"
 					minLength={8}
 					type={"email"}
 				/>
 				<Button
-					onClick={onSubmit}
+					onClick={onSubmitButtonClick}
 					isLoading={isLoading}
-					disabled={modalProps?.guest ? !hasChanges : !name}
+					disabled={guest ? !hasChanges : !name}
 					style={{ width: "100%", padding: "0.8rem 3rem" }}
 				>
-					{modalProps?.preGuest || modalProps?.guest ? (
+					{guest ? (
 						<EditFilledIcon width={"1.8rem"} height={"1.8rem"} />
 					) : (
 						<GroupAddIcon />
 					)}
-					{modalProps?.preGuest || modalProps?.guest
-						? "Editar"
-						: "Adicionar"}
+					{guest ? "Editar" : "Adicionar"}
 				</Button>
 			</div>
 		</Modal>
 	);
 }
-
-export default GuestModal;

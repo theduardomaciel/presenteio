@@ -13,7 +13,7 @@ import PersonIcon from "@/public/icons/person.svg";
 import useHorizontalScroll from "hooks/useHorizontalScroll";
 
 import type { Guest } from "@prisma/client";
-import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/GuestModal";
+import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/styles";
 
 export default function GuestsView({ guests }: { guests: Guest[] }) {
 	const { moveScroll } = useHorizontalScroll("guestsHolder", true);

@@ -90,7 +90,14 @@ export default function Login() {
 			<div className="modalFooter">
 				<p>
 					Não tem uma conta?{" "}
-					<Link href={`/register`} style={{ fontWeight: "bold" }}>
+					<Link
+						href={`/register`}
+						style={{
+							fontWeight: "bold",
+							pointerEvents: isLoading ? "none" : "auto",
+							cursor: isLoading ? "not-allowed" : "pointer",
+						}}
+					>
 						Criar uma conta
 					</Link>
 				</p>

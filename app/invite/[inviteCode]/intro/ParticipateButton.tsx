@@ -9,7 +9,7 @@ import axios from "axios";
 import styles from "./intro.module.css";
 
 // Assets
-import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/GuestModal";
+import { GUEST_IMAGE_PLACEHOLDER } from "@/dashboard/components/Guest/styles";
 
 import CloseIcon from "@/public/icons/close.svg";
 import RightArrowAltIcon from "@/public/icons/arrow_right_alt.svg";

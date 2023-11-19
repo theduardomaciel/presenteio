@@ -3,15 +3,9 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
+	height: 100%;
+
 	transition: 150ms;
-
-	/* height: 100%; */
-	height: max-content;
-	flex-grow: 1;
-
-	/* height: 100%; */
-	/* remover esse height torna o conteúdo de tamanho ilimitado, estando a segunda coluna no position: sticky */
-	/* no entanto, o zoom na página se limit ao vh, o que não é ideal */
 }
 
 .content {
@@ -21,8 +15,7 @@
 	padding: var(--dashboard-wrapper);
 
 	width: 100%;
-	height: max-content;
-	flex-grow: 1;
+	height: 100%;
 	position: relative;
 
 	gap: 2.5rem;

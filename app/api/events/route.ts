@@ -5,7 +5,7 @@ import { getImageUrl } from "../images/helper";
 
 // Types
 import { type NextRequest } from "next/server";
-import { type PreGuest } from "app/dashboard/compose/PreGuestsDisplay";
+import { type PartialGuest } from "@/dashboard/components/Guest/GuestModal";
 import { type TokenPayload } from "../auth/helper";
 
 export async function POST(request: NextRequest) {
@@ -34,9 +34,9 @@ export async function POST(request: NextRequest) {
 			console.log("Image Response: " + imageResponse);
 
 			const guestsToConnect = await Promise.all(
-				guests.map(async (guest: PreGuest) => {
-					const guestImageResponse = guest.imagePreview
-						? await getImageUrl(guest.imagePreview as string)
+				guests.map(async (guest: PartialGuest) => {
+					const guestImageResponse = guest.image_url
+						? await getImageUrl(guest.image_url)
 						: undefined;
 					return {
 						name: guest.name,

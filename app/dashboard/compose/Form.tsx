@@ -12,14 +12,15 @@ import DashboardSubSectionHeader from "@/dashboard/components/Section/SubSection
 import EventPricePicker from "@/dashboard/components/Event/PricePicker";
 import EventDisplay from "@/dashboard/components/Event/EventDisplay";
 import EventInviteOptions from "@/dashboard/components/Event/InviteOptions";
-import GuestsDisplay, {
-	PreGuest,
-} from "app/dashboard/compose/PreGuestsDisplay";
+import PartialGuestsDisplay from "app/dashboard/compose/PartialGuestsDisplay";
 import Modal, { ModalProps } from "components/Modal";
 
 // Icons
 import AddIcon from "@/public/icons/add.svg";
 import UploadIcon from "@/public/icons/upload.svg";
+
+// Types
+import { type PartialGuest } from "@/dashboard/components/Guest/GuestModal";
 
 // Utils
 import { toBase64 } from "@/utils/image";
@@ -33,7 +34,7 @@ export default function ComposeEventForm({
 		status: false,
 	});
 	const [isLoading, setIsLoading] = useState(false);
-	const [preGuests, setPreGuests] = useState<PreGuest[]>([]);
+	const [partialGuests, setPartialGuests] = useState<PartialGuest[]>([]);
 
 	async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -56,10 +57,10 @@ export default function ComposeEventForm({
 				: undefined;
 
 			const guestsWithImage = await Promise.all(
-				Array.from(preGuests).map(async (guest) => {
-					if (guest.image) {
-						guest.imagePreview =
-							(await toBase64(guest.image)) || undefined;
+				Array.from(partialGuests).map(async (guest) => {
+					if (guest.image_file) {
+						guest.image_url =
+							(await toBase64(guest.image_file)) || undefined;
 					}
 					return guest;
 				})
@@ -124,14 +125,16 @@ export default function ComposeEventForm({
 		>
 			{children}
 			<div className={`${styles.content} ${styles.row}`}>
-				<div className={`${styles.column} h-full`}>
+				<div
+					className={`${styles.column} lg:min-h-[calc(100vh-var(--dashboard-header-height)-7rem)]`}
+				>
 					<div
-						className={`${styles.section} h-full max-h-full`}
+						className={`${styles.section} flex-1`}
 						style={{ gap: "1.35rem" }}
 					>
-						<GuestsDisplay
-							preGuests={preGuests}
-							setPreGuests={setPreGuests}
+						<PartialGuestsDisplay
+							partialGuests={partialGuests}
+							setPartialGuests={setPartialGuests}
 							hasAddButton
 						/>
 					</div>
@@ -140,7 +143,9 @@ export default function ComposeEventForm({
 						<EventInviteOptions />
 					</div>
 				</div>
-				<div className={`${styles.column} sticky top-4 right-0 h-full`}>
+				<div
+					className={`${styles.column} lg:sticky lg:top-4 lg:right-0 lg:h-[calc(100vh-var(--dashboard-header-height)-7rem)]`}
+				>
 					<div className={styles.section}>
 						<DashboardSectionHeader title="Regras do Evento" />
 						<DashboardSubSectionHeader
@@ -158,7 +163,7 @@ export default function ComposeEventForm({
 						onClick={() => setConfirmModalState({ status: true })}
 						style={{ width: "100%" }}
 					>
-						<AddIcon />
+						<AddIcon width={24} height={24} />
 						Criar Evento
 					</Button>
 				</div>

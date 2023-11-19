@@ -1,12 +1,8 @@
 import Image from "next/image";
-import { cookies } from "next/headers";
 
-// Assets
-import Background from "@/public/images/background.png";
-import DarkBackground from "@/public/images/background_dark.png";
-
+// Utils
 import { getEventFromInviteCode } from "lib/getEvents";
-import type { Event } from "@prisma/client";
+import Overlay from "@/dashboard/components/Overlay";
 
 interface Props {
 	params?: {
@@ -16,23 +12,17 @@ interface Props {
 }
 
 export default async function InviteLayout({ params, children }: Props) {
-	const event = (await getEventFromInviteCode(
-		params?.inviteCode as string
-	)) as unknown as Event;
+	const event = await getEventFromInviteCode(params?.inviteCode as string);
 
-	const nextCookies = cookies();
-	const theme = nextCookies.get("theme")?.value;
-
-	const isDark = theme && theme === "dark";
 	return (
 		<div className="relative">
 			{children}
-			<Image
-				src={isDark ? DarkBackground : Background}
-				alt=""
-				fill
-				style={{ zIndex: -1 }}
-				draggable={false}
+			<Overlay
+				style={{
+					zIndex: -1,
+					background:
+						"radial-gradient(59.45% 59.45% at 45.17% 40.55%, var(--primary-03), rgba(255, 150, 179, 0.85), var(--primary-02))",
+				}}
 			/>
 			{event && event.image_url && (
 				<Image

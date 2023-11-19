@@ -70,10 +70,10 @@ export async function PATCH(
 				minPrice: minPrice ? parseInt(minPrice) : undefined,
 				maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
 				color: color || undefined,
-				allowInvite: allowInvite ? true : false,
-				allowRevealFromPage: allowRevealFromPage ? true : false,
-				allowProfileChange: allowProfileChange ? true : false,
-				allowEmailChange: allowEmailChange ? true : false,
+				allowInvite: allowInvite ? true : undefined,
+				allowRevealFromPage: allowRevealFromPage ? true : undefined,
+				allowProfileChange: allowProfileChange ? true : undefined,
+				allowEmailChange: allowEmailChange ? true : undefined,
 			},
 		});
 
