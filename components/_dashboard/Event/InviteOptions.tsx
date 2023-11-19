@@ -37,95 +37,97 @@ export default function EventInviteOptions({
 	//console.log(defaultValues);
 	return (
 		<TooltipProvider>
-			{!hasEventBeenDivulged && (
+			<div className="flex flex-col items-center justify-start gap-4 w-full">
+				{!hasEventBeenDivulged && (
+					<Checkbox
+						defaultChecked={
+							defaultValues?.allowInvite !== undefined
+								? defaultValues.allowInvite
+								: true
+						}
+						name="allowInvite"
+						label="Permitir que outros usuários participem do evento por meio de convite"
+					/>
+				)}
 				<Checkbox
-					defaultChecked={
-						defaultValues?.allowInvite !== undefined
-							? defaultValues.allowInvite
-							: true
-					}
-					name="allowInvite"
-					label="Permitir que outros usuários participem do evento por meio de convite"
-				/>
-			)}
-			<Checkbox
-				defaultChecked={defaultValues?.allowRevealFromPage}
-				name="allowRevealFromPage"
-				label="Permitir que os convidados visualizem seus sorteados por meio de seus convites"
-			>
-				<Tooltip delayDuration={0}>
-					<TooltipTrigger asChild>
-						{hasGuestsWithoutEmail && (
-							<span tabIndex={0}>
-								<InfoIcon
-									width={18}
-									height={18}
-									color="var(--primary-03)"
-								/>
-							</span>
-						)}
-					</TooltipTrigger>
-					<TooltipContent>
-						<p>
-							Os convidados que não inseriram seus e-mails ainda
-							poderão visualizar seus sorteados por meio de seus
-							convites.
+					defaultChecked={defaultValues?.allowRevealFromPage}
+					name="allowRevealFromPage"
+					label="Permitir que os convidados visualizem seus sorteados por meio de seus convites"
+				>
+					<Tooltip delayDuration={0}>
+						<TooltipTrigger asChild>
+							{hasGuestsWithoutEmail && (
+								<span tabIndex={0}>
+									<InfoIcon
+										width={18}
+										height={18}
+										color="var(--primary-03)"
+									/>
+								</span>
+							)}
+						</TooltipTrigger>
+						<TooltipContent>
+							<p>
+								Os convidados que não inseriram seus e-mails
+								ainda poderão visualizar seus sorteados por meio
+								de seus convites.
+							</p>
+							<TooltipArrow />
+						</TooltipContent>
+					</Tooltip>
+				</Checkbox>
+				{!hasEventBeenDivulged && (
+					<div className="flex flex-row items-center justify-center w-full">
+						<p className={"option text-primary-02"}>
+							Permitir que os convidados possam alterar:
 						</p>
-						<TooltipArrow />
-					</TooltipContent>
-				</Tooltip>
-			</Checkbox>
-			{!hasEventBeenDivulged && (
-				<div className="flex flex-row items-center justify-center w-full">
-					<p className={"option text-primary-02"}>
-						Permitir que os convidados possam alterar:
-					</p>
-					<div className="flex flex-row items-center justify-end gap-4">
-						<Tooltip delayDuration={0}>
-							<TooltipTrigger asChild>
-								<span tabIndex={0}>
-									<ToggleProperty
-										name="allowProfileChange"
-										defaultChecked={
-											defaultValues?.allowProfileChange !==
-											undefined
-												? defaultValues.allowProfileChange
-												: true
-										}
-										enabledIcon={ImageOnIcon}
-										disabledIcon={ImageOffIcon}
-									/>
-								</span>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>Foto de perfil</p>
-								<TooltipArrow />
-							</TooltipContent>
-						</Tooltip>
-						<Tooltip delayDuration={0}>
-							<TooltipTrigger asChild>
-								<span tabIndex={0}>
-									<ToggleProperty
-										name="allowEmailChange"
-										defaultChecked={
-											defaultValues?.allowEmailChange !==
-											undefined
-												? defaultValues.allowEmailChange
-												: true
-										}
-										enabledIcon={EmailOnIcon}
-										disabledIcon={EmailOffIcon}
-									/>
-								</span>
-							</TooltipTrigger>
-							<TooltipContent>
-								<p>E-mail</p>
-								<TooltipArrow />
-							</TooltipContent>
-						</Tooltip>
+						<div className="flex flex-row items-center justify-end gap-4">
+							<Tooltip delayDuration={0}>
+								<TooltipTrigger asChild>
+									<span tabIndex={0}>
+										<ToggleProperty
+											name="allowProfileChange"
+											defaultChecked={
+												defaultValues?.allowProfileChange !==
+												undefined
+													? defaultValues.allowProfileChange
+													: true
+											}
+											enabledIcon={ImageOnIcon}
+											disabledIcon={ImageOffIcon}
+										/>
+									</span>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>Foto de perfil</p>
+									<TooltipArrow />
+								</TooltipContent>
+							</Tooltip>
+							<Tooltip delayDuration={0}>
+								<TooltipTrigger asChild>
+									<span tabIndex={0}>
+										<ToggleProperty
+											name="allowEmailChange"
+											defaultChecked={
+												defaultValues?.allowEmailChange !==
+												undefined
+													? defaultValues.allowEmailChange
+													: true
+											}
+											enabledIcon={EmailOnIcon}
+											disabledIcon={EmailOffIcon}
+										/>
+									</span>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>E-mail</p>
+									<TooltipArrow />
+								</TooltipContent>
+							</Tooltip>
+						</div>
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 		</TooltipProvider>
 	);
 }

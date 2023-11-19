@@ -126,7 +126,7 @@ export default function ComposeEventForm({
 			<div className={`${styles.content} ${styles.row}`}>
 				<div className={`${styles.column} h-full`}>
 					<div
-						className={`${styles.section} h-full`}
+						className={`${styles.section} h-full max-h-full`}
 						style={{ gap: "1.35rem" }}
 					>
 						<GuestsDisplay

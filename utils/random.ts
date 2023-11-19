@@ -39,7 +39,6 @@ export function generateRandomNumbers(
 		// Repetition is allowed, so simply select x random numbers
 		for (let i = 0; i < x; i++) {
 			const random = getRandomIntInclusive(from, to);
-			console.log(random);
 			result.push(random);
 		}
 	}

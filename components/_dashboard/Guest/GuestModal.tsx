@@ -180,8 +180,15 @@ function GuestModal({ isVisible, modalProps, toggleVisibility }: Props) {
 
 	const cleanUp = () => {
 		setLoading(false);
+
+		if (modalProps?.setPreGuests) {
+			setName("");
+			setEmail("");
+		}
+
 		imageInputRef.current?.value && (imageInputRef.current.value = "");
 		setPreview(modalProps?.guest?.image_url || undefined);
+
 		toggleVisibility();
 	};
 

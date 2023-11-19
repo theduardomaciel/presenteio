@@ -23,7 +23,7 @@ import EditFilledIcon from "@/public/icons/edit_filled.svg";
 import DeleteIcon from "@/public/icons/delete.svg";
 import WarningIcon from "@/public/icons/warning1.svg";
 
-const MAX_GUESTS = 5;
+const MAX_GUESTS = 30;
 
 interface Props {
 	preGuests: PreGuest[];
@@ -140,7 +140,7 @@ const PreGuestPreview = ({
 			<DeleteIcon
 				width={24}
 				height={24}
-				fill="var(--primary-02)"
+				color="var(--primary-02)"
 				className="cursor-pointer"
 				onClick={handleDelete}
 			/>
@@ -183,10 +183,7 @@ export default function GuestsDisplay({
 			>
 				{/* <div className="flex bg-blue-800 w-1 h-96" /> */}
 				{preGuests.length === 0 ? (
-					<EmptyGuests
-						label="Você não adicionou nenhum convidado previamente."
-						style={{ paddingBlock: "5rem" }}
-					/>
+					<EmptyGuests label="Você não adicionou nenhum convidado previamente." />
 				) : (
 					preGuests.map((guest, index) => (
 						<PreGuestPreview
@@ -198,7 +195,7 @@ export default function GuestsDisplay({
 						/>
 					))
 				)}
-				{preGuests.length >= 5 && (
+				{preGuests.length >= MAX_GUESTS && (
 					<div className="flex flex-row items-center justify-center w-full h-full gap-4 pt-2 text-primary-02">
 						<WarningIcon width={24} height={24} />
 						<p className="text-base">
