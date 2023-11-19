@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
 	const accountAuthenticated = isAuthenticated(request);
 
 	// API
-	if (
+	/* if (
 		request.nextUrl.pathname.startsWith("/api") &&
 		!allowedPaths.includes(request.nextUrl.pathname) &&
 		!accountAuthenticated
@@ -37,7 +37,7 @@ export function middleware(request: NextRequest) {
 			}),
 			{ status: 401, headers: { "content-type": "application/json" } }
 		);
-	}
+	} */
 
 	// APP
 	if (
