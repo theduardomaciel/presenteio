@@ -14,7 +14,7 @@ export default function TermsOfService() {
 	return (
 		<div className={styles.container}>
 			<div className={styles.content}>
-				<Logo className={styles.logo} block height={35} />
+				<Logo className={styles.logo} height={35} />
 				<h1>{`Não se preocupe, nenhum dado desnecessário é coletado.`}</h1>
 				<p>
 					Além de nome e e-mail, intrinsecamente necessários para a

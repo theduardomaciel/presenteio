@@ -149,7 +149,10 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 						maxWidth: "95%",
 					}}
 				>
-					<Button className={styles.button} suppressEffects>
+					<Button
+						className={`${styles.button} cursor-default`}
+						suppressEffects
+					>
 						<p className={styles.buttonFont}>
 							{
 								event?.guests.filter(

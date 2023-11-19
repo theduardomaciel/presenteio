@@ -39,8 +39,8 @@ export function middleware(request: NextRequest) {
 
 	// APP
 	if (
-		(request.nextUrl.pathname.length === 1 ||
-			request.nextUrl.pathname.startsWith("/login") ||
+		/* request.nextUrl.pathname.length === 1 || */
+		(request.nextUrl.pathname.startsWith("/login") ||
 			request.nextUrl.pathname.startsWith("/register")) &&
 		accountAuthenticated
 	) {
@@ -51,8 +51,12 @@ export function middleware(request: NextRequest) {
 		request.nextUrl.pathname.startsWith("/dashboard") &&
 		!accountAuthenticated
 	) {
-		console.log("Redirecting to login...");
-		return NextResponse.redirect(new URL("/login", request.url));
+		if (request.nextUrl.pathname.includes("/compose")) {
+			return NextResponse.redirect(new URL("/register", request.url));
+		} else {
+			console.log("Redirecting to login...");
+			return NextResponse.redirect(new URL("/login", request.url));
+		}
 	}
 }
 

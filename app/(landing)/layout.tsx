@@ -4,6 +4,7 @@ import styles from "./landing.module.css";
 // Components
 import LandingHeader from "components/Landing/Header/Header";
 import LandingFooter from "components/Landing/Footer/Footer";
+import LandingSection2 from "./sections/Section2";
 
 export default function LandingLayout({
 	children,
@@ -16,6 +17,7 @@ export default function LandingLayout({
 
 			<main>{children}</main>
 
+			<LandingSection2 />
 			<LandingFooter />
 		</div>
 	);

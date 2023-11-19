@@ -113,6 +113,7 @@ export default function Login() {
 			});
 			console.log(response);
 
+			router.refresh(); // o refresh é necessário para que os cookies sejam atualizados
 			router.push(`/dashboard`);
 		} catch (error: any) {
 			console.log(error);

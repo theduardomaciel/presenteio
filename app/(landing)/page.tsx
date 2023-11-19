@@ -15,59 +15,53 @@ import Arrow_right_alt from "@/public/icons/arrow_right_alt.svg";
 import Button from "components/_ui/Button";
 import TypewrittenText from "components/TypewrittenText";
 import LandingTitle from "../../components/Landing/Title";
-import LandingSection2 from "./sections/Section2";
 
 const subtitles = ["sua família", "seu trabalho", "seu grupo de amigos"];
 
 export default function LandingPage() {
 	return (
-		<Fragment>
-			<div className={styles.landing}>
-				<Image
-					className={styles.imageHolder}
-					width={305}
-					height={374}
-					src={Gifts}
-					alt="Presentes vermelhos com fita amarela que forma um laço no topo."
-				/>
-				<div className={styles.content}>
-					<div className={styles.title}>
-						<p>Marque momentos com um</p>
-						<LandingTitle />
-						<p>
-							para{" "}
-							<span style={{ fontWeight: "bold" }}>
-								<TypewrittenText subtitles={subtitles} />
-							</span>
-						</p>
-					</div>
-					<Link href={`/register`}>
-						<Button
-							iconProps={{ animate: "position-toRight" }}
-							style={{
-								fontWeight: "bold",
-							}}
-						>
-							Criar um evento
-							<Arrow_right_alt
-								width={`2.4rem`}
-								height={`2.4rem`}
-								fill={`var(--neutral)`}
-							/>
-						</Button>
-					</Link>
-
-					<Link
-						href={"/dashboard"}
-						className="border border-primary-01 rounded-full py-1 px-4 hover:outline hover:outline-[1px] hover:outline-offset-2 hover:outline-primary-01"
-					>
-						<p className="text-primary-01 text-sm">
-							Ver meus eventos
-						</p>
-					</Link>
+		<div className={styles.landing}>
+			<Image
+				className={styles.imageHolder}
+				width={305}
+				height={374}
+				src={Gifts}
+				alt="Presentes vermelhos com fita amarela que forma um laço no topo."
+			/>
+			<div className={styles.content}>
+				<div className={styles.title}>
+					<p>Marque momentos com um</p>
+					<LandingTitle />
+					<p>
+						para{" "}
+						<span style={{ fontWeight: "bold" }}>
+							<TypewrittenText subtitles={subtitles} />
+						</span>
+					</p>
 				</div>
+				<Link href={`/dashboard/compose`}>
+					<Button
+						iconProps={{ animate: "position-toRight" }}
+						style={{
+							fontWeight: "bold",
+						}}
+					>
+						Criar um evento
+						<Arrow_right_alt
+							width={`2.4rem`}
+							height={`2.4rem`}
+							fill={`var(--neutral)`}
+						/>
+					</Button>
+				</Link>
+
+				<Link
+					href={"/dashboard"}
+					className="border border-primary-01 rounded-full py-1 px-4 hover:outline hover:outline-[1px] hover:outline-offset-2 hover:outline-primary-01"
+				>
+					<p className="text-primary-01 text-sm">Ver meus eventos</p>
+				</Link>
 			</div>
-			<LandingSection2 />
-		</Fragment>
+		</div>
 	);
 }

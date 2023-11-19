@@ -51,8 +51,6 @@
 	padding: 1rem 1.5rem;
 	gap: 1rem;
 
-	cursor: default;
-
 	background: var(--primary-01);
 	border: 0.5px solid var(--primary-03);
 	border-radius: 0.5rem;

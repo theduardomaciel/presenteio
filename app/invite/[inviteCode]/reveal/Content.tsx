@@ -3,8 +3,10 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 
+// Styling
 import styles from "../invite.module.css";
 
+// Assets
 import GiftIcon from "@/public/icons/gift.svg";
 
 // Components
@@ -34,6 +36,10 @@ export default function RevealContent({
 	const [status, setStatus] = useState<"idle" | "animating">("idle");
 
 	async function updateStatus() {
+		const audio = new Audio(`/sounds/event.mp3`);
+		audio.loop = false;
+		audio.play();
+
 		setStatus("animating");
 
 		try {
@@ -70,8 +76,7 @@ export default function RevealContent({
 						Vai lá e descobre!
 					</p>
 					<Button
-						className={styles.button}
-						style={{ cursor: "pointer" }}
+						className={`${styles.button} active:scale-90`}
 						icon={
 							<GiftIcon
 								width={"1.8rem"}

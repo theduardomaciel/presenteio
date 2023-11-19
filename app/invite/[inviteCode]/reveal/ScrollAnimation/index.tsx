@@ -36,7 +36,18 @@ export default function ScrollAnimation({
 	>("animating");
 
 	useEffect(() => {
+		const tickAudio = new Audio(`/sounds/tick.mp3`);
+		tickAudio.loop = false;
+		tickAudio.volume = 0.35;
+		tickAudio.play();
+
+		const drumsAudio = new Audio(`/sounds/drums.mp3`);
+		drumsAudio.loop = false;
+		drumsAudio.volume = 0.35;
+
 		const removeTimeout = setTimeout(() => {
+			drumsAudio.play();
+
 			const elements = document.querySelectorAll(`.${styles.inner}`);
 			elements.forEach((element) => {
 				const div = element as HTMLDivElement;
@@ -55,6 +66,11 @@ export default function ScrollAnimation({
 					}
 				});
 				setStatus("animated");
+
+				const finishAudio = new Audio(`/sounds/congrats.mp3`);
+				finishAudio.loop = false;
+				finishAudio.play();
+
 				fadeTimeout && clearTimeout(fadeTimeout);
 				removeTimeout && clearTimeout(removeTimeout);
 			}, 5 * 1000);

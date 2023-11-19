@@ -60,6 +60,7 @@ export default function GuestsView({ guests }: { guests: Guest[] }) {
 									...GUEST_IMAGE_PLACEHOLDER,
 									width: 40,
 									height: 40,
+									cursor: "default",
 								}}
 							>
 								<PersonIcon

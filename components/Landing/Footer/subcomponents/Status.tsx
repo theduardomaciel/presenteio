@@ -13,7 +13,7 @@ export default function Status({ className }: StatusProps) {
 			}
 			target="_blank"
 			className={cn(
-				"flex flex-row items-center justify-center gap-x-3 px-3 py-2 transition w-full lg:w-fit outline outline-[0.75px] outline-transparent hover:outline-white rounded-md font-sans text-sm",
+				"flex flex-row items-center justify-center gap-x-3 px-3 py-2 transition w-full lg:w-fit outline outline-[0.75px] outline-transparent hover:bg-primary-02 rounded-md font-sans text-sm",
 				className
 			)}
 			title="Verifique o status de nossos serviços no Twitter"

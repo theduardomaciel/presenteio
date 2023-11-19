@@ -76,7 +76,7 @@ export default function EventDeleteModal({ eventId }: Props) {
 					setDeleteModalState({ status: true });
 				}}
 			>
-				<DeleteIcon fill="var(--neutral)" width={18} height={18} />
+				<DeleteIcon color="var(--neutral)" width={18} height={18} />
 			</Button>
 			<Modal
 				status={deleteModalState.status}
@@ -84,7 +84,7 @@ export default function EventDeleteModal({ eventId }: Props) {
 				headerProps={{
 					icon: (
 						<DeleteIcon
-							fill="var(--neutral)"
+							color="var(--neutral)"
 							width={"2.4rem"}
 							height={"2.4rem"}
 						/>
