@@ -1,3 +1,5 @@
+import { CSSProperties } from "react";
+
 export const GUEST_IMAGE_PLACEHOLDER = {
 	width: "13rem",
 	height: "13rem",
