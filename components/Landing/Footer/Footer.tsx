@@ -8,6 +8,7 @@ import LanguagePicker from "./subcomponents/LanguagePicker";
 import Status from "./subcomponents/Status";
 import { cn } from "@/utils/ui";
 import { GitHubLogoIcon, InstagramLogoIcon } from "@radix-ui/react-icons";
+import { Suspense } from "react";
 
 // Utils
 
@@ -99,7 +100,9 @@ export default function LandingFooter({ className }: Props) {
 					<p className="flex-1 text-sm text-text-100 text-center md:text-left whitespace-normal break-words font-sans">
 						Copyright @ 2023 | feito com ❤️ por @theduardomaciel
 					</p>
-					<Status />
+					<Suspense fallback={<></>}>
+						<Status />
+					</Suspense>
 				</div>
 			</div>
 		</footer>
