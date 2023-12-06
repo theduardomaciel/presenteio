@@ -22,11 +22,7 @@ export default async function Reveal({ params, searchParams }: InviteProps) {
 	}
 
 	// If the guest has already visualized his corresponding guest, redirect to the invite page
-	if (
-		guest?.status === "VISUALIZED" &&
-		event?.allowRevealFromPage &&
-		!searchParams?.ignoreRedirect
-	) {
+	if (guest?.status === "VISUALIZED" && !searchParams?.ignoreRedirect) {
 		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
 	}
 

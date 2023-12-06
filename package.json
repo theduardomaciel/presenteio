@@ -41,7 +41,7 @@
 		"framer-motion": "10.16.5",
 		"imgur": "^2.3.0",
 		"jsonwebtoken": "^9.0.2",
-		"next": "^14.0.3",
+		"next": "^14.0.2",
 		"next-plugin-svgr": "^1.1.10",
 		"next-themes": "^0.2.1",
 		"nextjs-toploader": "^1.6.4",
