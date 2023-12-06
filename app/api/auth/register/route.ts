@@ -1,10 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
+import bcrypt from "bcrypt";
 
 import prisma from "lib/prisma";
 import { getAppAuthenticationToken, getGoogleData } from "../helper";
 
 export async function POST(request: NextRequest) {
-	const { name, email, password, access_token } = await request.json();
+	const { name, email, password, access_token } = await request.json(); // o access_token é fornecido pelo Google
 
 	if (!access_token && !name && !password) {
 		return new Response("Name and email or access_token are required.", {
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest) {
 
 	const googleUser = access_token ? await getGoogleData(access_token) : null;
 
-	if (!googleUser && access_token) {
+	if (access_token && !googleUser) {
 		return new Response(
 			"There was not possible to get the user information from Google.",
 			{
@@ -46,11 +47,14 @@ export async function POST(request: NextRequest) {
 				googleUser?.family_name ? ` ${googleUser?.family_name}` : ""
 			}`;
 
+		const salt = await bcrypt.genSalt(10);
+		const hashedPassword = await bcrypt.hash(password, salt);
+
 		const account = await prisma.account.create({
 			data: {
 				name: accountName,
 				email: email || googleUser?.email,
-				password: password || null,
+				password: hashedPassword || null,
 				image_url: googleUser?.picture || null,
 			},
 		});

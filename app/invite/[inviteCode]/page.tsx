@@ -28,6 +28,7 @@ export interface InviteProps {
 	};
 	searchParams?: {
 		guest?: string;
+		ignoreRedirect?: boolean;
 	};
 }
 
@@ -172,7 +173,7 @@ export default async function Invite({ params, searchParams }: InviteProps) {
 				{event.allowRevealFromPage ||
 					(!guest?.email && (
 						<Link
-							href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}`}
+							href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}?ignoreRedirect=true`}
 							className="modalFooter"
 						>
 							<Button

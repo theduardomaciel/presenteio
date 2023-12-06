@@ -2,67 +2,30 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-function isAuthenticated(request: NextRequest) {
-	const tokenCookie = request.cookies.get("presenteio.token")?.value;
-	if (tokenCookie) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-const allowedPaths = [
-	"/api/emails/check",
-	"/api/emails/send",
-	"/api/images/generate/event",
-	"/api/guests",
-	"/api/auth/login",
-	"/api/auth/register",
-];
-
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-	const accountAuthenticated = isAuthenticated(request);
+	// Get the path of the request
+	const path = request.nextUrl.pathname;
 
-	// API
-	/* if (
-		request.nextUrl.pathname.startsWith("/api") &&
-		!allowedPaths.includes(request.nextUrl.pathname) &&
-		!accountAuthenticated
-	) {
-		return new NextResponse(
-			JSON.stringify({
-				success: false,
-				message: "Authentication failed.",
-			}),
-			{ status: 401, headers: { "content-type": "application/json" } }
-		);
-	} */
+	// Check if the path is public or not
+	const isPublicPath = path === "/login" || path === "/register";
 
-	// APP
-	if (
-		/* request.nextUrl.pathname.length === 1 || */
-		(request.nextUrl.pathname.startsWith("/login") ||
-			request.nextUrl.pathname.startsWith("/register")) &&
-		accountAuthenticated
-	) {
-		return NextResponse.redirect(new URL("/dashboard", request.url));
+	// Get the token from the cookies
+	const token = request.cookies.get("presenteio.token")?.value || "";
+
+	// Check if the user is logged in or not
+	if (isPublicPath && token.length > 0) {
+		console.log("User is logged in.");
+		return NextResponse.redirect(new URL("/dashboard", request.nextUrl));
 	}
 
-	if (
-		request.nextUrl.pathname.startsWith("/dashboard") &&
-		!accountAuthenticated
-	) {
-		if (request.nextUrl.pathname.includes("/compose")) {
-			return NextResponse.redirect(new URL("/register", request.url));
-		} else {
-			console.log("Redirecting to login...");
-			return NextResponse.redirect(new URL("/login", request.url));
-		}
+	if (!isPublicPath && path !== "/" && !(token.length > 0)) {
+		console.log("User is not logged in.");
+		return NextResponse.redirect(new URL("/login", request.nextUrl));
 	}
 }
 
 // See "Matching Paths" below to learn more
 export const config = {
-	matcher: ["/:path", "/dashboard/:path*", "/api/:function*"],
+	matcher: ["/:path", "/dashboard/:path*" /* "/api/:function*" */],
 };

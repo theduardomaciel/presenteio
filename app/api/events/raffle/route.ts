@@ -1,16 +1,26 @@
 import { type NextRequest } from "next/server";
+import { verify } from "jsonwebtoken";
 import prisma from "lib/prisma";
 
 import { sendRevealEmailToGuest } from "app/api/emails/send/helper";
 
 // Types
 import { type Event, type Guest, EventStatus } from "@prisma/client";
+import type { TokenPayload } from "app/api/auth/helper";
 
 export async function POST(request: NextRequest) {
 	const { id } = await request.json();
+	const token = request.cookies.get("presenteio.token")?.value;
 
 	if (!id) {
-		return new Response("Email is not provided", {
+		return new Response("Event id has not been provided", {
+			status: 400,
+			statusText: "Bad Request",
+		});
+	}
+
+	if (!token) {
+		return new Response("Token has not been provided", {
 			status: 400,
 			statusText: "Bad Request",
 		});
@@ -22,6 +32,7 @@ export async function POST(request: NextRequest) {
 		},
 		include: {
 			guests: true,
+			host: true,
 		},
 	});
 
@@ -29,6 +40,16 @@ export async function POST(request: NextRequest) {
 		return new Response("Event not found", {
 			status: 404,
 			statusText: "Not Found",
+		});
+	}
+
+	const jwtSecretKey = process.env.JWT_SECRET_KEY as string;
+	const payload = verify(token, jwtSecretKey) as TokenPayload;
+
+	if (event.host.id !== payload.data) {
+		return new Response("You are not the host of this event", {
+			status: 403,
+			statusText: "Forbidden",
 		});
 	}
 

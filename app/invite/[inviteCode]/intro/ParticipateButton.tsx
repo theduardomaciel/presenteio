@@ -73,7 +73,13 @@ export default function ParticipateButton({ guest, event }: Props) {
 							image_base64: base64,
 					  });
 			if (response) {
-				router.refresh();
+				if (event.status === "DIVULGED") {
+					router.replace(
+						`/invite/${event.inviteCode}?guest=${guest?.id}`
+					);
+				} else {
+					router.refresh();
+				}
 			} else {
 				setActualSection(["error", 1]);
 			}

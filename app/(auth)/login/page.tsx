@@ -45,7 +45,7 @@ export default function Login() {
 		description:
 			"Faça o login em sua conta para administrar os seus eventos.",
 		children: (
-			<form onSubmit={handleSubmit} className={styles.section1}>
+			<form onSubmit={handleFormSubmit} className={styles.section1}>
 				<GoogleButton
 					onClick={() => login()}
 					isLoading={isLoading === true}
@@ -113,16 +113,24 @@ export default function Login() {
 	const login = useGoogleLogin({
 		onSuccess: (tokenResponse) => {
 			setIsLoading(true);
-			getAccountFromGoogle(tokenResponse);
+			onLogin(undefined, tokenResponse);
 		},
 		onError: (errorResponse) => console.log(errorResponse.error),
 	});
 
-	async function getAccountFromGoogle(tokenResponse: TokenResponse) {
+	async function onLogin(
+		accountData?: AccountData,
+		tokenResponse?: TokenResponse
+	) {
 		try {
-			await axios.post("/api/auth/login", {
-				access_token: tokenResponse.access_token,
+			const response = await axios.post("/api/auth/login", {
+				access_token: tokenResponse?.access_token,
+				email: accountData?.email,
+				password: accountData?.password,
 			});
+
+			console.log(response.data);
+			//router.refresh(); // o refresh é necessário para que os cookies sejam atualizados
 
 			router.push(`/dashboard`);
 		} catch (error: any) {
@@ -133,31 +141,16 @@ export default function Login() {
 		}
 	}
 
-	async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	async function handleFormSubmit(event: React.FormEvent<HTMLFormElement>) {
 		event.preventDefault(); // evitar que a página seja recarregada
 		setIsLoading(true);
-		console.log("Checando credenciais...");
 
 		const formData = new FormData(event.currentTarget);
 		const accountData = Object.fromEntries(
 			formData.entries()
 		) as unknown as AccountData;
-		const { email, password } = accountData;
 
-		try {
-			await axios.post("/api/auth/login", {
-				email: email,
-				password: password,
-			});
-
-			router.refresh(); // o refresh é necessário para que os cookies sejam atualizados
-			router.push(`/dashboard`);
-		} catch (error: any) {
-			console.log(error);
-
-			setIsLoading(false);
-			setError(error.response.status as number);
-		}
+		await onLogin(accountData);
 	}
 
 	return (

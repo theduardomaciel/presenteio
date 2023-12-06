@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 // Stylesheets
 import styles from "./reveal.module.css";
@@ -16,6 +16,21 @@ export default async function Reveal({ params, searchParams }: InviteProps) {
 	const event = await getEventFromInviteCode(params?.inviteCode as string);
 	const guest = await getGuest(searchParams?.guest as string);
 
+	// If the guest is pending, redirect to the invite page for data confirmation
+	if (guest?.status === "PENDING") {
+		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
+	}
+
+	// If the guest has already visualized his corresponding guest, redirect to the invite page
+	if (
+		guest?.status === "VISUALIZED" &&
+		event?.allowRevealFromPage &&
+		!searchParams?.ignoreRedirect
+	) {
+		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
+	}
+
+	// If the event is not divulged, redirect to the invite page
 	if (!guest || event?.status !== "DIVULGED" || !guest.correspondingGuest) {
 		notFound();
 	}

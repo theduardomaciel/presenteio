@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import bcrypt from "bcrypt";
 
 import prisma from "lib/prisma";
 import { getAppAuthenticationToken, getGoogleData } from "../helper";
@@ -35,39 +36,42 @@ export async function POST(request: NextRequest) {
 			},
 		});
 
-		if (account) {
-			console.log("Conta encontrada com sucesso!");
-
-			if (!googleUser && account.password !== password) {
-				console.log("Porém, a senha está incorreta.");
-
-				return new Response("E-mail or password is incorrect.", {
-					status: 400,
-					statusText: "Bad request.",
-				});
-			}
-
-			const token = getAppAuthenticationToken(account.id);
-
-			const response = NextResponse.json(account, {
-				status: 200,
-			});
-
-			response.cookies.set({
-				name: "presenteio.token",
-				value: token,
-				path: "/",
-				maxAge: 60 * 60 * 24 * 30,
-			});
-
-			return response;
-		} else {
-			console.log("Conta não encontrada.");
+		// Checamos se o usuário existe
+		if (!account) {
+			console.log("Account not found.");
 			return new Response("Account not found.", {
 				status: 404,
 				statusText: "Account not found.",
 			});
 		}
+
+		// Checamos se a senha está correta (caso não seja uma conta do Google)
+		if (!googleUser && account.password) {
+			const valid = await bcrypt.compare(password, account.password);
+
+			if (!valid) {
+				console.log("E-mail or password is incorrect.");
+				return NextResponse.json({
+					error: "E-mail or password is incorrect.",
+					status: 400,
+					statusText: "Bad request.",
+				});
+			}
+		}
+
+		const token = getAppAuthenticationToken(account.id);
+
+		const response = NextResponse.json(account, {
+			status: 200,
+			statusText: "Login successful.",
+		});
+
+		response.cookies.set("presenteio.token", token, {
+			httpOnly: true,
+			path: "/",
+		});
+
+		return response;
 	} catch (error) {
 		console.log(error);
 		return new Response(

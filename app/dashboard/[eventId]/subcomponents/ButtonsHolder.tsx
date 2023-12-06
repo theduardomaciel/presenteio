@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 // Styling
-import styles from "../styles.module.css";
 import { DISABLED_BUTTON, ENABLED_BUTTON } from "./styles";
 
 // Components
@@ -15,6 +14,7 @@ import DashboardToast, { ToastDynamicProps } from "components/_ui/Toast";
 
 import EventEditModal from "./modals/EventEdit";
 import EventDeleteModal from "./modals/EventDelete";
+import EventResetModal from "./modals/EventReset";
 
 // Assets
 import SendEmail from "@/public/icons/send_email.svg";
@@ -88,13 +88,7 @@ export default function ButtonsHolder({
 	}
 
 	const MIN_GUESTS = 3;
-	const DISABLED = useMemo(
-		() =>
-			event.status === "DIVULGED" ||
-			event.guests.filter((guest) => guest.status === "CONFIRMED")
-				.length < MIN_GUESTS,
-		[event]
-	);
+	const DISABLED = useMemo(() => event.guests.length < MIN_GUESTS, [event]);
 
 	const hasGuestsWithoutEmail =
 		event.guests.filter((guest) => !guest.email).length > 0;
@@ -102,22 +96,18 @@ export default function ButtonsHolder({
 	return (
 		<>
 			<div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4">
-				<Button
-					style={DISABLED ? DISABLED_BUTTON : ENABLED_BUTTON}
-					isLoading={isLoading}
-					className="w-full lg:w-1/2"
-					onClick={() => {
-						if (DISABLED) {
-							if (event.status === "DIVULGED") {
-								setToastVisible([
-									true,
-									{
-										status: "info",
-										title: "Infelizmente, não é possível realizar esta ação.",
-										description: `O sorteio já foi realizado e os e-mails já foram enviados.`,
-									},
-								]);
-							} else {
+				{event.status === "DIVULGED" ? (
+					<EventResetModal
+						eventId={event.id}
+						setToastVisible={setToastVisible}
+					/>
+				) : (
+					<Button
+						style={DISABLED ? DISABLED_BUTTON : ENABLED_BUTTON}
+						isLoading={isLoading}
+						className="w-full lg:w-1/2"
+						onClick={() => {
+							if (DISABLED) {
 								setToastVisible([
 									true,
 									{
@@ -126,15 +116,15 @@ export default function ButtonsHolder({
 										description: `Para realizar o sorteio, o evento deve ter pelo menos ${MIN_GUESTS} convidados confirmados.`,
 									},
 								]);
+							} else {
+								setSendEmailModalState({ status: true });
 							}
-						} else {
-							setSendEmailModalState({ status: true });
-						}
-					}}
-				>
-					<SendEmail height={22} width={22} />
-					Sortear e enviar e-mails
-				</Button>
+						}}
+					>
+						<SendEmail height={22} width={22} />
+						Sortear e enviar e-mails
+					</Button>
+				)}
 				<div className="flex flex-row items-center justify-end gap-[1.5rem] w-full lg:w-1/2">
 					<EventEditModal
 						event={{

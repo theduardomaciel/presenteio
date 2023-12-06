@@ -11,7 +11,7 @@ export function getAppAuthenticationToken(account_id: string) {
 		throw new Error("Missing JWT_SECRET_KEY environment variable.");
 	}
 
-	return jwt.sign({ data: account_id }, jwtSecretKey, { expiresIn: "60d" });
+	return jwt.sign({ data: account_id }, jwtSecretKey, { expiresIn: "2d" });
 }
 
 interface GoogleResponse {

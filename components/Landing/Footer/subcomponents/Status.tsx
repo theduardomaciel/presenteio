@@ -1,10 +1,6 @@
 import { ExternalLinkIcon } from "@radix-ui/react-icons";
 import { cn } from "utils/ui";
 
-interface StatusProps {
-	className?: string;
-}
-
 const STATUS = {
 	OK: {
 		color: "#0cc415",
@@ -34,9 +30,16 @@ interface Project {
 	incidents: Incident[];
 }
 
+interface StatusProps {
+	className?: string;
+}
+
 export default async function Status({ className }: StatusProps) {
 	const projects = await fetch(
-		"https://theduardomaciel.vercel.app/api/status"
+		"https://theduardomaciel.vercel.app/api/status",
+		{
+			mode: "no-cors",
+		}
 	)
 		.then((res) => res.json())
 		.catch(() => null);
@@ -47,12 +50,9 @@ export default async function Status({ className }: StatusProps) {
 		(project: Project) => project.name === "presenteio"
 	);
 
-	const incidents = presenteio.incidents.filter(
-		(incident: Incident) => !incident.resolved
-	);
 	const status =
-		incidents && incidents.length > 0
-			? STATUS[incidents[0].level as keyof typeof STATUS]
+		presenteio.incidents && presenteio.incidents.length > 0
+			? STATUS[presenteio.incidents[0].level as keyof typeof STATUS]
 			: STATUS.OK;
 
 	return (
