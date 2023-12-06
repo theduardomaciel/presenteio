@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 // Components
-import ParticipateButton from "./ParticipateButton";
+import DataConfirmationFlow from "./DataConfirmationFlow";
 
 // Stylesheet
 import styles from "./intro.module.css";
@@ -70,7 +70,7 @@ export default function Intro({ guest, event }: Props) {
 						</h3>
 					</div>
 
-					<ParticipateButton guest={guest} event={rest} />
+					<DataConfirmationFlow guest={guest} event={rest} />
 				</div>
 
 				<Image

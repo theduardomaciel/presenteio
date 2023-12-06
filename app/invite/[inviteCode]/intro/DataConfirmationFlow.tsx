@@ -37,7 +37,7 @@ interface Props {
 	event: Omit<Event, "createdAt">;
 }
 
-export default function ParticipateButton({ guest, event }: Props) {
+export default function DataConfirmationFlow({ guest, event }: Props) {
 	const [[actualSection, direction], setActualSection] = useState<
 		[string, number]
 	>(["null", 1]);
@@ -75,7 +75,7 @@ export default function ParticipateButton({ guest, event }: Props) {
 			if (response) {
 				if (event.status === "DIVULGED") {
 					router.replace(
-						`/invite/${event.inviteCode}?guest=${guest?.id}`
+						`/invite/${event.inviteCode}/reveal?guest=${guest?.id}`
 					);
 				} else {
 					router.refresh();
