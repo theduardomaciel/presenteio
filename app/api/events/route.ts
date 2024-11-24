@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
 					statusText: "Bad request.",
 				});
 
-			const imageResponse = await getImageUrl(image_base64, name);
+			const imageResponse = image_base64 ? await getImageUrl(image_base64, name) : undefined;
 			console.log("Image Response: " + imageResponse);
 
 			const guestsToConnect = await Promise.all(

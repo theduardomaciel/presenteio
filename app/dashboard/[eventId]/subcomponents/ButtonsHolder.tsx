@@ -144,7 +144,7 @@ export default function ButtonsHolder({
 	return (
 		<>
 			<div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4">
-				<Button
+				{/* <Button
 					style={ENABLED_BUTTON}
 					isLoading={isLoading}
 					className="w-full lg:w-1/2"
@@ -152,6 +152,24 @@ export default function ButtonsHolder({
 				>
 					<SendEmail height={22} width={22} />
 					Enviar e-mails de confirmação
+				</Button> */}
+				<Button
+					style={ENABLED_BUTTON}
+					isLoading={isLoading}
+					className="w-full lg:w-1/2"
+					onClick={() => {
+						const links: { [key: string]: string } = {};
+
+						event.guests.forEach((guest) => {
+							// console.log(`${guest.name}: https://presenteio.vercel.app/invite/${event.inviteCode}?guest=${guest.id}`);
+							links[guest.name] = `https://presenteio.vercel.app/invite/${event.inviteCode}?guest=${guest.id}`;
+						});
+
+						console.log(links);
+					}
+					}
+				>
+					Printar lista de convidados
 				</Button>
 				{event.status === "DIVULGED" ? (
 					<EventResetModal
