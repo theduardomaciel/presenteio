@@ -1,14 +1,17 @@
-import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
+import { cookies } from "next/headers";
+import Link from "next/link";
+
+import { Suspense } from "react";
+
+import { cn } from "@/utils/ui";
 
 import Logo from "@/public/logo.svg";
+import { GitHubLogoIcon, InstagramLogoIcon } from "@radix-ui/react-icons";
 
 // Components
 import ThemePicker from "./subcomponents/ThemePicker";
 import LanguagePicker from "./subcomponents/LanguagePicker";
 import Status from "./subcomponents/Status";
-import { cn } from "@/utils/ui";
-import { GitHubLogoIcon, InstagramLogoIcon } from "@radix-ui/react-icons";
-import { Suspense } from "react";
 
 // Utils
 
@@ -34,25 +37,25 @@ export default async function LandingFooter({ className }: Props) {
 						{/* title */}
 						<div className="flex flex-1 flex-col items-center md:items-start justify-start gap-y-4">
 							<div className="flex flex-row items-center justify-start gap-x-5">
-								<a
+								<Link
 									href="/"
 									className="font-title text-2xl text-text-100"
 								>
 									<Logo />
-								</a>
+								</Link>
 								<div className="h-6 w-0 border-r border-neutral dark:border-dark-gray-100 rounded" />
-								<a
+								<Link
 									href="https://github.com/theduardomaciel/presenteio"
 									target="_blank"
 								>
 									<GitHubLogoIcon width={20} height={20} />
-								</a>
-								<a
+								</Link>
+								<Link
 									href="https://instagram.com/theduardomaciel"
 									target="_blank"
 								>
 									<InstagramLogoIcon width={20} height={20} />
-								</a>
+								</Link>
 							</div>
 						</div>
 						{/* PC buttons holder */}
@@ -130,11 +133,11 @@ const Section = ({ title, links, children }: SectionProps) => {
 			</li>
 			{links &&
 				links.map((link, index) => (
-					<a href={link.href} key={index.toString()}>
+					<Link href={link.href} key={index.toString()}>
 						<li className="mr-12 font-regular text-sm cursor-pointer text-text-100 hover:text-text-200 transition-colors font-serif hover:underline">
 							{link.title}
 						</li>
-					</a>
+					</Link>
 				))}
 			{children}
 		</ul>

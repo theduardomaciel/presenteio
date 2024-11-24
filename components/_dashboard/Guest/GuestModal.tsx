@@ -84,7 +84,7 @@ export default function GuestModal({
 				(preview !== guest?.image_url && preview !== undefined)
 			);
 		}
-	}, [name, email, preview]);
+	}, [name, email, preview, guest]);
 
 	const cleanUp = () => {
 		if (!guest?.id) {

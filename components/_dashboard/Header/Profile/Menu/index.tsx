@@ -54,7 +54,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
 			window.addEventListener("click", onClick);
 			return () => window.removeEventListener("click", onClick);
 		}, 500);
-	}, [isOpen]);
+	}, [isOpen, onClick]);
 
 	useLayoutEffect(() => {
 		// GAMBIARRA
@@ -64,7 +64,7 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
 				router.push("/");
 			}, 10);
 		}
-	}, []);
+	}, [name, router]);
 
 	return (
 		<AnimatePresence key={"headerProfileMenu"}>

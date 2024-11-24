@@ -84,7 +84,7 @@ export default function ScrollAnimation({
 			makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([
 				guestsImages[guestsImages.length - 1],
 			]),
-		[]
+		[MULTIPLY_BY, guestsImages]
 	);
 
 	const MIDDLE_INDEX = Math.floor(SORTED_ARRAY.length / 2);
@@ -109,10 +109,10 @@ export default function ScrollAnimation({
 		eventPrices?.min && eventPrices.max
 			? `esteja entre R$${eventPrices.min} e R$${eventPrices.max}`
 			: eventPrices?.min
-			? `esteja, caso possível, próximo de R$${eventPrices.min}`
-			: eventPrices?.max
-			? `não ultrapasse R$${eventPrices.max}`
-			: "";
+				? `esteja, caso possível, próximo de R$${eventPrices.min}`
+				: eventPrices?.max
+					? `não ultrapasse R$${eventPrices.max}`
+					: "";
 
 	return (
 		<AnimatePresence>
@@ -172,7 +172,7 @@ export default function ScrollAnimation({
 						</div>
 						<p>
 							{(eventPrices && eventPrices.min) ||
-							eventPrices?.max
+								eventPrices?.max
 								? `Para este evento, o recomendado é que o valor dos presentes ${PRICE_MESSAGE}.`
 								: "Não se preocupe, você poderá ver o nome de seu amigo secreto novamente a qualquer momento."}{" "}
 							<br />
