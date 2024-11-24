@@ -5,16 +5,22 @@ import { getEventFromInviteCode } from "lib/getEvents";
 import Overlay from "@/dashboard/components/Overlay";
 
 interface Props {
-	params?: {
+	params?: Promise<{
 		inviteCode?: string;
-	};
+	}>;
 	children: React.ReactNode;
 }
 
-export default async function InviteLayout({ params, children }: Props) {
-	const event = await getEventFromInviteCode(params?.inviteCode as string);
+export default async function InviteLayout(props: Props) {
+    const params = await props.params;
 
-	return (
+    const {
+        children
+    } = props;
+
+    const event = await getEventFromInviteCode(params?.inviteCode as string);
+
+    return (
 		<div className="relative">
 			{children}
 			<Overlay

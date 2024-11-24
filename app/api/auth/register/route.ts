@@ -43,12 +43,11 @@ export async function POST(request: NextRequest) {
 	try {
 		const accountName =
 			name ||
-			`${googleUser?.given_name}${
-				googleUser?.family_name ? ` ${googleUser?.family_name}` : ""
+			`${googleUser?.given_name}${googleUser?.family_name ? ` ${googleUser?.family_name}` : ""
 			}`;
 
 		const salt = await bcrypt.genSalt(10);
-		const hashedPassword = await bcrypt.hash(password, salt);
+		const hashedPassword = await bcrypt.hash(password || googleUser?.email, salt);
 
 		const account = await prisma.account.create({
 			data: {

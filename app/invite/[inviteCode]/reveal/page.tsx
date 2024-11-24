@@ -12,30 +12,32 @@ import { getGuest } from "lib/getGuest";
 // Types
 import type { InviteProps } from "../page";
 
-export default async function Reveal({ params, searchParams }: InviteProps) {
-	const event = await getEventFromInviteCode(params?.inviteCode as string);
-	const guest = await getGuest(searchParams?.guest as string);
+export default async function Reveal(props: InviteProps) {
+    const searchParams = await props.searchParams;
+    const params = await props.params;
+    const event = await getEventFromInviteCode(params?.inviteCode as string);
+    const guest = await getGuest(searchParams?.guest as string);
 
-	// If the guest is pending, redirect to the invite page for data confirmation
-	if (guest?.status === "PENDING") {
+    // If the guest is pending, redirect to the invite page for data confirmation
+    if (guest?.status === "PENDING") {
 		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
 	}
 
-	// If the guest has already visualized his corresponding guest, redirect to the invite page
-	if (guest?.status === "VISUALIZED" && !searchParams?.ignoreRedirect) {
+    // If the guest has already visualized his corresponding guest, redirect to the invite page
+    if (guest?.status === "VISUALIZED" && !searchParams?.ignoreRedirect) {
 		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
 	}
 
-	// If the event is not divulged, redirect to the invite page
-	if (!guest || event?.status !== "DIVULGED" || !guest.correspondingGuest) {
+    // If the event is not divulged, redirect to the invite page
+    if (!guest || event?.status !== "DIVULGED" || !guest.correspondingGuest) {
 		notFound();
 	}
 
-	const guestImages = event.guests
+    const guestImages = event.guests
 		.map((guest) => guest.image_url)
 		.filter((image) => image !== null) as string[];
 
-	return (
+    return (
 		<div className={styles.container}>
 			<div className={styles.gradient} />
 			<RevealContent

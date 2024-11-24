@@ -7,6 +7,8 @@ import { getAppAuthenticationToken, getGoogleData } from "../helper";
 export async function POST(request: NextRequest) {
 	const { email, password, access_token } = await request.json();
 
+	console.log(email, password, access_token);
+
 	if (!access_token && !email && !password) {
 		return new Response(
 			"Email and password or access_token are required.",
@@ -19,6 +21,8 @@ export async function POST(request: NextRequest) {
 
 	const googleUser = access_token ? await getGoogleData(access_token) : null;
 
+	console.log(googleUser);
+
 	if (access_token && !googleUser) {
 		return new Response(
 			"There was not possible to get the user information from Google.",
@@ -30,11 +34,22 @@ export async function POST(request: NextRequest) {
 	}
 
 	try {
-		const account = await prisma.account.findUnique({
+
+		console.log("ANTES")
+		const account = await prisma.account.findFirst({
 			where: {
-				email: email || googleUser?.email,
+				OR: [
+					{
+						email,
+					},
+					{
+						email: googleUser?.email,
+					},
+				],
 			},
 		});
+
+		console.log(account?.email);
 
 		// Checamos se o usuário existe
 		if (!account) {

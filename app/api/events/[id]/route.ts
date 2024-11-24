@@ -8,14 +8,12 @@ import { deleteImage, getImageUrl } from "app/api/images/helper";
 import { type NextRequest } from "next/server";
 import type { TokenPayload } from "app/api/auth/helper";
 
-export async function PATCH(
-	request: NextRequest,
-	{ params }: { params: { id: string } }
-) {
-	const { id } = params;
-	const token = request.cookies.get("presenteio.token")?.value;
+export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
+    const { id } = params;
+    const token = request.cookies.get("presenteio.token")?.value;
 
-	const {
+    const {
 		name,
 		color,
 		image_base64,
@@ -28,21 +26,21 @@ export async function PATCH(
 		reset,
 	} = await request.json();
 
-	if (!id) {
+    if (!id) {
 		return new Response("The id was not provided.", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-	if (!token) {
+    if (!token) {
 		return new Response("Token has not been provided", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-	try {
+    try {
 		const event = await prisma.event.findUnique({
 			where: {
 				id: id,
@@ -95,8 +93,8 @@ export async function PATCH(
 		});
 	}
 
-	// Reset the event
-	if (reset) {
+    // Reset the event
+    if (reset) {
 		await prisma.guest.updateMany({
 			where: {
 				eventId: id,
@@ -108,11 +106,11 @@ export async function PATCH(
 		});
 	}
 
-	const updatedImageUrl = image_base64
+    const updatedImageUrl = image_base64
 		? await getImageUrl(image_base64)
 		: null;
 
-	try {
+    try {
 		const event = await prisma.event.update({
 			where: {
 				id: id,
@@ -144,28 +142,26 @@ export async function PATCH(
 	}
 }
 
-export async function DELETE(
-	request: NextRequest,
-	{ params }: { params: { id: string } }
-) {
-	const { id } = params;
-	const token = request.cookies.get("presenteio.token")?.value;
+export async function DELETE(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
+    const { id } = params;
+    const token = request.cookies.get("presenteio.token")?.value;
 
-	if (!id) {
+    if (!id) {
 		return new Response("The id was not provided.", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-	if (!token) {
+    if (!token) {
 		return new Response("Token has not been provided", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-	try {
+    try {
 		const event = await prisma.event.findUnique({
 			where: {
 				id: id,
@@ -209,7 +205,7 @@ export async function DELETE(
 		console.log(error);
 	}
 
-	try {
+    try {
 		await prisma.$transaction([
 			prisma.guest.updateMany({
 				where: {

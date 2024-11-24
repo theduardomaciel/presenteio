@@ -12,7 +12,7 @@ export const preload = () => {
 };
 
 export const getEvents = cache(async () => {
-	const token = cookies().get("presenteio.token");
+	const token = (await cookies()).get("presenteio.token");
 
 	if (!token || !verify) throw new Error("No token found");
 
@@ -42,7 +42,7 @@ export const getEvents = cache(async () => {
 export const getEvent = cache(async (id: string) => {
 	if (!id) return null;
 
-	const nextCookies = cookies();
+	const nextCookies = await cookies();
 	const token = nextCookies.get("presenteio.token");
 
 	if (!token) return;

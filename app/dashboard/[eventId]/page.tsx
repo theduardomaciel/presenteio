@@ -24,22 +24,23 @@ import GuestsHolder from "./subcomponents/GuestsHolder";
 // Utils
 import { getEvent } from "lib/getEvents";
 
-export default async function EventPage({
-	params,
-}: {
-	params: {
-		eventId: string;
-	};
-}) {
-	const event = await getEvent(params.eventId);
+export default async function EventPage(
+    props: {
+        params: Promise<{
+            eventId: string;
+        }>;
+    }
+) {
+    const params = await props.params;
+    const event = await getEvent(params.eventId);
 
-	if (!event) {
+    if (!event) {
 		notFound();
 	}
 
-	const { createdAt, ...rest } = event;
+    const { createdAt, ...rest } = event;
 
-	return (
+    return (
 		<div className={`${dashboardStyles.container} min-h-screen`}>
 			<DashboardHeader>
 				<EventEdit event={rest} />

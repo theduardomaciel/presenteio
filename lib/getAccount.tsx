@@ -11,7 +11,7 @@ export const preload = () => {
 };
 
 export const getAccount = cache(async () => {
-	const nextCookies = cookies();
+	const nextCookies = await cookies();
 	const token = nextCookies.get("presenteio.token");
 	if (!token) return;
 

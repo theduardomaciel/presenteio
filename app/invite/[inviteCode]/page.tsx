@@ -23,13 +23,13 @@ import type { Event, GuestStatus } from "@prisma/client";
 import type { Guest } from "@prisma/client";
 
 export interface InviteProps {
-	params?: {
+	params?: Promise<{
 		inviteCode?: string;
-	};
-	searchParams?: {
+	}>;
+	searchParams?: Promise<{
 		guest?: string;
 		ignoreRedirect?: boolean;
-	};
+	}>;
 }
 
 /* 
@@ -50,9 +50,16 @@ const getCurrentStatus = (event: Event, guest?: Guest) => {
 	return guest.status as GuestStatus;
 };
 
-export default async function Invite({ params, searchParams }: InviteProps) {
+export default async function Invite(props: InviteProps) {
+	const searchParams = await props.searchParams;
+	const params = await props.params;
+
+	console.log(searchParams, params);
+
 	const event = await getEventFromInviteCode(params?.inviteCode as string);
 	const guest = await getGuest(searchParams?.guest as string);
+
+	console.log(event, guest);
 
 	if (!event || (!guest && !event?.allowInvite)) {
 		notFound();

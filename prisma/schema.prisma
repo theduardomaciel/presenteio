@@ -3,10 +3,9 @@ generator client {
 }
 
 datasource db {
-    provider          = "mysql"
+    provider          = "postgresql"
     relationMode      = "prisma"
     url               = env("DATABASE_URL")
-    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Account {
@@ -79,7 +78,7 @@ model Guest {
     image_deleteHash String?
     status           GuestStatus @default(PENDING)
 
-    correspondingGuest Guest?  @relation("correspondingGuest", fields: [guestId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+    correspondingGuest Guest?  @relation("correspondingGuest", fields: [guestId], references: [id], onDelete: Restrict, onUpdate: Restrict)
     guest              Guest?  @relation("correspondingGuest")
     guestId            String? @unique
 

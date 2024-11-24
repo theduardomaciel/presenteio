@@ -1,4 +1,4 @@
-import { cookies } from "next/headers";
+import { cookies, type UnsafeUnwrappedCookies } from "next/headers";
 
 import Logo from "@/public/logo.svg";
 
@@ -16,8 +16,9 @@ interface Props {
 	className?: string;
 }
 
-export default function LandingFooter({ className }: Props) {
-	const theme = cookies().get("theme");
+export default async function LandingFooter({ className }: Props) {
+	const browserCookies = await cookies();
+	const theme = browserCookies.get("theme") || "system";
 
 	return (
 		<footer

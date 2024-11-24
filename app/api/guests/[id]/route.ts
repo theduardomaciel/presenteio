@@ -6,22 +6,20 @@ import { deleteImage, getImageUrl } from "../../images/helper";
 // Types
 import { type NextRequest } from "next/server";
 
-export async function PATCH(
-	request: NextRequest,
-	{ params }: { params: { id: string } }
-) {
-	const id = params.id;
-	const { name, email, image_deleteHash, status, image_base64 } =
+export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
+    const id = params.id;
+    const { name, email, image_deleteHash, status, image_base64 } =
 		await request.json();
 
-	if (!id) {
+    if (!id) {
 		return new Response("Bad request. The id was not provided.", {
 			status: 400,
 			statusText: "Bad request. The id was not provided.",
 		});
 	}
 
-	try {
+    try {
 		if (image_deleteHash) {
 			await deleteImage(image_deleteHash);
 		}
@@ -29,9 +27,9 @@ export async function PATCH(
 		console.log(error);
 	}
 
-	const imageResponse = image_base64 ? await getImageUrl(image_base64) : null;
+    const imageResponse = image_base64 ? await getImageUrl(image_base64) : null;
 
-	try {
+    try {
 		const responseGuest = await prisma.guest.update({
 			where: {
 				id: id,
@@ -58,20 +56,18 @@ export async function PATCH(
 	}
 }
 
-export async function DELETE(
-	request: NextRequest,
-	{ params }: { params: { id: string } }
-) {
-	const { id } = params;
+export async function DELETE(request: NextRequest, props: { params: Promise<{ id: string }> }) {
+    const params = await props.params;
+    const { id } = params;
 
-	if (!id) {
+    if (!id) {
 		return new Response("Bad request. The id was not provided.", {
 			status: 400,
 			statusText: "Bad request. The id was not provided.",
 		});
 	}
 
-	try {
+    try {
 		const guest = await prisma.guest.findUnique({
 			where: {
 				id: id,
@@ -84,7 +80,7 @@ export async function DELETE(
 		console.log(error);
 	}
 
-	try {
+    try {
 		const guest = await prisma.guest.delete({
 			where: {
 				id: id,
