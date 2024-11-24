@@ -31,6 +31,7 @@ import type { Event } from "@prisma/client";
 
 // Utils
 import getWordGenre from "@/utils/wordGenre";
+import DashboardToast, { ToastDynamicProps } from "components/_ui/Toast";
 
 interface Props {
 	guest?: Guest;
@@ -41,6 +42,8 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 	const [[actualSection, direction], setActualSection] = useState<
 		[string, number]
 	>(["null", 1]);
+	const [[isToastVisible, toastProps], setToastVisible] =
+		useState<ToastDynamicProps>([false]);
 
 	const router = useRouter();
 	const userData = useRef({
@@ -60,18 +63,18 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 			const response =
 				behavior === "create"
 					? await axios.post("/api/guests", {
-							eventId: event.id,
-							name: userData.current.name,
-							email: userData.current.email,
-							status: "CONFIRMED",
-							image_base64: base64,
-					  })
+						eventId: event.id,
+						name: userData.current.name,
+						email: userData.current.email,
+						status: "CONFIRMED",
+						image_base64: base64,
+					})
 					: await axios.patch(`/api/guests/${guest?.id}`, {
-							name: userData.current.name,
-							email: userData.current.email,
-							status: "CONFIRMED",
-							image_base64: base64,
-					  });
+						name: userData.current.name,
+						email: userData.current.email,
+						status: "CONFIRMED",
+						image_base64: base64,
+					});
 			if (response) {
 				if (event.status === "DIVULGED") {
 					router.replace(
@@ -360,9 +363,8 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 	} as Section;
 
 	const InviteGuest_name = {
-		title: `Pronto para participar do ${
-			event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"
-		} d${getWordGenre(event.name)} ${event.name}?`,
+		title: `Pronto para participar do ${event.type === "AMIGOSECRETO" ? "Amigo Secreto" : "Sorteio"
+			} d${getWordGenre(event.name)} ${event.name}?`,
 		description:
 			"Insira o seu nome (e o primeiro sobrenome!) no campo abaixo para que os outros participantes saibam que você é!",
 		children: (
@@ -439,14 +441,6 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 		children: (
 			<form
 				className={styles.section}
-				onSubmit={(event) => {
-					event.preventDefault();
-					const formData = new FormData(
-						event.target as HTMLFormElement
-					);
-					userData.current.image = formData.get("image") as File;
-					updateOrCreateGuest("create");
-				}}
 			>
 				<label
 					style={{ cursor: "pointer", ...GUEST_IMAGE_PLACEHOLDER }}
@@ -477,7 +471,26 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 					id="image"
 				/>
 				<Button
-					type="submit"
+					onClick={(event) => {
+						event.preventDefault();
+						const formData = new FormData(
+							event.target as HTMLFormElement
+						);
+						userData.current.image = formData.get("image") as File;
+
+						if (!userData.current.image) {
+							setToastVisible([
+								true,
+								{
+									status: "error",
+									title: "Ops! Parece que você esqueceu de adicionar uma foto.",
+									description: "Por favor, adicione uma foto para continuar.",
+								},
+							]);
+						} else {
+							updateOrCreateGuest("update");
+						}
+					}}
 					style={{ width: "100%", padding: "0.8rem 3rem" }}
 				>
 					Continuar
@@ -538,6 +551,11 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 					direction={direction}
 				/>
 			)}
+			<DashboardToast
+				toastProps={toastProps}
+				isOpened={isToastVisible}
+				setDynamicOpened={setToastVisible}
+			/>
 		</>
 	);
 }

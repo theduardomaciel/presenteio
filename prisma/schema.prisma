@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-    provider          = "postgresql"
-    relationMode      = "prisma"
-    url               = env("DATABASE_URL")
+    provider     = "postgresql"
+    relationMode = "prisma"
+    url          = env("DATABASE_URL")
 }
 
 model Account {
@@ -76,6 +76,7 @@ model Guest {
     email            String?
     image_url        String?
     image_deleteHash String?
+    customHash       String      @unique @default(cuid())
     status           GuestStatus @default(PENDING)
 
     correspondingGuest Guest?  @relation("correspondingGuest", fields: [guestId], references: [id], onDelete: Restrict, onUpdate: Restrict)

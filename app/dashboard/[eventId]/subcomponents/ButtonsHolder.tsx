@@ -39,6 +39,54 @@ export default function ButtonsHolder({
 	const [isLoading, setLoading] = useState(false);
 	const router = useRouter();
 
+	async function sendConfirmationEmails() {
+		setLoading(true);
+		setSendEmailModalState({
+			status: "pending",
+			headerProps: {
+				title: "Aguarde um momento...",
+				description:
+					"Estamos enviando os e-mails de confirmação para todos os convidados.",
+			},
+		});
+
+		try {
+			const response = await axios.post(`/api/events/confirm`, {
+				id: event.id,
+			});
+			if (response) {
+				setLoading(false);
+				setSendEmailModalState({
+					status: "success",
+					headerProps: {
+						title: "Os e-mails foram enviados com sucesso!",
+						description: `Todos os convidados já receberam o e-mail de confirmação, agora, basta que cada um acesse sua caixa de entrada e confirme sua participação no evento.`,
+					},
+				});
+				router.refresh();
+			} else {
+				setLoading(false);
+				setSendEmailModalState({
+					status: "error",
+					headerProps: {
+						description:
+							"Um erro interno nos impediu de enviar os e-mails de confirmação. Por favor, tente novamente mais tarde.",
+					},
+				});
+			}
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+			setSendEmailModalState({
+				status: "error",
+				headerProps: {
+					description:
+						"Um erro interno nos impediu de enviar os e-mails de confirmação. Por favor, tente novamente mais tarde.",
+				},
+			});
+		}
+	}
+
 	async function raffleGuests() {
 		setLoading(true);
 		setSendEmailModalState({
@@ -96,6 +144,15 @@ export default function ButtonsHolder({
 	return (
 		<>
 			<div className="flex flex-col lg:flex-row items-center justify-between w-full gap-4">
+				<Button
+					style={ENABLED_BUTTON}
+					isLoading={isLoading}
+					className="w-full lg:w-1/2"
+					onClick={() => sendConfirmationEmails()}
+				>
+					<SendEmail height={22} width={22} />
+					Enviar e-mails de confirmação
+				</Button>
 				{event.status === "DIVULGED" ? (
 					<EventResetModal
 						eventId={event.id}
@@ -159,10 +216,9 @@ export default function ButtonsHolder({
 						`Você tem certeza que deseja enviar os e-mails?`,
 					description:
 						sendEmailModalState.headerProps?.description ||
-						`${
-							hasGuestsWithoutEmail
-								? "Alguns convidados ainda não inseriram seus e-mails, portanto nem todos receberão o link em sua caixa de entrada!\n\n"
-								: ""
+						`${hasGuestsWithoutEmail
+							? "Alguns convidados ainda não inseriram seus e-mails, portanto nem todos receberão o link em sua caixa de entrada!\n\n"
+							: ""
 						}Após enviar os e-mails, novos usuários não poderão participar do evento e a edição das informações dos convidados será bloqueada.`,
 				}}
 				returnButton={{
@@ -188,11 +244,11 @@ export default function ButtonsHolder({
 				buttons={
 					sendEmailModalState.status === (true || "pending")
 						? [
-								{
-									text: "Enviar e-mails",
-									onClick: raffleGuests,
-								},
-						  ]
+							{
+								text: "Enviar e-mails",
+								onClick: raffleGuests,
+							},
+						]
 						: undefined
 				}
 			/>
