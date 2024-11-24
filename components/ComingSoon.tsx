@@ -9,7 +9,7 @@ export default function ComingSoon() {
 			<h1 className="text-center text-2xl font-title font-bold">
 				<strong>Ops!</strong>
 				{` `}
-				Parece que esta página ainda está em desenvolvimento.
+				Parece que esta página ainda está em desenvolvimento :/
 			</h1>
 			<h2 className="text-center text-xl font-serif">
 				Ainda estamos trabalhando nessa página, mas você pode entrar em
