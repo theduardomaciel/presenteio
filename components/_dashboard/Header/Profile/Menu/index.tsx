@@ -2,6 +2,7 @@
 
 import {
 	CSSProperties,
+	useCallback,
 	useEffect,
 	useLayoutEffect,
 	useRef,
@@ -49,12 +50,14 @@ export default function DashboardProfileMenu({ name }: { name?: string }) {
 
 	const popout = useRef<HTMLDivElement>(null);
 
+	const onClickCallback = useCallback(onClick, [isOpen]);
+
 	useEffect(() => {
 		setTimeout(() => {
-			window.addEventListener("click", onClick);
-			return () => window.removeEventListener("click", onClick);
+			window.addEventListener("click", onClickCallback);
+			return () => window.removeEventListener("click", onClickCallback);
 		}, 500);
-	}, [isOpen, onClick]);
+	}, [isOpen, onClickCallback]);
 
 	useLayoutEffect(() => {
 		// GAMBIARRA

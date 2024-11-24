@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@react-email/render";
 
-import sendgrid from "@sendgrid/mail";
+import sendgrid, { MailDataRequired } from "@sendgrid/mail";
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY || "");
 
 // Components
@@ -12,7 +12,7 @@ export async function sendRevealEmailToGuest(
 	sendTo: string,
 	emailProps: RevealEmailProps
 ) {
-	const emailHtml = render(<RevealEmail {...emailProps} />, {
+	const emailHtml = await render(<RevealEmail {...emailProps} />, {
 		pretty: true,
 	});
 
@@ -21,7 +21,7 @@ export async function sendRevealEmailToGuest(
 		to: sendTo,
 		subject: "Chegou a hora tão esperada! Vem conferir seu amigo secreto!",
 		html: emailHtml,
-	};
+	} as MailDataRequired;
 
 	try {
 		sendgrid.send(options);
@@ -36,7 +36,7 @@ export async function sendCodeEmailToUser(
 	sendTo: string,
 	emailProps: CodeEmailProps
 ) {
-	const emailHtml = render(<CodeEmail {...emailProps} />, {
+	const emailHtml = await render(<CodeEmail {...emailProps} />, {
 		pretty: true,
 	});
 
@@ -46,7 +46,7 @@ export async function sendCodeEmailToUser(
 		subject:
 			"Seu código de verificação para concluir seu cadastro no presenteio",
 		html: emailHtml,
-	};
+	} as MailDataRequired;
 
 	try {
 		await sendgrid.send(options);
