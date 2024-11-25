@@ -54,12 +54,8 @@ export default async function Invite(props: InviteProps) {
 	const searchParams = await props.searchParams;
 	const params = await props.params;
 
-	console.log(searchParams, params);
-
 	const event = await getEventFromInviteCode(params?.inviteCode as string);
 	const guest = await getGuest(searchParams?.guest as string);
-
-	console.log(event, guest);
 
 	if (!event || (!guest && !event?.allowInvite)) {
 		notFound();

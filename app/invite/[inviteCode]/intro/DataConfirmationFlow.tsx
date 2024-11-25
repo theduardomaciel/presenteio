@@ -49,7 +49,11 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 	const userData = useRef({
 		name: "",
 		email: "",
-		image: undefined as File | undefined,
+		image: undefined,
+	} as {
+		name: string;
+		email: string;
+		image: File | undefined;
 	});
 
 	async function updateOrCreateGuest(behavior: "create" | "update") {
@@ -275,6 +279,9 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 		guest?.image_url || undefined
 	);
 
+	const inviteGuestImageRef = useRef<HTMLFormElement>(null);
+	const directInviteGuestImageRef = useRef<HTMLFormElement>(null);
+
 	const DirectInviteGuest_image = {
 		title: guest?.image_url
 			? "Parece que o anfitrião já adicionou uma imagem para você"
@@ -284,12 +291,13 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 			: "O anfitrião do evento não inseriu uma imagem de perfil, portanto, faça o upload abaixo para que ela seja exibida para os outros convidados.",
 		children: (
 			<form
+				ref={directInviteGuestImageRef}
 				className={styles.section}
 				onSubmit={(event) => {
 					event.preventDefault();
 
 					const formData = new FormData(
-						event.target as HTMLFormElement
+						directInviteGuestImageRef.current as HTMLFormElement
 					);
 					userData.current.image = formData.get("image") as File;
 
@@ -337,7 +345,29 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 					id="image"
 				/>
 				<Button
-					type="submit"
+					type="button"
+					onClick={(event) => {
+						event.preventDefault();
+						const formData = new FormData(
+							directInviteGuestImageRef.current as HTMLFormElement
+						);
+						userData.current.image = formData.get("image") as File;
+
+						console.log(userData.current.image)
+
+						if (!userData.current.image) {
+							setToastVisible([
+								true,
+								{
+									status: "error",
+									title: "Ops! Parece que você esqueceu de adicionar uma foto.",
+									description: "Por favor, adicione uma foto para continuar.",
+								},
+							]);
+						} else {
+							updateOrCreateGuest("update");
+						}
+					}}
 					style={{ width: "100%", padding: "0.8rem 3rem" }}
 				>
 					Continuar
@@ -440,6 +470,7 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 			"Insira uma imagem abaixo para que ela seja exibida para os outros participantes.",
 		children: (
 			<form
+				ref={inviteGuestImageRef}
 				className={styles.section}
 			>
 				<label
@@ -471,12 +502,15 @@ export default function DataConfirmationFlow({ guest, event }: Props) {
 					id="image"
 				/>
 				<Button
+					type="button"
 					onClick={(event) => {
 						event.preventDefault();
 						const formData = new FormData(
-							event.target as HTMLFormElement
+							inviteGuestImageRef.current as HTMLFormElement
 						);
 						userData.current.image = formData.get("image") as File;
+
+						console.log(userData.current.image)
 
 						if (!userData.current.image) {
 							setToastVisible([

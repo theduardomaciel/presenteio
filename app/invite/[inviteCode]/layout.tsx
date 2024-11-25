@@ -3,6 +3,7 @@ import Image from "next/image";
 // Utils
 import { getEventFromInviteCode } from "lib/getEvents";
 import Overlay from "@/dashboard/components/Overlay";
+import { ToastProvider } from "components/_ui/Toast";
 
 interface Props {
 	params?: Promise<{
@@ -12,34 +13,36 @@ interface Props {
 }
 
 export default async function InviteLayout(props: Props) {
-    const params = await props.params;
+	const params = await props.params;
 
-    const {
-        children
-    } = props;
+	const {
+		children
+	} = props;
 
-    const event = await getEventFromInviteCode(params?.inviteCode as string);
+	const event = await getEventFromInviteCode(params?.inviteCode as string);
 
-    return (
+	return (
 		<div className="relative">
-			{children}
-			<Overlay
-				style={{
-					zIndex: -1,
-					background:
-						"radial-gradient(59.45% 59.45% at 45.17% 40.55%, var(--primary-03), rgba(255, 150, 179, 0.85), var(--primary-03))",
-				}}
-			/>
-			{event && event.image_url && (
-				<Image
-					src={event.image_url}
-					alt=""
-					fill
-					style={{ zIndex: -2, opacity: 0.2 }}
-					className="imageContain"
-					draggable={false}
+			<ToastProvider>
+				{children}
+				<Overlay
+					style={{
+						zIndex: -1,
+						background:
+							"radial-gradient(59.45% 59.45% at 45.17% 40.55%, var(--primary-03), rgba(255, 150, 179, 0.85), var(--primary-03))",
+					}}
 				/>
-			)}
+				{event && event.image_url && (
+					<Image
+						src={event.image_url}
+						alt=""
+						fill
+						style={{ zIndex: -2, opacity: 0.2 }}
+						className="imageContain"
+						draggable={false}
+					/>
+				)}
+			</ToastProvider>
 		</div>
 	);
 }
