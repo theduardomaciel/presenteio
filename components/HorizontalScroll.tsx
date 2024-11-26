@@ -18,7 +18,7 @@ export default function HorizontalScroll({
 	const { setHorizontalScroll } = useHorizontalScroll();
 
 	useEffect(() => {
-		// setHorizontalScroll(id);
+		setHorizontalScroll(id);
 
 		const slider = document.getElementById(id);
 		let isDown = false;

@@ -32,12 +32,12 @@ export default async function Reveal(props: InviteProps) {
 
 	// If the guest is pending, redirect to the invite page for data confirmation
 	if (guest?.status === "PENDING") {
-		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
+		redirect(`/invite/${params?.inviteCode}?guestHash=${guest.customHash}`);
 	}
 
 	// If the guest has already visualized his corresponding guest, redirect to the invite page
 	if (guest?.status === "VISUALIZED" && !searchParams?.ignoreRedirect) {
-		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
+		redirect(`/invite/${params?.inviteCode}?guestHash=${guest.customHash}`);
 	}
 
 	const guestImages = event.guests

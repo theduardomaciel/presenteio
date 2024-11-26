@@ -11,7 +11,6 @@ export const getGuest = cache(async (id?: string, hash?: string) => {
 	if (!id && !hash) return null;
 
 	try {
-
 		if (id) {
 			const guest = await prisma.guest.findFirst({
 				where: {
@@ -34,6 +33,9 @@ export const getGuest = cache(async (id?: string, hash?: string) => {
 					correspondingGuest: true,
 				},
 			});
+
+			console.log(hash)
+			console.log("GUSET", guest);
 
 			return guest;
 		}
