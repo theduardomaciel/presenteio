@@ -13,31 +13,38 @@ import { getGuest } from "lib/getGuest";
 import type { InviteProps } from "../page";
 
 export default async function Reveal(props: InviteProps) {
-    const searchParams = await props.searchParams;
-    const params = await props.params;
-    const event = await getEventFromInviteCode(params?.inviteCode as string);
-    const guest = await getGuest(searchParams?.guest as string);
+	const searchParams = await props.searchParams;
+	const params = await props.params;
+	const event = await getEventFromInviteCode(params?.inviteCode as string);
+	const guest = await getGuest(undefined, searchParams?.guestHash as string);
 
-    // If the guest is pending, redirect to the invite page for data confirmation
-    if (guest?.status === "PENDING") {
-		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
+	if (!guest || !guest.correspondingGuest) {
+		notFound();
+		return;
 	}
 
-    // If the guest has already visualized his corresponding guest, redirect to the invite page
-    if (guest?.status === "VISUALIZED" && !searchParams?.ignoreRedirect) {
-		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
-	}
-
-    // If the event is not divulged, redirect to the invite page
-    if (!guest || event?.status !== "DIVULGED" || !guest.correspondingGuest) {
+	// If the event is not divulged, redirect to the invite page
+	if (!guest ||
+		event?.status !== "DIVULGED"
+	) {
 		notFound();
 	}
 
-    const guestImages = event.guests
+	// If the guest is pending, redirect to the invite page for data confirmation
+	if (guest?.status === "PENDING") {
+		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
+	}
+
+	// If the guest has already visualized his corresponding guest, redirect to the invite page
+	if (guest?.status === "VISUALIZED" && !searchParams?.ignoreRedirect) {
+		redirect(`/invite/${params?.inviteCode}?guest=${guest.id}`);
+	}
+
+	const guestImages = event.guests
 		.map((guest) => guest.image_url)
 		.filter((image) => image !== null) as string[];
 
-    return (
+	return (
 		<div className={styles.container}>
 			<div className={styles.gradient} />
 			<RevealContent
@@ -50,9 +57,9 @@ export default async function Reveal(props: InviteProps) {
 					prices:
 						event.minPrice || event.maxPrice
 							? {
-									min: event.minPrice || undefined,
-									max: event.maxPrice || undefined,
-							  }
+								min: event.minPrice || undefined,
+								max: event.maxPrice || undefined,
+							}
 							: undefined,
 				}}
 			/>

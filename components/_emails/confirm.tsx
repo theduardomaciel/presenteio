@@ -8,15 +8,7 @@ import { Link } from "@react-email/link";
 import { Button } from "@react-email/button";
 import { Img } from "@react-email/img";
 
-import { EventType } from "@prisma/client";
-
-export interface RevealEmailProps {
-	guestName: string;
-	guestId: string;
-	eventName?: string;
-	eventType?: EventType;
-	eventInviteCode?: string;
-}
+import type { RevealEmailProps } from "./reveal";
 
 export default function ConfirmEmail({
 	guestName,

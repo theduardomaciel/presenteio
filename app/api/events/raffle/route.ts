@@ -2,7 +2,7 @@ import { type NextRequest } from "next/server";
 import { verify } from "jsonwebtoken";
 import prisma from "lib/prisma";
 
-import { sendRevealEmailToGuest } from "app/api/emails/send/helper";
+import { sendAllRevealEmailsToGuests, sendRevealEmailToGuest } from "app/api/emails/send/helper";
 
 // Types
 import { type Event, type Guest, EventStatus } from "@prisma/client";
@@ -69,7 +69,18 @@ export async function POST(request: NextRequest) {
 	//console.log(guests.map(guest => `${guest.name} -> ${guest.correspondingGuest.name}`))
 
 	try {
-		await sendAllEmails(guests, event);
+		await sendAllRevealEmailsToGuests(
+			guests.map((guest) => {
+				return {
+					guestEmail: guest.email!,
+					guestName: guest.name,
+					guestId: guest.id,
+					eventName: event.name,
+					eventType: event.type,
+					eventInviteCode: event.inviteCode,
+				};
+			})
+		);
 		const updatedEvent = await prisma.event.update({
 			where: {
 				id,
@@ -122,21 +133,4 @@ function getRandomRaffle(
 
 	guestsAlreadyRaffledIds.push(randomGuest.id);
 	return randomGuest;
-}
-
-async function sendAllEmails(guests: Guest[], event: Event) {
-	await Promise.all(
-		guests.map(async (guest) => {
-			if (guest.email) {
-				console.log(`Sending email to ${guest.email}`);
-				await sendRevealEmailToGuest(guest.email as string, {
-					guestName: guest.name,
-					guestId: guest.id,
-					eventName: event?.name,
-					eventType: event?.type,
-					eventInviteCode: event?.inviteCode,
-				});
-			}
-		})
-	);
 }

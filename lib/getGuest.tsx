@@ -7,20 +7,36 @@ export const preload = (id: string) => {
 	void getGuest(id);
 };
 
-export const getGuest = cache(async (id: string) => {
-	if (!id) return null;
+export const getGuest = cache(async (id?: string, hash?: string) => {
+	if (!id && !hash) return null;
 
 	try {
-		const guest = await prisma.guest.findUnique({
-			where: {
-				id: id,
-			},
-			include: {
-				event: false,
-				correspondingGuest: true,
-			},
-		});
-		return guest;
+
+		if (id) {
+			const guest = await prisma.guest.findFirst({
+				where: {
+					id,
+				},
+				include: {
+					event: false,
+					correspondingGuest: true,
+				},
+			});
+
+			return guest;
+		} else {
+			const guest = await prisma.guest.findFirst({
+				where: {
+					customHash: hash,
+				},
+				include: {
+					event: false,
+					correspondingGuest: true,
+				},
+			});
+
+			return guest;
+		}
 	} catch (error) {
 		console.log(error);
 	}

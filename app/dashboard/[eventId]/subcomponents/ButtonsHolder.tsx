@@ -162,7 +162,7 @@ export default function ButtonsHolder({
 
 						event.guests.forEach((guest) => {
 							// console.log(`${guest.name}: https://presenteio.vercel.app/invite/${event.inviteCode}?guest=${guest.id}`);
-							links[guest.name] = `https://presenteio.vercel.app/invite/${event.inviteCode}?guest=${guest.id}`;
+							links[guest.name] = `https://presenteio.vercel.app/invite/${event.inviteCode}?guestHash=${guest.customHash}`;
 						});
 
 						console.log(links);

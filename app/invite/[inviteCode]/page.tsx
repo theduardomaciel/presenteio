@@ -27,7 +27,7 @@ export interface InviteProps {
 		inviteCode?: string;
 	}>;
 	searchParams?: Promise<{
-		guest?: string;
+		guestHash?: string;
 		ignoreRedirect?: boolean;
 	}>;
 }
@@ -55,7 +55,7 @@ export default async function Invite(props: InviteProps) {
 	const params = await props.params;
 
 	const event = await getEventFromInviteCode(params?.inviteCode as string);
-	const guest = await getGuest(searchParams?.guest as string);
+	const guest = await getGuest(undefined, searchParams?.guestHash as string);
 
 	if (!event || (!guest && !event?.allowInvite)) {
 		notFound();

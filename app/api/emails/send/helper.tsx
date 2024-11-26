@@ -19,12 +19,36 @@ export async function sendConfirmationEmailToGuest(
 
 	try {
 		resend.emails.send({
-			from: "app.presenteio@gmail.com",
+			from: "onboarding@resend.dev",
 			to: sendTo,
 			subject: "Vamos confirmar sua participação no evento?",
 			html: emailHtml,
 		})
 		console.log("E-mail sent with success!");
+	} catch (error) {
+		console.log(error);
+		throw new Error("There was not possible to send the e-mail.");
+	}
+}
+
+export async function sendAllRevealEmailsToGuests(
+	props: RevealEmailProps[]
+) {
+	const emailsHtml = await Promise.all(
+		props.map(async (guest) => {
+			return await render(<RevealEmail {...guest} />, {
+				pretty: true,
+			});
+		})
+	);
+
+	try {
+		await resend.batch.send(props.map((guest) => ({
+			from: "onboarding@resend.dev",
+			to: guest.guestEmail,
+			subject: "Chegou a hora tão esperada! Vem conferir seu amigo secreto!",
+			html: emailsHtml[props.indexOf(guest)],
+		})));
 	} catch (error) {
 		console.log(error);
 		throw new Error("There was not possible to send the e-mail.");

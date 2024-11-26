@@ -2,7 +2,7 @@ import { type NextRequest } from "next/server";
 import { verify } from "jsonwebtoken";
 import prisma from "lib/prisma";
 
-import { sendConfirmationEmailToGuest, sendRevealEmailToGuest } from "app/api/emails/send/helper";
+import { sendAllRevealEmailsToGuests, sendConfirmationEmailToGuest, sendRevealEmailToGuest } from "app/api/emails/send/helper";
 
 // Types
 import { type Event, type Guest } from "@prisma/client";
@@ -68,18 +68,12 @@ export async function POST(request: NextRequest) {
 }
 
 async function sendAllEmails(guests: Guest[], event: Event) {
-	await Promise.all(
-		guests.map(async (guest) => {
-			if (guest.email && guest.email == "eduardomacielbr@gmail.com") {
-				console.log(`Sending email to ${guest.email}`);
-				await sendConfirmationEmailToGuest(guest.email as string, {
-					guestName: guest.name,
-					guestId: guest.id,
-					eventName: event?.name,
-					eventType: event?.type,
-					eventInviteCode: event?.inviteCode,
-				});
-			}
-		})
-	);
+	await sendAllRevealEmailsToGuests(guests.map((guest) => ({
+		guestEmail: guest.email!,
+		guestName: guest.name,
+		guestId: guest.id,
+		eventName: event.name,
+		eventType: event.type,
+		eventInviteCode: event.inviteCode,
+	})));
 }

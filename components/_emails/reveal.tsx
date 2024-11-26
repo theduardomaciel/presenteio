@@ -11,6 +11,7 @@ import { Img } from "@react-email/img";
 import { EventType } from "@prisma/client";
 
 export interface RevealEmailProps {
+	guestEmail: string;
 	guestName: string;
 	guestId: string;
 	eventName?: string;
