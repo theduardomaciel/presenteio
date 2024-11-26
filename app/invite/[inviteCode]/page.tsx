@@ -176,7 +176,7 @@ export default async function Invite(props: InviteProps) {
 				{event.allowRevealFromPage ||
 					(!guest?.email && (
 						<Link
-							href={`/invite/${params?.inviteCode}/reveal?guest=${guest?.id}?ignoreRedirect=true`}
+							href={`/invite/${params?.inviteCode}/reveal?guestHash=${guest?.customHash}?ignoreRedirect=true`}
 							className="modalFooter"
 						>
 							<Button
