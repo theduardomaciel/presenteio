@@ -173,10 +173,10 @@ export default async function Invite(props: InviteProps) {
 					<GuestsView guests={event.guests} />
 				</div>
 				<div className={"divisor"} />
-				{event.allowRevealFromPage ||
-					(!guest?.email && (
+				{event.allowRevealFromPage && /* ||
+					(!guest?.email && */ (
 						<Link
-							href={`/invite/${params?.inviteCode}/reveal?guestHash=${guest?.customHash}?ignoreRedirect=true`}
+							href={`/invite/${params?.inviteCode}/reveal?guestHash=${guest?.customHash}&ignoreRedirect=true`}
 							className="modalFooter"
 						>
 							<Button
@@ -189,7 +189,7 @@ export default async function Invite(props: InviteProps) {
 								</p>
 							</Button>
 						</Link>
-					))}
+					/* ) */)}
 			</div>
 		),
 	};

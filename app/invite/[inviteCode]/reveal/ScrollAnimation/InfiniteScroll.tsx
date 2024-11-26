@@ -53,13 +53,13 @@ export function Tag({
 
 	return (
 		<div
-			className={`${styles.image} imageContain ${
-				additionalClass ? additionalClass : ""
-			}`}
+			className={`${styles.image} imageContain ${additionalClass ? additionalClass : ""
+				}`}
 			style={{
 				...GUEST_IMAGE_PLACEHOLDER,
 				...style,
 				width: size,
+				minWidth: size,
 				height: size,
 				cursor: "default",
 				...BLINK_ANIMATION,

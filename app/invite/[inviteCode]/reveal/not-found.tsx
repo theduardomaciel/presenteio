@@ -31,7 +31,7 @@ export default function NotFound() {
 					</strong>
 				</p>
 				<Link
-					href={`/invite/${pathname?.split(`/`)[2]}?guest=${guest}`}
+					href={`/invite/${pathname?.split(`/`)[2]}?guestHash=${guest}`}
 				>
 					<Button>Voltar para o início</Button>
 				</Link>

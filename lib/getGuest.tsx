@@ -34,9 +34,6 @@ export const getGuest = cache(async (id?: string, hash?: string) => {
 				},
 			});
 
-			console.log(hash)
-			console.log("GUSET", guest);
-
 			return guest;
 		}
 	} catch (error) {

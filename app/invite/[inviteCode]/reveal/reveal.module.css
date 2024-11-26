@@ -26,6 +26,8 @@
 
     z-index: 5;
 
+    pointer-events: none;
+    user-select: none;
     background: linear-gradient(90deg, #F94444 0%, rgba(217, 217, 217, 0) 100%);
     opacity: 0.5;
 }

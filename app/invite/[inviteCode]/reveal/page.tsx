@@ -15,10 +15,11 @@ import type { InviteProps } from "../page";
 export default async function Reveal(props: InviteProps) {
 	const searchParams = await props.searchParams;
 	const params = await props.params;
-	const event = await getEventFromInviteCode(params?.inviteCode as string);
-	const guest = await getGuest(undefined, searchParams?.guestHash as string);
+	const event = await getEventFromInviteCode(params?.inviteCode!);
+	const guest = await getGuest(undefined, searchParams?.guestHash);
 
 	if (!guest || !guest.correspondingGuest) {
+		console.log("Guest not found");
 		notFound();
 		return;
 	}
