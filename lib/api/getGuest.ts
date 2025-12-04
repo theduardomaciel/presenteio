@@ -1,7 +1,7 @@
 import { cache } from "react";
 import "server-only";
 
-import prisma from "./prisma";
+import prisma from "../prisma";
 
 export const preload = (id: string) => {
 	void getGuest(id);

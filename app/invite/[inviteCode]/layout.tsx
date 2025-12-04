@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 // Utils
-import { getEventFromInviteCode } from "lib/getEvents";
+import { getEventFromInviteCode } from "lib/api/getEvents";
 import Overlay from "@/dashboard/components/Overlay";
 import { ToastProvider } from "components/_ui/Toast";
 

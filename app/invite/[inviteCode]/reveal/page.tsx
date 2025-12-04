@@ -6,8 +6,8 @@ import styles from "./reveal.module.css";
 // Components
 import RevealContent from "./Content";
 
-import { getEventFromInviteCode } from "lib/getEvents";
-import { getGuest } from "lib/getGuest";
+import { getEventFromInviteCode } from "lib/api/getEvents";
+import { getGuest } from "lib/api/getGuest";
 
 // Types
 import type { InviteProps } from "../page";

@@ -4,7 +4,7 @@ import "server-only";
 import { verify } from "jsonwebtoken";
 import { cookies } from "next/headers";
 
-import prisma from "./prisma";
+import prisma from "../prisma";
 
 export const preload = () => {
 	void getAccount();

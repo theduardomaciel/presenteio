@@ -22,7 +22,7 @@ import GuestAdd from "./subcomponents/GuestAdd";
 import GuestsHolder from "./subcomponents/GuestsHolder";
 
 // Utils
-import { getEvent } from "lib/getEvents";
+import { getEvent } from "lib/api/getEvents";
 
 export default async function EventPage(
     props: {

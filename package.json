@@ -8,7 +8,7 @@
 		"start": "next start",
 		"db": "npx prisma db push",
 		"lint": "next lint",
-		"postinstall": "prisma generate"
+		"postinstall": "prisma generate --no-engine"
 	},
 	"dependencies": {
 		"@prisma/client": "^5.22.0",
@@ -38,6 +38,7 @@
 		"eslint": "9.15.0",
 		"eslint-config-next": "15.0.3",
 		"framer-motion": "11.11.17",
+		"googleapis": "^167.0.0",
 		"imgur": "^2.4.2",
 		"jsonwebtoken": "^9.0.2",
 		"next": "^15.0.3",

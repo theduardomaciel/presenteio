@@ -16,8 +16,8 @@ import GuestsView from "./subcomponents/GuestsView";
 import EventTitle from "./subcomponents/EventTitle";
 
 // Utils
-import { getEventFromInviteCode } from "lib/getEvents";
-import { getGuest } from "lib/getGuest";
+import { getEventFromInviteCode } from "lib/api/getEvents";
+import { getGuest } from "lib/api/getGuest";
 
 import type { Event, GuestStatus } from "@prisma/client";
 import type { Guest } from "@prisma/client";

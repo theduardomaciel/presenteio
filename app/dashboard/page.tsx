@@ -6,7 +6,7 @@ import EventCard from "@/dashboard/components/Event/EventCard";
 import EmptyGuests from "@/dashboard/components/Guest/EmptyGuests";
 import CreateEventButton from "@/dashboard/components/CreateEventButton";
 
-import { getEvents } from "lib/getEvents";
+import { getEvents } from "lib/api/getEvents";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {

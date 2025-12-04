@@ -8,7 +8,8 @@ export function middleware(request: NextRequest) {
 	const path = request.nextUrl.pathname;
 
 	// Check if the path is public or not
-	const isPublicPath = path === "/login" || path === "/register";
+	const isPublicPath =
+		path === "/login" || path === "/register" || path.startsWith("/api/");
 
 	// Get the token from the cookies
 	const token = request.cookies.get("presenteio.token")?.value || "";
