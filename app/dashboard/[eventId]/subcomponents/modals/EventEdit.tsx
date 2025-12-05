@@ -56,15 +56,17 @@ export default function EventEditModal({ event }: Props) {
 			: undefined;
 
 		const data = {
-			allowInvite: form.get("allowInvite") === "on",
-			allowProfileChange: form.get("allowProfileChange") === "on",
-			allowEmailChange: form.get("allowEmailChange") === "on",
-			allowRevealFromPage: form.get("allowRevealFromPage") === "on",
-			minPrice: form.get("min"),
-			maxPrice: form.get("max"),
+			allowInvite: form.get("allowInvite") === "on" ? true : false,
+			allowProfileChange: form.get("allowProfileChange") === "on" ? true : false,
+			allowEmailChange: form.get("allowEmailChange") === "on" ? true : false,
+			allowRevealFromPage: form.get("allowRevealFromPage") === "on" ? true : false,
+			minPrice: form.get("min") ? Number(form.get("min")) : null,
+			maxPrice: form.get("max") ? Number(form.get("max")) : null,
 			color: form.get("accentColor"),
 			image_base64: image_base64,
 		} as Partial<Event> & { image_base64?: string };
+
+		console.log("Submitting edit with data:", data);
 
 		try {
 			await axios.patch(`/api/events/${event?.id}`, data);
@@ -101,28 +103,14 @@ export default function EventEditModal({ event }: Props) {
 		const form = new FormData(formEvent.currentTarget);
 		const eventImage = form.get("eventImageUpload") as File;
 
-		// Temos que fazer isso pois algumas partes do formulário podem ser ocultadas do usuário caso o evento já tenha sido divulgado
-		const allowInvite = form.get("allowInvite");
-		const allowRevealFromPage = form.get("allowRevealFromPage");
-		const allowProfileChange = form.get("allowProfileChange");
-		const allowEmailChange = form.get("allowEmailChange");
-
 		const data = {
-			allowInvite: allowInvite
-				? form.get("allowInvite") === "on"
-				: event?.allowInvite,
-			allowRevealFromPage: allowRevealFromPage
-				? allowRevealFromPage === "on"
-				: event?.allowRevealFromPage,
-			allowProfileChange: allowProfileChange
-				? form.get("allowProfileChange") === "on"
-				: event?.allowProfileChange,
-			allowEmailChange: allowEmailChange
-				? form.get("allowEmailChange") === "on"
-				: event?.allowEmailChange,
-			minPrice: form.get("min") || undefined,
-			maxPrice: form.get("max") || undefined,
-			color: form.get("accentColor") || "RED",
+			allowInvite: form.get("allowInvite") === "on",
+			allowRevealFromPage: form.get("allowRevealFromPage") === "on",
+			allowProfileChange: form.get("allowProfileChange") === "on",
+			allowEmailChange: form.get("allowEmailChange") === "on",
+			minPrice: form.get("min") ? form.get("min")?.toString() : undefined,
+			maxPrice: form.get("max") ? form.get("max")?.toString() : undefined,
+			color: form.get("accentColor") || event?.color,
 		};
 
 		const eventData = {

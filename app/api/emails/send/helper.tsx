@@ -1,5 +1,6 @@
 import { render } from "@react-email/render";
 import { getTransport } from "lib/email";
+
 import type { CodeEmailProps } from "components/_emails/code";
 import type { RevealEmailProps } from "components/_emails/reveal";
 
@@ -7,7 +8,7 @@ import CodeEmail from "components/_emails/code";
 import RevealEmail from "components/_emails/reveal";
 import ConfirmEmail from "components/_emails/confirm";
 
-const FROM = process.env.GMAIL_ADDRESS!; // safe for Gmail API
+const FROM = process.env.GMAIL_ADDRESS!;
 
 export async function sendConfirmationEmailToGuest(
   sendTo: string,
@@ -63,7 +64,8 @@ export async function sendCodeEmailToUser(
   await getTransport().send({
     from: FROM,
     to: sendTo,
-    subject: "Seu código de verificação para concluir seu cadastro no presenteio",
+    subject:
+      "Seu código de verificação para concluir seu cadastro no presenteio",
     html,
   });
 }

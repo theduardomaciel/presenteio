@@ -22,6 +22,8 @@ export const getGuest = cache(async (id?: string, hash?: string) => {
 				},
 			});
 
+			// console.log("Fetched guest by ID:", guest);
+
 			return guest;
 		} else {
 			const guest = await prisma.guest.findFirst({
@@ -33,6 +35,8 @@ export const getGuest = cache(async (id?: string, hash?: string) => {
 					correspondingGuest: true,
 				},
 			});
+
+			// console.log("Fetched guest by hash:", guest);
 
 			return guest;
 		}

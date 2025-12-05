@@ -1,40 +1,30 @@
 import { google } from "googleapis";
 import { EmailTransport, EmailPayload } from "./types";
+import { createMime } from "./utils";
 
 export class GmailTransport implements EmailTransport {
-	private oauth2;
+	private gmail;
 
 	constructor() {
-		this.oauth2 = new google.auth.OAuth2(
+		const auth = new google.auth.OAuth2(
 			process.env.GOOGLE_CLIENT_ID!,
 			process.env.GOOGLE_CLIENT_SECRET!,
 			process.env.GOOGLE_REDIRECT_URI!,
 		);
 
-		this.oauth2.setCredentials({
+		auth.setCredentials({
 			refresh_token: process.env.GMAIL_REFRESH_TOKEN!,
 		});
+
+		this.gmail = google.gmail({ version: "v1", auth });
 	}
 
-	async send({ from, to, subject, html }: EmailPayload): Promise<void> {
-		const gmail = google.gmail({ version: "v1", auth: this.oauth2 });
+	async send(payload: EmailPayload): Promise<void> {
+		const raw = createMime(payload);
 
-		const message =
-			`From: ${from}\r\n` +
-			`To: ${to}\r\n` +
-			`Subject: ${subject}\r\n` +
-			"Content-Type: text/html; charset=utf-8\r\n\r\n" +
-			html;
-
-		const encodedMessage = Buffer.from(message)
-			.toString("base64")
-			.replace(/\+/g, "-")
-			.replace(/\//g, "_")
-			.replace(/=+$/, "");
-
-		await gmail.users.messages.send({
+		await this.gmail.users.messages.send({
 			userId: "me",
-			requestBody: { raw: encodedMessage },
+			requestBody: { raw },
 		});
 	}
 }

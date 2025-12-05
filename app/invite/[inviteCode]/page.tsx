@@ -27,7 +27,8 @@ export interface InviteProps {
 		inviteCode?: string;
 	}>;
 	searchParams?: Promise<{
-		guestHash?: string;
+		guest?: string;
+		hash?: string;
 		ignoreRedirect?: boolean;
 	}>;
 }
@@ -55,7 +56,12 @@ export default async function Invite(props: InviteProps) {
 	const params = await props.params;
 
 	const event = await getEventFromInviteCode(params?.inviteCode as string);
-	const guest = await getGuest(undefined, searchParams?.guestHash as string);
+	const guest = await getGuest(searchParams?.guest, searchParams?.hash);
+
+	console.log("Has guest?", !!guest);
+	console.log("Event status:", event?.status);
+	console.log("Guest status:", guest?.status);
+	console.log("Allow invite:", event?.allowInvite);
 
 	if (!event || (!guest && !event?.allowInvite)) {
 		notFound();
@@ -176,7 +182,7 @@ export default async function Invite(props: InviteProps) {
 				{event.allowRevealFromPage && /* ||
 					(!guest?.email && */ (
 						<Link
-							href={`/invite/${params?.inviteCode}/reveal?guestHash=${guest?.customHash}&ignoreRedirect=true`}
+							href={`/invite/${params?.inviteCode}/reveal?hash=${guest?.customHash}&ignoreRedirect=true`}
 							className="modalFooter"
 						>
 							<Button

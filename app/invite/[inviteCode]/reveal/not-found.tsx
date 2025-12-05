@@ -30,11 +30,6 @@ export default function NotFound() {
 						sorteio for realizado.
 					</strong>
 				</p>
-				<Link
-					href={`/invite/${pathname?.split(`/`)[2]}?guestHash=${guest}`}
-				>
-					<Button>Voltar para o início</Button>
-				</Link>
 				<div className="divisor" />
 			</div>
 			<Image src={Background} style={{ zIndex: -1 }} fill alt="" />

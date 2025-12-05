@@ -10,6 +10,7 @@ interface Props {
 	guest: {
 		id: string;
 		name: string;
+		hash: string;
 	};
 	event: {
 		inviteCode: string;
@@ -36,7 +37,7 @@ export default function ShareEventToGuest({ guest, event }: Props) {
 					typeof window !== "undefined"
 						? window.location.origin
 						: "https://presenteio.vercel.app"
-				}/invite/${event.inviteCode}?guest=${guest.id}`}
+				}/invite/${event.inviteCode}?hash=${guest.hash}`}
 				description={
 					<p>
 						O link abaixo é único e{" "}

@@ -19,9 +19,6 @@ export default function Error() {
 					Eita! Parece que esse convite não está funcionando mais!
 				</h1>
 				<p>Por favor, contate o anfitrião caso isso seja um engano.</p>
-				<Link href={`/`}>
-					<Button>Voltar para o início</Button>
-				</Link>
 				<div className="divisor" />
 			</div>
 			<Image src={Background} style={{ zIndex: -1 }} fill alt="" />

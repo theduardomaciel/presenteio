@@ -8,12 +8,15 @@ import { deleteImage, getImageUrl } from "app/api/images/helper";
 import { type NextRequest } from "next/server";
 import type { TokenPayload } from "app/api/auth/helper";
 
-export async function PATCH(request: NextRequest, props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const { id } = params;
-    const token = request.cookies.get("presenteio.token")?.value;
+export async function PATCH(
+	request: NextRequest,
+	props: { params: Promise<{ id: string }> },
+) {
+	const params = await props.params;
+	const { id } = params;
+	const token = request.cookies.get("presenteio.token")?.value;
 
-    const {
+	const {
 		name,
 		color,
 		image_base64,
@@ -26,21 +29,21 @@ export async function PATCH(request: NextRequest, props: { params: Promise<{ id:
 		reset,
 	} = await request.json();
 
-    if (!id) {
+	if (!id) {
 		return new Response("The id was not provided.", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-    if (!token) {
+	if (!token) {
 		return new Response("Token has not been provided", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-    try {
+	try {
 		const event = await prisma.event.findUnique({
 			where: {
 				id: id,
@@ -81,7 +84,7 @@ export async function PATCH(request: NextRequest, props: { params: Promise<{ id:
 					{
 						status: 500,
 						statusText: "Internal Server Error",
-					}
+					},
 				);
 			}
 		}
@@ -93,8 +96,8 @@ export async function PATCH(request: NextRequest, props: { params: Promise<{ id:
 		});
 	}
 
-    // Reset the event
-    if (reset) {
+	// Reset the event
+	if (reset) {
 		await prisma.guest.updateMany({
 			where: {
 				eventId: id,
@@ -106,29 +109,40 @@ export async function PATCH(request: NextRequest, props: { params: Promise<{ id:
 		});
 	}
 
-    const updatedImageUrl = image_base64
+	const updatedImageUrl = image_base64
 		? await getImageUrl(image_base64)
 		: null;
 
-    try {
+	try {
+		const updateData: any = {
+			name: name || undefined,
+			image_url: updatedImageUrl?.image_url || undefined,
+			image_deleteHash: updatedImageUrl?.image_deleteHash || undefined,
+			minPrice: minPrice ? parseInt(minPrice) : undefined,
+			maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
+			color: color || undefined,
+			status: reset ? "PENDING" : undefined,
+		};
+
+		// Only include boolean fields if they were explicitly provided
+		if (allowInvite !== undefined) {
+			updateData.allowInvite = allowInvite;
+		}
+		if (allowRevealFromPage !== undefined) {
+			updateData.allowRevealFromPage = allowRevealFromPage;
+		}
+		if (allowProfileChange !== undefined) {
+			updateData.allowProfileChange = allowProfileChange;
+		}
+		if (allowEmailChange !== undefined) {
+			updateData.allowEmailChange = allowEmailChange;
+		}
+
 		const event = await prisma.event.update({
 			where: {
 				id: id,
 			},
-			data: {
-				name: name || undefined,
-				image_url: updatedImageUrl?.image_url || undefined,
-				image_deleteHash:
-					updatedImageUrl?.image_deleteHash || undefined,
-				minPrice: minPrice ? parseInt(minPrice) : undefined,
-				maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
-				color: color || undefined,
-				allowInvite: allowInvite ? true : undefined,
-				allowRevealFromPage: allowRevealFromPage ? true : undefined,
-				allowProfileChange: allowProfileChange ? true : undefined,
-				allowEmailChange: allowEmailChange ? true : undefined,
-				status: reset ? "PENDING" : undefined,
-			},
+			data: updateData,
 		});
 
 		console.log("Evento atualizado com sucesso.");
@@ -142,26 +156,29 @@ export async function PATCH(request: NextRequest, props: { params: Promise<{ id:
 	}
 }
 
-export async function DELETE(request: NextRequest, props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const { id } = params;
-    const token = request.cookies.get("presenteio.token")?.value;
+export async function DELETE(
+	request: NextRequest,
+	props: { params: Promise<{ id: string }> },
+) {
+	const params = await props.params;
+	const { id } = params;
+	const token = request.cookies.get("presenteio.token")?.value;
 
-    if (!id) {
+	if (!id) {
 		return new Response("The id was not provided.", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-    if (!token) {
+	if (!token) {
 		return new Response("Token has not been provided", {
 			status: 400,
 			statusText: "Bad Request",
 		});
 	}
 
-    try {
+	try {
 		const event = await prisma.event.findUnique({
 			where: {
 				id: id,
@@ -205,7 +222,7 @@ export async function DELETE(request: NextRequest, props: { params: Promise<{ id
 		console.log(error);
 	}
 
-    try {
+	try {
 		await prisma.$transaction([
 			prisma.guest.updateMany({
 				where: {

@@ -52,6 +52,7 @@ export default function GuestCard({ guest, event, setToastVisible }: Props) {
 						guest={{
 							id: guest.id,
 							name: guest.name,
+							hash: guest.customHash,
 						}}
 					/>
 					{event.status === "DIVULGED" &&
