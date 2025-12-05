@@ -79,24 +79,42 @@ export default function ScrollAnimation({
 	}, []);
 
 	const MULTIPLY_BY = Math.floor((TAGS_PER_ROW * 4) / guestsImages.length);
-	const SORTED_ARRAY = useMemo(
-		() =>
-			makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([
-				guestsImages[guestsImages.length - 1],
-			]),
-		[MULTIPLY_BY, guestsImages]
-	);
+	const SORTED_ARRAY = useMemo(() => {
+		if (!guestsImages.length) return [];
+
+		const repeated = makeRepeated(shuffle(guestsImages), MULTIPLY_BY).concat([
+			guestsImages[guestsImages.length - 1],
+		]);
+
+		// Guarantee an odd length so there's a single center slot.
+		return repeated.length % 2 === 0
+			? repeated.concat(repeated[0] ?? guestsImages[0])
+			: repeated;
+	}, [MULTIPLY_BY, guestsImages]);
 
 	const MIDDLE_INDEX = Math.floor(SORTED_ARRAY.length / 2);
+	const CENTER_VISIBLE_COUNT = TAGS_PER_ROW % 2 === 0 ? TAGS_PER_ROW + 1 : TAGS_PER_ROW;
+	const HALF_WINDOW = Math.floor(CENTER_VISIBLE_COUNT / 2);
 
-	const images = SORTED_ARRAY.map((guest, i) => (
+	let startIndex = Math.max(0, MIDDLE_INDEX - HALF_WINDOW);
+	let endIndex = startIndex + CENTER_VISIBLE_COUNT;
+
+	if (endIndex > SORTED_ARRAY.length) {
+		endIndex = SORTED_ARRAY.length;
+		startIndex = Math.max(0, endIndex - CENTER_VISIBLE_COUNT);
+	}
+
+	const CENTER_ARRAY = SORTED_ARRAY.slice(startIndex, endIndex);
+	const CENTER_INDEX = Math.floor(CENTER_ARRAY.length / 2);
+
+	const images = CENTER_ARRAY.map((guest, i) => (
 		<Tag
-			key={i.toString() + "_image"}
+			key={(startIndex + i).toString() + "_image"}
 			additionalClass={
-				i === MIDDLE_INDEX ? styles.correspondingGuest : undefined
+				i === CENTER_INDEX ? styles.correspondingGuest : undefined
 			}
 			image_url={
-				i === MIDDLE_INDEX
+				i === CENTER_INDEX
 					? correspondingGuest.image_url || undefined
 					: guest
 			}

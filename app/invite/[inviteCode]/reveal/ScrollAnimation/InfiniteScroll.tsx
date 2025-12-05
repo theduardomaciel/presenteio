@@ -39,7 +39,6 @@ interface TagProps {
 }
 
 export function Tag({
-	size = 125,
 	image_url,
 	additionalClass,
 	style,
@@ -58,9 +57,6 @@ export function Tag({
 			style={{
 				...GUEST_IMAGE_PLACEHOLDER,
 				...style,
-				width: size,
-				minWidth: size,
-				height: size,
 				cursor: "default",
 				...BLINK_ANIMATION,
 			}}
@@ -70,8 +66,7 @@ export function Tag({
 					src={image_url}
 					fill
 					priority={true}
-					className={`imageContain`}
-					style={{ zIndex: 2, borderRadius: "50%" }}
+					style={{ zIndex: 2, objectFit: "cover", borderRadius: "50%" }}
 					alt={""}
 				/>
 			)}
